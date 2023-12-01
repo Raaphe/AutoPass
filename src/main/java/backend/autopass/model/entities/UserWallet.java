@@ -15,7 +15,7 @@ public class UserWallet {
     @Column(nullable = false)
     private int id;
     @Column(nullable = false)
-    private int ticketAmount;
+    private int ticketAmount = 0;
     private Date memberShipEnds;
     private boolean membershipActive = false;
 

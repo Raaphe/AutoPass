@@ -20,7 +20,7 @@ public class User {
     private byte[] password;
     private byte[] salt;
     @OneToOne
-    @Column(nullable = false)
+    @PrimaryKeyJoinColumn
     private UserWallet wallet;
     @OneToOne
     private Pass pass;

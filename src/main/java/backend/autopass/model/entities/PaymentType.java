@@ -16,7 +16,7 @@ public class PaymentType implements Serializable {
     @Column(nullable = false)
     private int id;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
     @Column(nullable = false)
     private String pAN;
