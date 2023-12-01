@@ -1,6 +1,5 @@
 package backend.autopass.model.repositories;
 
-import backend.autopass.model.entities.Admin;
 import backend.autopass.model.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<Admin> getUserById(int id);
+    Optional<User> getUserById(int id);
 
     Page<User> getAllById(Pageable users);
 
