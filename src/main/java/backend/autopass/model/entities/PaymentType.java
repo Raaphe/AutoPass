@@ -1,9 +1,6 @@
 package backend.autopass.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
@@ -15,14 +12,19 @@ import java.util.Date;
 @Data
 public class PaymentType implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private int id;
     @ManyToOne
+    @Column(nullable = false)
     private User user;
+    @Column(nullable = false)
     private String pAN;
+    @Column(nullable = false)
     private Date expiryDate;
+    @Column(nullable = false)
     private String cVV;
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 
     public PaymentType(int id, User user, String pAN, Date expiryDate, String cVV, boolean isDeleted) {
         this.id = id;

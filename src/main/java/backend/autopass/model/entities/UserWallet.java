@@ -1,8 +1,6 @@
 package backend.autopass.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
@@ -13,11 +11,13 @@ import java.util.Date;
 @Data
 public class UserWallet {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private int id;
+    @Column(nullable = false)
     private int ticketAmount;
     private Date memberShipEnds;
-    private boolean membershipActive;
+    private boolean membershipActive = false;
 
     public UserWallet(int id, int ticketAmount, Date memberShipEnds, boolean membershipActive) {
         this.id = id;

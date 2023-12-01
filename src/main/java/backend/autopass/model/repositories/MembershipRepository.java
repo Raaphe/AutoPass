@@ -5,19 +5,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 
 @Repository
 public interface MembershipRepository extends JpaRepository<Membership, Long> {
 
-    Optional<Membership> findById(Long id);
+    Optional<Membership> getMembershipById(int id);
 
-    @Override
-    Page<Membership> findAll(Pageable memberships);
-
+    Page<Membership> getAllById(Pageable memberships);
     @Override
     boolean existsById(Long id);
-
-    boolean updateMembershipByIdIs(int id);
 
 }
