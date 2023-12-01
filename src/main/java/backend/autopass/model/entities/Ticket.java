@@ -1,8 +1,6 @@
 package backend.autopass.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
@@ -13,11 +11,14 @@ import java.io.Serializable;
 @Data
 public class Ticket implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private int id;
+    @Column(nullable = false)
     private int ticketAmount;
+    @Column(nullable = false)
     private double price;
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 
     public Ticket(int id, int ticketAmount, double price, boolean isDeleted) {
         this.id = id;

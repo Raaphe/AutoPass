@@ -1,9 +1,6 @@
 package backend.autopass.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
@@ -12,17 +9,23 @@ import lombok.Getter;
 @Data
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private int id;
+    @Column(nullable = false)
     private String username;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String salt;
     @OneToOne
+    @Column(nullable = false)
     private UserWallet wallet;
     @OneToOne
     private Pass pass;
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 
     public User(int id, String username, String email, String password, String salt, UserWallet wallet, Pass pass, boolean isDeleted) {
         this.id = id;
