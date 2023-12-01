@@ -19,16 +19,26 @@ public class Admin implements Serializable {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private String password;
+    private byte[] password;
     @Column(nullable = false)
-    private String salt;
+    private byte[] salt;
 
-    public Admin(int id, String username, String email, String password) {
+    public Admin(int id, String username, String email, byte[] password, byte[] salt) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.salt = salt;
     }
+
+    public Admin(Admin admin) {
+        this.id = admin.id;
+        this.username = admin.username;
+        this.email = admin.email;
+        this.password = admin.password;
+        this.salt = admin.salt;
+    }
+
 
     public Admin() {
     }

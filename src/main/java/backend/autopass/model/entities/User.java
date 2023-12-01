@@ -17,9 +17,8 @@ public class User {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private String password;
-    @Column(nullable = false)
-    private String salt;
+    private byte[] password;
+    private byte[] salt;
     @OneToOne
     @Column(nullable = false)
     private UserWallet wallet;
@@ -27,7 +26,7 @@ public class User {
     private Pass pass;
     private boolean isDeleted = false;
 
-    public User(int id, String username, String email, String password, String salt, UserWallet wallet, Pass pass, boolean isDeleted) {
+    public User(int id, String username, String email, byte[] password, byte[] salt, UserWallet wallet, Pass pass, boolean isDeleted) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -36,6 +35,17 @@ public class User {
         this.wallet = wallet;
         this.pass = pass;
         this.isDeleted = isDeleted;
+    }
+
+    public User(User user) {
+        this.id = user.id;
+        this.username = user.username;
+        this.email = user.email;
+        this.password = user.password;
+        this.salt = user.salt;
+        this.wallet = user.wallet;
+        this.pass = user.pass;
+        this.isDeleted = user.isDeleted;
     }
 
     public User() {
