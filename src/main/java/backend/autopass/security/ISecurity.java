@@ -19,7 +19,7 @@ public interface ISecurity {
      * @param admin The target admin to generate salt.
      * @return the user object with the salt.
      */
-    public Admin generateUserSalt(Admin admin) throws Exception;
+    public Admin generateAdminSalt(Admin admin) throws Exception;
 
     /**
      * Takes a pwd to compare to in the database. Method will apply salt and hash and compare to model value. Only for admins.

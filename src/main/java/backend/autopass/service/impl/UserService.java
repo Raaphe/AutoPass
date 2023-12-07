@@ -7,7 +7,6 @@ import backend.autopass.model.entities.UserWallet;
 import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
-import backend.autopass.security.ISecurity;
 import backend.autopass.security.Security;
 import backend.autopass.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +15,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements IUserService {
 
-    private final UserRepository userRepository;
-    private final Security security;
-    private final PassRepository passRepository;
-    private final UserWalletRepository walletRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, ISecurity security, PassRepository passRepository, UserWalletRepository walletRepository) {
-        this.userRepository = userRepository;
-        this.security = (Security) security;
-        this.passRepository = passRepository;
-        this.walletRepository = walletRepository;
-    }
+    private Security security;
+
+    @Autowired
+    private PassRepository passRepository;
+
+    @Autowired
+    private UserWalletRepository walletRepository;
 
     private static void mapDtoToUser(UserDTO dto, User user) {
         user.setEmail(dto.email);
