@@ -35,7 +35,7 @@ public class Security implements ISecurity {
     }
 
     @Override
-    public Admin generateUserSalt(Admin admin) throws Exception {
+    public Admin generateAdminSalt(Admin admin) throws Exception {
         Admin tempAdmin = new Admin(admin);
         tempAdmin.setSalt(this.generateSalt());
         assert tempAdmin.getSalt() != null;
