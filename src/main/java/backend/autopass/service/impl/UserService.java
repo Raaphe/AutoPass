@@ -37,6 +37,10 @@ public class UserService implements IUserService {
     @Override
     public User createUser(UserDTO userDto) throws Exception {
 
+        if (userRepository.existsByEmail(userDto.email)) {
+            return null;
+        }
+
         User user = new User();
         mapDtoToUser(userDto, user);
 
@@ -46,7 +50,7 @@ public class UserService implements IUserService {
 
         // Saving pass + UserWallet
         Pass pass = passRepository.save(new Pass());
-        ;
+
         UserWallet wallet = walletRepository.save(new UserWallet());
         user.setPass(pass);
         user.setWallet(wallet);
