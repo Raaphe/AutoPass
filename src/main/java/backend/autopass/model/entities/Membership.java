@@ -1,6 +1,7 @@
 package backend.autopass.model.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
@@ -9,6 +10,7 @@ import java.io.Serializable;
 @Getter
 @Data
 @Entity
+@Builder
 public class Membership implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

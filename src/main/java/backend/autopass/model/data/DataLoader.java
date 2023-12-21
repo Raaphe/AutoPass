@@ -1,12 +1,12 @@
 package backend.autopass.model.data;
 
-import backend.autopass.model.entities.Admin;
+import backend.autopass.model.dto.UserDTO;
 import backend.autopass.model.entities.Membership;
 import backend.autopass.model.entities.Ticket;
-import backend.autopass.model.repositories.AdminRepository;
 import backend.autopass.model.repositories.MembershipRepository;
 import backend.autopass.model.repositories.TicketRepository;
-import backend.autopass.security.Security;
+import backend.autopass.model.repositories.UserRepository;
+import backend.autopass.service.impl.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,43 +17,37 @@ import java.util.List;
 @Component
 public class DataLoader {
 
-    @Autowired
-    private TicketRepository ticketRepository;
+    private final TicketRepository ticketRepository;
+    private final MembershipRepository membershipRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    private MembershipRepository membershipRepository;
-
-    @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
-    private Security security;
+    public DataLoader(TicketRepository ticketRepository, MembershipRepository membershipRepository, UserRepository userRepository, UserService userService) {
+        this.ticketRepository = ticketRepository;
+        this.membershipRepository = membershipRepository;
+        this.userRepository = userRepository;
+        this.userService = userService;
+    }
 
     @PostConstruct
     public void loadData() throws Exception {
 
-        if (adminRepository.count() == 0) {
+        if (!userService.userExists("raphaelpaquin19@gmail.com")) {
+            userService.createAdmin(UserDTO.builder()
+                    .pwd("2251462")
+                    .username("Raphe")
+                    .email("raphaelpaquin19@gmail.com")
+                    .build());
+        }
 
-            Admin admin = new Admin();
-            admin.setEmail("raphaelpaquin19@gmail.com");
-            admin.setUsername("raphe");
 
-            // Password and salt
-            admin = security.generateAdminSalt(admin);
-            admin.setPassword(security.hashString("2251462", admin.getSalt()));
-
-            adminRepository.save(admin);
-
-            Admin admin2 = new Admin();
-            admin2.setEmail("aliteralpotato@gmail.com");
-            admin2.setUsername("Lam");
-
-            // Password and salt
-            admin2 = security.generateAdminSalt(admin2);
-            admin2.setPassword(security.hashString("2251462", admin.getSalt()));
-
-            adminRepository.save(admin2);
-
+        if (!userService.userExists("aliteralpotato@gmail.com")) {
+            userService.createAdmin(UserDTO.builder()
+                    .pwd("2251462")
+                    .username("Lam")
+                    .email("aliteralpotato@gmail.com")
+                    .build());
         }
 
         if (membershipRepository.count() == 0) {
@@ -98,6 +92,15 @@ public class DataLoader {
 
             ticketRepository.saveAll(new ArrayList<>(List.of(new Ticket[]{ticket1, ticket2, ticket3})));
 
+        }
+
+        if (!userRepository.existsByEmail("william@gmail.com")) {
+
+            userService.createUser(UserDTO.builder()
+                    .email("william@gmail.com")
+                    .username("NWilliRex")
+                    .pwd("abc-123")
+                    .build());
         }
 
     }
