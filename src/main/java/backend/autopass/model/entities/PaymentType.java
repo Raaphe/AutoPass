@@ -1,6 +1,8 @@
 package backend.autopass.model.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
@@ -10,6 +12,8 @@ import java.util.Date;
 @Getter
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 public class PaymentType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,15 +29,6 @@ public class PaymentType implements Serializable {
     @Column(nullable = false)
     private String cVV;
     private boolean isDeleted = false;
-
-    public PaymentType(int id, User user, String pAN, Date expiryDate, String cVV, boolean isDeleted) {
-        this.id = id;
-        this.user = user;
-        this.pAN = pAN;
-        this.expiryDate = expiryDate;
-        this.cVV = cVV;
-        this.isDeleted = isDeleted;
-    }
 
     public PaymentType() {
     }
