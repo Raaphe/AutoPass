@@ -28,6 +28,7 @@ public class PaymentType implements Serializable {
     private Date expiryDate;
     @Column(nullable = false)
     private String cVV;
+    @Builder.Default
     private boolean isDeleted = false;
 
     public PaymentType() {

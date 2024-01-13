@@ -1,50 +1,51 @@
 package backend.autopass.model.entities;
 
+import backend.autopass.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bouncycastle.util.encoders.Hex;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
-@Entity
-@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
+@Table(name = "_user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "user_id")
     private int id;
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private byte[] password;
-    private byte[] salt;
+    private String password;
     @OneToOne
     @PrimaryKeyJoinColumn
     private UserWallet wallet;
     @OneToOne
     private Pass pass;
+    @Builder.Default
     private boolean isDeleted = false;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public User(User user) {
         this.id = user.id;
-        this.name = user.name;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
         this.email = user.email;
         this.password = user.password;
-        this.salt = user.salt;
         this.wallet = user.wallet;
         this.pass = user.pass;
         this.isDeleted = user.isDeleted;
@@ -57,12 +58,12 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return role.getAuthorities();
     }
 
     @Override
     public String getPassword() {
-        return new String(Hex.encode(this.password));
+        return this.password;
     }
 
     @Override

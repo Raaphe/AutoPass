@@ -1,4 +1,4 @@
-package backend.autopass.model.dto;
+package backend.autopass.payload.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -16,11 +16,15 @@ public class UserDTO {
     public String pwd;
     @NotBlank
     @Size(max = 15)
-    public String username;
-    public UserDTO(String email, String pwd, String username) {
+    public String firstName;
+    @NotBlank
+    @Size(max = 15)
+    public String lastName;
+
+    public UserDTO(String email, String pwd, String firstName, String lastName) {
         this.email = email;
         this.pwd = pwd;
-        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
-
 }

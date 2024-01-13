@@ -1,20 +1,21 @@
 package backend.autopass.model.data;
 
-import backend.autopass.model.dto.UserDTO;
 import backend.autopass.model.entities.Membership;
 import backend.autopass.model.entities.Ticket;
 import backend.autopass.model.repositories.MembershipRepository;
 import backend.autopass.model.repositories.TicketRepository;
 import backend.autopass.model.repositories.UserRepository;
-import backend.autopass.service.impl.UserService;
+import backend.autopass.payload.dto.UserDTO;
+import backend.autopass.service.UserService;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class DataLoader {
 
     private final TicketRepository ticketRepository;
@@ -22,21 +23,14 @@ public class DataLoader {
     private final UserRepository userRepository;
     private final UserService userService;
 
-    @Autowired
-    public DataLoader(TicketRepository ticketRepository, MembershipRepository membershipRepository, UserRepository userRepository, UserService userService) {
-        this.ticketRepository = ticketRepository;
-        this.membershipRepository = membershipRepository;
-        this.userRepository = userRepository;
-        this.userService = userService;
-    }
-
     @PostConstruct
     public void loadData() throws Exception {
 
         if (!userService.userExists("raphaelpaquin19@gmail.com")) {
             userService.createAdmin(UserDTO.builder()
                     .pwd("2251462")
-                    .username("Raphe")
+                    .firstName("raph")
+                    .lastName("raph")
                     .email("raphaelpaquin19@gmail.com")
                     .build());
         }
@@ -45,7 +39,8 @@ public class DataLoader {
         if (!userService.userExists("aliteralpotato@gmail.com")) {
             userService.createAdmin(UserDTO.builder()
                     .pwd("2251462")
-                    .username("Lam")
+                    .firstName("lam")
+                    .lastName("crack")
                     .email("aliteralpotato@gmail.com")
                     .build());
         }
@@ -98,7 +93,8 @@ public class DataLoader {
 
             userService.createUser(UserDTO.builder()
                     .email("william@gmail.com")
-                    .username("NWilliRex")
+                    .firstName("will")
+                    .lastName("rex")
                     .pwd("abc-123")
                     .build());
         }

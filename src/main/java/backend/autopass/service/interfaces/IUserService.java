@@ -1,7 +1,7 @@
-package backend.autopass.service;
+package backend.autopass.service.interfaces;
 
-import backend.autopass.model.dto.UserDTO;
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.dto.UserDTO;
 
 public interface IUserService {
 
