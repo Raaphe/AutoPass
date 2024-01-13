@@ -21,6 +21,7 @@ public class Membership implements Serializable {
     @Column(nullable = false)
     private float price;
     @Column(nullable = false)
+    @Builder.Default
     private boolean isDeleted = false;
 
     public Membership(int id, int membershipDurationDays, float price, boolean isDeleted) {

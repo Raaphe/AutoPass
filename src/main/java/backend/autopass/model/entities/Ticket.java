@@ -20,7 +20,9 @@ public class Ticket implements Serializable {
     private int ticketAmount;
     @Column(nullable = false)
     private double price;
-    private boolean isDeleted = false;
+
+    @Builder.Default
+    private boolean isDeleted = false; // Apply @Builder.Default here
 
     public Ticket(int id, int ticketAmount, double price, boolean isDeleted) {
         this.id = id;
@@ -33,8 +35,6 @@ public class Ticket implements Serializable {
     }
 
     public void setId(int id) {
-
         this.id = id;
     }
-
 }

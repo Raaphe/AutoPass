@@ -1,19 +1,18 @@
-package backend.autopass.service.impl;
+package backend.autopass.service;
 
-import backend.autopass.model.dto.UserDTO;
 import backend.autopass.model.entities.Pass;
-import backend.autopass.model.entities.Role;
 import backend.autopass.model.entities.User;
 import backend.autopass.model.entities.UserWallet;
+import backend.autopass.model.enums.Role;
 import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
-import backend.autopass.security.Security;
-import backend.autopass.service.IUserService;
+import backend.autopass.payload.dto.UserDTO;
+import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,21 +21,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-
-    private final Security security;
-
     private final PassRepository passRepository;
-
     private final UserWalletRepository walletRepository;
 
+
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) {
-                return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Username Not Found"));
-            }
-        };
+        return username -> userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Username Not Found"));
     }
 
     @Override
@@ -47,7 +39,7 @@ public class UserService implements IUserService {
         }
 
         User user = this.buildUser(userDto);
-        user.setRole(Role.ROLE_USER);
+        user.setRole(Role.USER);
 
         return userRepository.save(user);
     }
@@ -60,7 +52,7 @@ public class UserService implements IUserService {
         }
 
         User user = this.buildUser(userDto);
-        user.setRole(Role.ROLE_ADMIN);
+        user.setRole(Role.ADMIN);
 
         return userRepository.save(user);
     }
@@ -82,24 +74,20 @@ public class UserService implements IUserService {
     }
 
 
-    private User buildUser(UserDTO userDTO) throws Exception {
-
-        // pass + userWallet
+    private User buildUser(UserDTO userDTO) {
+        // Create pass and wallet
         Pass pass = passRepository.save(new Pass());
-        UserWallet wallet = walletRepository.save(new UserWallet());
+        UserWallet wallet = walletRepository.save(UserWallet.builder().membershipActive(false).ticketAmount(0).build());
 
-        User user = User.builder()
+        // Build the user with the hashed password
+        return User.builder()
                 .email(userDTO.email)
-                .name(userDTO.username)
+                .firstName(userDTO.firstName)
+                .lastName(userDTO.lastName)
+                .password(passwordEncoder.encode(userDTO.pwd)) // Set the hashed password
                 .pass(pass)
                 .wallet(wallet)
                 .build();
-
-        // Password and salt
-        user = security.generateUserSalt(user);
-        user.setPassword(security.hashString(userDTO.pwd, user.getSalt()));
-
-        return user;
     }
 
 }

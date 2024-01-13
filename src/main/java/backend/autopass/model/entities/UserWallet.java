@@ -17,8 +17,10 @@ public class UserWallet {
     @Column(nullable = false)
     private int id;
     @Column(nullable = false)
+    @Builder.Default
     private int ticketAmount = 0;
     private Date memberShipEnds;
+    @Builder.Default
     private boolean membershipActive = false;
 
     public UserWallet(int id, int ticketAmount, Date memberShipEnds, boolean membershipActive) {
