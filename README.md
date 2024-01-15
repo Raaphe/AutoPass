@@ -8,3 +8,7 @@ Developed in part by Harjot Dillon Singh, Lam Nguyen and Raphael Paquin.
 - [Swagger yaml](http://localhost:8080/v3/api-docs.yaml)
 - [Swagger JSON](http://localhost:8080/v3/api-docs)
 - [h2 Console](http://localhost:8080/h2-console)
+
+>
+> To generate client code use maven lifecycle command `mvn verify` or `verify -f pom.xml`.
+> 
