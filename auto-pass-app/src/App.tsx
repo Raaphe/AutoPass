@@ -1,23 +1,24 @@
 import logo from './logo.svg';
-import UserService from './webService/userService';
-import './App.css';
-import React, {useEffect} from 'react';
+import './App.scss';
+// import React, {useState} from 'react';
+import React from 'react';
+// import { AuthenticationApi, SignInDTO } from "./Service"
 
 
-function App() {
+const App = () => {
 
-    let userService = new UserService();
+    // const authApi = new AuthenticationApi();
+    // const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        userService.getUser(1)
-            .then(user => {
-                console.log(user);
-            })
-            .catch(e => {
-                console.error(e);
-            });
-    }, []);
 
+    // const login = ():Boolean => {
+
+
+    //     // var 
+    //     authApi.
+
+    //     return false;
+    // }
 
     return (
 
@@ -37,6 +38,9 @@ function App() {
                 >
                     Learn React
                 </a>
+                {/* <button onClick={() => login()}>
+
+                </button> */}
             </header>
         </div>
     );
