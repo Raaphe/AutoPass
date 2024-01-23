@@ -5,7 +5,7 @@ import backend.autopass.model.entities.Ticket;
 import backend.autopass.model.repositories.MembershipRepository;
 import backend.autopass.model.repositories.TicketRepository;
 import backend.autopass.model.repositories.UserRepository;
-import backend.autopass.payload.dto.UserDTO;
+import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
@@ -27,20 +27,20 @@ public class DataLoader {
     public void loadData() throws Exception {
 
         if (!userService.userExists("raphaelpaquin19@gmail.com")) {
-            userService.createAdmin(UserDTO.builder()
-                    .pwd("2251462")
-                    .firstName("raph")
-                    .lastName("raph")
+            userService.createAdmin(SignUpDTO.builder()
+                    .password("2251462")
+                    .firstname("raph")
+                    .lastname("raph")
                     .email("raphaelpaquin19@gmail.com")
                     .build());
         }
 
 
         if (!userService.userExists("aliteralpotato@gmail.com")) {
-            userService.createAdmin(UserDTO.builder()
-                    .pwd("2251462")
-                    .firstName("lam")
-                    .lastName("crack")
+            userService.createAdmin(SignUpDTO.builder()
+                    .password("2251462")
+                    .firstname("lam")
+                    .lastname("crack")
                     .email("aliteralpotato@gmail.com")
                     .build());
         }
@@ -91,11 +91,11 @@ public class DataLoader {
 
         if (!userRepository.existsByEmail("william@gmail.com")) {
 
-            userService.createUser(UserDTO.builder()
+            userService.createUser(SignUpDTO.builder()
                     .email("william@gmail.com")
-                    .firstName("will")
-                    .lastName("rex")
-                    .pwd("abc-123")
+                    .firstname("will")
+                    .lastname("rex")
+                    .password("abc-123")
                     .build());
         }
 

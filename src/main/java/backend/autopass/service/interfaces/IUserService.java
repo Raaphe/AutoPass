@@ -1,7 +1,7 @@
 package backend.autopass.service.interfaces;
 
 import backend.autopass.model.entities.User;
-import backend.autopass.payload.dto.UserDTO;
+import backend.autopass.payload.dto.SignUpDTO;
 
 public interface IUserService {
 
@@ -11,15 +11,15 @@ public interface IUserService {
      * @param user User's information for user creation.
      * @return An instance of the created user.
      */
-    User createUser(UserDTO user) throws Exception;
+    User createUser(SignUpDTO user) throws Exception;
 
     /**
      * Creates an administrator user from a user data transfer object. Instantiates a user's pass and userWallet.
      *
-     * @param user User's information for admin creation.
+     * @param userDto User's information for admin creation.
      * @return An instance of the created user.
      */
-    User createAdmin(UserDTO user) throws Exception;
+    User createAdmin(SignUpDTO userDto) throws Exception;
 
     /**
      * Fetches from the database an object copy of a given User.

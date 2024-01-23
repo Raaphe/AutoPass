@@ -24,12 +24,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Authentication", description = "The Authentication API. Contains operations like login, logout, refresh-token etc.")
 //@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
-@RequestMapping("/authen")
+@RequestMapping("/auth")
 @SecurityRequirements()
 @RequiredArgsConstructor
 public class AuthenticationController {
@@ -69,10 +72,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    @Operation(summary = "Signup method for user creation.")
+    @Operation(summary = "Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "Successful signup.",
+                    responseCode = "200", description = "Successful signup, access token attached to response.",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = RefreshTokenResponse.class))
@@ -83,7 +86,7 @@ public class AuthenticationController {
                     content = @Content
             )
     })
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody SignUpDTO request) {
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody SignUpDTO request) throws Exception {
         AuthenticationResponse authenticationResponse = authenticationService.register(request);
         ResponseCookie jwtCookie = jwtService.generateJwtCookie(authenticationResponse.getAccessToken());
         ResponseCookie refreshTokenCookie = refreshTokenService.generateRefreshTokenCookie(authenticationResponse.getRefreshToken());
@@ -94,23 +97,60 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh-token-cookie")
+    @Operation(summary = "Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Successful signup, access token attached to response."
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad Request.",
+                    content = @Content
+            )
+    })
     public ResponseEntity<Void> refreshTokenCookie(HttpServletRequest request) {
+
         String refreshToken = refreshTokenService.getRefreshTokenFromCookies(request);
-        RefreshTokenResponse refreshTokenResponse = refreshTokenService
-                .generateNewToken(new RefreshTokenDTO(refreshToken));
+
+        RefreshTokenResponse refreshTokenResponse = refreshTokenService.generateNewToken(new RefreshTokenDTO(refreshToken));
+
         ResponseCookie NewJwtCookie = jwtService.generateJwtCookie(refreshTokenResponse.getAccessToken());
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, NewJwtCookie.toString())
                 .build();
     }
 
-    @GetMapping("/info")
+    @PostMapping("/info")
+    @Operation(summary = "A method to retrieve authentication information for a user.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Retrieves the user's login state details.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Authentication.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad Request. Invalid user details.",
+                    content = @Content
+            )
+    })
     public Authentication getAuthentication(@RequestBody SignInDTO request) {
         return authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
     }
 
     @PostMapping("/logout")
+    @Operation(summary = "This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "User tokens are cleared and refreshed."
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad Request.",
+                    content = @Content
+            )
+    })
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         String refreshToken = refreshTokenService.getRefreshTokenFromCookies(request);
         if (refreshToken != null) {
@@ -126,6 +166,20 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh-token")
+    @Operation(summary = "Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Successfully generated new access session token.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = RefreshTokenResponse.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad Request.",
+                    content = @Content
+            )
+    })
     public ResponseEntity<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenDTO request) {
         return ResponseEntity.ok(refreshTokenService.generateNewToken(request));
     }

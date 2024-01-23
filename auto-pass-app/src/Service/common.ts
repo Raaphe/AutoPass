@@ -90,7 +90,7 @@ function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: an
         if (Array.isArray(parameter)) {
             (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item, key));
         } else {
-            Object.keys(parameter).forEach(currentKey =>
+            Object.keys(parameter).forEach(currentKey => 
                 setFlattenedQueryParams(urlSearchParams, parameter[currentKey], `${key}${key !== '' ? '.' : ''}${currentKey}`)
             );
         }

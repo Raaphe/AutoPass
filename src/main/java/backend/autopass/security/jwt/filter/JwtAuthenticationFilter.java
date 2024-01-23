@@ -45,8 +45,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // List the paths that should not require authentication
         List<String> authFreeEndpoints = Arrays.asList(
-                "/authen/login",
-                "/authen/signup",
+                "/auth/login",
+                "/auth/signup",
                 "/v3/api-docs",
                 "/v3/api-docs.yaml",
                 "/h2-console",

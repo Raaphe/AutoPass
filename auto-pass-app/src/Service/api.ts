@@ -35,19 +35,19 @@ import type {RequestArgs} from './base';
 import {BASE_PATH, BaseAPI, COLLECTION_FORMATS, operationServerMap, RequiredError} from './base';
 
 /**
- *
+ * 
  * @export
  * @interface AbstractJsonSchemaPropertyObject
  */
 export interface AbstractJsonSchemaPropertyObject {
     /**
-     *
+     * 
      * @type {string}
      * @memberof AbstractJsonSchemaPropertyObject
      */
     'title'?: string;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof AbstractJsonSchemaPropertyObject
      */
@@ -55,259 +55,234 @@ export interface AbstractJsonSchemaPropertyObject {
 }
 
 /**
- *
+ * @type Authenticate400Response
+ * @export
+ */
+export type Authenticate400Response = string | { [key: string]: string; };
+
+/**
+ * 
  * @export
  * @interface CollectionModelObject
  */
 export interface CollectionModelObject {
     /**
-     *
+     * 
      * @type {CollectionModelObjectEmbedded}
      * @memberof CollectionModelObject
      */
     '_embedded'?: CollectionModelObjectEmbedded;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof CollectionModelObject
      */
     '_links'?: { [key: string]: Link; };
 }
-
 /**
- *
+ * 
  * @export
  * @interface CollectionModelObjectEmbedded
  */
 export interface CollectionModelObjectEmbedded {
     /**
-     *
+     * 
      * @type {Array<object>}
      * @memberof CollectionModelObjectEmbedded
      */
     'objects'?: Array<object>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface EntityModelMembership
  */
 export interface EntityModelMembership {
     /**
-     *
+     * 
      * @type {number}
      * @memberof EntityModelMembership
      */
     'membershipDurationDays'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof EntityModelMembership
      */
     'price'?: number;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelMembership
      */
     'deleted'?: boolean;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof EntityModelMembership
      */
     '_links'?: { [key: string]: Link; };
 }
-
 /**
- *
+ * 
  * @export
  * @interface EntityModelPass
  */
 export interface EntityModelPass {
     /**
-     *
+     * 
      * @type {Array<string>}
      * @memberof EntityModelPass
      */
     'pass'?: Array<string>;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof EntityModelPass
      */
     '_links'?: { [key: string]: Link; };
 }
-
 /**
- *
+ * 
  * @export
  * @interface EntityModelPaymentType
  */
 export interface EntityModelPaymentType {
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
     'expiryDate'?: string;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelPaymentType
      */
     'deleted'?: boolean;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
     'pan'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
     'cvv'?: string;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof EntityModelPaymentType
      */
     '_links'?: { [key: string]: Link; };
 }
-
 /**
- *
+ * 
  * @export
  * @interface EntityModelTicket
  */
 export interface EntityModelTicket {
     /**
-     *
+     * 
      * @type {number}
      * @memberof EntityModelTicket
      */
     'ticketAmount'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof EntityModelTicket
      */
     'price'?: number;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelTicket
      */
     'deleted'?: boolean;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof EntityModelTicket
      */
     '_links'?: { [key: string]: Link; };
 }
-
 /**
- *
+ * 
  * @export
  * @interface EntityModelToken
  */
 export interface EntityModelToken {
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelToken
      */
     'revoked'?: boolean;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelToken
      */
     'token'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelToken
      */
     'expiryDate'?: string;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof EntityModelToken
      */
     '_links'?: { [key: string]: Link; };
 }
-
 /**
- *
+ * 
  * @export
  * @interface EntityModelUser
  */
 export interface EntityModelUser {
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'firstName'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'lastName'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'email'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'password'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'role'?: EntityModelUserRoleEnum;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
     'enabled'?: boolean;
-    /**
-     *
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'accountNonExpired'?: boolean;
-    /**
-     *
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     *
-     * @type {string}
-     * @memberof EntityModelUser
-     */
-    'username'?: string;
-    /**
-     *
-     * @type {Array<GrantedAuthority>}
-     * @memberof EntityModelUser
-     */
-    'authorities'?: Array<GrantedAuthority>;
     /**
      *
      * @type {boolean}
@@ -321,7 +296,31 @@ export interface EntityModelUser {
      */
     'deleted'?: boolean;
     /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof EntityModelUser
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
      *
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'username'?: string;
+    /**
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof EntityModelUser
      */
@@ -336,761 +335,726 @@ export const EntityModelUserRoleEnum = {
 export type EntityModelUserRoleEnum = typeof EntityModelUserRoleEnum[keyof typeof EntityModelUserRoleEnum];
 
 /**
- *
+ * 
  * @export
  * @interface EntityModelUserWallet
  */
 export interface EntityModelUserWallet {
     /**
-     *
+     * 
      * @type {number}
      * @memberof EntityModelUserWallet
      */
     'ticketAmount'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelUserWallet
      */
     'memberShipEnds'?: string;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelUserWallet
      */
     'membershipActive'?: boolean;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof EntityModelUserWallet
      */
     '_links'?: { [key: string]: Link; };
 }
-
 /**
- *
+ * 
  * @export
  * @interface ErrorResponse
  */
 export interface ErrorResponse {
     /**
-     *
+     * 
      * @type {number}
      * @memberof ErrorResponse
      */
     'status'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof ErrorResponse
      */
     'error'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof ErrorResponse
      */
     'timestamp'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof ErrorResponse
      */
     'message'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof ErrorResponse
      */
     'path'?: string;
 }
-
 /**
- *
+ * 
  * @export
  * @interface GrantedAuthority
  */
 export interface GrantedAuthority {
     /**
-     *
+     * 
      * @type {string}
      * @memberof GrantedAuthority
      */
     'authority'?: string;
 }
-
 /**
- *
+ * 
  * @export
  * @interface Item
  */
 export interface Item {
     /**
-     *
+     * 
      * @type {string}
      * @memberof Item
      */
     'type'?: string;
     /**
-     *
+     * 
      * @type {{ [key: string]: AbstractJsonSchemaPropertyObject; }}
      * @memberof Item
      */
     'properties'?: { [key: string]: AbstractJsonSchemaPropertyObject; };
     /**
-     *
+     * 
      * @type {Array<string>}
      * @memberof Item
      */
     'requiredProperties'?: Array<string>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface JsonSchema
  */
 export interface JsonSchema {
     /**
-     *
+     * 
      * @type {string}
      * @memberof JsonSchema
      */
     'title'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof JsonSchema
      */
     'description'?: string;
     /**
-     *
+     * 
      * @type {{ [key: string]: AbstractJsonSchemaPropertyObject; }}
      * @memberof JsonSchema
      */
     'properties'?: { [key: string]: AbstractJsonSchemaPropertyObject; };
     /**
-     *
+     * 
      * @type {Array<string>}
      * @memberof JsonSchema
      */
     'requiredProperties'?: Array<string>;
     /**
-     *
+     * 
      * @type {{ [key: string]: Item; }}
      * @memberof JsonSchema
      */
     'definitions'?: { [key: string]: Item; };
     /**
-     *
+     * 
      * @type {string}
      * @memberof JsonSchema
      */
     'type'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof JsonSchema
      */
     '$schema'?: string;
 }
-
 /**
- *
+ * 
  * @export
  * @interface Link
  */
 export interface Link {
     /**
-     *
+     * 
      * @type {string}
      * @memberof Link
      */
     'href'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof Link
      */
     'hreflang'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof Link
      */
     'title'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof Link
      */
     'type'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof Link
      */
     'deprecation'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof Link
      */
     'profile'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof Link
      */
     'name'?: string;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof Link
      */
     'templated'?: boolean;
 }
-
 /**
- *
+ * 
  * @export
  * @interface MembershipRequestBody
  */
 export interface MembershipRequestBody {
     /**
-     *
+     * 
      * @type {number}
      * @memberof MembershipRequestBody
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof MembershipRequestBody
      */
     'membershipDurationDays'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof MembershipRequestBody
      */
     'price'?: number;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof MembershipRequestBody
      */
     'deleted'?: boolean;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PageMetadata
  */
 export interface PageMetadata {
     /**
-     *
+     * 
      * @type {number}
      * @memberof PageMetadata
      */
     'size'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof PageMetadata
      */
     'totalElements'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof PageMetadata
      */
     'totalPages'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof PageMetadata
      */
     'number'?: number;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelMembership
  */
 export interface PagedModelEntityModelMembership {
     /**
-     *
+     * 
      * @type {PagedModelEntityModelMembershipEmbedded}
      * @memberof PagedModelEntityModelMembership
      */
     '_embedded'?: PagedModelEntityModelMembershipEmbedded;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof PagedModelEntityModelMembership
      */
     '_links'?: { [key: string]: Link; };
     /**
-     *
+     * 
      * @type {PageMetadata}
      * @memberof PagedModelEntityModelMembership
      */
     'page'?: PageMetadata;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelMembershipEmbedded
  */
 export interface PagedModelEntityModelMembershipEmbedded {
     /**
-     *
+     * 
      * @type {Array<EntityModelMembership>}
      * @memberof PagedModelEntityModelMembershipEmbedded
      */
     'memberships'?: Array<EntityModelMembership>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelPass
  */
 export interface PagedModelEntityModelPass {
     /**
-     *
+     * 
      * @type {PagedModelEntityModelPassEmbedded}
      * @memberof PagedModelEntityModelPass
      */
     '_embedded'?: PagedModelEntityModelPassEmbedded;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof PagedModelEntityModelPass
      */
     '_links'?: { [key: string]: Link; };
     /**
-     *
+     * 
      * @type {PageMetadata}
      * @memberof PagedModelEntityModelPass
      */
     'page'?: PageMetadata;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelPassEmbedded
  */
 export interface PagedModelEntityModelPassEmbedded {
     /**
-     *
+     * 
      * @type {Array<EntityModelPass>}
      * @memberof PagedModelEntityModelPassEmbedded
      */
     'passes'?: Array<EntityModelPass>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelPaymentType
  */
 export interface PagedModelEntityModelPaymentType {
     /**
-     *
+     * 
      * @type {PagedModelEntityModelPaymentTypeEmbedded}
      * @memberof PagedModelEntityModelPaymentType
      */
     '_embedded'?: PagedModelEntityModelPaymentTypeEmbedded;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof PagedModelEntityModelPaymentType
      */
     '_links'?: { [key: string]: Link; };
     /**
-     *
+     * 
      * @type {PageMetadata}
      * @memberof PagedModelEntityModelPaymentType
      */
     'page'?: PageMetadata;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelPaymentTypeEmbedded
  */
 export interface PagedModelEntityModelPaymentTypeEmbedded {
     /**
-     *
+     * 
      * @type {Array<EntityModelPaymentType>}
      * @memberof PagedModelEntityModelPaymentTypeEmbedded
      */
     'paymentTypes'?: Array<EntityModelPaymentType>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelTicket
  */
 export interface PagedModelEntityModelTicket {
     /**
-     *
+     * 
      * @type {PagedModelEntityModelTicketEmbedded}
      * @memberof PagedModelEntityModelTicket
      */
     '_embedded'?: PagedModelEntityModelTicketEmbedded;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof PagedModelEntityModelTicket
      */
     '_links'?: { [key: string]: Link; };
     /**
-     *
+     * 
      * @type {PageMetadata}
      * @memberof PagedModelEntityModelTicket
      */
     'page'?: PageMetadata;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelTicketEmbedded
  */
 export interface PagedModelEntityModelTicketEmbedded {
     /**
-     *
+     * 
      * @type {Array<EntityModelTicket>}
      * @memberof PagedModelEntityModelTicketEmbedded
      */
     'tickets'?: Array<EntityModelTicket>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelToken
  */
 export interface PagedModelEntityModelToken {
     /**
-     *
+     * 
      * @type {PagedModelEntityModelTokenEmbedded}
      * @memberof PagedModelEntityModelToken
      */
     '_embedded'?: PagedModelEntityModelTokenEmbedded;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof PagedModelEntityModelToken
      */
     '_links'?: { [key: string]: Link; };
     /**
-     *
+     * 
      * @type {PageMetadata}
      * @memberof PagedModelEntityModelToken
      */
     'page'?: PageMetadata;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelTokenEmbedded
  */
 export interface PagedModelEntityModelTokenEmbedded {
     /**
-     *
+     * 
      * @type {Array<EntityModelToken>}
      * @memberof PagedModelEntityModelTokenEmbedded
      */
     'tokens'?: Array<EntityModelToken>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelUser
  */
 export interface PagedModelEntityModelUser {
     /**
-     *
+     * 
      * @type {PagedModelEntityModelUserEmbedded}
      * @memberof PagedModelEntityModelUser
      */
     '_embedded'?: PagedModelEntityModelUserEmbedded;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof PagedModelEntityModelUser
      */
     '_links'?: { [key: string]: Link; };
     /**
-     *
+     * 
      * @type {PageMetadata}
      * @memberof PagedModelEntityModelUser
      */
     'page'?: PageMetadata;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelUserEmbedded
  */
 export interface PagedModelEntityModelUserEmbedded {
     /**
-     *
+     * 
      * @type {Array<EntityModelUser>}
      * @memberof PagedModelEntityModelUserEmbedded
      */
     'users'?: Array<EntityModelUser>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelUserWallet
  */
 export interface PagedModelEntityModelUserWallet {
     /**
-     *
+     * 
      * @type {PagedModelEntityModelUserWalletEmbedded}
      * @memberof PagedModelEntityModelUserWallet
      */
     '_embedded'?: PagedModelEntityModelUserWalletEmbedded;
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof PagedModelEntityModelUserWallet
      */
     '_links'?: { [key: string]: Link; };
     /**
-     *
+     * 
      * @type {PageMetadata}
      * @memberof PagedModelEntityModelUserWallet
      */
     'page'?: PageMetadata;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PagedModelEntityModelUserWalletEmbedded
  */
 export interface PagedModelEntityModelUserWalletEmbedded {
     /**
-     *
+     * 
      * @type {Array<EntityModelUserWallet>}
      * @memberof PagedModelEntityModelUserWalletEmbedded
      */
     'userWallets'?: Array<EntityModelUserWallet>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface Pass
  */
 export interface Pass {
     /**
-     *
+     * 
      * @type {number}
      * @memberof Pass
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {Array<string>}
      * @memberof Pass
      */
     'pass'?: Array<string>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PassRequestBody
  */
 export interface PassRequestBody {
     /**
-     *
+     * 
      * @type {number}
      * @memberof PassRequestBody
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {Array<string>}
      * @memberof PassRequestBody
      */
     'pass'?: Array<string>;
 }
-
 /**
- *
+ * 
  * @export
  * @interface PaymentTypeRequestBody
  */
 export interface PaymentTypeRequestBody {
     /**
-     *
+     * 
      * @type {number}
      * @memberof PaymentTypeRequestBody
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
     'user'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
     'expiryDate'?: string;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof PaymentTypeRequestBody
      */
     'deleted'?: boolean;
     /**
-     *
+     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
     'pan'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
     'cvv'?: string;
 }
-
 /**
- * @type RefreshToken400Response
- * @export
- */
-export type RefreshToken400Response = string | { [key: string]: string; };
-
-/**
- *
+ * 
  * @export
  * @interface RefreshTokenDTO
  */
 export interface RefreshTokenDTO {
     /**
-     *
+     * 
      * @type {string}
      * @memberof RefreshTokenDTO
      */
     'refreshToken'?: string;
 }
-
 /**
- *
+ * 
  * @export
  * @interface RefreshTokenResponse
  */
 export interface RefreshTokenResponse {
     /**
-     *
+     * 
      * @type {string}
      * @memberof RefreshTokenResponse
      */
     'access_token'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof RefreshTokenResponse
      */
     'refresh_token'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof RefreshTokenResponse
      */
     'token_type'?: string;
 }
-
 /**
- *
+ * 
  * @export
  * @interface RepresentationModelObject
  */
 export interface RepresentationModelObject {
     /**
-     *
+     * 
      * @type {{ [key: string]: Link; }}
      * @memberof RepresentationModelObject
      */
     '_links'?: { [key: string]: Link; };
 }
-
 /**
- *
+ * 
  * @export
  * @interface SignInDTO
  */
 export interface SignInDTO {
     /**
-     *
+     * 
      * @type {string}
      * @memberof SignInDTO
      */
     'email'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof SignInDTO
      */
     'password'?: string;
 }
-
 /**
- *
+ * 
  * @export
  * @interface SignUpDTO
  */
 export interface SignUpDTO {
     /**
-     *
+     * 
      * @type {string}
      * @memberof SignUpDTO
      */
     'firstname': string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof SignUpDTO
      */
     'lastname': string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof SignUpDTO
      */
     'email': string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof SignUpDTO
      */
     'password': string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof SignUpDTO
      */
@@ -1105,159 +1069,133 @@ export const SignUpDTORoleEnum = {
 export type SignUpDTORoleEnum = typeof SignUpDTORoleEnum[keyof typeof SignUpDTORoleEnum];
 
 /**
- *
+ * 
  * @export
  * @interface TicketRequestBody
  */
 export interface TicketRequestBody {
     /**
-     *
+     * 
      * @type {number}
      * @memberof TicketRequestBody
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof TicketRequestBody
      */
     'ticketAmount'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof TicketRequestBody
      */
     'price'?: number;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof TicketRequestBody
      */
     'deleted'?: boolean;
 }
-
 /**
- *
+ * 
  * @export
  * @interface TokenRequestBody
  */
 export interface TokenRequestBody {
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof TokenRequestBody
      */
     'revoked'?: boolean;
     /**
-     *
+     * 
      * @type {number}
      * @memberof TokenRequestBody
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof TokenRequestBody
      */
     'user'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof TokenRequestBody
      */
     'token'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof TokenRequestBody
      */
     'expiryDate'?: string;
 }
-
 /**
- *
+ * 
  * @export
  * @interface User
  */
 export interface User {
     /**
-     *
+     * 
      * @type {number}
      * @memberof User
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof User
      */
     'firstName'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof User
      */
     'lastName'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof User
      */
     'email'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof User
      */
     'password'?: string;
     /**
-     *
+     * 
      * @type {UserWallet}
      * @memberof User
      */
     'wallet'?: UserWallet;
     /**
-     *
+     * 
      * @type {Pass}
      * @memberof User
      */
     'pass'?: Pass;
     /**
-     *
+     * 
      * @type {string}
      * @memberof User
      */
     'role'?: UserRoleEnum;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof User
      */
     'enabled'?: boolean;
-    /**
-     *
-     * @type {boolean}
-     * @memberof User
-     */
-    'accountNonExpired'?: boolean;
-    /**
-     *
-     * @type {boolean}
-     * @memberof User
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     *
-     * @type {string}
-     * @memberof User
-     */
-    'username'?: string;
-    /**
-     *
-     * @type {Array<GrantedAuthority>}
-     * @memberof User
-     */
-    'authorities'?: Array<GrantedAuthority>;
     /**
      *
      * @type {boolean}
@@ -1270,6 +1208,30 @@ export interface User {
      * @memberof User
      */
     'deleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof User
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     *
+     * @type {string}
+     * @memberof User
+     */
+    'username'?: string;
 }
 
 export const UserRoleEnum = {
@@ -1280,91 +1242,67 @@ export const UserRoleEnum = {
 export type UserRoleEnum = typeof UserRoleEnum[keyof typeof UserRoleEnum];
 
 /**
- *
+ * 
  * @export
  * @interface UserRequestBody
  */
 export interface UserRequestBody {
     /**
-     *
+     * 
      * @type {number}
      * @memberof UserRequestBody
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'firstName'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'lastName'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'email'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'password'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'wallet'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'pass'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'role'?: UserRequestBodyRoleEnum;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
     'enabled'?: boolean;
     /**
-     *
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'accountNonExpired'?: boolean;
-    /**
-     *
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     *
-     * @type {string}
-     * @memberof UserRequestBody
-     */
-    'username'?: string;
-    /**
-     *
-     * @type {Array<GrantedAuthority>}
-     * @memberof UserRequestBody
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     *
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
@@ -1375,6 +1313,30 @@ export interface UserRequestBody {
      * @memberof UserRequestBody
      */
     'deleted'?: boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof UserRequestBody
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     *
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'username'?: string;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -1385,63 +1347,62 @@ export const UserRequestBodyRoleEnum = {
 export type UserRequestBodyRoleEnum = typeof UserRequestBodyRoleEnum[keyof typeof UserRequestBodyRoleEnum];
 
 /**
- *
+ * 
  * @export
  * @interface UserWallet
  */
 export interface UserWallet {
     /**
-     *
+     * 
      * @type {number}
      * @memberof UserWallet
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof UserWallet
      */
     'ticketAmount'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserWallet
      */
     'memberShipEnds'?: string;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof UserWallet
      */
     'membershipActive'?: boolean;
 }
-
 /**
- *
+ * 
  * @export
  * @interface UserWalletRequestBody
  */
 export interface UserWalletRequestBody {
     /**
-     *
+     * 
      * @type {number}
      * @memberof UserWalletRequestBody
      */
     'id'?: number;
     /**
-     *
+     * 
      * @type {number}
      * @memberof UserWalletRequestBody
      */
     'ticketAmount'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserWalletRequestBody
      */
     'memberShipEnds'?: string;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof UserWalletRequestBody
      */
@@ -1455,16 +1416,16 @@ export interface UserWalletRequestBody {
 export const AuthenticationApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @summary Logs a user in by an email and password. Returns a JWT token for session handling.
-         * @param {SignInDTO} signInDTO
+         * @param {SignInDTO} signInDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         authenticate: async (signInDTO: SignInDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'signInDTO' is not null or undefined
             assertParamExists('authenticate', 'signInDTO', signInDTO)
-            const localVarPath = `/authen/login`;
+            const localVarPath = `/auth/login`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1491,15 +1452,15 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
-         * @param {SignInDTO} request
-         * @param {string} [xCustomHeader] Custom header
+         * @summary A method to retrieve authentication information for a user.
+         * @param {SignInDTO} signInDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthentication: async (request: SignInDTO, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'request' is not null or undefined
-            assertParamExists('getAuthentication', 'request', request)
-            const localVarPath = `/authen/info`;
+        getAuthentication: async (signInDTO: SignInDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'signInDTO' is not null or undefined
+            assertParamExists('getAuthentication', 'signInDTO', signInDTO)
+            const localVarPath = `/auth/info`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1507,24 +1468,17 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = {method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = {method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (request !== undefined) {
-                for (const [key, value] of Object.entries(request)) {
-                    localVarQueryParameter[key] = value;
-                }
-            }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
-
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(signInDTO, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1533,11 +1487,12 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
+         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         logout: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/authen/logout`;
+            const localVarPath = `/auth/logout`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1561,14 +1516,15 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
-         * @param {RefreshTokenDTO} refreshTokenDTO
+         * @summary Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.
+         * @param {RefreshTokenDTO} refreshTokenDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         refreshToken: async (refreshTokenDTO: RefreshTokenDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'refreshTokenDTO' is not null or undefined
             assertParamExists('refreshToken', 'refreshTokenDTO', refreshTokenDTO)
-            const localVarPath = `/authen/refresh-token`;
+            const localVarPath = `/auth/refresh-token`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1595,11 +1551,12 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
+         * @summary Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         refreshTokenCookie: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/authen/refresh-token-cookie`;
+            const localVarPath = `/auth/refresh-token-cookie`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1623,15 +1580,15 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
-         * @summary Signup method for user creation.
-         * @param {SignUpDTO} signUpDTO
+         * @summary Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.
+         * @param {SignUpDTO} signUpDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         register: async (signUpDTO: SignUpDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'signUpDTO' is not null or undefined
             assertParamExists('register', 'signUpDTO', signUpDTO)
-            const localVarPath = `/authen/signup`;
+            const localVarPath = `/auth/signup`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1667,9 +1624,9 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = AuthenticationApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @summary Logs a user in by an email and password. Returns a JWT token for session handling.
-         * @param {SignInDTO} signInDTO
+         * @param {SignInDTO} signInDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1681,19 +1638,20 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
         },
         /**
          *
-         * @param {SignInDTO} request
-         * @param {string} [xCustomHeader] Custom header
+         * @summary A method to retrieve authentication information for a user.
+         * @param {SignInDTO} signInDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAuthentication(request: SignInDTO, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAuthentication(request, xCustomHeader, options);
+        async getAuthentication(signInDTO: SignInDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAuthentication(signInDTO, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['AuthenticationApi.getAuthentication']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          *
+         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1705,7 +1663,8 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
         },
         /**
          *
-         * @param {RefreshTokenDTO} refreshTokenDTO
+         * @summary Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.
+         * @param {RefreshTokenDTO} refreshTokenDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1717,6 +1676,7 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
         },
         /**
          *
+         * @summary Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1728,8 +1688,8 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
         },
         /**
          *
-         * @summary Signup method for user creation.
-         * @param {SignUpDTO} signUpDTO
+         * @summary Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.
+         * @param {SignUpDTO} signUpDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1750,9 +1710,9 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
     const localVarFp = AuthenticationApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @summary Logs a user in by an email and password. Returns a JWT token for session handling.
-         * @param {SignInDTO} signInDTO
+         * @param {SignInDTO} signInDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1761,16 +1721,17 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         },
         /**
          *
-         * @param {SignInDTO} request
-         * @param {string} [xCustomHeader] Custom header
+         * @summary A method to retrieve authentication information for a user.
+         * @param {SignInDTO} signInDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthentication(request: SignInDTO, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.getAuthentication(request, xCustomHeader, options).then((request) => request(axios, basePath));
+        getAuthentication(signInDTO: SignInDTO, options?: any): AxiosPromise<string> {
+            return localVarFp.getAuthentication(signInDTO, options).then((request) => request(axios, basePath));
         },
         /**
          *
+         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1779,7 +1740,8 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         },
         /**
          *
-         * @param {RefreshTokenDTO} refreshTokenDTO
+         * @summary Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.
+         * @param {RefreshTokenDTO} refreshTokenDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1788,6 +1750,7 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         },
         /**
          *
+         * @summary Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1796,8 +1759,8 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         },
         /**
          *
-         * @summary Signup method for user creation.
-         * @param {SignUpDTO} signUpDTO
+         * @summary Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.
+         * @param {SignUpDTO} signUpDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1815,9 +1778,9 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
  */
 export class AuthenticationApi extends BaseAPI {
     /**
-     *
+     * 
      * @summary Logs a user in by an email and password. Returns a JWT token for session handling.
-     * @param {SignInDTO} signInDTO
+     * @param {SignInDTO} signInDTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
@@ -1828,18 +1791,19 @@ export class AuthenticationApi extends BaseAPI {
 
     /**
      *
-     * @param {SignInDTO} request
-     * @param {string} [xCustomHeader] Custom header
+     * @summary A method to retrieve authentication information for a user.
+     * @param {SignInDTO} signInDTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
      */
-    public getAuthentication(request: SignInDTO, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return AuthenticationApiFp(this.configuration).getAuthentication(request, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getAuthentication(signInDTO: SignInDTO, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).getAuthentication(signInDTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
+     * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
@@ -1850,7 +1814,8 @@ export class AuthenticationApi extends BaseAPI {
 
     /**
      *
-     * @param {RefreshTokenDTO} refreshTokenDTO
+     * @summary Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.
+     * @param {RefreshTokenDTO} refreshTokenDTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
@@ -1861,6 +1826,7 @@ export class AuthenticationApi extends BaseAPI {
 
     /**
      *
+     * @summary Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
@@ -1871,8 +1837,8 @@ export class AuthenticationApi extends BaseAPI {
 
     /**
      *
-     * @summary Signup method for user creation.
-     * @param {SignUpDTO} signUpDTO
+     * @summary Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.
+     * @param {SignUpDTO} signUpDTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
@@ -1883,6 +1849,7 @@ export class AuthenticationApi extends BaseAPI {
 }
 
 
+
 /**
  * MembershipEntityControllerApi - axios parameter creator
  * @export
@@ -1891,7 +1858,7 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
     return {
         /**
          * delete-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1984,7 +1951,7 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
         },
         /**
          * get-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2026,7 +1993,7 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
         /**
          * patch-membership
          * @param {string} id
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2072,7 +2039,7 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
         },
         /**
          * create-membership
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2111,7 +2078,7 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
         /**
          * update-membership
          * @param {string} id
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2167,7 +2134,7 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
     return {
         /**
          * delete-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2195,7 +2162,7 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
         },
         /**
          * get-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2209,7 +2176,7 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
         /**
          * patch-membership
          * @param {string} id
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2222,7 +2189,7 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
         },
         /**
          * create-membership
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2235,7 +2202,7 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
         /**
          * update-membership
          * @param {string} id
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2258,7 +2225,7 @@ export const MembershipEntityControllerApiFactory = function (configuration?: Co
     return {
         /**
          * delete-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2280,7 +2247,7 @@ export const MembershipEntityControllerApiFactory = function (configuration?: Co
         },
         /**
          * get-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2291,7 +2258,7 @@ export const MembershipEntityControllerApiFactory = function (configuration?: Co
         /**
          * patch-membership
          * @param {string} id
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2301,7 +2268,7 @@ export const MembershipEntityControllerApiFactory = function (configuration?: Co
         },
         /**
          * create-membership
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2311,7 +2278,7 @@ export const MembershipEntityControllerApiFactory = function (configuration?: Co
         /**
          * update-membership
          * @param {string} id
-         * @param {MembershipRequestBody} membershipRequestBody
+         * @param {MembershipRequestBody} membershipRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2331,7 +2298,7 @@ export const MembershipEntityControllerApiFactory = function (configuration?: Co
 export class MembershipEntityControllerApi extends BaseAPI {
     /**
      * delete-membership
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2357,7 +2324,7 @@ export class MembershipEntityControllerApi extends BaseAPI {
 
     /**
      * get-membership
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2370,7 +2337,7 @@ export class MembershipEntityControllerApi extends BaseAPI {
     /**
      * patch-membership
      * @param {string} id
-     * @param {MembershipRequestBody} membershipRequestBody
+     * @param {MembershipRequestBody} membershipRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2382,7 +2349,7 @@ export class MembershipEntityControllerApi extends BaseAPI {
 
     /**
      * create-membership
-     * @param {MembershipRequestBody} membershipRequestBody
+     * @param {MembershipRequestBody} membershipRequestBody 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MembershipEntityControllerApi
@@ -2394,7 +2361,7 @@ export class MembershipEntityControllerApi extends BaseAPI {
     /**
      * update-membership
      * @param {string} id
-     * @param {MembershipRequestBody} membershipRequestBody
+     * @param {MembershipRequestBody} membershipRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2406,6 +2373,7 @@ export class MembershipEntityControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * MembershipSearchControllerApi - axios parameter creator
  * @export
@@ -2414,7 +2382,7 @@ export const MembershipSearchControllerApiAxiosParamCreator = function (configur
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2466,7 +2434,7 @@ export const MembershipSearchControllerApiFp = function (configuration?: Configu
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2489,7 +2457,7 @@ export const MembershipSearchControllerApiFactory = function (configuration?: Co
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2509,7 +2477,7 @@ export const MembershipSearchControllerApiFactory = function (configuration?: Co
 export class MembershipSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {number} [id]
+     * @param {number} [id] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2521,6 +2489,7 @@ export class MembershipSearchControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * PassEntityControllerApi - axios parameter creator
  * @export
@@ -2529,7 +2498,7 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
     return {
         /**
          * delete-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2622,7 +2591,7 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * get-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2664,7 +2633,7 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
         /**
          * patch-pass
          * @param {string} id
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2710,7 +2679,7 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * create-pass
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2749,7 +2718,7 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
         /**
          * update-pass
          * @param {string} id
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2805,7 +2774,7 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
     return {
         /**
          * delete-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2833,7 +2802,7 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
         },
         /**
          * get-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2847,7 +2816,7 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
         /**
          * patch-pass
          * @param {string} id
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2860,7 +2829,7 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
         },
         /**
          * create-pass
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2873,7 +2842,7 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
         /**
          * update-pass
          * @param {string} id
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2896,7 +2865,7 @@ export const PassEntityControllerApiFactory = function (configuration?: Configur
     return {
         /**
          * delete-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2918,7 +2887,7 @@ export const PassEntityControllerApiFactory = function (configuration?: Configur
         },
         /**
          * get-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2929,7 +2898,7 @@ export const PassEntityControllerApiFactory = function (configuration?: Configur
         /**
          * patch-pass
          * @param {string} id
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2939,7 +2908,7 @@ export const PassEntityControllerApiFactory = function (configuration?: Configur
         },
         /**
          * create-pass
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2949,7 +2918,7 @@ export const PassEntityControllerApiFactory = function (configuration?: Configur
         /**
          * update-pass
          * @param {string} id
-         * @param {PassRequestBody} passRequestBody
+         * @param {PassRequestBody} passRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2969,7 +2938,7 @@ export const PassEntityControllerApiFactory = function (configuration?: Configur
 export class PassEntityControllerApi extends BaseAPI {
     /**
      * delete-pass
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2995,7 +2964,7 @@ export class PassEntityControllerApi extends BaseAPI {
 
     /**
      * get-pass
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3008,7 +2977,7 @@ export class PassEntityControllerApi extends BaseAPI {
     /**
      * patch-pass
      * @param {string} id
-     * @param {PassRequestBody} passRequestBody
+     * @param {PassRequestBody} passRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3020,7 +2989,7 @@ export class PassEntityControllerApi extends BaseAPI {
 
     /**
      * create-pass
-     * @param {PassRequestBody} passRequestBody
+     * @param {PassRequestBody} passRequestBody 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PassEntityControllerApi
@@ -3032,7 +3001,7 @@ export class PassEntityControllerApi extends BaseAPI {
     /**
      * update-pass
      * @param {string} id
-     * @param {PassRequestBody} passRequestBody
+     * @param {PassRequestBody} passRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3044,6 +3013,7 @@ export class PassEntityControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * PassSearchControllerApi - axios parameter creator
  * @export
@@ -3052,7 +3022,7 @@ export const PassSearchControllerApiAxiosParamCreator = function (configuration?
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3104,7 +3074,7 @@ export const PassSearchControllerApiFp = function (configuration?: Configuration
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3127,7 +3097,7 @@ export const PassSearchControllerApiFactory = function (configuration?: Configur
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3147,7 +3117,7 @@ export const PassSearchControllerApiFactory = function (configuration?: Configur
 export class PassSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {number} [id]
+     * @param {number} [id] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3159,6 +3129,7 @@ export class PassSearchControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * PaymentTypeEntityControllerApi - axios parameter creator
  * @export
@@ -3167,7 +3138,7 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
     return {
         /**
          * delete-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3260,7 +3231,7 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
         },
         /**
          * get-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3302,7 +3273,7 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
         /**
          * patch-paymenttype
          * @param {string} id
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3348,7 +3319,7 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
         },
         /**
          * create-paymenttype
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3387,7 +3358,7 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
         /**
          * update-paymenttype
          * @param {string} id
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3443,7 +3414,7 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
     return {
         /**
          * delete-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3471,7 +3442,7 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
         },
         /**
          * get-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3485,7 +3456,7 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
         /**
          * patch-paymenttype
          * @param {string} id
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3498,7 +3469,7 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
         },
         /**
          * create-paymenttype
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3511,7 +3482,7 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
         /**
          * update-paymenttype
          * @param {string} id
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3534,7 +3505,7 @@ export const PaymentTypeEntityControllerApiFactory = function (configuration?: C
     return {
         /**
          * delete-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3556,7 +3527,7 @@ export const PaymentTypeEntityControllerApiFactory = function (configuration?: C
         },
         /**
          * get-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3567,7 +3538,7 @@ export const PaymentTypeEntityControllerApiFactory = function (configuration?: C
         /**
          * patch-paymenttype
          * @param {string} id
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3577,7 +3548,7 @@ export const PaymentTypeEntityControllerApiFactory = function (configuration?: C
         },
         /**
          * create-paymenttype
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -3587,7 +3558,7 @@ export const PaymentTypeEntityControllerApiFactory = function (configuration?: C
         /**
          * update-paymenttype
          * @param {string} id
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3607,7 +3578,7 @@ export const PaymentTypeEntityControllerApiFactory = function (configuration?: C
 export class PaymentTypeEntityControllerApi extends BaseAPI {
     /**
      * delete-paymenttype
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3633,7 +3604,7 @@ export class PaymentTypeEntityControllerApi extends BaseAPI {
 
     /**
      * get-paymenttype
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3646,7 +3617,7 @@ export class PaymentTypeEntityControllerApi extends BaseAPI {
     /**
      * patch-paymenttype
      * @param {string} id
-     * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+     * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3658,7 +3629,7 @@ export class PaymentTypeEntityControllerApi extends BaseAPI {
 
     /**
      * create-paymenttype
-     * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+     * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypeEntityControllerApi
@@ -3670,7 +3641,7 @@ export class PaymentTypeEntityControllerApi extends BaseAPI {
     /**
      * update-paymenttype
      * @param {string} id
-     * @param {PaymentTypeRequestBody} paymentTypeRequestBody
+     * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3682,6 +3653,7 @@ export class PaymentTypeEntityControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * PaymentTypePropertyReferenceControllerApi - axios parameter creator
  * @export
@@ -3691,7 +3663,7 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         /**
          * patch-user-by-paymenttype-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3738,7 +3710,7 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         /**
          * update-user-by-paymenttype-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3785,7 +3757,7 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         /**
          * delete-user-by-paymenttype-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3829,7 +3801,7 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         },
         /**
          * delete-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3871,7 +3843,7 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         /**
          * get-user-by-paymenttype-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3915,7 +3887,7 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         },
         /**
          * get-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3967,7 +3939,7 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
         /**
          * patch-user-by-paymenttype-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3981,7 +3953,7 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
         /**
          * update-user-by-paymenttype-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3995,7 +3967,7 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
         /**
          * delete-user-by-paymenttype-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4008,7 +3980,7 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
         },
         /**
          * delete-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4022,7 +3994,7 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
         /**
          * get-user-by-paymenttype-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4035,7 +4007,7 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
         },
         /**
          * get-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4059,7 +4031,7 @@ export const PaymentTypePropertyReferenceControllerApiFactory = function (config
         /**
          * patch-user-by-paymenttype-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4070,7 +4042,7 @@ export const PaymentTypePropertyReferenceControllerApiFactory = function (config
         /**
          * update-user-by-paymenttype-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4081,7 +4053,7 @@ export const PaymentTypePropertyReferenceControllerApiFactory = function (config
         /**
          * delete-user-by-paymenttype-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4091,7 +4063,7 @@ export const PaymentTypePropertyReferenceControllerApiFactory = function (config
         },
         /**
          * delete-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4102,7 +4074,7 @@ export const PaymentTypePropertyReferenceControllerApiFactory = function (config
         /**
          * get-user-by-paymenttype-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4112,7 +4084,7 @@ export const PaymentTypePropertyReferenceControllerApiFactory = function (config
         },
         /**
          * get-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4133,7 +4105,7 @@ export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
     /**
      * patch-user-by-paymenttype-Id
      * @param {string} id
-     * @param {CollectionModelObject} collectionModelObject
+     * @param {CollectionModelObject} collectionModelObject 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4146,7 +4118,7 @@ export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
     /**
      * update-user-by-paymenttype-Id
      * @param {string} id
-     * @param {CollectionModelObject} collectionModelObject
+     * @param {CollectionModelObject} collectionModelObject 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4159,7 +4131,7 @@ export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
     /**
      * delete-user-by-paymenttype-Id
      * @param {string} id
-     * @param {string} propertyId
+     * @param {string} propertyId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4171,7 +4143,7 @@ export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
 
     /**
      * delete-user-by-paymenttype-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4184,7 +4156,7 @@ export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
     /**
      * get-user-by-paymenttype-Id
      * @param {string} id
-     * @param {string} propertyId
+     * @param {string} propertyId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4196,7 +4168,7 @@ export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
 
     /**
      * get-user-by-paymenttype-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4208,6 +4180,7 @@ export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * PaymentTypeSearchControllerApi - axios parameter creator
  * @export
@@ -4216,7 +4189,7 @@ export const PaymentTypeSearchControllerApiAxiosParamCreator = function (configu
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4268,7 +4241,7 @@ export const PaymentTypeSearchControllerApiFp = function (configuration?: Config
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4291,7 +4264,7 @@ export const PaymentTypeSearchControllerApiFactory = function (configuration?: C
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4311,7 +4284,7 @@ export const PaymentTypeSearchControllerApiFactory = function (configuration?: C
 export class PaymentTypeSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {number} [id]
+     * @param {number} [id] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4323,6 +4296,7 @@ export class PaymentTypeSearchControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * ProfileControllerApi - axios parameter creator
  * @export
@@ -4330,7 +4304,7 @@ export class PaymentTypeSearchControllerApi extends BaseAPI {
 export const ProfileControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4362,7 +4336,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             };
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4394,7 +4368,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             };
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4426,7 +4400,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             };
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4458,7 +4432,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             };
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4490,7 +4464,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             };
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4522,7 +4496,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             };
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4554,7 +4528,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             };
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4596,7 +4570,7 @@ export const ProfileControllerApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = ProfileControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4607,7 +4581,7 @@ export const ProfileControllerApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4618,7 +4592,7 @@ export const ProfileControllerApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4629,7 +4603,7 @@ export const ProfileControllerApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4640,7 +4614,7 @@ export const ProfileControllerApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4651,7 +4625,7 @@ export const ProfileControllerApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4662,7 +4636,7 @@ export const ProfileControllerApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4673,7 +4647,7 @@ export const ProfileControllerApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4694,7 +4668,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
     const localVarFp = ProfileControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4702,7 +4676,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
             return localVarFp.descriptor111(options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4710,7 +4684,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
             return localVarFp.descriptor112(options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4718,7 +4692,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
             return localVarFp.descriptor113(options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4726,7 +4700,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
             return localVarFp.descriptor114(options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4734,7 +4708,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
             return localVarFp.descriptor115(options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4742,7 +4716,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
             return localVarFp.descriptor116(options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4750,7 +4724,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
             return localVarFp.descriptor117(options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4768,7 +4742,7 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
  */
 export class ProfileControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileControllerApi
@@ -4778,7 +4752,7 @@ export class ProfileControllerApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileControllerApi
@@ -4788,7 +4762,7 @@ export class ProfileControllerApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileControllerApi
@@ -4798,7 +4772,7 @@ export class ProfileControllerApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileControllerApi
@@ -4808,7 +4782,7 @@ export class ProfileControllerApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileControllerApi
@@ -4818,7 +4792,7 @@ export class ProfileControllerApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileControllerApi
@@ -4828,7 +4802,7 @@ export class ProfileControllerApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileControllerApi
@@ -4838,7 +4812,7 @@ export class ProfileControllerApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProfileControllerApi
@@ -4849,6 +4823,7 @@ export class ProfileControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * TicketEntityControllerApi - axios parameter creator
  * @export
@@ -4857,7 +4832,7 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
     return {
         /**
          * delete-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4950,7 +4925,7 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
         },
         /**
          * get-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4992,7 +4967,7 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
         /**
          * patch-ticket
          * @param {string} id
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5038,7 +5013,7 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
         },
         /**
          * create-ticket
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5077,7 +5052,7 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
         /**
          * update-ticket
          * @param {string} id
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5133,7 +5108,7 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
     return {
         /**
          * delete-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5161,7 +5136,7 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
         },
         /**
          * get-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5175,7 +5150,7 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
         /**
          * patch-ticket
          * @param {string} id
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5188,7 +5163,7 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
         },
         /**
          * create-ticket
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5201,7 +5176,7 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
         /**
          * update-ticket
          * @param {string} id
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5224,7 +5199,7 @@ export const TicketEntityControllerApiFactory = function (configuration?: Config
     return {
         /**
          * delete-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5246,7 +5221,7 @@ export const TicketEntityControllerApiFactory = function (configuration?: Config
         },
         /**
          * get-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5257,7 +5232,7 @@ export const TicketEntityControllerApiFactory = function (configuration?: Config
         /**
          * patch-ticket
          * @param {string} id
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5267,7 +5242,7 @@ export const TicketEntityControllerApiFactory = function (configuration?: Config
         },
         /**
          * create-ticket
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5277,7 +5252,7 @@ export const TicketEntityControllerApiFactory = function (configuration?: Config
         /**
          * update-ticket
          * @param {string} id
-         * @param {TicketRequestBody} ticketRequestBody
+         * @param {TicketRequestBody} ticketRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5297,7 +5272,7 @@ export const TicketEntityControllerApiFactory = function (configuration?: Config
 export class TicketEntityControllerApi extends BaseAPI {
     /**
      * delete-ticket
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5323,7 +5298,7 @@ export class TicketEntityControllerApi extends BaseAPI {
 
     /**
      * get-ticket
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5336,7 +5311,7 @@ export class TicketEntityControllerApi extends BaseAPI {
     /**
      * patch-ticket
      * @param {string} id
-     * @param {TicketRequestBody} ticketRequestBody
+     * @param {TicketRequestBody} ticketRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5348,7 +5323,7 @@ export class TicketEntityControllerApi extends BaseAPI {
 
     /**
      * create-ticket
-     * @param {TicketRequestBody} ticketRequestBody
+     * @param {TicketRequestBody} ticketRequestBody 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketEntityControllerApi
@@ -5360,7 +5335,7 @@ export class TicketEntityControllerApi extends BaseAPI {
     /**
      * update-ticket
      * @param {string} id
-     * @param {TicketRequestBody} ticketRequestBody
+     * @param {TicketRequestBody} ticketRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5372,6 +5347,7 @@ export class TicketEntityControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * TicketSearchControllerApi - axios parameter creator
  * @export
@@ -5380,7 +5356,7 @@ export const TicketSearchControllerApiAxiosParamCreator = function (configuratio
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5432,7 +5408,7 @@ export const TicketSearchControllerApiFp = function (configuration?: Configurati
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5455,7 +5431,7 @@ export const TicketSearchControllerApiFactory = function (configuration?: Config
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5475,7 +5451,7 @@ export const TicketSearchControllerApiFactory = function (configuration?: Config
 export class TicketSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {number} [id]
+     * @param {number} [id] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5487,6 +5463,7 @@ export class TicketSearchControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * TokenEntityControllerApi - axios parameter creator
  * @export
@@ -5495,7 +5472,7 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
     return {
         /**
          * delete-token
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5588,7 +5565,7 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
         },
         /**
          * get-token
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5630,7 +5607,7 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
         /**
          * patch-token
          * @param {string} id
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5676,7 +5653,7 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
         },
         /**
          * create-token
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5715,7 +5692,7 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
         /**
          * update-token
          * @param {string} id
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5771,7 +5748,7 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
     return {
         /**
          * delete-token
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5799,7 +5776,7 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
         },
         /**
          * get-token
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5813,7 +5790,7 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
         /**
          * patch-token
          * @param {string} id
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5826,7 +5803,7 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
         },
         /**
          * create-token
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5839,7 +5816,7 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
         /**
          * update-token
          * @param {string} id
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5862,7 +5839,7 @@ export const TokenEntityControllerApiFactory = function (configuration?: Configu
     return {
         /**
          * delete-token
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5884,7 +5861,7 @@ export const TokenEntityControllerApiFactory = function (configuration?: Configu
         },
         /**
          * get-token
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5895,7 +5872,7 @@ export const TokenEntityControllerApiFactory = function (configuration?: Configu
         /**
          * patch-token
          * @param {string} id
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5905,7 +5882,7 @@ export const TokenEntityControllerApiFactory = function (configuration?: Configu
         },
         /**
          * create-token
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -5915,7 +5892,7 @@ export const TokenEntityControllerApiFactory = function (configuration?: Configu
         /**
          * update-token
          * @param {string} id
-         * @param {TokenRequestBody} tokenRequestBody
+         * @param {TokenRequestBody} tokenRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5935,7 +5912,7 @@ export const TokenEntityControllerApiFactory = function (configuration?: Configu
 export class TokenEntityControllerApi extends BaseAPI {
     /**
      * delete-token
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5961,7 +5938,7 @@ export class TokenEntityControllerApi extends BaseAPI {
 
     /**
      * get-token
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5974,7 +5951,7 @@ export class TokenEntityControllerApi extends BaseAPI {
     /**
      * patch-token
      * @param {string} id
-     * @param {TokenRequestBody} tokenRequestBody
+     * @param {TokenRequestBody} tokenRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5986,7 +5963,7 @@ export class TokenEntityControllerApi extends BaseAPI {
 
     /**
      * create-token
-     * @param {TokenRequestBody} tokenRequestBody
+     * @param {TokenRequestBody} tokenRequestBody 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenEntityControllerApi
@@ -5998,7 +5975,7 @@ export class TokenEntityControllerApi extends BaseAPI {
     /**
      * update-token
      * @param {string} id
-     * @param {TokenRequestBody} tokenRequestBody
+     * @param {TokenRequestBody} tokenRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6010,6 +5987,7 @@ export class TokenEntityControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * TokenPropertyReferenceControllerApi - axios parameter creator
  * @export
@@ -6019,7 +5997,7 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         /**
          * patch-user-by-token-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6066,7 +6044,7 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         /**
          * update-user-by-token-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6113,7 +6091,7 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         /**
          * delete-user-by-token-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6157,7 +6135,7 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         },
         /**
          * delete-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6199,7 +6177,7 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         /**
          * get-user-by-token-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6243,7 +6221,7 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         },
         /**
          * get-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6295,7 +6273,7 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
         /**
          * patch-user-by-token-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6309,7 +6287,7 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
         /**
          * update-user-by-token-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6323,7 +6301,7 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
         /**
          * delete-user-by-token-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6336,7 +6314,7 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
         },
         /**
          * delete-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6350,7 +6328,7 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
         /**
          * get-user-by-token-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6363,7 +6341,7 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
         },
         /**
          * get-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6387,7 +6365,7 @@ export const TokenPropertyReferenceControllerApiFactory = function (configuratio
         /**
          * patch-user-by-token-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6398,7 +6376,7 @@ export const TokenPropertyReferenceControllerApiFactory = function (configuratio
         /**
          * update-user-by-token-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6409,7 +6387,7 @@ export const TokenPropertyReferenceControllerApiFactory = function (configuratio
         /**
          * delete-user-by-token-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6419,7 +6397,7 @@ export const TokenPropertyReferenceControllerApiFactory = function (configuratio
         },
         /**
          * delete-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6430,7 +6408,7 @@ export const TokenPropertyReferenceControllerApiFactory = function (configuratio
         /**
          * get-user-by-token-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6440,7 +6418,7 @@ export const TokenPropertyReferenceControllerApiFactory = function (configuratio
         },
         /**
          * get-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6461,7 +6439,7 @@ export class TokenPropertyReferenceControllerApi extends BaseAPI {
     /**
      * patch-user-by-token-Id
      * @param {string} id
-     * @param {CollectionModelObject} collectionModelObject
+     * @param {CollectionModelObject} collectionModelObject 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6474,7 +6452,7 @@ export class TokenPropertyReferenceControllerApi extends BaseAPI {
     /**
      * update-user-by-token-Id
      * @param {string} id
-     * @param {CollectionModelObject} collectionModelObject
+     * @param {CollectionModelObject} collectionModelObject 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6487,7 +6465,7 @@ export class TokenPropertyReferenceControllerApi extends BaseAPI {
     /**
      * delete-user-by-token-Id
      * @param {string} id
-     * @param {string} propertyId
+     * @param {string} propertyId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6499,7 +6477,7 @@ export class TokenPropertyReferenceControllerApi extends BaseAPI {
 
     /**
      * delete-user-by-token-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6512,7 +6490,7 @@ export class TokenPropertyReferenceControllerApi extends BaseAPI {
     /**
      * get-user-by-token-Id
      * @param {string} id
-     * @param {string} propertyId
+     * @param {string} propertyId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6524,7 +6502,7 @@ export class TokenPropertyReferenceControllerApi extends BaseAPI {
 
     /**
      * get-user-by-token-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6536,6 +6514,7 @@ export class TokenPropertyReferenceControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * TokenSearchControllerApi - axios parameter creator
  * @export
@@ -6544,7 +6523,7 @@ export const TokenSearchControllerApiAxiosParamCreator = function (configuration
     return {
         /**
          *
-         * @param {string} [token]
+         * @param {string} [token] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6596,7 +6575,7 @@ export const TokenSearchControllerApiFp = function (configuration?: Configuratio
     return {
         /**
          *
-         * @param {string} [token]
+         * @param {string} [token] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6619,7 +6598,7 @@ export const TokenSearchControllerApiFactory = function (configuration?: Configu
     return {
         /**
          *
-         * @param {string} [token]
+         * @param {string} [token] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6639,7 +6618,7 @@ export const TokenSearchControllerApiFactory = function (configuration?: Configu
 export class TokenSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {string} [token]
+     * @param {string} [token] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6651,6 +6630,7 @@ export class TokenSearchControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * UserControllerApi - axios parameter creator
  * @export
@@ -6658,9 +6638,9 @@ export class TokenSearchControllerApi extends BaseAPI {
 export const UserControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @summary Gets a user\'s information by their ID.
-         * @param {number} userId
+         * @param {number} userId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6710,9 +6690,9 @@ export const UserControllerApiFp = function (configuration?: Configuration) {
     const localVarAxiosParamCreator = UserControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @summary Gets a user\'s information by their ID.
-         * @param {number} userId
+         * @param {number} userId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6734,9 +6714,9 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
     const localVarFp = UserControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @summary Gets a user\'s information by their ID.
-         * @param {number} userId
+         * @param {number} userId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6755,9 +6735,9 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
  */
 export class UserControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @summary Gets a user\'s information by their ID.
-     * @param {number} userId
+     * @param {number} userId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6769,6 +6749,7 @@ export class UserControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * UserEntityControllerApi - axios parameter creator
  * @export
@@ -6777,7 +6758,7 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
     return {
         /**
          * delete-user
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6870,7 +6851,7 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * get-user
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6912,7 +6893,7 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
         /**
          * patch-user
          * @param {string} id
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6958,7 +6939,7 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * create-user
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6997,7 +6978,7 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
         /**
          * update-user
          * @param {string} id
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7053,7 +7034,7 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
     return {
         /**
          * delete-user
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7081,7 +7062,7 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
         },
         /**
          * get-user
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7095,7 +7076,7 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
         /**
          * patch-user
          * @param {string} id
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7108,7 +7089,7 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
         },
         /**
          * create-user
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7121,7 +7102,7 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
         /**
          * update-user
          * @param {string} id
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7144,7 +7125,7 @@ export const UserEntityControllerApiFactory = function (configuration?: Configur
     return {
         /**
          * delete-user
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7166,7 +7147,7 @@ export const UserEntityControllerApiFactory = function (configuration?: Configur
         },
         /**
          * get-user
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7177,7 +7158,7 @@ export const UserEntityControllerApiFactory = function (configuration?: Configur
         /**
          * patch-user
          * @param {string} id
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7187,7 +7168,7 @@ export const UserEntityControllerApiFactory = function (configuration?: Configur
         },
         /**
          * create-user
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7197,7 +7178,7 @@ export const UserEntityControllerApiFactory = function (configuration?: Configur
         /**
          * update-user
          * @param {string} id
-         * @param {UserRequestBody} userRequestBody
+         * @param {UserRequestBody} userRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7217,7 +7198,7 @@ export const UserEntityControllerApiFactory = function (configuration?: Configur
 export class UserEntityControllerApi extends BaseAPI {
     /**
      * delete-user
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7243,7 +7224,7 @@ export class UserEntityControllerApi extends BaseAPI {
 
     /**
      * get-user
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7256,7 +7237,7 @@ export class UserEntityControllerApi extends BaseAPI {
     /**
      * patch-user
      * @param {string} id
-     * @param {UserRequestBody} userRequestBody
+     * @param {UserRequestBody} userRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7268,7 +7249,7 @@ export class UserEntityControllerApi extends BaseAPI {
 
     /**
      * create-user
-     * @param {UserRequestBody} userRequestBody
+     * @param {UserRequestBody} userRequestBody 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserEntityControllerApi
@@ -7280,7 +7261,7 @@ export class UserEntityControllerApi extends BaseAPI {
     /**
      * update-user
      * @param {string} id
-     * @param {UserRequestBody} userRequestBody
+     * @param {UserRequestBody} userRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7292,6 +7273,7 @@ export class UserEntityControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * UserPropertyReferenceControllerApi - axios parameter creator
  * @export
@@ -7301,7 +7283,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * patch-pass-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7348,7 +7330,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * patch-userwallet-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7395,7 +7377,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * update-pass-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7442,7 +7424,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * update-userwallet-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7489,7 +7471,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * delete-pass-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7534,7 +7516,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * delete-userwallet-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7578,7 +7560,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * delete-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7619,7 +7601,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * delete-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7661,7 +7643,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * get-pass-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7705,7 +7687,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * get-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7747,7 +7729,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * get-userwallet-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7791,7 +7773,7 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * get-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7843,7 +7825,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * patch-pass-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7857,7 +7839,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * patch-userwallet-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7871,7 +7853,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * update-pass-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7885,7 +7867,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * update-userwallet-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7899,7 +7881,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * delete-pass-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7913,7 +7895,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * delete-userwallet-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7926,7 +7908,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         },
         /**
          * delete-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7939,7 +7921,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         },
         /**
          * delete-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7953,7 +7935,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * get-pass-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7966,7 +7948,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         },
         /**
          * get-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7980,7 +7962,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * get-userwallet-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7993,7 +7975,7 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         },
         /**
          * get-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8017,7 +7999,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         /**
          * patch-pass-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8028,7 +8010,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         /**
          * patch-userwallet-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8039,7 +8021,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         /**
          * update-pass-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8050,7 +8032,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         /**
          * update-userwallet-by-user-Id
          * @param {string} id
-         * @param {CollectionModelObject} collectionModelObject
+         * @param {CollectionModelObject} collectionModelObject 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8061,7 +8043,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         /**
          * delete-pass-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8072,7 +8054,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         /**
          * delete-userwallet-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8082,7 +8064,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         },
         /**
          * delete-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8092,7 +8074,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         },
         /**
          * delete-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8103,7 +8085,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         /**
          * get-pass-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8113,7 +8095,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         },
         /**
          * get-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8124,7 +8106,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         /**
          * get-userwallet-by-user-Id
          * @param {string} id
-         * @param {string} propertyId
+         * @param {string} propertyId 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8134,7 +8116,7 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
         },
         /**
          * get-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8155,7 +8137,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * patch-pass-by-user-Id
      * @param {string} id
-     * @param {CollectionModelObject} collectionModelObject
+     * @param {CollectionModelObject} collectionModelObject 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8168,7 +8150,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * patch-userwallet-by-user-Id
      * @param {string} id
-     * @param {CollectionModelObject} collectionModelObject
+     * @param {CollectionModelObject} collectionModelObject 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8181,7 +8163,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * update-pass-by-user-Id
      * @param {string} id
-     * @param {CollectionModelObject} collectionModelObject
+     * @param {CollectionModelObject} collectionModelObject 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8194,7 +8176,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * update-userwallet-by-user-Id
      * @param {string} id
-     * @param {CollectionModelObject} collectionModelObject
+     * @param {CollectionModelObject} collectionModelObject 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8207,7 +8189,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * delete-pass-by-user-Id
      * @param {string} id
-     * @param {string} propertyId
+     * @param {string} propertyId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8220,7 +8202,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * delete-userwallet-by-user-Id
      * @param {string} id
-     * @param {string} propertyId
+     * @param {string} propertyId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8232,7 +8214,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
 
     /**
      * delete-pass-by-user-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8244,7 +8226,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
 
     /**
      * delete-userwallet-by-user-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8257,7 +8239,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * get-pass-by-user-Id
      * @param {string} id
-     * @param {string} propertyId
+     * @param {string} propertyId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8269,7 +8251,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
 
     /**
      * get-pass-by-user-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8282,7 +8264,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * get-userwallet-by-user-Id
      * @param {string} id
-     * @param {string} propertyId
+     * @param {string} propertyId 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8294,7 +8276,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
 
     /**
      * get-userwallet-by-user-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8306,6 +8288,7 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * UserSearchControllerApi - axios parameter creator
  * @export
@@ -8314,7 +8297,7 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
     return {
         /**
          *
-         * @param {string} [email]
+         * @param {string} [email] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8356,7 +8339,7 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          *
-         * @param {string} [email]
+         * @param {string} [email] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8398,7 +8381,7 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8450,7 +8433,7 @@ export const UserSearchControllerApiFp = function (configuration?: Configuration
     return {
         /**
          *
-         * @param {string} [email]
+         * @param {string} [email] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8463,7 +8446,7 @@ export const UserSearchControllerApiFp = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} [email]
+         * @param {string} [email] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8476,7 +8459,7 @@ export const UserSearchControllerApiFp = function (configuration?: Configuration
         },
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8499,7 +8482,7 @@ export const UserSearchControllerApiFactory = function (configuration?: Configur
     return {
         /**
          *
-         * @param {string} [email]
+         * @param {string} [email] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8509,7 +8492,7 @@ export const UserSearchControllerApiFactory = function (configuration?: Configur
         },
         /**
          *
-         * @param {string} [email]
+         * @param {string} [email] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8519,7 +8502,7 @@ export const UserSearchControllerApiFactory = function (configuration?: Configur
         },
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8539,7 +8522,7 @@ export const UserSearchControllerApiFactory = function (configuration?: Configur
 export class UserSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {string} [email]
+     * @param {string} [email] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8551,7 +8534,7 @@ export class UserSearchControllerApi extends BaseAPI {
 
     /**
      *
-     * @param {string} [email]
+     * @param {string} [email] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8563,7 +8546,7 @@ export class UserSearchControllerApi extends BaseAPI {
 
     /**
      *
-     * @param {number} [id]
+     * @param {number} [id] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -8575,6 +8558,7 @@ export class UserSearchControllerApi extends BaseAPI {
 }
 
 
+
 /**
  * UserWalletEntityControllerApi - axios parameter creator
  * @export
@@ -8583,7 +8567,7 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
     return {
         /**
          * delete-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8676,7 +8660,7 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
         },
         /**
          * get-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8718,7 +8702,7 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
         /**
          * patch-userwallet
          * @param {string} id
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8764,7 +8748,7 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
         },
         /**
          * create-userwallet
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8803,7 +8787,7 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
         /**
          * update-userwallet
          * @param {string} id
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8859,7 +8843,7 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
     return {
         /**
          * delete-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8887,7 +8871,7 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
         },
         /**
          * get-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8901,7 +8885,7 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
         /**
          * patch-userwallet
          * @param {string} id
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8914,7 +8898,7 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
         },
         /**
          * create-userwallet
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -8927,7 +8911,7 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
         /**
          * update-userwallet
          * @param {string} id
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8950,7 +8934,7 @@ export const UserWalletEntityControllerApiFactory = function (configuration?: Co
     return {
         /**
          * delete-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8972,7 +8956,7 @@ export const UserWalletEntityControllerApiFactory = function (configuration?: Co
         },
         /**
          * get-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8983,7 +8967,7 @@ export const UserWalletEntityControllerApiFactory = function (configuration?: Co
         /**
          * patch-userwallet
          * @param {string} id
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8993,7 +8977,7 @@ export const UserWalletEntityControllerApiFactory = function (configuration?: Co
         },
         /**
          * create-userwallet
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -9003,7 +8987,7 @@ export const UserWalletEntityControllerApiFactory = function (configuration?: Co
         /**
          * update-userwallet
          * @param {string} id
-         * @param {UserWalletRequestBody} userWalletRequestBody
+         * @param {UserWalletRequestBody} userWalletRequestBody 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -9023,7 +9007,7 @@ export const UserWalletEntityControllerApiFactory = function (configuration?: Co
 export class UserWalletEntityControllerApi extends BaseAPI {
     /**
      * delete-userwallet
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9049,7 +9033,7 @@ export class UserWalletEntityControllerApi extends BaseAPI {
 
     /**
      * get-userwallet
-     * @param {string} id
+     * @param {string} id 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9062,7 +9046,7 @@ export class UserWalletEntityControllerApi extends BaseAPI {
     /**
      * patch-userwallet
      * @param {string} id
-     * @param {UserWalletRequestBody} userWalletRequestBody
+     * @param {UserWalletRequestBody} userWalletRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9074,7 +9058,7 @@ export class UserWalletEntityControllerApi extends BaseAPI {
 
     /**
      * create-userwallet
-     * @param {UserWalletRequestBody} userWalletRequestBody
+     * @param {UserWalletRequestBody} userWalletRequestBody 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserWalletEntityControllerApi
@@ -9086,7 +9070,7 @@ export class UserWalletEntityControllerApi extends BaseAPI {
     /**
      * update-userwallet
      * @param {string} id
-     * @param {UserWalletRequestBody} userWalletRequestBody
+     * @param {UserWalletRequestBody} userWalletRequestBody 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9106,7 +9090,7 @@ export const UserWalletSearchControllerApiAxiosParamCreator = function (configur
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -9158,7 +9142,7 @@ export const UserWalletSearchControllerApiFp = function (configuration?: Configu
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -9181,7 +9165,7 @@ export const UserWalletSearchControllerApiFactory = function (configuration?: Co
     return {
         /**
          *
-         * @param {number} [id]
+         * @param {number} [id] 
          * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -9201,7 +9185,7 @@ export const UserWalletSearchControllerApiFactory = function (configuration?: Co
 export class UserWalletSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {number} [id]
+     * @param {number} [id] 
      * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

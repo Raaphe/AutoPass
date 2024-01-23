@@ -24,6 +24,9 @@ public class JwtService {
     @Value("${token.secret.key}")
     String jwtSecretKey;
 
+    @Value("${application.security.same-site-setting}")
+    private String sameSiteCookieSetting;
+
     @Value("${token.expirationms}")
     Long jwtExpiration;
 
@@ -64,7 +67,7 @@ public class JwtService {
                 .maxAge(24 * 60 * 60) // 24 hours
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("Strict")
+                .sameSite(sameSiteCookieSetting)
                 .build();
     }
 

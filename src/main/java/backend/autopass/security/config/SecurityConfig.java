@@ -22,8 +22,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private static final String[] WHITE_LIST_URL = {
-            "/authen/login",
-            "/authen/signup",
+            "/auth/login",
+            "/auth/signup",
             "/swagger-ui.html",
             "/v3/api-docs",
             "/v3/api-docs.yaml",
@@ -48,7 +48,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(unauthorizedEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler)
@@ -58,13 +57,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//            .logout(logout ->
-//                    logout.logoutUrl("/api/v1/auth/logout")
-//                            .addLogoutHandler(logoutHandler)
-//                            .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-//            )
-        ;
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
