@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
 import './Login.scss';
 import {AuthenticationApi, SignInDTO} from '../../Service';
+import ClientAuthService from '../../ClientAuthService';
 
 interface LoginProps {
 }
@@ -20,21 +21,17 @@ const Login: FC<LoginProps> = () => {
         });
     };
 
-    const handleLogin = (event: React.FormEvent) => {
+    const handleLogin = async (event: React.FormEvent) => {
+
         // Prevents page reload. may be removed
         event.preventDefault();
 
-        // /login
-        authApi.authenticate(signInData)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((error) => {
-                alert(error)
-                setSignInData({email: "", password: "",})
-            })
+        var isCredentialCorrect: boolean = await ClientAuthService.login(signInData);
 
-        console.log(signInData);
+        if (!isCredentialCorrect) {
+            setSignInData({email: "", password: "",})
+        } 
+        
     }
 
     return (

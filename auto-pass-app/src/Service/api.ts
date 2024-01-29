@@ -53,13 +53,55 @@ export interface AbstractJsonSchemaPropertyObject {
      */
     'readOnly'?: boolean;
 }
-
 /**
  * @type Authenticate400Response
  * @export
  */
 export type Authenticate400Response = string | { [key: string]: string; };
 
+/**
+ *
+ * @export
+ * @interface AuthenticationResponse
+ */
+export interface AuthenticationResponse {
+    /**
+     *
+     * @type {number}
+     * @memberof AuthenticationResponse
+     */
+    'user_id'?: number;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthenticationResponse
+     */
+    'user_email'?: string;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof AuthenticationResponse
+     */
+    'user_authorities'?: Array<string>;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthenticationResponse
+     */
+    'access_token'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthenticationResponse
+     */
+    'refresh_token'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof AuthenticationResponse
+     */
+    'token_type'?: string;
+}
 /**
  * 
  * @export
@@ -284,23 +326,23 @@ export interface EntityModelUser {
      */
     'enabled'?: boolean;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
     'accountNonLocked'?: boolean;
     /**
      *
-     * @type {boolean}
+     * @type {string}
      * @memberof EntityModelUser
      */
-    'deleted'?: boolean;
+    'username'?: string;
     /**
-     * 
-     * @type {boolean}
+     *
+     * @type {Array<GrantedAuthority>}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
@@ -308,17 +350,17 @@ export interface EntityModelUser {
      */
     'credentialsNonExpired'?: boolean;
     /**
-     * 
-     * @type {Array<GrantedAuthority>}
+     *
+     * @type {boolean}
      * @memberof EntityModelUser
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      *
-     * @type {string}
+     * @type {boolean}
      * @memberof EntityModelUser
      */
-    'username'?: string;
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -956,44 +998,6 @@ export interface PaymentTypeRequestBody {
 /**
  * 
  * @export
- * @interface RefreshTokenDTO
- */
-export interface RefreshTokenDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof RefreshTokenDTO
-     */
-    'refreshToken'?: string;
-}
-/**
- * 
- * @export
- * @interface RefreshTokenResponse
- */
-export interface RefreshTokenResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof RefreshTokenResponse
-     */
-    'access_token'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RefreshTokenResponse
-     */
-    'refresh_token'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RefreshTokenResponse
-     */
-    'token_type'?: string;
-}
-/**
- * 
- * @export
  * @interface RepresentationModelObject
  */
 export interface RepresentationModelObject {
@@ -1197,23 +1201,23 @@ export interface User {
      */
     'enabled'?: boolean;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof User
      */
     'accountNonLocked'?: boolean;
     /**
      *
-     * @type {boolean}
+     * @type {string}
      * @memberof User
      */
-    'deleted'?: boolean;
+    'username'?: string;
     /**
-     * 
-     * @type {boolean}
+     *
+     * @type {Array<GrantedAuthority>}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
@@ -1221,17 +1225,17 @@ export interface User {
      */
     'credentialsNonExpired'?: boolean;
     /**
-     * 
-     * @type {Array<GrantedAuthority>}
+     *
+     * @type {boolean}
      * @memberof User
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      *
-     * @type {string}
+     * @type {boolean}
      * @memberof User
      */
-    'username'?: string;
+    'deleted'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1309,16 +1313,16 @@ export interface UserRequestBody {
     'accountNonLocked'?: boolean;
     /**
      *
-     * @type {boolean}
+     * @type {string}
      * @memberof UserRequestBody
      */
-    'deleted'?: boolean;
+    'username'?: string;
     /**
      *
-     * @type {boolean}
+     * @type {Array<GrantedAuthority>}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
@@ -1326,17 +1330,17 @@ export interface UserRequestBody {
      */
     'credentialsNonExpired'?: boolean;
     /**
-     * 
-     * @type {Array<GrantedAuthority>}
+     *
+     * @type {boolean}
      * @memberof UserRequestBody
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      *
-     * @type {string}
+     * @type {boolean}
      * @memberof UserRequestBody
      */
-    'username'?: string;
+    'deleted'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -1452,46 +1456,14 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
-         * @summary A method to retrieve authentication information for a user.
-         * @param {SignInDTO} signInDTO 
+         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists).
+         * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthentication: async (signInDTO: SignInDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'signInDTO' is not null or undefined
-            assertParamExists('getAuthentication', 'signInDTO', signInDTO)
-            const localVarPath = `/auth/info`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = {method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(signInDTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        logout: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        logout: async (refreshToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'refreshToken' is not null or undefined
+            assertParamExists('logout', 'refreshToken', refreshToken)
             const localVarPath = `/auth/logout`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1504,7 +1476,12 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            if (refreshToken !== undefined) {
+                localVarQueryParameter['refreshToken'] = refreshToken;
+            }
 
+
+    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1516,14 +1493,14 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
-         * @summary Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.
-         * @param {RefreshTokenDTO} refreshTokenDTO 
+         * @summary Used to refresh expired access token. Verifies if refresh token is valid.
+         * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        refreshToken: async (refreshTokenDTO: RefreshTokenDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'refreshTokenDTO' is not null or undefined
-            assertParamExists('refreshToken', 'refreshTokenDTO', refreshTokenDTO)
+        refreshTokenCookie: async (refreshToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'refreshToken' is not null or undefined
+            assertParamExists('refreshTokenCookie', 'refreshToken', refreshToken)
             const localVarPath = `/auth/refresh-token`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1536,38 +1513,10 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(refreshTokenDTO, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @summary Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        refreshTokenCookie: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth/refresh-token-cookie`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (refreshToken !== undefined) {
+                localVarQueryParameter['refreshToken'] = refreshToken;
             }
 
-            const localVarRequestOptions = {method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1579,7 +1528,7 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         *
+         * 
          * @summary Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.
          * @param {SignUpDTO} signUpDTO 
          * @param {*} [options] Override http request option.
@@ -1630,7 +1579,7 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authenticate(signInDTO: SignInDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshTokenResponse>> {
+        async authenticate(signInDTO: SignInDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthenticationResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.authenticate(signInDTO, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['AuthenticationApi.authenticate']?.[index]?.url;
@@ -1638,62 +1587,38 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
         },
         /**
          *
-         * @summary A method to retrieve authentication information for a user.
-         * @param {SignInDTO} signInDTO 
+         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists).
+         * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAuthentication(signInDTO: SignInDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAuthentication(signInDTO, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['AuthenticationApi.getAuthentication']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         *
-         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async logout(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.logout(options);
+        async logout(refreshToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.logout(refreshToken, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['AuthenticationApi.logout']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          *
-         * @summary Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.
-         * @param {RefreshTokenDTO} refreshTokenDTO 
+         * @summary Used to refresh expired access token. Verifies if refresh token is valid.
+         * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async refreshToken(refreshTokenDTO: RefreshTokenDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshTokenResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.refreshToken(refreshTokenDTO, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['AuthenticationApi.refreshToken']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         *
-         * @summary Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async refreshTokenCookie(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.refreshTokenCookie(options);
+        async refreshTokenCookie(refreshToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.refreshTokenCookie(refreshToken, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['AuthenticationApi.refreshTokenCookie']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @summary Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.
          * @param {SignUpDTO} signUpDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async register(signUpDTO: SignUpDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshTokenResponse>> {
+        async register(signUpDTO: SignUpDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthenticationResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.register(signUpDTO, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['AuthenticationApi.register']?.[index]?.url;
@@ -1716,55 +1641,37 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authenticate(signInDTO: SignInDTO, options?: any): AxiosPromise<RefreshTokenResponse> {
+        authenticate(signInDTO: SignInDTO, options?: any): AxiosPromise<AuthenticationResponse> {
             return localVarFp.authenticate(signInDTO, options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @summary A method to retrieve authentication information for a user.
-         * @param {SignInDTO} signInDTO 
+         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists).
+         * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthentication(signInDTO: SignInDTO, options?: any): AxiosPromise<string> {
-            return localVarFp.getAuthentication(signInDTO, options).then((request) => request(axios, basePath));
+        logout(refreshToken: string, options?: any): AxiosPromise<void> {
+            return localVarFp.logout(refreshToken, options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.
+         * @summary Used to refresh expired access token. Verifies if refresh token is valid.
+         * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logout(options?: any): AxiosPromise<void> {
-            return localVarFp.logout(options).then((request) => request(axios, basePath));
+        refreshTokenCookie(refreshToken: string, options?: any): AxiosPromise<string> {
+            return localVarFp.refreshTokenCookie(refreshToken, options).then((request) => request(axios, basePath));
         },
         /**
-         *
-         * @summary Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.
-         * @param {RefreshTokenDTO} refreshTokenDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        refreshToken(refreshTokenDTO: RefreshTokenDTO, options?: any): AxiosPromise<RefreshTokenResponse> {
-            return localVarFp.refreshToken(refreshTokenDTO, options).then((request) => request(axios, basePath));
-        },
-        /**
-         *
-         * @summary Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        refreshTokenCookie(options?: any): AxiosPromise<void> {
-            return localVarFp.refreshTokenCookie(options).then((request) => request(axios, basePath));
-        },
-        /**
-         *
+         * 
          * @summary Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.
          * @param {SignUpDTO} signUpDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        register(signUpDTO: SignUpDTO, options?: any): AxiosPromise<RefreshTokenResponse> {
+        register(signUpDTO: SignUpDTO, options?: any): AxiosPromise<AuthenticationResponse> {
             return localVarFp.register(signUpDTO, options).then((request) => request(axios, basePath));
         },
     };
@@ -1791,52 +1698,30 @@ export class AuthenticationApi extends BaseAPI {
 
     /**
      *
-     * @summary A method to retrieve authentication information for a user.
-     * @param {SignInDTO} signInDTO 
+     * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists).
+     * @param {string} refreshToken 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
      */
-    public getAuthentication(signInDTO: SignInDTO, options?: RawAxiosRequestConfig) {
-        return AuthenticationApiFp(this.configuration).getAuthentication(signInDTO, options).then((request) => request(this.axios, this.basePath));
+    public logout(refreshToken: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).logout(refreshToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
-     * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists) and clears the JWT and refresh token cookies, effectively logging the user out.
+     * @summary Used to refresh expired access token. Verifies if refresh token is valid.
+     * @param {string} refreshToken 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
      */
-    public logout(options?: RawAxiosRequestConfig) {
-        return AuthenticationApiFp(this.configuration).logout(options).then((request) => request(this.axios, this.basePath));
+    public refreshTokenCookie(refreshToken: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).refreshTokenCookie(refreshToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     *
-     * @summary Generates a new access token when the current one is expired but the refresh token in valid and sends it back in the response.
-     * @param {RefreshTokenDTO} refreshTokenDTO 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthenticationApi
-     */
-    public refreshToken(refreshTokenDTO: RefreshTokenDTO, options?: RawAxiosRequestConfig) {
-        return AuthenticationApiFp(this.configuration).refreshToken(refreshTokenDTO, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     *
-     * @summary Allows users to refresh their JWT using a cookie that contains the refresh token. It extracts the refresh token from the cookie, generates a new JWT, and sends it back in a new cookie.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthenticationApi
-     */
-    public refreshTokenCookie(options?: RawAxiosRequestConfig) {
-        return AuthenticationApiFp(this.configuration).refreshTokenCookie(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     *
+     * 
      * @summary Upon successful registration, it returns JWT and refresh token cookies, similar to the login process. This allows the user to immediately log in after signing up.
      * @param {SignUpDTO} signUpDTO 
      * @param {*} [options] Override http request option.
@@ -1859,11 +1744,10 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
         /**
          * delete-membership
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceMembershipDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteItemResourceMembershipDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteItemResourceMembershipDelete', 'id', id)
             const localVarPath = `/memberships/{id}`
@@ -1879,13 +1763,9 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1902,11 +1782,10 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceMembershipGet1: async (page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCollectionResourceMembershipGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/memberships`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1919,7 +1798,7 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -1935,10 +1814,6 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
                 localVarQueryParameter['sort'] = sort;
             }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
-
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1952,11 +1827,10 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
         /**
          * get-membership
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceMembershipGet: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItemResourceMembershipGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getItemResourceMembershipGet', 'id', id)
             const localVarPath = `/memberships/{id}`
@@ -1972,13 +1846,9 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1992,13 +1862,12 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
         },
         /**
          * patch-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {MembershipRequestBody} membershipRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceMembershipPatch: async (id: string, membershipRequestBody: MembershipRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        patchItemResourceMembershipPatch: async (id: string, membershipRequestBody: MembershipRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('patchItemResourceMembershipPatch', 'id', id)
             // verify required parameter 'membershipRequestBody' is not null or undefined
@@ -2016,13 +1885,9 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -2058,7 +1923,7 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -2077,13 +1942,12 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
         },
         /**
          * update-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {MembershipRequestBody} membershipRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceMembershipPut: async (id: string, membershipRequestBody: MembershipRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putItemResourceMembershipPut: async (id: string, membershipRequestBody: MembershipRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('putItemResourceMembershipPut', 'id', id)
             // verify required parameter 'membershipRequestBody' is not null or undefined
@@ -2101,13 +1965,9 @@ export const MembershipEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -2135,12 +1995,11 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
         /**
          * delete-membership
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteItemResourceMembershipDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceMembershipDelete(id, xCustomHeader, options);
+        async deleteItemResourceMembershipDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceMembershipDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['MembershipEntityControllerApi.deleteItemResourceMembershipDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2150,12 +2009,11 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCollectionResourceMembershipGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelMembership>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceMembershipGet1(page, size, sort, xCustomHeader, options);
+        async getCollectionResourceMembershipGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceMembershipGet1(page, size, sort, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['MembershipEntityControllerApi.getCollectionResourceMembershipGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2163,26 +2021,24 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
         /**
          * get-membership
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItemResourceMembershipGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceMembershipGet(id, xCustomHeader, options);
+        async getItemResourceMembershipGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceMembershipGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['MembershipEntityControllerApi.getItemResourceMembershipGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * patch-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {MembershipRequestBody} membershipRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async patchItemResourceMembershipPatch(id: string, membershipRequestBody: MembershipRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceMembershipPatch(id, membershipRequestBody, xCustomHeader, options);
+        async patchItemResourceMembershipPatch(id: string, membershipRequestBody: MembershipRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceMembershipPatch(id, membershipRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['MembershipEntityControllerApi.patchItemResourceMembershipPatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2201,14 +2057,13 @@ export const MembershipEntityControllerApiFp = function (configuration?: Configu
         },
         /**
          * update-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {MembershipRequestBody} membershipRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putItemResourceMembershipPut(id: string, membershipRequestBody: MembershipRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceMembershipPut(id, membershipRequestBody, xCustomHeader, options);
+        async putItemResourceMembershipPut(id: string, membershipRequestBody: MembershipRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceMembershipPut(id, membershipRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['MembershipEntityControllerApi.putItemResourceMembershipPut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2226,45 +2081,41 @@ export const MembershipEntityControllerApiFactory = function (configuration?: Co
         /**
          * delete-membership
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceMembershipDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteItemResourceMembershipDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deleteItemResourceMembershipDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourceMembershipDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-membership
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceMembershipGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: any): AxiosPromise<PagedModelEntityModelMembership> {
-            return localVarFp.getCollectionResourceMembershipGet1(page, size, sort, xCustomHeader, options).then((request) => request(axios, basePath));
+        getCollectionResourceMembershipGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelMembership> {
+            return localVarFp.getCollectionResourceMembershipGet1(page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * get-membership
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceMembershipGet(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelMembership> {
-            return localVarFp.getItemResourceMembershipGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        getItemResourceMembershipGet(id: string, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.getItemResourceMembershipGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * patch-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {MembershipRequestBody} membershipRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceMembershipPatch(id: string, membershipRequestBody: MembershipRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelMembership> {
-            return localVarFp.patchItemResourceMembershipPatch(id, membershipRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        patchItemResourceMembershipPatch(id: string, membershipRequestBody: MembershipRequestBody, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.patchItemResourceMembershipPatch(id, membershipRequestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * create-membership
@@ -2277,14 +2128,13 @@ export const MembershipEntityControllerApiFactory = function (configuration?: Co
         },
         /**
          * update-membership
-         * @param {string} id
+         * @param {string} id 
          * @param {MembershipRequestBody} membershipRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceMembershipPut(id: string, membershipRequestBody: MembershipRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelMembership> {
-            return localVarFp.putItemResourceMembershipPut(id, membershipRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        putItemResourceMembershipPut(id: string, membershipRequestBody: MembershipRequestBody, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.putItemResourceMembershipPut(id, membershipRequestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2299,13 +2149,12 @@ export class MembershipEntityControllerApi extends BaseAPI {
     /**
      * delete-membership
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MembershipEntityControllerApi
      */
-    public deleteItemResourceMembershipDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return MembershipEntityControllerApiFp(this.configuration).deleteItemResourceMembershipDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deleteItemResourceMembershipDelete(id: string, options?: RawAxiosRequestConfig) {
+        return MembershipEntityControllerApiFp(this.configuration).deleteItemResourceMembershipDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2313,38 +2162,35 @@ export class MembershipEntityControllerApi extends BaseAPI {
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MembershipEntityControllerApi
      */
-    public getCollectionResourceMembershipGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return MembershipEntityControllerApiFp(this.configuration).getCollectionResourceMembershipGet1(page, size, sort, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getCollectionResourceMembershipGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return MembershipEntityControllerApiFp(this.configuration).getCollectionResourceMembershipGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-membership
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MembershipEntityControllerApi
      */
-    public getItemResourceMembershipGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return MembershipEntityControllerApiFp(this.configuration).getItemResourceMembershipGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getItemResourceMembershipGet(id: string, options?: RawAxiosRequestConfig) {
+        return MembershipEntityControllerApiFp(this.configuration).getItemResourceMembershipGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * patch-membership
-     * @param {string} id
+     * @param {string} id 
      * @param {MembershipRequestBody} membershipRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MembershipEntityControllerApi
      */
-    public patchItemResourceMembershipPatch(id: string, membershipRequestBody: MembershipRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return MembershipEntityControllerApiFp(this.configuration).patchItemResourceMembershipPatch(id, membershipRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public patchItemResourceMembershipPatch(id: string, membershipRequestBody: MembershipRequestBody, options?: RawAxiosRequestConfig) {
+        return MembershipEntityControllerApiFp(this.configuration).patchItemResourceMembershipPatch(id, membershipRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2360,15 +2206,14 @@ export class MembershipEntityControllerApi extends BaseAPI {
 
     /**
      * update-membership
-     * @param {string} id
+     * @param {string} id 
      * @param {MembershipRequestBody} membershipRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MembershipEntityControllerApi
      */
-    public putItemResourceMembershipPut(id: string, membershipRequestBody: MembershipRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return MembershipEntityControllerApiFp(this.configuration).putItemResourceMembershipPut(id, membershipRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public putItemResourceMembershipPut(id: string, membershipRequestBody: MembershipRequestBody, options?: RawAxiosRequestConfig) {
+        return MembershipEntityControllerApiFp(this.configuration).putItemResourceMembershipPut(id, membershipRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2381,13 +2226,12 @@ export class MembershipEntityControllerApi extends BaseAPI {
 export const MembershipSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchMembershipGet: async (id?: number, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchMembershipGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/memberships/search/getMembershipById`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2400,16 +2244,12 @@ export const MembershipSearchControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (id !== undefined) {
                 localVarQueryParameter['id'] = id;
-            }
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
             }
 
 
@@ -2433,14 +2273,13 @@ export const MembershipSearchControllerApiFp = function (configuration?: Configu
     const localVarAxiosParamCreator = MembershipSearchControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchMembershipGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchMembershipGet(id, xCustomHeader, options);
+        async executeSearchMembershipGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchMembershipGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['MembershipSearchControllerApi.executeSearchMembershipGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2456,14 +2295,13 @@ export const MembershipSearchControllerApiFactory = function (configuration?: Co
     const localVarFp = MembershipSearchControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchMembershipGet(id?: number, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelMembership> {
-            return localVarFp.executeSearchMembershipGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchMembershipGet(id?: number, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.executeSearchMembershipGet(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2476,15 +2314,14 @@ export const MembershipSearchControllerApiFactory = function (configuration?: Co
  */
 export class MembershipSearchControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @param {number} [id] 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MembershipSearchControllerApi
      */
-    public executeSearchMembershipGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return MembershipSearchControllerApiFp(this.configuration).executeSearchMembershipGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchMembershipGet(id?: number, options?: RawAxiosRequestConfig) {
+        return MembershipSearchControllerApiFp(this.configuration).executeSearchMembershipGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2499,11 +2336,10 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
         /**
          * delete-pass
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourcePassDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteItemResourcePassDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteItemResourcePassDelete', 'id', id)
             const localVarPath = `/passes/{id}`
@@ -2519,13 +2355,9 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2542,11 +2374,10 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourcePassGet1: async (page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCollectionResourcePassGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/passes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2559,7 +2390,7 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -2575,10 +2406,6 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
                 localVarQueryParameter['sort'] = sort;
             }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
-
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2592,11 +2419,10 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
         /**
          * get-pass
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourcePassGet: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItemResourcePassGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getItemResourcePassGet', 'id', id)
             const localVarPath = `/passes/{id}`
@@ -2612,13 +2438,9 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2632,13 +2454,12 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * patch-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {PassRequestBody} passRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourcePassPatch: async (id: string, passRequestBody: PassRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        patchItemResourcePassPatch: async (id: string, passRequestBody: PassRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('patchItemResourcePassPatch', 'id', id)
             // verify required parameter 'passRequestBody' is not null or undefined
@@ -2656,13 +2477,9 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -2698,7 +2515,7 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -2717,13 +2534,12 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * update-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {PassRequestBody} passRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourcePassPut: async (id: string, passRequestBody: PassRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putItemResourcePassPut: async (id: string, passRequestBody: PassRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('putItemResourcePassPut', 'id', id)
             // verify required parameter 'passRequestBody' is not null or undefined
@@ -2741,13 +2557,9 @@ export const PassEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -2775,12 +2587,11 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
         /**
          * delete-pass
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteItemResourcePassDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourcePassDelete(id, xCustomHeader, options);
+        async deleteItemResourcePassDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourcePassDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PassEntityControllerApi.deleteItemResourcePassDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2790,12 +2601,11 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCollectionResourcePassGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourcePassGet1(page, size, sort, xCustomHeader, options);
+        async getCollectionResourcePassGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourcePassGet1(page, size, sort, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PassEntityControllerApi.getCollectionResourcePassGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2803,26 +2613,24 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
         /**
          * get-pass
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItemResourcePassGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourcePassGet(id, xCustomHeader, options);
+        async getItemResourcePassGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourcePassGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PassEntityControllerApi.getItemResourcePassGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * patch-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {PassRequestBody} passRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async patchItemResourcePassPatch(id: string, passRequestBody: PassRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourcePassPatch(id, passRequestBody, xCustomHeader, options);
+        async patchItemResourcePassPatch(id: string, passRequestBody: PassRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourcePassPatch(id, passRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PassEntityControllerApi.patchItemResourcePassPatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2841,14 +2649,13 @@ export const PassEntityControllerApiFp = function (configuration?: Configuration
         },
         /**
          * update-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {PassRequestBody} passRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putItemResourcePassPut(id: string, passRequestBody: PassRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourcePassPut(id, passRequestBody, xCustomHeader, options);
+        async putItemResourcePassPut(id: string, passRequestBody: PassRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourcePassPut(id, passRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PassEntityControllerApi.putItemResourcePassPut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2866,45 +2673,41 @@ export const PassEntityControllerApiFactory = function (configuration?: Configur
         /**
          * delete-pass
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourcePassDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteItemResourcePassDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deleteItemResourcePassDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourcePassDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-pass
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourcePassGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: any): AxiosPromise<PagedModelEntityModelPass> {
-            return localVarFp.getCollectionResourcePassGet1(page, size, sort, xCustomHeader, options).then((request) => request(axios, basePath));
+        getCollectionResourcePassGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelPass> {
+            return localVarFp.getCollectionResourcePassGet1(page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * get-pass
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourcePassGet(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.getItemResourcePassGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        getItemResourcePassGet(id: string, options?: any): AxiosPromise<EntityModelPass> {
+            return localVarFp.getItemResourcePassGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * patch-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {PassRequestBody} passRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourcePassPatch(id: string, passRequestBody: PassRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.patchItemResourcePassPatch(id, passRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        patchItemResourcePassPatch(id: string, passRequestBody: PassRequestBody, options?: any): AxiosPromise<EntityModelPass> {
+            return localVarFp.patchItemResourcePassPatch(id, passRequestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * create-pass
@@ -2917,14 +2720,13 @@ export const PassEntityControllerApiFactory = function (configuration?: Configur
         },
         /**
          * update-pass
-         * @param {string} id
+         * @param {string} id 
          * @param {PassRequestBody} passRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourcePassPut(id: string, passRequestBody: PassRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.putItemResourcePassPut(id, passRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        putItemResourcePassPut(id: string, passRequestBody: PassRequestBody, options?: any): AxiosPromise<EntityModelPass> {
+            return localVarFp.putItemResourcePassPut(id, passRequestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2939,13 +2741,12 @@ export class PassEntityControllerApi extends BaseAPI {
     /**
      * delete-pass
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PassEntityControllerApi
      */
-    public deleteItemResourcePassDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PassEntityControllerApiFp(this.configuration).deleteItemResourcePassDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deleteItemResourcePassDelete(id: string, options?: RawAxiosRequestConfig) {
+        return PassEntityControllerApiFp(this.configuration).deleteItemResourcePassDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2953,38 +2754,35 @@ export class PassEntityControllerApi extends BaseAPI {
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PassEntityControllerApi
      */
-    public getCollectionResourcePassGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PassEntityControllerApiFp(this.configuration).getCollectionResourcePassGet1(page, size, sort, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getCollectionResourcePassGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return PassEntityControllerApiFp(this.configuration).getCollectionResourcePassGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-pass
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PassEntityControllerApi
      */
-    public getItemResourcePassGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PassEntityControllerApiFp(this.configuration).getItemResourcePassGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getItemResourcePassGet(id: string, options?: RawAxiosRequestConfig) {
+        return PassEntityControllerApiFp(this.configuration).getItemResourcePassGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * patch-pass
-     * @param {string} id
+     * @param {string} id 
      * @param {PassRequestBody} passRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PassEntityControllerApi
      */
-    public patchItemResourcePassPatch(id: string, passRequestBody: PassRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PassEntityControllerApiFp(this.configuration).patchItemResourcePassPatch(id, passRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public patchItemResourcePassPatch(id: string, passRequestBody: PassRequestBody, options?: RawAxiosRequestConfig) {
+        return PassEntityControllerApiFp(this.configuration).patchItemResourcePassPatch(id, passRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3000,15 +2798,14 @@ export class PassEntityControllerApi extends BaseAPI {
 
     /**
      * update-pass
-     * @param {string} id
+     * @param {string} id 
      * @param {PassRequestBody} passRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PassEntityControllerApi
      */
-    public putItemResourcePassPut(id: string, passRequestBody: PassRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PassEntityControllerApiFp(this.configuration).putItemResourcePassPut(id, passRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public putItemResourcePassPut(id: string, passRequestBody: PassRequestBody, options?: RawAxiosRequestConfig) {
+        return PassEntityControllerApiFp(this.configuration).putItemResourcePassPut(id, passRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3021,13 +2818,12 @@ export class PassEntityControllerApi extends BaseAPI {
 export const PassSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchPassGet: async (id?: number, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchPassGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/passes/search/getPassById`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3040,16 +2836,12 @@ export const PassSearchControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (id !== undefined) {
                 localVarQueryParameter['id'] = id;
-            }
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
             }
 
 
@@ -3073,14 +2865,13 @@ export const PassSearchControllerApiFp = function (configuration?: Configuration
     const localVarAxiosParamCreator = PassSearchControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchPassGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchPassGet(id, xCustomHeader, options);
+        async executeSearchPassGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchPassGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PassSearchControllerApi.executeSearchPassGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -3096,14 +2887,13 @@ export const PassSearchControllerApiFactory = function (configuration?: Configur
     const localVarFp = PassSearchControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchPassGet(id?: number, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.executeSearchPassGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchPassGet(id?: number, options?: any): AxiosPromise<EntityModelPass> {
+            return localVarFp.executeSearchPassGet(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3116,15 +2906,14 @@ export const PassSearchControllerApiFactory = function (configuration?: Configur
  */
 export class PassSearchControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @param {number} [id] 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PassSearchControllerApi
      */
-    public executeSearchPassGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PassSearchControllerApiFp(this.configuration).executeSearchPassGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchPassGet(id?: number, options?: RawAxiosRequestConfig) {
+        return PassSearchControllerApiFp(this.configuration).executeSearchPassGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3139,11 +2928,10 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
         /**
          * delete-paymenttype
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourcePaymenttypeDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteItemResourcePaymenttypeDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteItemResourcePaymenttypeDelete', 'id', id)
             const localVarPath = `/paymentTypes/{id}`
@@ -3159,13 +2947,9 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3182,11 +2966,10 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourcePaymenttypeGet1: async (page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCollectionResourcePaymenttypeGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/paymentTypes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3199,7 +2982,7 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -3215,10 +2998,6 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
                 localVarQueryParameter['sort'] = sort;
             }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
-
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3232,11 +3011,10 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
         /**
          * get-paymenttype
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourcePaymenttypeGet: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItemResourcePaymenttypeGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getItemResourcePaymenttypeGet', 'id', id)
             const localVarPath = `/paymentTypes/{id}`
@@ -3252,13 +3030,9 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3272,13 +3046,12 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
         },
         /**
          * patch-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourcePaymenttypePatch: async (id: string, paymentTypeRequestBody: PaymentTypeRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        patchItemResourcePaymenttypePatch: async (id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('patchItemResourcePaymenttypePatch', 'id', id)
             // verify required parameter 'paymentTypeRequestBody' is not null or undefined
@@ -3296,13 +3069,9 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -3338,7 +3107,7 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -3357,13 +3126,12 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
         },
         /**
          * update-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourcePaymenttypePut: async (id: string, paymentTypeRequestBody: PaymentTypeRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putItemResourcePaymenttypePut: async (id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('putItemResourcePaymenttypePut', 'id', id)
             // verify required parameter 'paymentTypeRequestBody' is not null or undefined
@@ -3381,13 +3149,9 @@ export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -3415,12 +3179,11 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
         /**
          * delete-paymenttype
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteItemResourcePaymenttypeDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourcePaymenttypeDelete(id, xCustomHeader, options);
+        async deleteItemResourcePaymenttypeDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourcePaymenttypeDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.deleteItemResourcePaymenttypeDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -3430,12 +3193,11 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourcePaymenttypeGet1(page, size, sort, xCustomHeader, options);
+        async getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelPaymentType>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourcePaymenttypeGet1(page, size, sort, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.getCollectionResourcePaymenttypeGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -3443,26 +3205,24 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
         /**
          * get-paymenttype
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItemResourcePaymenttypeGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourcePaymenttypeGet(id, xCustomHeader, options);
+        async getItemResourcePaymenttypeGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourcePaymenttypeGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.getItemResourcePaymenttypeGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * patch-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, xCustomHeader, options);
+        async patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.patchItemResourcePaymenttypePatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -3481,14 +3241,13 @@ export const PaymentTypeEntityControllerApiFp = function (configuration?: Config
         },
         /**
          * update-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourcePaymenttypePut(id, paymentTypeRequestBody, xCustomHeader, options);
+        async putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourcePaymenttypePut(id, paymentTypeRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.putItemResourcePaymenttypePut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -3506,45 +3265,41 @@ export const PaymentTypeEntityControllerApiFactory = function (configuration?: C
         /**
          * delete-paymenttype
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourcePaymenttypeDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteItemResourcePaymenttypeDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deleteItemResourcePaymenttypeDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourcePaymenttypeDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-paymenttype
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: any): AxiosPromise<PagedModelEntityModelPaymentType> {
-            return localVarFp.getCollectionResourcePaymenttypeGet1(page, size, sort, xCustomHeader, options).then((request) => request(axios, basePath));
+        getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelPaymentType> {
+            return localVarFp.getCollectionResourcePaymenttypeGet1(page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * get-paymenttype
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourcePaymenttypeGet(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.getItemResourcePaymenttypeGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        getItemResourcePaymenttypeGet(id: string, options?: any): AxiosPromise<EntityModelPaymentType> {
+            return localVarFp.getItemResourcePaymenttypeGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * patch-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: any): AxiosPromise<EntityModelPaymentType> {
+            return localVarFp.patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * create-paymenttype
@@ -3557,14 +3312,13 @@ export const PaymentTypeEntityControllerApiFactory = function (configuration?: C
         },
         /**
          * update-paymenttype
-         * @param {string} id
+         * @param {string} id 
          * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.putItemResourcePaymenttypePut(id, paymentTypeRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: any): AxiosPromise<EntityModelPaymentType> {
+            return localVarFp.putItemResourcePaymenttypePut(id, paymentTypeRequestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3579,13 +3333,12 @@ export class PaymentTypeEntityControllerApi extends BaseAPI {
     /**
      * delete-paymenttype
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypeEntityControllerApi
      */
-    public deleteItemResourcePaymenttypeDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).deleteItemResourcePaymenttypeDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deleteItemResourcePaymenttypeDelete(id: string, options?: RawAxiosRequestConfig) {
+        return PaymentTypeEntityControllerApiFp(this.configuration).deleteItemResourcePaymenttypeDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3593,38 +3346,35 @@ export class PaymentTypeEntityControllerApi extends BaseAPI {
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypeEntityControllerApi
      */
-    public getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).getCollectionResourcePaymenttypeGet1(page, size, sort, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return PaymentTypeEntityControllerApiFp(this.configuration).getCollectionResourcePaymenttypeGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-paymenttype
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypeEntityControllerApi
      */
-    public getItemResourcePaymenttypeGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).getItemResourcePaymenttypeGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getItemResourcePaymenttypeGet(id: string, options?: RawAxiosRequestConfig) {
+        return PaymentTypeEntityControllerApiFp(this.configuration).getItemResourcePaymenttypeGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * patch-paymenttype
-     * @param {string} id
+     * @param {string} id 
      * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypeEntityControllerApi
      */
-    public patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig) {
+        return PaymentTypeEntityControllerApiFp(this.configuration).patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3640,15 +3390,14 @@ export class PaymentTypeEntityControllerApi extends BaseAPI {
 
     /**
      * update-paymenttype
-     * @param {string} id
+     * @param {string} id 
      * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypeEntityControllerApi
      */
-    public putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).putItemResourcePaymenttypePut(id, paymentTypeRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig) {
+        return PaymentTypeEntityControllerApiFp(this.configuration).putItemResourcePaymenttypePut(id, paymentTypeRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3662,13 +3411,12 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
     return {
         /**
          * patch-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferencePaymenttypePatch: async (id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPropertyReferencePaymenttypePatch: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('createPropertyReferencePaymenttypePatch', 'id', id)
             // verify required parameter 'collectionModelObject' is not null or undefined
@@ -3686,13 +3434,9 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -3709,13 +3453,12 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         },
         /**
          * update-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferencePaymenttypePut: async (id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPropertyReferencePaymenttypePut: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('createPropertyReferencePaymenttypePut', 'id', id)
             // verify required parameter 'collectionModelObject' is not null or undefined
@@ -3733,13 +3476,9 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -3756,13 +3495,12 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         },
         /**
          * delete-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceIdPaymenttypeDelete: async (id: string, propertyId: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePropertyReferenceIdPaymenttypeDelete: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deletePropertyReferenceIdPaymenttypeDelete', 'id', id)
             // verify required parameter 'propertyId' is not null or undefined
@@ -3781,13 +3519,9 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3802,11 +3536,10 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         /**
          * delete-user-by-paymenttype-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferencePaymenttypeDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePropertyReferencePaymenttypeDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deletePropertyReferencePaymenttypeDelete', 'id', id)
             const localVarPath = `/paymentTypes/{id}/user`
@@ -3822,13 +3555,9 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3842,13 +3571,12 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         },
         /**
          * get-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferencePaymenttypeGet: async (id: string, propertyId: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        followPropertyReferencePaymenttypeGet: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('followPropertyReferencePaymenttypeGet', 'id', id)
             // verify required parameter 'propertyId' is not null or undefined
@@ -3867,13 +3595,9 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3888,11 +3612,10 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
         /**
          * get-user-by-paymenttype-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferencePaymenttypeGet1: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        followPropertyReferencePaymenttypeGet1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('followPropertyReferencePaymenttypeGet1', 'id', id)
             const localVarPath = `/paymentTypes/{id}/user`
@@ -3908,13 +3631,9 @@ export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = functi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3938,42 +3657,39 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
     return {
         /**
          * patch-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferencePaymenttypePatch(id, collectionModelObject, xCustomHeader, options);
+        async createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferencePaymenttypePatch(id, collectionModelObject, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.createPropertyReferencePaymenttypePatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * update-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferencePaymenttypePut(id, collectionModelObject, xCustomHeader, options);
+        async createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferencePaymenttypePut(id, collectionModelObject, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.createPropertyReferencePaymenttypePut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * delete-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, xCustomHeader, options);
+        async deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.deletePropertyReferenceIdPaymenttypeDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -3981,26 +3697,24 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
         /**
          * delete-user-by-paymenttype-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePropertyReferencePaymenttypeDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferencePaymenttypeDelete(id, xCustomHeader, options);
+        async deletePropertyReferencePaymenttypeDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferencePaymenttypeDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.deletePropertyReferencePaymenttypeDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * get-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async followPropertyReferencePaymenttypeGet(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferencePaymenttypeGet(id, propertyId, xCustomHeader, options);
+        async followPropertyReferencePaymenttypeGet(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferencePaymenttypeGet(id, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.followPropertyReferencePaymenttypeGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -4008,12 +3722,11 @@ export const PaymentTypePropertyReferenceControllerApiFp = function (configurati
         /**
          * get-user-by-paymenttype-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async followPropertyReferencePaymenttypeGet1(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferencePaymenttypeGet1(id, xCustomHeader, options);
+        async followPropertyReferencePaymenttypeGet1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferencePaymenttypeGet1(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.followPropertyReferencePaymenttypeGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -4030,67 +3743,61 @@ export const PaymentTypePropertyReferenceControllerApiFactory = function (config
     return {
         /**
          * patch-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.createPropertyReferencePaymenttypePatch(id, collectionModelObject, xCustomHeader, options).then((request) => request(axios, basePath));
+        createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.createPropertyReferencePaymenttypePatch(id, collectionModelObject, options).then((request) => request(axios, basePath));
         },
         /**
          * update-user-by-paymenttype-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.createPropertyReferencePaymenttypePut(id, collectionModelObject, xCustomHeader, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * delete-user-by-paymenttype-Id
-         * @param {string} id
-         * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, xCustomHeader, options).then((request) => request(axios, basePath));
+        createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.createPropertyReferencePaymenttypePut(id, collectionModelObject, options).then((request) => request(axios, basePath));
         },
         /**
          * delete-user-by-paymenttype-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
+         * @param {string} propertyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferencePaymenttypeDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferencePaymenttypeDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, options).then((request) => request(axios, basePath));
         },
         /**
-         * get-user-by-paymenttype-Id
-         * @param {string} id
-         * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
+         * delete-user-by-paymenttype-Id
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferencePaymenttypeGet(id: string, propertyId: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.followPropertyReferencePaymenttypeGet(id, propertyId, xCustomHeader, options).then((request) => request(axios, basePath));
+        deletePropertyReferencePaymenttypeDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferencePaymenttypeDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-user-by-paymenttype-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
+         * @param {string} propertyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferencePaymenttypeGet1(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.followPropertyReferencePaymenttypeGet1(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        followPropertyReferencePaymenttypeGet(id: string, propertyId: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.followPropertyReferencePaymenttypeGet(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-user-by-paymenttype-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferencePaymenttypeGet1(id: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.followPropertyReferencePaymenttypeGet1(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -4104,78 +3811,72 @@ export const PaymentTypePropertyReferenceControllerApiFactory = function (config
 export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
     /**
      * patch-user-by-paymenttype-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {CollectionModelObject} collectionModelObject 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypePropertyReferenceControllerApi
      */
-    public createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).createPropertyReferencePaymenttypePatch(id, collectionModelObject, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).createPropertyReferencePaymenttypePatch(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * update-user-by-paymenttype-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {CollectionModelObject} collectionModelObject 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypePropertyReferenceControllerApi
      */
-    public createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).createPropertyReferencePaymenttypePut(id, collectionModelObject, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * delete-user-by-paymenttype-Id
-     * @param {string} id
-     * @param {string} propertyId 
-     * @param {string} [xCustomHeader] Custom header
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypePropertyReferenceControllerApi
-     */
-    public deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).createPropertyReferencePaymenttypePut(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * delete-user-by-paymenttype-Id
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} propertyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypePropertyReferenceControllerApi
      */
-    public deletePropertyReferencePaymenttypeDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).deletePropertyReferencePaymenttypeDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * get-user-by-paymenttype-Id
-     * @param {string} id
-     * @param {string} propertyId 
-     * @param {string} [xCustomHeader] Custom header
+     * delete-user-by-paymenttype-Id
+     * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypePropertyReferenceControllerApi
      */
-    public followPropertyReferencePaymenttypeGet(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).followPropertyReferencePaymenttypeGet(id, propertyId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deletePropertyReferencePaymenttypeDelete(id: string, options?: RawAxiosRequestConfig) {
+        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).deletePropertyReferencePaymenttypeDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-user-by-paymenttype-Id
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} propertyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypePropertyReferenceControllerApi
      */
-    public followPropertyReferencePaymenttypeGet1(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).followPropertyReferencePaymenttypeGet1(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public followPropertyReferencePaymenttypeGet(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).followPropertyReferencePaymenttypeGet(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-user-by-paymenttype-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PaymentTypePropertyReferenceControllerApi
+     */
+    public followPropertyReferencePaymenttypeGet1(id: string, options?: RawAxiosRequestConfig) {
+        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).followPropertyReferencePaymenttypeGet1(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4188,13 +3889,12 @@ export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
 export const PaymentTypeSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchPaymenttypeGet: async (id?: number, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchPaymenttypeGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/paymentTypes/search/getPaymentTypeById`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4207,16 +3907,12 @@ export const PaymentTypeSearchControllerApiAxiosParamCreator = function (configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (id !== undefined) {
                 localVarQueryParameter['id'] = id;
-            }
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
             }
 
 
@@ -4240,14 +3936,13 @@ export const PaymentTypeSearchControllerApiFp = function (configuration?: Config
     const localVarAxiosParamCreator = PaymentTypeSearchControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchPaymenttypeGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchPaymenttypeGet(id, xCustomHeader, options);
+        async executeSearchPaymenttypeGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchPaymenttypeGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PaymentTypeSearchControllerApi.executeSearchPaymenttypeGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -4263,14 +3958,13 @@ export const PaymentTypeSearchControllerApiFactory = function (configuration?: C
     const localVarFp = PaymentTypeSearchControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchPaymenttypeGet(id?: number, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.executeSearchPaymenttypeGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchPaymenttypeGet(id?: number, options?: any): AxiosPromise<EntityModelPaymentType> {
+            return localVarFp.executeSearchPaymenttypeGet(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -4283,15 +3977,14 @@ export const PaymentTypeSearchControllerApiFactory = function (configuration?: C
  */
 export class PaymentTypeSearchControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @param {number} [id] 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PaymentTypeSearchControllerApi
      */
-    public executeSearchPaymenttypeGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypeSearchControllerApiFp(this.configuration).executeSearchPaymenttypeGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchPaymenttypeGet(id?: number, options?: RawAxiosRequestConfig) {
+        return PaymentTypeSearchControllerApiFp(this.configuration).executeSearchPaymenttypeGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4321,7 +4014,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4353,7 +4046,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4385,7 +4078,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4417,7 +4110,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4449,7 +4142,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4481,7 +4174,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4513,7 +4206,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4545,7 +4238,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4833,11 +4526,10 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
         /**
          * delete-ticket
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceTicketDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteItemResourceTicketDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteItemResourceTicketDelete', 'id', id)
             const localVarPath = `/tickets/{id}`
@@ -4853,13 +4545,9 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4876,11 +4564,10 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceTicketGet1: async (page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCollectionResourceTicketGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tickets`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4893,7 +4580,7 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -4909,10 +4596,6 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
                 localVarQueryParameter['sort'] = sort;
             }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
-
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -4926,11 +4609,10 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
         /**
          * get-ticket
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceTicketGet: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItemResourceTicketGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getItemResourceTicketGet', 'id', id)
             const localVarPath = `/tickets/{id}`
@@ -4946,13 +4628,9 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -4966,13 +4644,12 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
         },
         /**
          * patch-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {TicketRequestBody} ticketRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceTicketPatch: async (id: string, ticketRequestBody: TicketRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        patchItemResourceTicketPatch: async (id: string, ticketRequestBody: TicketRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('patchItemResourceTicketPatch', 'id', id)
             // verify required parameter 'ticketRequestBody' is not null or undefined
@@ -4990,13 +4667,9 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -5032,7 +4705,7 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -5051,13 +4724,12 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
         },
         /**
          * update-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {TicketRequestBody} ticketRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceTicketPut: async (id: string, ticketRequestBody: TicketRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putItemResourceTicketPut: async (id: string, ticketRequestBody: TicketRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('putItemResourceTicketPut', 'id', id)
             // verify required parameter 'ticketRequestBody' is not null or undefined
@@ -5075,13 +4747,9 @@ export const TicketEntityControllerApiAxiosParamCreator = function (configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -5109,12 +4777,11 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
         /**
          * delete-ticket
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteItemResourceTicketDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceTicketDelete(id, xCustomHeader, options);
+        async deleteItemResourceTicketDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceTicketDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TicketEntityControllerApi.deleteItemResourceTicketDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5124,12 +4791,11 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCollectionResourceTicketGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelTicket>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceTicketGet1(page, size, sort, xCustomHeader, options);
+        async getCollectionResourceTicketGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelTicket>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceTicketGet1(page, size, sort, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TicketEntityControllerApi.getCollectionResourceTicketGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5137,26 +4803,24 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
         /**
          * get-ticket
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItemResourceTicketGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceTicketGet(id, xCustomHeader, options);
+        async getItemResourceTicketGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceTicketGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TicketEntityControllerApi.getItemResourceTicketGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * patch-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {TicketRequestBody} ticketRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async patchItemResourceTicketPatch(id: string, ticketRequestBody: TicketRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceTicketPatch(id, ticketRequestBody, xCustomHeader, options);
+        async patchItemResourceTicketPatch(id: string, ticketRequestBody: TicketRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceTicketPatch(id, ticketRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TicketEntityControllerApi.patchItemResourceTicketPatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5175,14 +4839,13 @@ export const TicketEntityControllerApiFp = function (configuration?: Configurati
         },
         /**
          * update-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {TicketRequestBody} ticketRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putItemResourceTicketPut(id: string, ticketRequestBody: TicketRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceTicketPut(id, ticketRequestBody, xCustomHeader, options);
+        async putItemResourceTicketPut(id: string, ticketRequestBody: TicketRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceTicketPut(id, ticketRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TicketEntityControllerApi.putItemResourceTicketPut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5200,45 +4863,41 @@ export const TicketEntityControllerApiFactory = function (configuration?: Config
         /**
          * delete-ticket
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceTicketDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteItemResourceTicketDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deleteItemResourceTicketDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourceTicketDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-ticket
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceTicketGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: any): AxiosPromise<PagedModelEntityModelTicket> {
-            return localVarFp.getCollectionResourceTicketGet1(page, size, sort, xCustomHeader, options).then((request) => request(axios, basePath));
+        getCollectionResourceTicketGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelTicket> {
+            return localVarFp.getCollectionResourceTicketGet1(page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * get-ticket
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceTicketGet(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelTicket> {
-            return localVarFp.getItemResourceTicketGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        getItemResourceTicketGet(id: string, options?: any): AxiosPromise<EntityModelTicket> {
+            return localVarFp.getItemResourceTicketGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * patch-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {TicketRequestBody} ticketRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceTicketPatch(id: string, ticketRequestBody: TicketRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelTicket> {
-            return localVarFp.patchItemResourceTicketPatch(id, ticketRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        patchItemResourceTicketPatch(id: string, ticketRequestBody: TicketRequestBody, options?: any): AxiosPromise<EntityModelTicket> {
+            return localVarFp.patchItemResourceTicketPatch(id, ticketRequestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * create-ticket
@@ -5251,14 +4910,13 @@ export const TicketEntityControllerApiFactory = function (configuration?: Config
         },
         /**
          * update-ticket
-         * @param {string} id
+         * @param {string} id 
          * @param {TicketRequestBody} ticketRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceTicketPut(id: string, ticketRequestBody: TicketRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelTicket> {
-            return localVarFp.putItemResourceTicketPut(id, ticketRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        putItemResourceTicketPut(id: string, ticketRequestBody: TicketRequestBody, options?: any): AxiosPromise<EntityModelTicket> {
+            return localVarFp.putItemResourceTicketPut(id, ticketRequestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5273,13 +4931,12 @@ export class TicketEntityControllerApi extends BaseAPI {
     /**
      * delete-ticket
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketEntityControllerApi
      */
-    public deleteItemResourceTicketDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TicketEntityControllerApiFp(this.configuration).deleteItemResourceTicketDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deleteItemResourceTicketDelete(id: string, options?: RawAxiosRequestConfig) {
+        return TicketEntityControllerApiFp(this.configuration).deleteItemResourceTicketDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5287,38 +4944,35 @@ export class TicketEntityControllerApi extends BaseAPI {
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketEntityControllerApi
      */
-    public getCollectionResourceTicketGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TicketEntityControllerApiFp(this.configuration).getCollectionResourceTicketGet1(page, size, sort, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getCollectionResourceTicketGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return TicketEntityControllerApiFp(this.configuration).getCollectionResourceTicketGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-ticket
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketEntityControllerApi
      */
-    public getItemResourceTicketGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TicketEntityControllerApiFp(this.configuration).getItemResourceTicketGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getItemResourceTicketGet(id: string, options?: RawAxiosRequestConfig) {
+        return TicketEntityControllerApiFp(this.configuration).getItemResourceTicketGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * patch-ticket
-     * @param {string} id
+     * @param {string} id 
      * @param {TicketRequestBody} ticketRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketEntityControllerApi
      */
-    public patchItemResourceTicketPatch(id: string, ticketRequestBody: TicketRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TicketEntityControllerApiFp(this.configuration).patchItemResourceTicketPatch(id, ticketRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public patchItemResourceTicketPatch(id: string, ticketRequestBody: TicketRequestBody, options?: RawAxiosRequestConfig) {
+        return TicketEntityControllerApiFp(this.configuration).patchItemResourceTicketPatch(id, ticketRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5334,15 +4988,14 @@ export class TicketEntityControllerApi extends BaseAPI {
 
     /**
      * update-ticket
-     * @param {string} id
+     * @param {string} id 
      * @param {TicketRequestBody} ticketRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketEntityControllerApi
      */
-    public putItemResourceTicketPut(id: string, ticketRequestBody: TicketRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TicketEntityControllerApiFp(this.configuration).putItemResourceTicketPut(id, ticketRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public putItemResourceTicketPut(id: string, ticketRequestBody: TicketRequestBody, options?: RawAxiosRequestConfig) {
+        return TicketEntityControllerApiFp(this.configuration).putItemResourceTicketPut(id, ticketRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5355,13 +5008,12 @@ export class TicketEntityControllerApi extends BaseAPI {
 export const TicketSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchTicketGet: async (id?: number, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchTicketGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tickets/search/getTicketById`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5374,16 +5026,12 @@ export const TicketSearchControllerApiAxiosParamCreator = function (configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (id !== undefined) {
                 localVarQueryParameter['id'] = id;
-            }
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
             }
 
 
@@ -5407,14 +5055,13 @@ export const TicketSearchControllerApiFp = function (configuration?: Configurati
     const localVarAxiosParamCreator = TicketSearchControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchTicketGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchTicketGet(id, xCustomHeader, options);
+        async executeSearchTicketGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchTicketGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TicketSearchControllerApi.executeSearchTicketGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5430,14 +5077,13 @@ export const TicketSearchControllerApiFactory = function (configuration?: Config
     const localVarFp = TicketSearchControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchTicketGet(id?: number, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelTicket> {
-            return localVarFp.executeSearchTicketGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchTicketGet(id?: number, options?: any): AxiosPromise<EntityModelTicket> {
+            return localVarFp.executeSearchTicketGet(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5450,15 +5096,14 @@ export const TicketSearchControllerApiFactory = function (configuration?: Config
  */
 export class TicketSearchControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @param {number} [id] 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketSearchControllerApi
      */
-    public executeSearchTicketGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TicketSearchControllerApiFp(this.configuration).executeSearchTicketGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchTicketGet(id?: number, options?: RawAxiosRequestConfig) {
+        return TicketSearchControllerApiFp(this.configuration).executeSearchTicketGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5473,11 +5118,10 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
         /**
          * delete-token
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceTokenDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteItemResourceTokenDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteItemResourceTokenDelete', 'id', id)
             const localVarPath = `/tokens/{id}`
@@ -5493,13 +5137,9 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5516,11 +5156,10 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceTokenGet1: async (page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCollectionResourceTokenGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tokens`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5533,7 +5172,7 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -5549,10 +5188,6 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
                 localVarQueryParameter['sort'] = sort;
             }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
-
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -5566,11 +5201,10 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
         /**
          * get-token
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceTokenGet: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItemResourceTokenGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getItemResourceTokenGet', 'id', id)
             const localVarPath = `/tokens/{id}`
@@ -5586,13 +5220,9 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -5606,13 +5236,12 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
         },
         /**
          * patch-token
-         * @param {string} id
+         * @param {string} id 
          * @param {TokenRequestBody} tokenRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceTokenPatch: async (id: string, tokenRequestBody: TokenRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        patchItemResourceTokenPatch: async (id: string, tokenRequestBody: TokenRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('patchItemResourceTokenPatch', 'id', id)
             // verify required parameter 'tokenRequestBody' is not null or undefined
@@ -5630,13 +5259,9 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -5672,7 +5297,7 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -5691,13 +5316,12 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
         },
         /**
          * update-token
-         * @param {string} id
+         * @param {string} id 
          * @param {TokenRequestBody} tokenRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceTokenPut: async (id: string, tokenRequestBody: TokenRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putItemResourceTokenPut: async (id: string, tokenRequestBody: TokenRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('putItemResourceTokenPut', 'id', id)
             // verify required parameter 'tokenRequestBody' is not null or undefined
@@ -5715,13 +5339,9 @@ export const TokenEntityControllerApiAxiosParamCreator = function (configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -5749,12 +5369,11 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
         /**
          * delete-token
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteItemResourceTokenDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceTokenDelete(id, xCustomHeader, options);
+        async deleteItemResourceTokenDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceTokenDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenEntityControllerApi.deleteItemResourceTokenDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5764,12 +5383,11 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCollectionResourceTokenGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelToken>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceTokenGet1(page, size, sort, xCustomHeader, options);
+        async getCollectionResourceTokenGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceTokenGet1(page, size, sort, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenEntityControllerApi.getCollectionResourceTokenGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5777,26 +5395,24 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
         /**
          * get-token
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItemResourceTokenGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceTokenGet(id, xCustomHeader, options);
+        async getItemResourceTokenGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceTokenGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenEntityControllerApi.getItemResourceTokenGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * patch-token
-         * @param {string} id
+         * @param {string} id 
          * @param {TokenRequestBody} tokenRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async patchItemResourceTokenPatch(id: string, tokenRequestBody: TokenRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceTokenPatch(id, tokenRequestBody, xCustomHeader, options);
+        async patchItemResourceTokenPatch(id: string, tokenRequestBody: TokenRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceTokenPatch(id, tokenRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenEntityControllerApi.patchItemResourceTokenPatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5815,14 +5431,13 @@ export const TokenEntityControllerApiFp = function (configuration?: Configuratio
         },
         /**
          * update-token
-         * @param {string} id
+         * @param {string} id 
          * @param {TokenRequestBody} tokenRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putItemResourceTokenPut(id: string, tokenRequestBody: TokenRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceTokenPut(id, tokenRequestBody, xCustomHeader, options);
+        async putItemResourceTokenPut(id: string, tokenRequestBody: TokenRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceTokenPut(id, tokenRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenEntityControllerApi.putItemResourceTokenPut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -5840,45 +5455,41 @@ export const TokenEntityControllerApiFactory = function (configuration?: Configu
         /**
          * delete-token
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceTokenDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteItemResourceTokenDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deleteItemResourceTokenDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourceTokenDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-token
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceTokenGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: any): AxiosPromise<PagedModelEntityModelToken> {
-            return localVarFp.getCollectionResourceTokenGet1(page, size, sort, xCustomHeader, options).then((request) => request(axios, basePath));
+        getCollectionResourceTokenGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelToken> {
+            return localVarFp.getCollectionResourceTokenGet1(page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * get-token
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceTokenGet(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelToken> {
-            return localVarFp.getItemResourceTokenGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        getItemResourceTokenGet(id: string, options?: any): AxiosPromise<EntityModelToken> {
+            return localVarFp.getItemResourceTokenGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * patch-token
-         * @param {string} id
+         * @param {string} id 
          * @param {TokenRequestBody} tokenRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceTokenPatch(id: string, tokenRequestBody: TokenRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelToken> {
-            return localVarFp.patchItemResourceTokenPatch(id, tokenRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        patchItemResourceTokenPatch(id: string, tokenRequestBody: TokenRequestBody, options?: any): AxiosPromise<EntityModelToken> {
+            return localVarFp.patchItemResourceTokenPatch(id, tokenRequestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * create-token
@@ -5891,14 +5502,13 @@ export const TokenEntityControllerApiFactory = function (configuration?: Configu
         },
         /**
          * update-token
-         * @param {string} id
+         * @param {string} id 
          * @param {TokenRequestBody} tokenRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceTokenPut(id: string, tokenRequestBody: TokenRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelToken> {
-            return localVarFp.putItemResourceTokenPut(id, tokenRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        putItemResourceTokenPut(id: string, tokenRequestBody: TokenRequestBody, options?: any): AxiosPromise<EntityModelToken> {
+            return localVarFp.putItemResourceTokenPut(id, tokenRequestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5913,13 +5523,12 @@ export class TokenEntityControllerApi extends BaseAPI {
     /**
      * delete-token
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenEntityControllerApi
      */
-    public deleteItemResourceTokenDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenEntityControllerApiFp(this.configuration).deleteItemResourceTokenDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deleteItemResourceTokenDelete(id: string, options?: RawAxiosRequestConfig) {
+        return TokenEntityControllerApiFp(this.configuration).deleteItemResourceTokenDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5927,38 +5536,35 @@ export class TokenEntityControllerApi extends BaseAPI {
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenEntityControllerApi
      */
-    public getCollectionResourceTokenGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenEntityControllerApiFp(this.configuration).getCollectionResourceTokenGet1(page, size, sort, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getCollectionResourceTokenGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return TokenEntityControllerApiFp(this.configuration).getCollectionResourceTokenGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-token
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenEntityControllerApi
      */
-    public getItemResourceTokenGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenEntityControllerApiFp(this.configuration).getItemResourceTokenGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getItemResourceTokenGet(id: string, options?: RawAxiosRequestConfig) {
+        return TokenEntityControllerApiFp(this.configuration).getItemResourceTokenGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * patch-token
-     * @param {string} id
+     * @param {string} id 
      * @param {TokenRequestBody} tokenRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenEntityControllerApi
      */
-    public patchItemResourceTokenPatch(id: string, tokenRequestBody: TokenRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenEntityControllerApiFp(this.configuration).patchItemResourceTokenPatch(id, tokenRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public patchItemResourceTokenPatch(id: string, tokenRequestBody: TokenRequestBody, options?: RawAxiosRequestConfig) {
+        return TokenEntityControllerApiFp(this.configuration).patchItemResourceTokenPatch(id, tokenRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5974,15 +5580,14 @@ export class TokenEntityControllerApi extends BaseAPI {
 
     /**
      * update-token
-     * @param {string} id
+     * @param {string} id 
      * @param {TokenRequestBody} tokenRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenEntityControllerApi
      */
-    public putItemResourceTokenPut(id: string, tokenRequestBody: TokenRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenEntityControllerApiFp(this.configuration).putItemResourceTokenPut(id, tokenRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public putItemResourceTokenPut(id: string, tokenRequestBody: TokenRequestBody, options?: RawAxiosRequestConfig) {
+        return TokenEntityControllerApiFp(this.configuration).putItemResourceTokenPut(id, tokenRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5996,13 +5601,12 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
     return {
         /**
          * patch-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceTokenPatch: async (id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPropertyReferenceTokenPatch: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('createPropertyReferenceTokenPatch', 'id', id)
             // verify required parameter 'collectionModelObject' is not null or undefined
@@ -6020,13 +5624,9 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -6043,13 +5643,12 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         },
         /**
          * update-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceTokenPut: async (id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPropertyReferenceTokenPut: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('createPropertyReferenceTokenPut', 'id', id)
             // verify required parameter 'collectionModelObject' is not null or undefined
@@ -6067,13 +5666,9 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -6090,13 +5685,12 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         },
         /**
          * delete-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceIdTokenDelete: async (id: string, propertyId: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePropertyReferenceIdTokenDelete: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deletePropertyReferenceIdTokenDelete', 'id', id)
             // verify required parameter 'propertyId' is not null or undefined
@@ -6115,13 +5709,9 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6136,11 +5726,10 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         /**
          * delete-user-by-token-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceTokenDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePropertyReferenceTokenDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deletePropertyReferenceTokenDelete', 'id', id)
             const localVarPath = `/tokens/{id}/user`
@@ -6156,13 +5745,9 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6176,13 +5761,12 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         },
         /**
          * get-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceTokenGet: async (id: string, propertyId: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        followPropertyReferenceTokenGet: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('followPropertyReferenceTokenGet', 'id', id)
             // verify required parameter 'propertyId' is not null or undefined
@@ -6201,13 +5785,9 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6222,11 +5802,10 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
         /**
          * get-user-by-token-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceTokenGet1: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        followPropertyReferenceTokenGet1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('followPropertyReferenceTokenGet1', 'id', id)
             const localVarPath = `/tokens/{id}/user`
@@ -6242,13 +5821,9 @@ export const TokenPropertyReferenceControllerApiAxiosParamCreator = function (co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6272,42 +5847,39 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
     return {
         /**
          * patch-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPropertyReferenceTokenPatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceTokenPatch(id, collectionModelObject, xCustomHeader, options);
+        async createPropertyReferenceTokenPatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceTokenPatch(id, collectionModelObject, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenPropertyReferenceControllerApi.createPropertyReferenceTokenPatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * update-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPropertyReferenceTokenPut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceTokenPut(id, collectionModelObject, xCustomHeader, options);
+        async createPropertyReferenceTokenPut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceTokenPut(id, collectionModelObject, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenPropertyReferenceControllerApi.createPropertyReferenceTokenPut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * delete-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePropertyReferenceIdTokenDelete(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdTokenDelete(id, propertyId, xCustomHeader, options);
+        async deletePropertyReferenceIdTokenDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdTokenDelete(id, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenPropertyReferenceControllerApi.deletePropertyReferenceIdTokenDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -6315,26 +5887,24 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
         /**
          * delete-user-by-token-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePropertyReferenceTokenDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceTokenDelete(id, xCustomHeader, options);
+        async deletePropertyReferenceTokenDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceTokenDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenPropertyReferenceControllerApi.deletePropertyReferenceTokenDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * get-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async followPropertyReferenceTokenGet(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceTokenGet(id, propertyId, xCustomHeader, options);
+        async followPropertyReferenceTokenGet(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceTokenGet(id, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenPropertyReferenceControllerApi.followPropertyReferenceTokenGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -6342,12 +5912,11 @@ export const TokenPropertyReferenceControllerApiFp = function (configuration?: C
         /**
          * get-user-by-token-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async followPropertyReferenceTokenGet1(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceTokenGet1(id, xCustomHeader, options);
+        async followPropertyReferenceTokenGet1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceTokenGet1(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenPropertyReferenceControllerApi.followPropertyReferenceTokenGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -6364,67 +5933,61 @@ export const TokenPropertyReferenceControllerApiFactory = function (configuratio
     return {
         /**
          * patch-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceTokenPatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.createPropertyReferenceTokenPatch(id, collectionModelObject, xCustomHeader, options).then((request) => request(axios, basePath));
+        createPropertyReferenceTokenPatch(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.createPropertyReferenceTokenPatch(id, collectionModelObject, options).then((request) => request(axios, basePath));
         },
         /**
          * update-user-by-token-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceTokenPut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.createPropertyReferenceTokenPut(id, collectionModelObject, xCustomHeader, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * delete-user-by-token-Id
-         * @param {string} id
-         * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deletePropertyReferenceIdTokenDelete(id: string, propertyId: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferenceIdTokenDelete(id, propertyId, xCustomHeader, options).then((request) => request(axios, basePath));
+        createPropertyReferenceTokenPut(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.createPropertyReferenceTokenPut(id, collectionModelObject, options).then((request) => request(axios, basePath));
         },
         /**
          * delete-user-by-token-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
+         * @param {string} propertyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceTokenDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferenceTokenDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deletePropertyReferenceIdTokenDelete(id: string, propertyId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceIdTokenDelete(id, propertyId, options).then((request) => request(axios, basePath));
         },
         /**
-         * get-user-by-token-Id
-         * @param {string} id
-         * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
+         * delete-user-by-token-Id
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceTokenGet(id: string, propertyId: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.followPropertyReferenceTokenGet(id, propertyId, xCustomHeader, options).then((request) => request(axios, basePath));
+        deletePropertyReferenceTokenDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceTokenDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-user-by-token-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
+         * @param {string} propertyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceTokenGet1(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.followPropertyReferenceTokenGet1(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        followPropertyReferenceTokenGet(id: string, propertyId: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.followPropertyReferenceTokenGet(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-user-by-token-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceTokenGet1(id: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.followPropertyReferenceTokenGet1(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -6438,78 +6001,72 @@ export const TokenPropertyReferenceControllerApiFactory = function (configuratio
 export class TokenPropertyReferenceControllerApi extends BaseAPI {
     /**
      * patch-user-by-token-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {CollectionModelObject} collectionModelObject 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenPropertyReferenceControllerApi
      */
-    public createPropertyReferenceTokenPatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceTokenPatch(id, collectionModelObject, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public createPropertyReferenceTokenPatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return TokenPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceTokenPatch(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * update-user-by-token-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {CollectionModelObject} collectionModelObject 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenPropertyReferenceControllerApi
      */
-    public createPropertyReferenceTokenPut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceTokenPut(id, collectionModelObject, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * delete-user-by-token-Id
-     * @param {string} id
-     * @param {string} propertyId 
-     * @param {string} [xCustomHeader] Custom header
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TokenPropertyReferenceControllerApi
-     */
-    public deletePropertyReferenceIdTokenDelete(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdTokenDelete(id, propertyId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public createPropertyReferenceTokenPut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return TokenPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceTokenPut(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * delete-user-by-token-Id
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} propertyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenPropertyReferenceControllerApi
      */
-    public deletePropertyReferenceTokenDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceTokenDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deletePropertyReferenceIdTokenDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return TokenPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdTokenDelete(id, propertyId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * get-user-by-token-Id
-     * @param {string} id
-     * @param {string} propertyId 
-     * @param {string} [xCustomHeader] Custom header
+     * delete-user-by-token-Id
+     * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenPropertyReferenceControllerApi
      */
-    public followPropertyReferenceTokenGet(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceTokenGet(id, propertyId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deletePropertyReferenceTokenDelete(id: string, options?: RawAxiosRequestConfig) {
+        return TokenPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceTokenDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-user-by-token-Id
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} propertyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenPropertyReferenceControllerApi
      */
-    public followPropertyReferenceTokenGet1(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceTokenGet1(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public followPropertyReferenceTokenGet(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return TokenPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceTokenGet(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-user-by-token-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TokenPropertyReferenceControllerApi
+     */
+    public followPropertyReferenceTokenGet1(id: string, options?: RawAxiosRequestConfig) {
+        return TokenPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceTokenGet1(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -6522,13 +6079,12 @@ export class TokenPropertyReferenceControllerApi extends BaseAPI {
 export const TokenSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @param {string} [token] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchTokenGet: async (token?: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchTokenGet: async (token?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tokens/search/findByToken`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6541,7 +6097,7 @@ export const TokenSearchControllerApiAxiosParamCreator = function (configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -6549,8 +6105,43 @@ export const TokenSearchControllerApiAxiosParamCreator = function (configuration
                 localVarQueryParameter['token'] = token;
             }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {User} [user]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchTokenGet1: async (user?: User, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/tokens/search/findByUser`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = {method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (user !== undefined) {
+                for (const [key, value] of Object.entries(user)) {
+                    localVarQueryParameter[key] = value;
+                }
             }
 
 
@@ -6574,16 +6165,27 @@ export const TokenSearchControllerApiFp = function (configuration?: Configuratio
     const localVarAxiosParamCreator = TokenSearchControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @param {string} [token] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchTokenGet(token?: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchTokenGet(token, xCustomHeader, options);
+        async executeSearchTokenGet(token?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchTokenGet(token, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TokenSearchControllerApi.executeSearchTokenGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         *
+         * @param {User} [user]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchTokenGet1(user?: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchTokenGet1(user, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TokenSearchControllerApi.executeSearchTokenGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
@@ -6597,14 +6199,22 @@ export const TokenSearchControllerApiFactory = function (configuration?: Configu
     const localVarFp = TokenSearchControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @param {string} [token] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchTokenGet(token?: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelToken> {
-            return localVarFp.executeSearchTokenGet(token, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchTokenGet(token?: string, options?: any): AxiosPromise<EntityModelToken> {
+            return localVarFp.executeSearchTokenGet(token, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {User} [user]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchTokenGet1(user?: User, options?: any): AxiosPromise<EntityModelToken> {
+            return localVarFp.executeSearchTokenGet1(user, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -6618,14 +6228,24 @@ export const TokenSearchControllerApiFactory = function (configuration?: Configu
 export class TokenSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {string} [token] 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} [token]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenSearchControllerApi
      */
-    public executeSearchTokenGet(token?: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return TokenSearchControllerApiFp(this.configuration).executeSearchTokenGet(token, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchTokenGet(token?: string, options?: RawAxiosRequestConfig) {
+        return TokenSearchControllerApiFp(this.configuration).executeSearchTokenGet(token, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {User} [user] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TokenSearchControllerApi
+     */
+    public executeSearchTokenGet1(user?: User, options?: RawAxiosRequestConfig) {
+        return TokenSearchControllerApiFp(this.configuration).executeSearchTokenGet1(user, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -6641,11 +6261,10 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
          * 
          * @summary Gets a user\'s information by their ID.
          * @param {number} userId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserById: async (userId: number, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getUserById: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userId' is not null or undefined
             assertParamExists('getUserById', 'userId', userId)
             const localVarPath = `/user/{userId}`
@@ -6661,13 +6280,9 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6693,12 +6308,11 @@ export const UserControllerApiFp = function (configuration?: Configuration) {
          * 
          * @summary Gets a user\'s information by their ID.
          * @param {number} userId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserById(userId: number, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserById(userId, xCustomHeader, options);
+        async getUserById(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserById(userId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserControllerApi.getUserById']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -6717,12 +6331,11 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
          * 
          * @summary Gets a user\'s information by their ID.
          * @param {number} userId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserById(userId: number, xCustomHeader?: string, options?: any): AxiosPromise<User> {
-            return localVarFp.getUserById(userId, xCustomHeader, options).then((request) => request(axios, basePath));
+        getUserById(userId: number, options?: any): AxiosPromise<User> {
+            return localVarFp.getUserById(userId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -6738,13 +6351,12 @@ export class UserControllerApi extends BaseAPI {
      * 
      * @summary Gets a user\'s information by their ID.
      * @param {number} userId 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserControllerApi
      */
-    public getUserById(userId: number, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).getUserById(userId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getUserById(userId: number, options?: RawAxiosRequestConfig) {
+        return UserControllerApiFp(this.configuration).getUserById(userId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -6759,11 +6371,10 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
         /**
          * delete-user
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceUserDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteItemResourceUserDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteItemResourceUserDelete', 'id', id)
             const localVarPath = `/users/{id}`
@@ -6779,13 +6390,9 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6802,11 +6409,10 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceUserGet1: async (page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCollectionResourceUserGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6819,7 +6425,7 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -6835,10 +6441,6 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
                 localVarQueryParameter['sort'] = sort;
             }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
-
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -6852,11 +6454,10 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
         /**
          * get-user
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceUserGet: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItemResourceUserGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getItemResourceUserGet', 'id', id)
             const localVarPath = `/users/{id}`
@@ -6872,13 +6473,9 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -6892,13 +6489,12 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * patch-user
-         * @param {string} id
+         * @param {string} id 
          * @param {UserRequestBody} userRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceUserPatch: async (id: string, userRequestBody: UserRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        patchItemResourceUserPatch: async (id: string, userRequestBody: UserRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('patchItemResourceUserPatch', 'id', id)
             // verify required parameter 'userRequestBody' is not null or undefined
@@ -6916,13 +6512,9 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -6958,7 +6550,7 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -6977,13 +6569,12 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * update-user
-         * @param {string} id
+         * @param {string} id 
          * @param {UserRequestBody} userRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceUserPut: async (id: string, userRequestBody: UserRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putItemResourceUserPut: async (id: string, userRequestBody: UserRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('putItemResourceUserPut', 'id', id)
             // verify required parameter 'userRequestBody' is not null or undefined
@@ -7001,13 +6592,9 @@ export const UserEntityControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -7035,12 +6622,11 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
         /**
          * delete-user
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteItemResourceUserDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceUserDelete(id, xCustomHeader, options);
+        async deleteItemResourceUserDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceUserDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserEntityControllerApi.deleteItemResourceUserDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7050,12 +6636,11 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCollectionResourceUserGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceUserGet1(page, size, sort, xCustomHeader, options);
+        async getCollectionResourceUserGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceUserGet1(page, size, sort, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserEntityControllerApi.getCollectionResourceUserGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7063,26 +6648,24 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
         /**
          * get-user
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItemResourceUserGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceUserGet(id, xCustomHeader, options);
+        async getItemResourceUserGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceUserGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserEntityControllerApi.getItemResourceUserGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * patch-user
-         * @param {string} id
+         * @param {string} id 
          * @param {UserRequestBody} userRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async patchItemResourceUserPatch(id: string, userRequestBody: UserRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceUserPatch(id, userRequestBody, xCustomHeader, options);
+        async patchItemResourceUserPatch(id: string, userRequestBody: UserRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceUserPatch(id, userRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserEntityControllerApi.patchItemResourceUserPatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7101,14 +6684,13 @@ export const UserEntityControllerApiFp = function (configuration?: Configuration
         },
         /**
          * update-user
-         * @param {string} id
+         * @param {string} id 
          * @param {UserRequestBody} userRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putItemResourceUserPut(id: string, userRequestBody: UserRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceUserPut(id, userRequestBody, xCustomHeader, options);
+        async putItemResourceUserPut(id: string, userRequestBody: UserRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceUserPut(id, userRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserEntityControllerApi.putItemResourceUserPut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7126,45 +6708,41 @@ export const UserEntityControllerApiFactory = function (configuration?: Configur
         /**
          * delete-user
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceUserDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteItemResourceUserDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deleteItemResourceUserDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourceUserDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-user
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceUserGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: any): AxiosPromise<PagedModelEntityModelUser> {
-            return localVarFp.getCollectionResourceUserGet1(page, size, sort, xCustomHeader, options).then((request) => request(axios, basePath));
+        getCollectionResourceUserGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelUser> {
+            return localVarFp.getCollectionResourceUserGet1(page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * get-user
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceUserGet(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.getItemResourceUserGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        getItemResourceUserGet(id: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.getItemResourceUserGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * patch-user
-         * @param {string} id
+         * @param {string} id 
          * @param {UserRequestBody} userRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceUserPatch(id: string, userRequestBody: UserRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.patchItemResourceUserPatch(id, userRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        patchItemResourceUserPatch(id: string, userRequestBody: UserRequestBody, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.patchItemResourceUserPatch(id, userRequestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * create-user
@@ -7177,14 +6755,13 @@ export const UserEntityControllerApiFactory = function (configuration?: Configur
         },
         /**
          * update-user
-         * @param {string} id
+         * @param {string} id 
          * @param {UserRequestBody} userRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceUserPut(id: string, userRequestBody: UserRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.putItemResourceUserPut(id, userRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        putItemResourceUserPut(id: string, userRequestBody: UserRequestBody, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.putItemResourceUserPut(id, userRequestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -7199,13 +6776,12 @@ export class UserEntityControllerApi extends BaseAPI {
     /**
      * delete-user
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserEntityControllerApi
      */
-    public deleteItemResourceUserDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserEntityControllerApiFp(this.configuration).deleteItemResourceUserDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deleteItemResourceUserDelete(id: string, options?: RawAxiosRequestConfig) {
+        return UserEntityControllerApiFp(this.configuration).deleteItemResourceUserDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7213,38 +6789,35 @@ export class UserEntityControllerApi extends BaseAPI {
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserEntityControllerApi
      */
-    public getCollectionResourceUserGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserEntityControllerApiFp(this.configuration).getCollectionResourceUserGet1(page, size, sort, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getCollectionResourceUserGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return UserEntityControllerApiFp(this.configuration).getCollectionResourceUserGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-user
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserEntityControllerApi
      */
-    public getItemResourceUserGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserEntityControllerApiFp(this.configuration).getItemResourceUserGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getItemResourceUserGet(id: string, options?: RawAxiosRequestConfig) {
+        return UserEntityControllerApiFp(this.configuration).getItemResourceUserGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * patch-user
-     * @param {string} id
+     * @param {string} id 
      * @param {UserRequestBody} userRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserEntityControllerApi
      */
-    public patchItemResourceUserPatch(id: string, userRequestBody: UserRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserEntityControllerApiFp(this.configuration).patchItemResourceUserPatch(id, userRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public patchItemResourceUserPatch(id: string, userRequestBody: UserRequestBody, options?: RawAxiosRequestConfig) {
+        return UserEntityControllerApiFp(this.configuration).patchItemResourceUserPatch(id, userRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7260,15 +6833,14 @@ export class UserEntityControllerApi extends BaseAPI {
 
     /**
      * update-user
-     * @param {string} id
+     * @param {string} id 
      * @param {UserRequestBody} userRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserEntityControllerApi
      */
-    public putItemResourceUserPut(id: string, userRequestBody: UserRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserEntityControllerApiFp(this.configuration).putItemResourceUserPut(id, userRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public putItemResourceUserPut(id: string, userRequestBody: UserRequestBody, options?: RawAxiosRequestConfig) {
+        return UserEntityControllerApiFp(this.configuration).putItemResourceUserPut(id, userRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -7282,13 +6854,12 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
     return {
         /**
          * patch-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceUserPatch: async (id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPropertyReferenceUserPatch: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('createPropertyReferenceUserPatch', 'id', id)
             // verify required parameter 'collectionModelObject' is not null or undefined
@@ -7306,13 +6877,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -7329,13 +6896,12 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * patch-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceUserPatch1: async (id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPropertyReferenceUserPatch1: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('createPropertyReferenceUserPatch1', 'id', id)
             // verify required parameter 'collectionModelObject' is not null or undefined
@@ -7353,13 +6919,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -7376,13 +6938,12 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * update-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceUserPut: async (id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPropertyReferenceUserPut: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('createPropertyReferenceUserPut', 'id', id)
             // verify required parameter 'collectionModelObject' is not null or undefined
@@ -7400,13 +6961,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -7423,13 +6980,12 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * update-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceUserPut1: async (id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPropertyReferenceUserPut1: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('createPropertyReferenceUserPut1', 'id', id)
             // verify required parameter 'collectionModelObject' is not null or undefined
@@ -7447,13 +7003,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -7470,13 +7022,12 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * delete-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceIdUserDelete: async (id: string, propertyId: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePropertyReferenceIdUserDelete: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deletePropertyReferenceIdUserDelete', 'id', id)
             // verify required parameter 'propertyId' is not null or undefined
@@ -7495,13 +7046,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7515,13 +7062,12 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * delete-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceIdUserDelete1: async (id: string, propertyId: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePropertyReferenceIdUserDelete1: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deletePropertyReferenceIdUserDelete1', 'id', id)
             // verify required parameter 'propertyId' is not null or undefined
@@ -7540,13 +7086,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7561,11 +7103,10 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * delete-pass-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceUserDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePropertyReferenceUserDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deletePropertyReferenceUserDelete', 'id', id)
             const localVarPath = `/users/{id}/pass`
@@ -7581,13 +7122,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7602,11 +7139,10 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * delete-userwallet-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceUserDelete1: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePropertyReferenceUserDelete1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deletePropertyReferenceUserDelete1', 'id', id)
             const localVarPath = `/users/{id}/wallet`
@@ -7622,13 +7158,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7642,13 +7174,12 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * get-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceUserGet: async (id: string, propertyId: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        followPropertyReferenceUserGet: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('followPropertyReferenceUserGet', 'id', id)
             // verify required parameter 'propertyId' is not null or undefined
@@ -7667,13 +7198,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7688,11 +7215,10 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * get-pass-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceUserGet1: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        followPropertyReferenceUserGet1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('followPropertyReferenceUserGet1', 'id', id)
             const localVarPath = `/users/{id}/pass`
@@ -7708,13 +7234,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7728,13 +7250,12 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         },
         /**
          * get-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceUserGet2: async (id: string, propertyId: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        followPropertyReferenceUserGet2: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('followPropertyReferenceUserGet2', 'id', id)
             // verify required parameter 'propertyId' is not null or undefined
@@ -7753,13 +7274,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7774,11 +7291,10 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
         /**
          * get-userwallet-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceUserGet21: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        followPropertyReferenceUserGet21: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('followPropertyReferenceUserGet21', 'id', id)
             const localVarPath = `/users/{id}/wallet`
@@ -7794,13 +7310,9 @@ export const UserPropertyReferenceControllerApiAxiosParamCreator = function (con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7824,84 +7336,78 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
     return {
         /**
          * patch-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPropertyReferenceUserPatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserPatch(id, collectionModelObject, xCustomHeader, options);
+        async createPropertyReferenceUserPatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserPatch(id, collectionModelObject, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.createPropertyReferenceUserPatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * patch-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPropertyReferenceUserPatch1(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserPatch1(id, collectionModelObject, xCustomHeader, options);
+        async createPropertyReferenceUserPatch1(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserPatch1(id, collectionModelObject, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.createPropertyReferenceUserPatch1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * update-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPropertyReferenceUserPut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserPut(id, collectionModelObject, xCustomHeader, options);
+        async createPropertyReferenceUserPut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserPut(id, collectionModelObject, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.createPropertyReferenceUserPut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * update-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPropertyReferenceUserPut1(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserPut1(id, collectionModelObject, xCustomHeader, options);
+        async createPropertyReferenceUserPut1(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserPut1(id, collectionModelObject, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.createPropertyReferenceUserPut1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * delete-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePropertyReferenceIdUserDelete(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdUserDelete(id, propertyId, xCustomHeader, options);
+        async deletePropertyReferenceIdUserDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdUserDelete(id, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.deletePropertyReferenceIdUserDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * delete-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePropertyReferenceIdUserDelete1(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdUserDelete1(id, propertyId, xCustomHeader, options);
+        async deletePropertyReferenceIdUserDelete1(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdUserDelete1(id, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.deletePropertyReferenceIdUserDelete1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7909,12 +7415,11 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * delete-pass-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePropertyReferenceUserDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceUserDelete(id, xCustomHeader, options);
+        async deletePropertyReferenceUserDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceUserDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.deletePropertyReferenceUserDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7922,26 +7427,24 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * delete-userwallet-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePropertyReferenceUserDelete1(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceUserDelete1(id, xCustomHeader, options);
+        async deletePropertyReferenceUserDelete1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceUserDelete1(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.deletePropertyReferenceUserDelete1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * get-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async followPropertyReferenceUserGet(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserGet(id, propertyId, xCustomHeader, options);
+        async followPropertyReferenceUserGet(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserGet(id, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.followPropertyReferenceUserGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7949,26 +7452,24 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * get-pass-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async followPropertyReferenceUserGet1(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserGet1(id, xCustomHeader, options);
+        async followPropertyReferenceUserGet1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserGet1(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.followPropertyReferenceUserGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * get-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async followPropertyReferenceUserGet2(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserGet2(id, propertyId, xCustomHeader, options);
+        async followPropertyReferenceUserGet2(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserGet2(id, propertyId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.followPropertyReferenceUserGet2']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7976,12 +7477,11 @@ export const UserPropertyReferenceControllerApiFp = function (configuration?: Co
         /**
          * get-userwallet-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async followPropertyReferenceUserGet21(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserGet21(id, xCustomHeader, options);
+        async followPropertyReferenceUserGet21(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserGet21(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserPropertyReferenceControllerApi.followPropertyReferenceUserGet21']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -7998,131 +7498,119 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
     return {
         /**
          * patch-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceUserPatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.createPropertyReferenceUserPatch(id, collectionModelObject, xCustomHeader, options).then((request) => request(axios, basePath));
+        createPropertyReferenceUserPatch(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelPass> {
+            return localVarFp.createPropertyReferenceUserPatch(id, collectionModelObject, options).then((request) => request(axios, basePath));
         },
         /**
          * patch-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceUserPatch1(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUserWallet> {
-            return localVarFp.createPropertyReferenceUserPatch1(id, collectionModelObject, xCustomHeader, options).then((request) => request(axios, basePath));
+        createPropertyReferenceUserPatch1(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUserWallet> {
+            return localVarFp.createPropertyReferenceUserPatch1(id, collectionModelObject, options).then((request) => request(axios, basePath));
         },
         /**
          * update-pass-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceUserPut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.createPropertyReferenceUserPut(id, collectionModelObject, xCustomHeader, options).then((request) => request(axios, basePath));
+        createPropertyReferenceUserPut(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelPass> {
+            return localVarFp.createPropertyReferenceUserPut(id, collectionModelObject, options).then((request) => request(axios, basePath));
         },
         /**
          * update-userwallet-by-user-Id
-         * @param {string} id
+         * @param {string} id 
          * @param {CollectionModelObject} collectionModelObject 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPropertyReferenceUserPut1(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUserWallet> {
-            return localVarFp.createPropertyReferenceUserPut1(id, collectionModelObject, xCustomHeader, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * delete-pass-by-user-Id
-         * @param {string} id
-         * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deletePropertyReferenceIdUserDelete(id: string, propertyId: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferenceIdUserDelete(id, propertyId, xCustomHeader, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * delete-userwallet-by-user-Id
-         * @param {string} id
-         * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deletePropertyReferenceIdUserDelete1(id: string, propertyId: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferenceIdUserDelete1(id, propertyId, xCustomHeader, options).then((request) => request(axios, basePath));
+        createPropertyReferenceUserPut1(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUserWallet> {
+            return localVarFp.createPropertyReferenceUserPut1(id, collectionModelObject, options).then((request) => request(axios, basePath));
         },
         /**
          * delete-pass-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
+         * @param {string} propertyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceUserDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferenceUserDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deletePropertyReferenceIdUserDelete(id: string, propertyId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceIdUserDelete(id, propertyId, options).then((request) => request(axios, basePath));
         },
         /**
          * delete-userwallet-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
+         * @param {string} propertyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePropertyReferenceUserDelete1(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferenceUserDelete1(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deletePropertyReferenceIdUserDelete1(id: string, propertyId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceIdUserDelete1(id, propertyId, options).then((request) => request(axios, basePath));
         },
         /**
-         * get-pass-by-user-Id
-         * @param {string} id
-         * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
+         * delete-pass-by-user-Id
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceUserGet(id: string, propertyId: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.followPropertyReferenceUserGet(id, propertyId, xCustomHeader, options).then((request) => request(axios, basePath));
+        deletePropertyReferenceUserDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceUserDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * delete-userwallet-by-user-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceUserDelete1(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceUserDelete1(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-pass-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
+         * @param {string} propertyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceUserGet1(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.followPropertyReferenceUserGet1(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        followPropertyReferenceUserGet(id: string, propertyId: string, options?: any): AxiosPromise<EntityModelPass> {
+            return localVarFp.followPropertyReferenceUserGet(id, propertyId, options).then((request) => request(axios, basePath));
         },
         /**
-         * get-userwallet-by-user-Id
-         * @param {string} id
-         * @param {string} propertyId 
-         * @param {string} [xCustomHeader] Custom header
+         * get-pass-by-user-Id
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceUserGet2(id: string, propertyId: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUserWallet> {
-            return localVarFp.followPropertyReferenceUserGet2(id, propertyId, xCustomHeader, options).then((request) => request(axios, basePath));
+        followPropertyReferenceUserGet1(id: string, options?: any): AxiosPromise<EntityModelPass> {
+            return localVarFp.followPropertyReferenceUserGet1(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-userwallet-by-user-Id
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
+         * @param {string} propertyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        followPropertyReferenceUserGet21(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUserWallet> {
-            return localVarFp.followPropertyReferenceUserGet21(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        followPropertyReferenceUserGet2(id: string, propertyId: string, options?: any): AxiosPromise<EntityModelUserWallet> {
+            return localVarFp.followPropertyReferenceUserGet2(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-userwallet-by-user-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceUserGet21(id: string, options?: any): AxiosPromise<EntityModelUserWallet> {
+            return localVarFp.followPropertyReferenceUserGet21(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -8136,154 +7624,142 @@ export const UserPropertyReferenceControllerApiFactory = function (configuration
 export class UserPropertyReferenceControllerApi extends BaseAPI {
     /**
      * patch-pass-by-user-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {CollectionModelObject} collectionModelObject 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public createPropertyReferenceUserPatch(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserPatch(id, collectionModelObject, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public createPropertyReferenceUserPatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserPatch(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * patch-userwallet-by-user-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {CollectionModelObject} collectionModelObject 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public createPropertyReferenceUserPatch1(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserPatch1(id, collectionModelObject, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public createPropertyReferenceUserPatch1(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserPatch1(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * update-pass-by-user-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {CollectionModelObject} collectionModelObject 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public createPropertyReferenceUserPut(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserPut(id, collectionModelObject, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public createPropertyReferenceUserPut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserPut(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * update-userwallet-by-user-Id
-     * @param {string} id
+     * @param {string} id 
      * @param {CollectionModelObject} collectionModelObject 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public createPropertyReferenceUserPut1(id: string, collectionModelObject: CollectionModelObject, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserPut1(id, collectionModelObject, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * delete-pass-by-user-Id
-     * @param {string} id
-     * @param {string} propertyId 
-     * @param {string} [xCustomHeader] Custom header
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserPropertyReferenceControllerApi
-     */
-    public deletePropertyReferenceIdUserDelete(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdUserDelete(id, propertyId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * delete-userwallet-by-user-Id
-     * @param {string} id
-     * @param {string} propertyId 
-     * @param {string} [xCustomHeader] Custom header
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserPropertyReferenceControllerApi
-     */
-    public deletePropertyReferenceIdUserDelete1(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdUserDelete1(id, propertyId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public createPropertyReferenceUserPut1(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserPut1(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * delete-pass-by-user-Id
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} propertyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public deletePropertyReferenceUserDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceUserDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deletePropertyReferenceIdUserDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdUserDelete(id, propertyId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * delete-userwallet-by-user-Id
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} propertyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public deletePropertyReferenceUserDelete1(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceUserDelete1(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deletePropertyReferenceIdUserDelete1(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdUserDelete1(id, propertyId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * get-pass-by-user-Id
-     * @param {string} id
-     * @param {string} propertyId 
-     * @param {string} [xCustomHeader] Custom header
+     * delete-pass-by-user-Id
+     * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public followPropertyReferenceUserGet(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserGet(id, propertyId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deletePropertyReferenceUserDelete(id: string, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceUserDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * delete-userwallet-by-user-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserPropertyReferenceControllerApi
+     */
+    public deletePropertyReferenceUserDelete1(id: string, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceUserDelete1(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-pass-by-user-Id
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} propertyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public followPropertyReferenceUserGet1(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserGet1(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public followPropertyReferenceUserGet(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserGet(id, propertyId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * get-userwallet-by-user-Id
-     * @param {string} id
-     * @param {string} propertyId 
-     * @param {string} [xCustomHeader] Custom header
+     * get-pass-by-user-Id
+     * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public followPropertyReferenceUserGet2(id: string, propertyId: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserGet2(id, propertyId, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public followPropertyReferenceUserGet1(id: string, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserGet1(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-userwallet-by-user-Id
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
+     * @param {string} propertyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPropertyReferenceControllerApi
      */
-    public followPropertyReferenceUserGet21(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserGet21(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public followPropertyReferenceUserGet2(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserGet2(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-userwallet-by-user-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserPropertyReferenceControllerApi
+     */
+    public followPropertyReferenceUserGet21(id: string, options?: RawAxiosRequestConfig) {
+        return UserPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserGet21(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -8296,13 +7772,12 @@ export class UserPropertyReferenceControllerApi extends BaseAPI {
 export const UserSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @param {string} [email] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserGet: async (email?: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchUserGet: async (email?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/users/search/existsByEmail`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8315,16 +7790,12 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (email !== undefined) {
                 localVarQueryParameter['email'] = email;
-            }
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
             }
 
 
@@ -8338,13 +7809,12 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
             };
         },
         /**
-         *
+         * 
          * @param {string} [email] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserGet1: async (email?: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchUserGet1: async (email?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/users/search/findByEmail`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8357,16 +7827,12 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (email !== undefined) {
                 localVarQueryParameter['email'] = email;
-            }
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
             }
 
 
@@ -8380,13 +7846,12 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
             };
         },
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserGet2: async (id?: number, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchUserGet2: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/users/search/getUserById`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8399,16 +7864,12 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (id !== undefined) {
                 localVarQueryParameter['id'] = id;
-            }
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
             }
 
 
@@ -8432,40 +7893,37 @@ export const UserSearchControllerApiFp = function (configuration?: Configuration
     const localVarAxiosParamCreator = UserSearchControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @param {string} [email] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchUserGet(email?: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet(email, xCustomHeader, options);
+        async executeSearchUserGet(email?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet(email, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserSearchControllerApi.executeSearchUserGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {string} [email] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchUserGet1(email?: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet1(email, xCustomHeader, options);
+        async executeSearchUserGet1(email?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet1(email, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserSearchControllerApi.executeSearchUserGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchUserGet2(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet2(id, xCustomHeader, options);
+        async executeSearchUserGet2(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet2(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserSearchControllerApi.executeSearchUserGet2']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -8481,34 +7939,31 @@ export const UserSearchControllerApiFactory = function (configuration?: Configur
     const localVarFp = UserSearchControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @param {string} [email] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserGet(email?: string, xCustomHeader?: string, options?: any): AxiosPromise<boolean> {
-            return localVarFp.executeSearchUserGet(email, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchUserGet(email?: string, options?: any): AxiosPromise<boolean> {
+            return localVarFp.executeSearchUserGet(email, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {string} [email] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserGet1(email?: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.executeSearchUserGet1(email, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchUserGet1(email?: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.executeSearchUserGet1(email, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserGet2(id?: number, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.executeSearchUserGet2(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchUserGet2(id?: number, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.executeSearchUserGet2(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -8521,39 +7976,36 @@ export const UserSearchControllerApiFactory = function (configuration?: Configur
  */
 export class UserSearchControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @param {string} [email] 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserSearchControllerApi
      */
-    public executeSearchUserGet(email?: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet(email, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchUserGet(email?: string, options?: RawAxiosRequestConfig) {
+        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet(email, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     *
+     * 
      * @param {string} [email] 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserSearchControllerApi
      */
-    public executeSearchUserGet1(email?: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet1(email, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchUserGet1(email?: string, options?: RawAxiosRequestConfig) {
+        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet1(email, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     *
+     * 
      * @param {number} [id] 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserSearchControllerApi
      */
-    public executeSearchUserGet2(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet2(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchUserGet2(id?: number, options?: RawAxiosRequestConfig) {
+        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet2(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -8568,11 +8020,10 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
         /**
          * delete-userwallet
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceUserwalletDelete: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteItemResourceUserwalletDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteItemResourceUserwalletDelete', 'id', id)
             const localVarPath = `/userWallets/{id}`
@@ -8588,13 +8039,9 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -8611,11 +8058,10 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceUserwalletGet1: async (page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCollectionResourceUserwalletGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/userWallets`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8628,7 +8074,7 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -8644,10 +8090,6 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
                 localVarQueryParameter['sort'] = sort;
             }
 
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
-
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -8661,11 +8103,10 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
         /**
          * get-userwallet
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceUserwalletGet: async (id: string, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItemResourceUserwalletGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getItemResourceUserwalletGet', 'id', id)
             const localVarPath = `/userWallets/{id}`
@@ -8681,13 +8122,9 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -8701,13 +8138,12 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
         },
         /**
          * patch-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {UserWalletRequestBody} userWalletRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceUserwalletPatch: async (id: string, userWalletRequestBody: UserWalletRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        patchItemResourceUserwalletPatch: async (id: string, userWalletRequestBody: UserWalletRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('patchItemResourceUserwalletPatch', 'id', id)
             // verify required parameter 'userWalletRequestBody' is not null or undefined
@@ -8725,13 +8161,9 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -8767,7 +8199,7 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -8786,13 +8218,12 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
         },
         /**
          * update-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {UserWalletRequestBody} userWalletRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceUserwalletPut: async (id: string, userWalletRequestBody: UserWalletRequestBody, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        putItemResourceUserwalletPut: async (id: string, userWalletRequestBody: UserWalletRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('putItemResourceUserwalletPut', 'id', id)
             // verify required parameter 'userWalletRequestBody' is not null or undefined
@@ -8810,13 +8241,9 @@ export const UserWalletEntityControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
-            }
 
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -8844,12 +8271,11 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
         /**
          * delete-userwallet
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteItemResourceUserwalletDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceUserwalletDelete(id, xCustomHeader, options);
+        async deleteItemResourceUserwalletDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceUserwalletDelete(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserWalletEntityControllerApi.deleteItemResourceUserwalletDelete']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -8859,12 +8285,11 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCollectionResourceUserwalletGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceUserwalletGet1(page, size, sort, xCustomHeader, options);
+        async getCollectionResourceUserwalletGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceUserwalletGet1(page, size, sort, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserWalletEntityControllerApi.getCollectionResourceUserwalletGet1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -8872,26 +8297,24 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
         /**
          * get-userwallet
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItemResourceUserwalletGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceUserwalletGet(id, xCustomHeader, options);
+        async getItemResourceUserwalletGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceUserwalletGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserWalletEntityControllerApi.getItemResourceUserwalletGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * patch-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {UserWalletRequestBody} userWalletRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async patchItemResourceUserwalletPatch(id: string, userWalletRequestBody: UserWalletRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceUserwalletPatch(id, userWalletRequestBody, xCustomHeader, options);
+        async patchItemResourceUserwalletPatch(id: string, userWalletRequestBody: UserWalletRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceUserwalletPatch(id, userWalletRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserWalletEntityControllerApi.patchItemResourceUserwalletPatch']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -8910,14 +8333,13 @@ export const UserWalletEntityControllerApiFp = function (configuration?: Configu
         },
         /**
          * update-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {UserWalletRequestBody} userWalletRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async putItemResourceUserwalletPut(id: string, userWalletRequestBody: UserWalletRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceUserwalletPut(id, userWalletRequestBody, xCustomHeader, options);
+        async putItemResourceUserwalletPut(id: string, userWalletRequestBody: UserWalletRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceUserwalletPut(id, userWalletRequestBody, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserWalletEntityControllerApi.putItemResourceUserwalletPut']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -8935,45 +8357,41 @@ export const UserWalletEntityControllerApiFactory = function (configuration?: Co
         /**
          * delete-userwallet
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteItemResourceUserwalletDelete(id: string, xCustomHeader?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteItemResourceUserwalletDelete(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        deleteItemResourceUserwalletDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourceUserwalletDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * get-userwallet
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCollectionResourceUserwalletGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: any): AxiosPromise<PagedModelEntityModelUserWallet> {
-            return localVarFp.getCollectionResourceUserwalletGet1(page, size, sort, xCustomHeader, options).then((request) => request(axios, basePath));
+        getCollectionResourceUserwalletGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelUserWallet> {
+            return localVarFp.getCollectionResourceUserwalletGet1(page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * get-userwallet
          * @param {string} id 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItemResourceUserwalletGet(id: string, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUserWallet> {
-            return localVarFp.getItemResourceUserwalletGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        getItemResourceUserwalletGet(id: string, options?: any): AxiosPromise<EntityModelUserWallet> {
+            return localVarFp.getItemResourceUserwalletGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * patch-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {UserWalletRequestBody} userWalletRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchItemResourceUserwalletPatch(id: string, userWalletRequestBody: UserWalletRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUserWallet> {
-            return localVarFp.patchItemResourceUserwalletPatch(id, userWalletRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        patchItemResourceUserwalletPatch(id: string, userWalletRequestBody: UserWalletRequestBody, options?: any): AxiosPromise<EntityModelUserWallet> {
+            return localVarFp.patchItemResourceUserwalletPatch(id, userWalletRequestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * create-userwallet
@@ -8986,14 +8404,13 @@ export const UserWalletEntityControllerApiFactory = function (configuration?: Co
         },
         /**
          * update-userwallet
-         * @param {string} id
+         * @param {string} id 
          * @param {UserWalletRequestBody} userWalletRequestBody 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        putItemResourceUserwalletPut(id: string, userWalletRequestBody: UserWalletRequestBody, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUserWallet> {
-            return localVarFp.putItemResourceUserwalletPut(id, userWalletRequestBody, xCustomHeader, options).then((request) => request(axios, basePath));
+        putItemResourceUserwalletPut(id: string, userWalletRequestBody: UserWalletRequestBody, options?: any): AxiosPromise<EntityModelUserWallet> {
+            return localVarFp.putItemResourceUserwalletPut(id, userWalletRequestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -9008,13 +8425,12 @@ export class UserWalletEntityControllerApi extends BaseAPI {
     /**
      * delete-userwallet
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserWalletEntityControllerApi
      */
-    public deleteItemResourceUserwalletDelete(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserWalletEntityControllerApiFp(this.configuration).deleteItemResourceUserwalletDelete(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public deleteItemResourceUserwalletDelete(id: string, options?: RawAxiosRequestConfig) {
+        return UserWalletEntityControllerApiFp(this.configuration).deleteItemResourceUserwalletDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9022,38 +8438,35 @@ export class UserWalletEntityControllerApi extends BaseAPI {
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserWalletEntityControllerApi
      */
-    public getCollectionResourceUserwalletGet1(page?: number, size?: number, sort?: Array<string>, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserWalletEntityControllerApiFp(this.configuration).getCollectionResourceUserwalletGet1(page, size, sort, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getCollectionResourceUserwalletGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return UserWalletEntityControllerApiFp(this.configuration).getCollectionResourceUserwalletGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * get-userwallet
      * @param {string} id 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserWalletEntityControllerApi
      */
-    public getItemResourceUserwalletGet(id: string, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserWalletEntityControllerApiFp(this.configuration).getItemResourceUserwalletGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public getItemResourceUserwalletGet(id: string, options?: RawAxiosRequestConfig) {
+        return UserWalletEntityControllerApiFp(this.configuration).getItemResourceUserwalletGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * patch-userwallet
-     * @param {string} id
+     * @param {string} id 
      * @param {UserWalletRequestBody} userWalletRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserWalletEntityControllerApi
      */
-    public patchItemResourceUserwalletPatch(id: string, userWalletRequestBody: UserWalletRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserWalletEntityControllerApiFp(this.configuration).patchItemResourceUserwalletPatch(id, userWalletRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public patchItemResourceUserwalletPatch(id: string, userWalletRequestBody: UserWalletRequestBody, options?: RawAxiosRequestConfig) {
+        return UserWalletEntityControllerApiFp(this.configuration).patchItemResourceUserwalletPatch(id, userWalletRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9069,17 +8482,17 @@ export class UserWalletEntityControllerApi extends BaseAPI {
 
     /**
      * update-userwallet
-     * @param {string} id
+     * @param {string} id 
      * @param {UserWalletRequestBody} userWalletRequestBody 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserWalletEntityControllerApi
      */
-    public putItemResourceUserwalletPut(id: string, userWalletRequestBody: UserWalletRequestBody, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserWalletEntityControllerApiFp(this.configuration).putItemResourceUserwalletPut(id, userWalletRequestBody, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public putItemResourceUserwalletPut(id: string, userWalletRequestBody: UserWalletRequestBody, options?: RawAxiosRequestConfig) {
+        return UserWalletEntityControllerApiFp(this.configuration).putItemResourceUserwalletPut(id, userWalletRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -9089,13 +8502,12 @@ export class UserWalletEntityControllerApi extends BaseAPI {
 export const UserWalletSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserwalletGet: async (id?: number, xCustomHeader?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchUserwalletGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/userWallets/search/getUserWalletById`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9108,16 +8520,12 @@ export const UserWalletSearchControllerApiAxiosParamCreator = function (configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication bearerAuth required
+            // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (id !== undefined) {
                 localVarQueryParameter['id'] = id;
-            }
-
-            if (xCustomHeader != null) {
-                localVarHeaderParameter['X-Custom-Header'] = String(xCustomHeader);
             }
 
 
@@ -9141,14 +8549,13 @@ export const UserWalletSearchControllerApiFp = function (configuration?: Configu
     const localVarAxiosParamCreator = UserWalletSearchControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchUserwalletGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserwalletGet(id, xCustomHeader, options);
+        async executeSearchUserwalletGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserwalletGet(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserWalletSearchControllerApi.executeSearchUserwalletGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -9164,14 +8571,13 @@ export const UserWalletSearchControllerApiFactory = function (configuration?: Co
     const localVarFp = UserWalletSearchControllerApiFp(configuration)
     return {
         /**
-         *
+         * 
          * @param {number} [id] 
-         * @param {string} [xCustomHeader] Custom header
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserwalletGet(id?: number, xCustomHeader?: string, options?: any): AxiosPromise<EntityModelUserWallet> {
-            return localVarFp.executeSearchUserwalletGet(id, xCustomHeader, options).then((request) => request(axios, basePath));
+        executeSearchUserwalletGet(id?: number, options?: any): AxiosPromise<EntityModelUserWallet> {
+            return localVarFp.executeSearchUserwalletGet(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -9184,15 +8590,14 @@ export const UserWalletSearchControllerApiFactory = function (configuration?: Co
  */
 export class UserWalletSearchControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @param {number} [id] 
-     * @param {string} [xCustomHeader] Custom header
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserWalletSearchControllerApi
      */
-    public executeSearchUserwalletGet(id?: number, xCustomHeader?: string, options?: RawAxiosRequestConfig) {
-        return UserWalletSearchControllerApiFp(this.configuration).executeSearchUserwalletGet(id, xCustomHeader, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchUserwalletGet(id?: number, options?: RawAxiosRequestConfig) {
+        return UserWalletSearchControllerApiFp(this.configuration).executeSearchUserwalletGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

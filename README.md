@@ -23,3 +23,5 @@ Developed in part by Harjot Dillon Singh, Lam Nguyen and Raphael Paquin.
 >
 
 ![img.png](img.png)
+
+![img_1.png](img_1.png)

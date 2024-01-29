@@ -1,5 +1,6 @@
 package backend.autopass.service.interfaces;
 
+import backend.autopass.model.entities.User;
 import backend.autopass.payload.dto.RefreshTokenDTO;
 import backend.autopass.payload.viewmodels.RefreshTokenResponse;
 import backend.autopass.security.jwt.refreshToken.Token;
@@ -13,7 +14,7 @@ public interface IRefreshTokenService {
 
     Token verifyExpiration(Token token);
 
-    Optional<Token> findByToken(String token);
+    Optional<Token> findTokenByToken(String token);
 
     RefreshTokenResponse generateNewToken(RefreshTokenDTO request);
 
@@ -24,5 +25,7 @@ public interface IRefreshTokenService {
     void deleteByToken(String token);
 
     ResponseCookie getCleanRefreshTokenCookie();
+
+    Optional<User> findUserByToken(String token);
 
 }

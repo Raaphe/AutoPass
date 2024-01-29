@@ -44,7 +44,6 @@ public class UserController {
     })
     @GetMapping("/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

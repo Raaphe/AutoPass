@@ -41,7 +41,7 @@ public class DataLoader {
                     .password("2251462")
                     .firstname("lam")
                     .lastname("crack")
-                    .email("aliteralpotato@gmail.com")
+                    .email("alitteralpotato@gmail.com")
                     .build());
         }
 

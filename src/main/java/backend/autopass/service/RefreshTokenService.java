@@ -73,9 +73,20 @@ public class RefreshTokenService implements IRefreshTokenService {
     }
 
     @Override
-    public Optional<Token> findByToken(String token) {
+    public Optional<Token> findTokenByToken(String token) {
         return refreshTokenRepository.findByToken(token);
     }
+
+    @Override
+    public Optional<User> findUserByToken(String token) {
+        Token refreshToken;
+        if (findTokenByToken(token).isPresent()) {
+            refreshToken = findTokenByToken(token).get();
+            return Optional.ofNullable(refreshToken.getUser());
+        }
+        return Optional.empty();
+    }
+
 
     @Override
     public RefreshTokenResponse generateNewToken(RefreshTokenDTO request) {
