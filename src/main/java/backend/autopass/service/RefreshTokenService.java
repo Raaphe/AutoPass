@@ -11,6 +11,7 @@ import backend.autopass.security.jwt.refreshToken.TokenRepository;
 import backend.autopass.service.interfaces.IRefreshTokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,22 +33,30 @@ public class RefreshTokenService implements IRefreshTokenService {
     private final TokenRepository refreshTokenRepository;
     private final JwtService jwtService;
 
+    @Value("${application.security.same-site-setting}")
+    private String sameSiteCookieSetting;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
     @Value("${application.security.jwt.refresh-token.cookie-name}")
     private String refreshTokenName;
 
 
+    @Transactional
     @Override
     public Token createRefreshToken(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        Token refreshToken = Token.builder()
-                .revoked(false)
-                .user(user)
-                .token(Base64.getEncoder().encodeToString(UUID.randomUUID().toString().getBytes()))
-                .expiryDate(Instant.now().plusMillis(refreshExpiration))
-                .build();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Token refreshToken = refreshTokenRepository.findByUser(user)
+                .orElse(new Token());
+
+        refreshToken.setToken(Base64.getEncoder().encodeToString(UUID.randomUUID().toString().getBytes()));
+        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshExpiration));
+        refreshToken.setRevoked(false);
+        refreshToken.setUser(user);
+
         return refreshTokenRepository.save(refreshToken);
+
     }
 
     @Override
@@ -64,9 +73,20 @@ public class RefreshTokenService implements IRefreshTokenService {
     }
 
     @Override
-    public Optional<Token> findByToken(String token) {
+    public Optional<Token> findTokenByToken(String token) {
         return refreshTokenRepository.findByToken(token);
     }
+
+    @Override
+    public Optional<User> findUserByToken(String token) {
+        Token refreshToken;
+        if (findTokenByToken(token).isPresent()) {
+            refreshToken = findTokenByToken(token).get();
+            return Optional.ofNullable(refreshToken.getUser());
+        }
+        return Optional.empty();
+    }
+
 
     @Override
     public RefreshTokenResponse generateNewToken(RefreshTokenDTO request) {
@@ -90,7 +110,7 @@ public class RefreshTokenService implements IRefreshTokenService {
                 .maxAge(refreshExpiration / 1000) // 15 days in seconds
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("Strict")
+                .sameSite(sameSiteCookieSetting)
                 .build();
     }
 
@@ -114,6 +134,7 @@ public class RefreshTokenService implements IRefreshTokenService {
         return ResponseCookie.from(refreshTokenName, "")
                 .path("/")
                 .httpOnly(true)
+                .sameSite(sameSiteCookieSetting)
                 .maxAge(0)
                 .build();
     }

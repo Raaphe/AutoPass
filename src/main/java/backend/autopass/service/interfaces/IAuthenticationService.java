@@ -5,7 +5,7 @@ import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.viewmodels.AuthenticationResponse;
 
 public interface IAuthenticationService {
-    AuthenticationResponse register(SignUpDTO request);
+    AuthenticationResponse register(SignUpDTO request) throws Exception;
 
     AuthenticationResponse authenticate(SignInDTO request);
 }

@@ -1,6 +1,7 @@
 package backend.autopass.service;
 
 import backend.autopass.model.entities.User;
+import backend.autopass.model.enums.Role;
 import backend.autopass.model.enums.TokenType;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.payload.dto.SignInDTO;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,22 +20,26 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class AuthenticationService implements IAuthenticationService {
 
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
+    private final UserService userService;
 
     @Override
-    public AuthenticationResponse register(SignUpDTO request) {
-        var user = User.builder()
-                .firstName(request.getFirstname())
-                .lastName(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .build();
-        user = userRepository.save(user);
+    public AuthenticationResponse register(SignUpDTO request) throws Exception {
+
+        User user = null;
+
+        if (request.getRole() == Role.ADMIN) {
+            user = userService.createAdmin(request);
+        } else if (request.getRole() == Role.USER) {
+            user = userService.createUser(request);
+        } else {
+            return null;
+        }
+
+
         var jwt = jwtService.generateToken(user);
         var refreshToken = refreshTokenService.createRefreshToken((long) user.getId());
 

@@ -2,10 +2,7 @@ package backend.autopass.model.entities;
 
 import backend.autopass.model.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,6 +15,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "_user")
 public class User implements UserDetails {
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, name = "user_id")
@@ -50,10 +48,6 @@ public class User implements UserDetails {
         this.pass = user.pass;
         this.isDeleted = user.isDeleted;
         this.role = user.role;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override

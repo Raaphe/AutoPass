@@ -27,7 +27,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     @Operation(summary = "Gets a user's information by their ID.")
     @PreAuthorize("hasAuthority('READ_PRIVILEGE') and hasAnyRole('ADMIN','USER')")
     @ApiResponses(value = {
@@ -45,7 +44,6 @@ public class UserController {
     })
     @GetMapping("/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

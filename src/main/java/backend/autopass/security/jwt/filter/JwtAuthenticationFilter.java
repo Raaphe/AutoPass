@@ -1,5 +1,6 @@
 package backend.autopass.security.jwt.filter;
 
+import backend.autopass.security.config.SecurityConfig;
 import backend.autopass.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
@@ -44,21 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String requestPath = request.getRequestURI();
 
         // List the paths that should not require authentication
-        List<String> authFreeEndpoints = Arrays.asList(
-                "/authen/login",
-                "/authen/signup",
-                "/v3/api-docs",
-                "/v3/api-docs.yaml",
-                "/h2-console",
-                "/h2-console/",
-                "/h2-console/**",
-                "/swagger-ui/**",
-                "/v3/api-docs/**",
-                "/swagger-ui.html",
-                "/swagger-resources/**",
-                "/webjars/**"
-        );
-
+        List<String> authFreeEndpoints = List.of(SecurityConfig.WHITE_LIST_URL);
 
         if (authFreeEndpoints.stream().anyMatch(path -> requestPath.matches(path.replace("**", ".*")))) {
             filterChain.doFilter(request, response);

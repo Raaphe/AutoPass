@@ -12,8 +12,6 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.customizers.OpenApiCustomizer;
@@ -39,14 +37,14 @@ import org.springframework.context.annotation.Configuration;
         },
         security = {
                 @io.swagger.v3.oas.annotations.security.SecurityRequirement(
-                        name = "bearerAuth"
+                        name = "Bearer"
                 )
         }
 )
 @io.swagger.v3.oas.annotations.security.SecurityScheme(
-        name = "bearerAuth",
+        name = "Bearer",
         description = "JWT auth description",
-        scheme = "bearer",
+        scheme = "Bearer",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER
@@ -66,7 +64,7 @@ public class OpenAPISecurityConfig {
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .group("public-api")
-                .pathsToMatch("/**")
+                .pathsToMatch(SecurityConfig.WHITE_LIST_URL)
                 .build();
     }
 
@@ -74,7 +72,7 @@ public class OpenAPISecurityConfig {
     public OpenAPI openAPI() {
         return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components()
-                        .addSecuritySchemes("bearerAuth", createAPIKeyScheme()))
+                        .addSecuritySchemes("Bearer", createAPIKeyScheme()))
                 .info(new Info()
                         .title("AutoPass Restful API")
                         .description("This is the documentation of the AutoPass application's Restful API. It is important to note that our system implements JWTs for session management.")
@@ -89,20 +87,10 @@ public class OpenAPISecurityConfig {
     private SecurityScheme createAPIKeyScheme() {
         return new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
-                .scheme("bearer")
+                .scheme("Bearer")
                 .bearerFormat("JWT")
                 .in(SecurityScheme.In.HEADER)
                 .name("Authorization")
                 ;
-    }
-
-    @Bean
-    public OpenApiCustomizer customerGlobalHeaderOpenApiCustomizer() {
-        return openApi -> openApi.getPaths().values().stream().flatMap(pathItem -> pathItem.readOperations().stream())
-                .forEach(operation -> {
-                    if (operation.getParameters() != null) {
-                        operation.getParameters().add(new HeaderParameter().name("X-Custom-Header").description("Custom header").required(false).schema(new StringSchema()));
-                    }
-                });
     }
 }

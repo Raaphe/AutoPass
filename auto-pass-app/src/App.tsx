@@ -1,48 +1,40 @@
-import logo from './logo.svg';
-import './App.scss';
-// import React, {useState} from 'react';
 import React from 'react';
+import Header from "./components/Header/Header";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import LandingPage from './components/LandingPage/LandingPage';
+import ProtectedRoutesGuests from './routes/ProtectedRoutesAnonymous';
+import Login from './components/Login/Login';
 // import { AuthenticationApi, SignInDTO } from "./Service"
 
 
 const App = () => {
 
-    // const authApi = new AuthenticationApi();
-    // const [user, setUser] = useState(null);
-
-
-    // const login = ():Boolean => {
-
-
-    //     // var 
-    //     authApi.
-
-    //     return false;
-    // }
 
     return (
 
+        <Router>
+            <div className="App">
+                <Header/>
+                <Routes>
+                    <Route element={<ProtectedRoutesGuests/>}>
+                        <Route path='/' element={<LandingPage/>}/>
+                        <Route path='/signup' element={<LandingPage/>}/>
+                        <Route path='/login' element={<Login/>}/>
+                    </Route>
+                    {/*
+                    <Route element={<ProtectedRoutesGuests />}>
+                        <Route path='/'  element={<LandingPage/>}/>
+                        <Route path='/signup'  element={<LandingPage/>}/>
+                        <Route path='/login'  element={<LandingPage/>}/>
+                    </Route>
 
-        <div className="App">
 
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-                {/* <button onClick={() => login()}>
+ */}
 
-                </button> */}
-            </header>
-        </div>
+
+                </Routes>
+            </div>
+        </Router>
     );
 }
 

@@ -13,10 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthenticationResponse {
+    @JsonProperty("user_id")
     private Long id;
+    @JsonProperty("user_email")
     private String email;
+    @JsonProperty("user_authorities")
     private List<String> roles;
-
     @JsonProperty("access_token")
     private String accessToken;
     @JsonProperty("refresh_token")
