@@ -1,6 +1,6 @@
 ## AUTOPASS
 
-Developed in part by Harjot Dillon Singh, Lam Nguyen and Raphael Paquin.
+Developed in part by Lam Nguyen and Raphael Paquin.
 
 ##### LINKS
 
