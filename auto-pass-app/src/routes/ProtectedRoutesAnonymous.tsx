@@ -1,14 +1,17 @@
 import React from "react";
-import {Outlet} from "react-router-dom";
+import {Navigate, Outlet} from "react-router-dom";
+import ClientAuthService from "../ClientAuthService";
 
-
-const isAuth = async (): Promise<Boolean> => {
-    return true;
-
-}
+const isUserLoggedIn: boolean = await ClientAuthService.isUserLoggedIn();
 
 const ProtectedRoutesGuests = () => {
-    return <Outlet/>
+    console.log(isUserLoggedIn);
+
+    if (isUserLoggedIn) {
+        return <Navigate to="/home"/>
+    } else {
+        return <Outlet/>
+    }
 }
 
 export default ProtectedRoutesGuests;

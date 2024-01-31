@@ -1,8 +1,12 @@
 import React from "react";
-import {Outlet} from "react-router-dom";
+import {Navigate, Outlet} from "react-router-dom";
+import ClientAuthService from "../ClientAuthService";
+
+
+const isAuth = await ClientAuthService.isUserLoggedIn();
 
 const ProtectedRoutesUser = () => {
-    return <Outlet/>
-}
+    return isAuth ? <Outlet/> : <Navigate to="/login"/>;
+};
 
 export default ProtectedRoutesUser;

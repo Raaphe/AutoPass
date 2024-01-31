@@ -1,10 +1,10 @@
-import {AuthenticationApi} from "./Service";
+import {AuthenticationApi, IsLoggedInDTO, RefreshTokenDTO} from "./Service";
 
 class AuthenticationService {
 
     authApi = new AuthenticationApi();
 
-    async login(loginDTO: import("./Service").SignInDTO): Promise<boolean> {
+    public async login(loginDTO: import("./Service").SignInDTO): Promise<boolean> {
 
         // /login
         await this.authApi.authenticate(loginDTO)
@@ -24,32 +24,47 @@ class AuthenticationService {
         return false;
     }
 
-    logout() {
+    public logout = () => {
         this.authApi.logout(sessionStorage.getItem("refresh-token") ?? "");
         localStorage.clear();
         sessionStorage.clear();
         window.location.reload();
     }
 
-    // This method will use authentication api to check if the tokens in local and session storage are valid. 
+    // This method will use authentication api to check if the access token in local and session storage are valid. 
     // This method will then be called when routing. Each new route a user takes will trigger this function to handle authentication between pages.
-    isUserLoggedIn() {
+    // When an access token is invalid, this method will handle refreshing it
+    public async isUserLoggedIn() {
 
-        let refresh_token = sessionStorage.getItem("refresh-token");
         let access_token = sessionStorage.getItem("access-token");
 
-        this.authApi.isLogged();
+        let refreshTokenDTO: RefreshTokenDTO = {
+            refreshToken: sessionStorage.getItem("refresh-token") ?? ""
+        }
 
+        let loggedInDTO: IsLoggedInDTO = {
+            accessToken: access_token ?? "",
+            userId: parseInt(sessionStorage.getItem("user-id") ?? "-1")
+        }
 
-        // if (this.authApi.)
+        // this condition only validates access token.
+        if (!await this.authApi.isLogged(loggedInDTO)) {
 
-        // let role = sessionStorage.getItem("role");
-        // if (role !== "user") {
-        //     return false;
-        // } else {
-        //     return true;
-        // }
+            // if refresh token is invalid completely restrict access.
+            if (await this.authApi.isRefreshTokenExpired(refreshTokenDTO)) {
+                this.logout();
+                return false;
+            } else {
+                // refresh token if refresh token is valid and access token is expired.
+                sessionStorage.setItem(
+                    "access-token", (await this.authApi.refreshTokenCookie(refreshTokenDTO.refreshToken ?? "")).data)
+                return true;
+            }
+        } else {
+            return true;
+        }
     }
+
 }
 
 export default new AuthenticationService();

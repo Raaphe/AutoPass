@@ -16,11 +16,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
 
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -70,6 +72,10 @@ public class RefreshTokenService implements IRefreshTokenService {
             throw new TokenException(token.getToken(), "Refresh token was expired. Please make a new authentication request");
         }
         return token;
+    }
+
+    public Boolean isTokenExpired(Token token) {
+        return token != null && token.getExpiryDate().compareTo(Instant.now()) >= 0;
     }
 
     @Override
@@ -138,4 +144,20 @@ public class RefreshTokenService implements IRefreshTokenService {
                 .maxAge(0)
                 .build();
     }
+
+    @Override
+    public Token getTokenFromUserDetails(UserDetails userDetails) {
+
+        Optional<User> user = userRepository.findByEmail(userDetails.getUsername());
+        Optional<Token> token = Optional.empty();
+
+        if (user.isPresent()) {
+            token = refreshTokenRepository.findByUser(user.get());
+        }
+
+        assert Objects.requireNonNull(token).isPresent();
+        return token.orElse(null);
+    }
+
+
 }

@@ -6,6 +6,7 @@ import backend.autopass.payload.viewmodels.RefreshTokenResponse;
 import backend.autopass.security.jwt.refreshToken.Token;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
@@ -27,5 +28,13 @@ public interface IRefreshTokenService {
     ResponseCookie getCleanRefreshTokenCookie();
 
     Optional<User> findUserByToken(String token);
+
+    /**
+     * Gets a user's refresh token or null.
+     *
+     * @param userDetails The user's UserDetails Object.
+     * @return The user's refresh token or null.
+     */
+    Token getTokenFromUserDetails(UserDetails userDetails);
 
 }

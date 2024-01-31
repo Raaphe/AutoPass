@@ -60,43 +60,43 @@ export interface AbstractJsonSchemaPropertyObject {
 export type Authenticate400Response = string | { [key: string]: string; };
 
 /**
- *
+ * 
  * @export
  * @interface AuthenticationResponse
  */
 export interface AuthenticationResponse {
     /**
-     *
+     * 
      * @type {number}
      * @memberof AuthenticationResponse
      */
     'user_id'?: number;
     /**
-     *
+     * 
      * @type {string}
      * @memberof AuthenticationResponse
      */
     'user_email'?: string;
     /**
-     *
+     * 
      * @type {Array<string>}
      * @memberof AuthenticationResponse
      */
     'user_authorities'?: Array<string>;
     /**
-     *
+     * 
      * @type {string}
      * @memberof AuthenticationResponse
      */
     'access_token'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof AuthenticationResponse
      */
     'refresh_token'?: string;
     /**
-     *
+     * 
      * @type {string}
      * @memberof AuthenticationResponse
      */
@@ -332,13 +332,13 @@ export interface EntityModelUser {
      */
     'accountNonLocked'?: boolean;
     /**
-     *
+     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'username'?: string;
     /**
-     *
+     * 
      * @type {Array<GrantedAuthority>}
      * @memberof EntityModelUser
      */
@@ -348,15 +348,15 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
@@ -457,6 +457,26 @@ export interface GrantedAuthority {
      */
     'authority'?: string;
 }
+/**
+ *
+ * @export
+ * @interface IsLoggedInDTO
+ */
+export interface IsLoggedInDTO {
+    /**
+     *
+     * @type {string}
+     * @memberof IsLoggedInDTO
+     */
+    'accessToken'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof IsLoggedInDTO
+     */
+    'userId'?: number;
+}
+
 /**
  * 
  * @export
@@ -996,6 +1016,20 @@ export interface PaymentTypeRequestBody {
     'cvv'?: string;
 }
 /**
+ *
+ * @export
+ * @interface RefreshTokenDTO
+ */
+export interface RefreshTokenDTO {
+    /**
+     *
+     * @type {string}
+     * @memberof RefreshTokenDTO
+     */
+    'refreshToken'?: string;
+}
+
+/**
  * 
  * @export
  * @interface RepresentationModelObject
@@ -1207,13 +1241,13 @@ export interface User {
      */
     'accountNonLocked'?: boolean;
     /**
-     *
+     * 
      * @type {string}
      * @memberof User
      */
     'username'?: string;
     /**
-     *
+     * 
      * @type {Array<GrantedAuthority>}
      * @memberof User
      */
@@ -1223,15 +1257,15 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof User
      */
@@ -1312,13 +1346,13 @@ export interface UserRequestBody {
      */
     'accountNonLocked'?: boolean;
     /**
-     *
+     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'username'?: string;
     /**
-     *
+     * 
      * @type {Array<GrantedAuthority>}
      * @memberof UserRequestBody
      */
@@ -1328,15 +1362,15 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
-     *
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
@@ -1456,6 +1490,82 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
+         * @summary Checks if the access token is valid.
+         * @param {IsLoggedInDTO} dto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        isLogged: async (dto: IsLoggedInDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dto' is not null or undefined
+            assertParamExists('isLogged', 'dto', dto)
+            const localVarPath = `/auth/isLogged`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = {method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (dto !== undefined) {
+                for (const [key, value] of Object.entries(dto)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @summary Checks if the refresh token is valid.
+         * @param {RefreshTokenDTO} dto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        isRefreshTokenExpired: async (dto: RefreshTokenDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dto' is not null or undefined
+            assertParamExists('isRefreshTokenExpired', 'dto', dto)
+            const localVarPath = `/auth/check-refresh-token`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = {method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (dto !== undefined) {
+                for (const [key, value] of Object.entries(dto)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists).
          * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
@@ -1492,7 +1602,7 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         *
+         * 
          * @summary Used to refresh expired access token. Verifies if refresh token is valid.
          * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
@@ -1587,6 +1697,32 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
         },
         /**
          *
+         * @summary Checks if the access token is valid.
+         * @param {IsLoggedInDTO} dto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async isLogged(dto: IsLoggedInDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.isLogged(dto, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['AuthenticationApi.isLogged']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         *
+         * @summary Checks if the refresh token is valid.
+         * @param {RefreshTokenDTO} dto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async isRefreshTokenExpired(dto: RefreshTokenDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.isRefreshTokenExpired(dto, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['AuthenticationApi.isRefreshTokenExpired']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists).
          * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
@@ -1599,7 +1735,7 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @summary Used to refresh expired access token. Verifies if refresh token is valid.
          * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
@@ -1646,6 +1782,26 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         },
         /**
          *
+         * @summary Checks if the access token is valid.
+         * @param {IsLoggedInDTO} dto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        isLogged(dto: IsLoggedInDTO, options?: any): AxiosPromise<boolean> {
+            return localVarFp.isLogged(dto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @summary Checks if the refresh token is valid.
+         * @param {RefreshTokenDTO} dto
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        isRefreshTokenExpired(dto: RefreshTokenDTO, options?: any): AxiosPromise<boolean> {
+            return localVarFp.isRefreshTokenExpired(dto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists).
          * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
@@ -1655,7 +1811,7 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
             return localVarFp.logout(refreshToken, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @summary Used to refresh expired access token. Verifies if refresh token is valid.
          * @param {string} refreshToken 
          * @param {*} [options] Override http request option.
@@ -1698,6 +1854,30 @@ export class AuthenticationApi extends BaseAPI {
 
     /**
      *
+     * @summary Checks if the access token is valid.
+     * @param {IsLoggedInDTO} dto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public isLogged(dto: IsLoggedInDTO, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).isLogged(dto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @summary Checks if the refresh token is valid.
+     * @param {RefreshTokenDTO} dto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public isRefreshTokenExpired(dto: RefreshTokenDTO, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).isRefreshTokenExpired(dto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary This method handles user logout. It removes the refresh token associated with the user (if it exists).
      * @param {string} refreshToken 
      * @param {*} [options] Override http request option.
@@ -1709,7 +1889,7 @@ export class AuthenticationApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @summary Used to refresh expired access token. Verifies if refresh token is valid.
      * @param {string} refreshToken 
      * @param {*} [options] Override http request option.
@@ -6117,7 +6297,7 @@ export const TokenSearchControllerApiAxiosParamCreator = function (configuration
         },
         /**
          *
-         * @param {User} [user]
+         * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6178,7 +6358,7 @@ export const TokenSearchControllerApiFp = function (configuration?: Configuratio
         },
         /**
          *
-         * @param {User} [user]
+         * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6209,7 +6389,7 @@ export const TokenSearchControllerApiFactory = function (configuration?: Configu
         },
         /**
          *
-         * @param {User} [user]
+         * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6228,7 +6408,7 @@ export const TokenSearchControllerApiFactory = function (configuration?: Configu
 export class TokenSearchControllerApi extends BaseAPI {
     /**
      *
-     * @param {string} [token]
+     * @param {string} [token] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenSearchControllerApi
@@ -6238,7 +6418,7 @@ export class TokenSearchControllerApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @param {User} [user] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

@@ -1,18 +1,27 @@
 import React, {FC} from 'react';
 import './LandingPage.scss';
-import {Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 interface LandingPageProps {
 }
 
-const LandingPage: FC<LandingPageProps> = () => (
-    <div className="container-fluid">
+const LandingPage: FC<LandingPageProps> = () => {
 
-        <Link to="/login">
-            <button className="btn btn-primary">Go to Login</button>
-        </Link>
-        LandingPage Component
-    </div>
-);
+    const navigate = useNavigate();
+
+
+    function handleClickLogon(): void {
+        navigate("/login");
+    }
+
+    return (
+
+        <div className="container-fluid">
+            <button onClick={handleClickLogon} className="btn btn-primary">Go to Login</button>
+            LandingPage Component
+        </div>
+
+    );
+};
 
 export default LandingPage;

@@ -26,6 +26,7 @@ public class UserService implements IUserService {
     private final PassRepository passRepository;
     private final UserWalletRepository walletRepository;
 
+
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Username Not Found"));
     }
