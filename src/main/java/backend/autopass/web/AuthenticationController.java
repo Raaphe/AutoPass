@@ -1,14 +1,18 @@
 package backend.autopass.web;
 
 //import backend.autopass.payload.dto.IsLoggedInDTO;
+
+import backend.autopass.payload.dto.IsLoggedInDTO;
 import backend.autopass.payload.dto.RefreshTokenDTO;
 import backend.autopass.payload.dto.SignInDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.viewmodels.AuthenticationResponse;
 import backend.autopass.payload.viewmodels.RefreshTokenResponse;
+import backend.autopass.security.jwt.refreshToken.Token;
 import backend.autopass.service.AuthenticationService;
 import backend.autopass.service.JwtService;
 import backend.autopass.service.RefreshTokenService;
+import backend.autopass.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,10 +24,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "Authentication", description = "The Authentication API. Contains operations like login, logout, refresh-token etc.")
@@ -36,6 +46,8 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
     @PostMapping("/login")
     @Operation(summary = "Logs a user in by an email and password. Returns a JWT token for session handling.")
@@ -58,7 +70,7 @@ public class AuthenticationController {
     })
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody SignInDTO request) {
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(request);
-        return ResponseEntity.ok()
+        return ok()
                 .body(authenticationResponse);
     }
 
@@ -79,7 +91,7 @@ public class AuthenticationController {
     })
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody SignUpDTO request) throws Exception {
         AuthenticationResponse authenticationResponse = authenticationService.register(request);
-        return ResponseEntity.ok()
+        return ok()
                 .body(authenticationResponse);
     }
 
@@ -104,7 +116,7 @@ public class AuthenticationController {
 
         ResponseCookie newAccessToken = jwtService.generateJwtCookie(refreshTokenResponse.getAccessToken());
 
-        return ResponseEntity.ok()
+        return ok()
                 .body(newAccessToken.toString());
     }
 
@@ -121,29 +133,47 @@ public class AuthenticationController {
     })
     public ResponseEntity<Void> logout(String refreshToken) {
         refreshTokenService.deleteByToken(refreshToken);
-        return ResponseEntity.ok()
+        return ok()
                 .build();
     }
 
-//    @PostMapping("/isLogged")
-//    @Operation(summary = "Checks if the jwt tokens are valid.")
-//    @ApiResponses(value = {
-//            @ApiResponse(
-//                    responseCode = "200", description = "Tokens are valid and user is logged in."
-//            ),
-//            @ApiResponse(
-//                    responseCode = "400", description = "Invalid tokens",
-//                    content = @Content
-//            )
-//    })
-//    public ResponseEntity<Void> isLogged(IsLoggedInDTO dto) {
-//
-//        refreshTokenService.findTokenByToken(dto.getRefreshToken());
-//
-//        // if access token is valid refresh
-//
-//
-//        return ResponseEntity.ok()
-//                .build();
-//    }
+    @PostMapping("/isLogged")
+    @Operation(summary = "Checks if the jwt tokens are valid.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Tokens are valid and user is logged in."
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Invalid tokens",
+                    content = @Content
+            )
+    })
+    public ResponseEntity<Boolean> isLogged(IsLoggedInDTO dto) {
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(
+                this.userService.getUserById((long) dto.getUserId()).getEmail() // email
+        );
+
+
+        // ===== REFRESH TOKEN ====
+        Optional<Token> refreshToken = refreshTokenService.findTokenByToken(dto.getRefreshToken());
+        if (refreshToken.isPresent()) {
+
+            try {
+                refreshTokenService.verifyExpiration(refreshToken.get());
+            } catch (Exception exception) {
+                return ok().body(false);
+            }
+
+        }
+
+        // ===== ACCESS TOKEN ====
+        if (!jwtService.isTokenValid(dto.getAccessToken(), userDetails)) {
+            refreshTokenService.deleteByToken(dto.getRefreshToken());
+            return ok().body(false);
+        }
+
+        return ok()
+                .build();
+    }
 }

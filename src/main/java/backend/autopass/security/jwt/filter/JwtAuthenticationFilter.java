@@ -1,7 +1,9 @@
 package backend.autopass.security.jwt.filter;
 
 import backend.autopass.security.config.SecurityConfig;
+import backend.autopass.security.jwt.refreshToken.Token;
 import backend.autopass.service.JwtService;
+import backend.autopass.service.RefreshTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userService;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     protected void doFilterInternal(
@@ -63,7 +66,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails;
                 userDetails = this.userService.loadUserByUsername(userEmail);
-                if (jwtService.isTokenValid(jwt, userDetails)) {
+
+                // Get Refresh token
+                // For refresh token logic, the filter will only let the request pass if refresh token is valid.
+                // It assumes some other part of the application will handle the generation of a new access token.
+                boolean isRefreshTokenValid;
+                Token refreshToken = refreshTokenService.getTokenFromUserDetails(userDetails);
+                isRefreshTokenValid = !refreshTokenService.isTokenExpired(refreshToken);
+
+
+                if (jwtService.isTokenValid(jwt, userDetails) || isRefreshTokenValid) {
                     // Set authentication in the context
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
