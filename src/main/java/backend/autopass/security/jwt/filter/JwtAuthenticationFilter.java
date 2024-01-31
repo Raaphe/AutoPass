@@ -70,6 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // Get Refresh token
                 // For refresh token logic, the filter will only let the request pass if refresh token is valid.
                 // It assumes some other part of the application will handle the generation of a new access token.
+                // ^^ in frontend/src/ClientAuthService.ts
                 boolean isRefreshTokenValid;
                 Token refreshToken = refreshTokenService.getTokenFromUserDetails(userDetails);
                 isRefreshTokenValid = !refreshTokenService.isTokenExpired(refreshToken);

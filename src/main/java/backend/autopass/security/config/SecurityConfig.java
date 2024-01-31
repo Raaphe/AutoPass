@@ -24,6 +24,9 @@ public class SecurityConfig {
     public static final String[] WHITE_LIST_URL = {
             "/auth/login",
             "/auth/signup",
+            "/auth/logout",
+            "/auth/isLogged",
+            "/auth/refresh-token",
             "/swagger-ui.html",
             "/v3/api-docs",
             "/v3/api-docs.yaml",

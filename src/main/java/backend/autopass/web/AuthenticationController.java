@@ -26,10 +26,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -137,43 +134,63 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("/isLogged")
-    @Operation(summary = "Checks if the jwt tokens are valid.")
+    @GetMapping("/isLogged")
+    @Operation(summary = "Checks if the access token is valid.")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "Tokens are valid and user is logged in."
+                    responseCode = "200", description = "Access token is valid, resources are permitted.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Invalid token.",
+                    content = @Content
+            )
+    })
+    public ResponseEntity<Boolean> isLogged(IsLoggedInDTO dto) {
+
+        if (dto.getAccessToken().isBlank() || dto.getUserId() == -1) {
+            return ok().body(false);
+        }
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(
+                this.userService.getUserById((long) dto.getUserId()).getEmail() // email
+        );
+
+        // ===== ACCESS TOKEN ====
+        if (!jwtService.isTokenValid(dto.getAccessToken(), userDetails)) {
+            return ok().body(false);
+        }
+
+        return ok().body(true);
+    }
+
+    @GetMapping("/check-refresh-token")
+    @Operation(summary = "Checks if the refresh token is valid.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Token is valid and user's access token is refreshed.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class))
+                    }
             ),
             @ApiResponse(
                     responseCode = "400", description = "Invalid tokens",
                     content = @Content
             )
     })
-    public ResponseEntity<Boolean> isLogged(IsLoggedInDTO dto) {
+    public ResponseEntity<Boolean> isRefreshTokenExpired(RefreshTokenDTO dto) {
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(
-                this.userService.getUserById((long) dto.getUserId()).getEmail() // email
-        );
-
-
-        // ===== REFRESH TOKEN ====
-        Optional<Token> refreshToken = refreshTokenService.findTokenByToken(dto.getRefreshToken());
-        if (refreshToken.isPresent()) {
-
-            try {
-                refreshTokenService.verifyExpiration(refreshToken.get());
-            } catch (Exception exception) {
-                return ok().body(false);
-            }
-
-        }
-
-        // ===== ACCESS TOKEN ====
-        if (!jwtService.isTokenValid(dto.getAccessToken(), userDetails)) {
-            refreshTokenService.deleteByToken(dto.getRefreshToken());
+        if (dto.getRefreshToken().isBlank()) {
             return ok().body(false);
         }
 
-        return ok()
-                .build();
+        Optional<Token> refreshToken = refreshTokenService.findTokenByToken(dto.getRefreshToken());
+        return refreshToken.map(token -> ok()
+                .body(refreshTokenService.isTokenExpired(token))).orElseGet(() -> ok()
+                .body(false));
     }
 }

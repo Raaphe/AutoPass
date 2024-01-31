@@ -4,7 +4,8 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import LandingPage from './components/LandingPage/LandingPage';
 import ProtectedRoutesGuests from './routes/ProtectedRoutesAnonymous';
 import Login from './components/Login/Login';
-// import { AuthenticationApi, SignInDTO } from "./Service"
+import ProtectedRoutesUser from './routes/ProtectedRoutesUser';
+import UserLandingPage from './components/UserLandingPage/UserLandingPage';
 
 
 const App = () => {
@@ -21,15 +22,12 @@ const App = () => {
                         <Route path='/signup' element={<LandingPage/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Route>
-                    {/*
-                    <Route element={<ProtectedRoutesGuests />}>
-                        <Route path='/'  element={<LandingPage/>}/>
-                        <Route path='/signup'  element={<LandingPage/>}/>
-                        <Route path='/login'  element={<LandingPage/>}/>
+
+                    <Route element={<ProtectedRoutesUser/>}>
+                        <Route path='/home' element={<UserLandingPage/>}/>
+                        {/* Edit user (/edit/:userId), user details (/:userId)*/}
+                        
                     </Route>
-
-
- */}
 
 
                 </Routes>
