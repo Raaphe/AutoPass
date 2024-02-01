@@ -1,6 +1,6 @@
 ## AUTOPASS
 
-Developed in part by Lam Nguyen and Raphael Paquin.
+Developed in part by Lam Nguyen, Raphael Paquin and Moncef Moutaki.
 
 ##### LINKS
 
