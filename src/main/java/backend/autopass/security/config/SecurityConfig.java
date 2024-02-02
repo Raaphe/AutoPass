@@ -26,6 +26,7 @@ public class SecurityConfig {
             "/auth/signup",
             "/auth/logout",
             "/auth/isLogged",
+            "/auth/check-refresh-token",
             "/auth/refresh-token",
             "/swagger-ui.html",
             "/v3/api-docs",
