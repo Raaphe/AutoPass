@@ -1,6 +1,6 @@
 package backend.autopass.web;
 
-//import backend.autopass.payload.dto.IsLoggedInDTO;
+
 
 import backend.autopass.payload.dto.IsLoggedInDTO;
 import backend.autopass.payload.dto.RefreshTokenDTO;
@@ -185,12 +185,12 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> isRefreshTokenExpired(RefreshTokenDTO dto) {
 
         if (dto.getRefreshToken().isBlank()) {
-            return ok().body(false);
+            return ok().body(true);
         }
 
         Optional<Token> refreshToken = refreshTokenService.findTokenByToken(dto.getRefreshToken());
         return refreshToken.map(token -> ok()
                 .body(refreshTokenService.isTokenExpired(token))).orElseGet(() -> ok()
-                .body(false));
+                .body(true));
     }
 }

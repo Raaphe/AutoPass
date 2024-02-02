@@ -1,13 +1,23 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Navigate, Outlet} from "react-router-dom";
 import ClientAuthService from "../ClientAuthService";
 
-const isUserLoggedIn: boolean = await ClientAuthService.isUserLoggedIn();
-
 const ProtectedRoutesGuests = () => {
-    console.log(isUserLoggedIn);
+    const [isAuth, setIsAuth] = useState(false);
 
-    if (isUserLoggedIn) {
+    useEffect(() => {
+        const checkAuth = async () => {
+            if (ClientAuthService.isUserLoggedOut()) {
+                return <Navigate to="/"/>
+            }
+            const auth = await ClientAuthService.isUserLoggedIn();
+            setIsAuth(auth);
+        };
+
+        checkAuth();
+    }, []);
+
+    if (isAuth) {
         return <Navigate to="/home"/>
     } else {
         return <Outlet/>
