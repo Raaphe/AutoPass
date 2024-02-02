@@ -1,14 +1,15 @@
 import React, {FC, useState} from 'react';
 import './Login.scss';
-import {AuthenticationApi, SignInDTO} from '../../Service';
+import {SignInDTO} from '../../Service';
 import ClientAuthService from '../../ClientAuthService';
+import {useNavigate} from 'react-router-dom';
 
 interface LoginProps {
 }
 
 const Login: FC<LoginProps> = () => {
 
-    const authApi = new AuthenticationApi();
+    const navigate = useNavigate();
     const [signInData, setSignInData] = useState<SignInDTO>({
         email: "",
         password: "",
@@ -28,9 +29,14 @@ const Login: FC<LoginProps> = () => {
 
         var isCredentialCorrect: boolean = await ClientAuthService.login(signInData);
 
+        console.log(isCredentialCorrect);
+        
+
         if (!isCredentialCorrect) {
-            setSignInData({email: "", password: "",})
-        } 
+            setSignInData({email: "", password: "",});
+        } else {
+            navigate("/home");
+        }
         
     }
 

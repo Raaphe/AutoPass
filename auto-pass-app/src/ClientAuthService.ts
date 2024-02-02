@@ -7,24 +7,24 @@ class AuthenticationService {
     public async login(loginDTO: import("./Service").SignInDTO): Promise<boolean> {
 
         // /login
-        await this.authApi.authenticate(loginDTO)
+        var isLoggedIn: boolean = await this.authApi.authenticate(loginDTO)
             .then((res) => {
-                console.log(res);
                 sessionStorage.setItem("access-token", res.data.access_token ?? "")
                 localStorage.setItem("refresh-token", res.data.refresh_token ?? "")
                 sessionStorage.setItem("user-id", res.data.user_id?.toString() ?? "")
                 return true;
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
                 this.logout();
                 return false;
             });
 
-        return false;
+        return isLoggedIn;
     }
 
     public logout = () => {
+
+
         this.authApi.logout(sessionStorage.getItem("refresh-token") ?? "");
         localStorage.clear();
         sessionStorage.clear();
@@ -35,6 +35,7 @@ class AuthenticationService {
     // This method will then be called when routing. Each new route a user takes will trigger this function to handle authentication between pages.
     // When an access token is invalid, this method will handle refreshing it
     public async isUserLoggedIn() {
+
 
         let access_token = sessionStorage.getItem("access-token");
 
@@ -48,10 +49,12 @@ class AuthenticationService {
         }
 
         // this condition only validates access token.
-        if (!await this.authApi.isLogged(loggedInDTO)) {
+        if (!(await this.authApi.isLogged(loggedInDTO)).data) {
 
             // if refresh token is invalid completely restrict access.
-            if (await this.authApi.isRefreshTokenExpired(refreshTokenDTO)) {
+            var isRefreshTokenExpired = (await this.authApi.isRefreshTokenExpired(refreshTokenDTO)).data;
+
+            if (isRefreshTokenExpired) {
                 this.logout();
                 return false;
             } else {
@@ -65,6 +68,24 @@ class AuthenticationService {
         }
     }
 
+    public isUserLoggedOut() {
+        if (this.getAccessTokenOrDefault() === "" && this.getRefreshTokenOrDefault() === "") {
+            return true;
+        }
+        return false;
+    }
+
+    public getAccessTokenOrDefault = () => {
+        return sessionStorage.getItem("access-token") ?? "";
+    }
+
+    public getRefreshTokenOrDefault = () => {
+        return localStorage.getItem("refresh-token") ?? "";
+    }
+
 }
 
-export default new AuthenticationService();
+
+const authenticationService = new AuthenticationService();
+
+export default authenticationService;

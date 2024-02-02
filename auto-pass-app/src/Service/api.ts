@@ -198,12 +198,6 @@ export interface EntityModelPaymentType {
     'expiryDate'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof EntityModelPaymentType
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
@@ -214,6 +208,12 @@ export interface EntityModelPaymentType {
      * @memberof EntityModelPaymentType
      */
     'cvv'?: string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof EntityModelPaymentType
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -332,6 +332,12 @@ export interface EntityModelUser {
      */
     'accountNonLocked'?: boolean;
     /**
+     *
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'deleted'?: boolean;
+    /**
      * 
      * @type {string}
      * @memberof EntityModelUser
@@ -348,19 +354,13 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
     'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -458,25 +458,24 @@ export interface GrantedAuthority {
     'authority'?: string;
 }
 /**
- *
+ * 
  * @export
  * @interface IsLoggedInDTO
  */
 export interface IsLoggedInDTO {
     /**
-     *
+     * 
      * @type {string}
      * @memberof IsLoggedInDTO
      */
     'accessToken'?: string;
     /**
-     *
+     * 
      * @type {number}
      * @memberof IsLoggedInDTO
      */
     'userId'?: number;
 }
-
 /**
  * 
  * @export
@@ -998,12 +997,6 @@ export interface PaymentTypeRequestBody {
     'expiryDate'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof PaymentTypeRequestBody
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
@@ -1014,21 +1007,26 @@ export interface PaymentTypeRequestBody {
      * @memberof PaymentTypeRequestBody
      */
     'cvv'?: string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PaymentTypeRequestBody
+     */
+    'deleted'?: boolean;
 }
 /**
- *
+ * 
  * @export
  * @interface RefreshTokenDTO
  */
 export interface RefreshTokenDTO {
     /**
-     *
+     * 
      * @type {string}
      * @memberof RefreshTokenDTO
      */
     'refreshToken'?: string;
 }
-
 /**
  * 
  * @export
@@ -1241,6 +1239,12 @@ export interface User {
      */
     'accountNonLocked'?: boolean;
     /**
+     *
+     * @type {boolean}
+     * @memberof User
+     */
+    'deleted'?: boolean;
+    /**
      * 
      * @type {string}
      * @memberof User
@@ -1257,19 +1261,13 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
     'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof User
      */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1346,6 +1344,12 @@ export interface UserRequestBody {
      */
     'accountNonLocked'?: boolean;
     /**
+     *
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'deleted'?: boolean;
+    /**
      * 
      * @type {string}
      * @memberof UserRequestBody
@@ -1362,19 +1366,13 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
     'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -1489,9 +1487,9 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         *
+         * 
          * @summary Checks if the access token is valid.
-         * @param {IsLoggedInDTO} dto
+         * @param {IsLoggedInDTO} dto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1527,9 +1525,9 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         *
+         * 
          * @summary Checks if the refresh token is valid.
-         * @param {RefreshTokenDTO} dto
+         * @param {RefreshTokenDTO} dto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1696,9 +1694,9 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @summary Checks if the access token is valid.
-         * @param {IsLoggedInDTO} dto
+         * @param {IsLoggedInDTO} dto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1709,9 +1707,9 @@ export const AuthenticationApiFp = function (configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @summary Checks if the refresh token is valid.
-         * @param {RefreshTokenDTO} dto
+         * @param {RefreshTokenDTO} dto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1781,9 +1779,9 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
             return localVarFp.authenticate(signInDTO, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @summary Checks if the access token is valid.
-         * @param {IsLoggedInDTO} dto
+         * @param {IsLoggedInDTO} dto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1791,9 +1789,9 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
             return localVarFp.isLogged(dto, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @summary Checks if the refresh token is valid.
-         * @param {RefreshTokenDTO} dto
+         * @param {RefreshTokenDTO} dto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1853,9 +1851,9 @@ export class AuthenticationApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @summary Checks if the access token is valid.
-     * @param {IsLoggedInDTO} dto
+     * @param {IsLoggedInDTO} dto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
@@ -1865,9 +1863,9 @@ export class AuthenticationApi extends BaseAPI {
     }
 
     /**
-     *
+     * 
      * @summary Checks if the refresh token is valid.
-     * @param {RefreshTokenDTO} dto
+     * @param {RefreshTokenDTO} dto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
@@ -6296,7 +6294,7 @@ export const TokenSearchControllerApiAxiosParamCreator = function (configuration
             };
         },
         /**
-         *
+         * 
          * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6357,7 +6355,7 @@ export const TokenSearchControllerApiFp = function (configuration?: Configuratio
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
-         *
+         * 
          * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6388,7 +6386,7 @@ export const TokenSearchControllerApiFactory = function (configuration?: Configu
             return localVarFp.executeSearchTokenGet(token, options).then((request) => request(axios, basePath));
         },
         /**
-         *
+         * 
          * @param {User} [user] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6407,7 +6405,7 @@ export const TokenSearchControllerApiFactory = function (configuration?: Configu
  */
 export class TokenSearchControllerApi extends BaseAPI {
     /**
-     *
+     * 
      * @param {string} [token] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
