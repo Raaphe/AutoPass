@@ -9,7 +9,6 @@ const LandingPage: FC<LandingPageProps> = () => {
 
     const navigate = useNavigate();
 
-
     function handleClickLogon(): void {
         navigate("/login");
     }
