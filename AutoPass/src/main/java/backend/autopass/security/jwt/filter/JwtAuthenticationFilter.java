@@ -47,10 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String requestPath = request.getRequestURI();
 
-        if (requestPath.equals("/user/1")) {
-            System.out.println();
-        }
-
         // List the paths that should not require authentication
         List<String> authFreeEndpoints = List.of(SecurityConfig.WHITE_LIST_URL);
 

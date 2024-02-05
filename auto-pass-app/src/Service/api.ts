@@ -316,16 +316,28 @@ export interface EntityModelUser {
     'enabled'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof EntityModelUser
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
     'accountNonLocked'?: boolean;
     /**
      * 
-     * @type {string}
+     * @type {boolean}
      * @memberof EntityModelUser
      */
-    'username'?: string;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -338,18 +350,6 @@ export interface EntityModelUser {
      * @memberof EntityModelUser
      */
     'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof EntityModelUser
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -1284,16 +1284,28 @@ export interface User {
     'enabled'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof User
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
      * @type {boolean}
      * @memberof User
      */
     'accountNonLocked'?: boolean;
     /**
      * 
-     * @type {string}
+     * @type {boolean}
      * @memberof User
      */
-    'username'?: string;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1306,18 +1318,6 @@ export interface User {
      * @memberof User
      */
     'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof User
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'deleted'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1389,16 +1389,28 @@ export interface UserRequestBody {
     'enabled'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof UserRequestBody
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
     'accountNonLocked'?: boolean;
     /**
      * 
-     * @type {string}
+     * @type {boolean}
      * @memberof UserRequestBody
      */
-    'username'?: string;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1411,18 +1423,6 @@ export interface UserRequestBody {
      * @memberof UserRequestBody
      */
     'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof UserRequestBody
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'deleted'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {

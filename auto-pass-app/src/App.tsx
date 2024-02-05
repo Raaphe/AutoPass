@@ -15,7 +15,7 @@ const App = () => {
 
         <Router>
             <div className="App">
-                <Header/>
+                <Header/> 
                 <Routes>
                     <Route element={<ProtectedRoutesGuests/>}>
                         <Route path='/' element={<LandingPage/>}/>
