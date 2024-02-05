@@ -58,15 +58,6 @@ public class JwtService {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
-    public ResponseCookie generateJwtCookie(String jwt) {
-        return ResponseCookie.from(jwtCookieName, jwt)
-                .path("/")
-                .maxAge(24 * 60 * 60) // 24 hours
-                .httpOnly(true)
-                .secure(true)
-                .sameSite(sameSiteCookieSetting)
-                .build();
-    }
 
     public String getJwtFromCookies(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookieName);

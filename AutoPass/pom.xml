@@ -165,7 +165,7 @@
                             <generatorName>typescript-axios</generatorName>
                             <cleanupOutput>true</cleanupOutput>
                             <inputSpec>${project.basedir}/target/openapi.json</inputSpec>
-                            <output>${project.basedir}/auto-pass-app/src/Service</output>
+                            <output>../auto-pass-app/src/Service</output>
                         </configuration>
                     </execution>
 

@@ -322,22 +322,10 @@ export interface EntityModelUser {
     'accountNonLocked'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof EntityModelUser
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'username'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -350,6 +338,18 @@ export interface EntityModelUser {
      * @memberof EntityModelUser
      */
     'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof EntityModelUser
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -1290,22 +1290,10 @@ export interface User {
     'accountNonLocked'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof User
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
      * @type {string}
      * @memberof User
      */
     'username'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1318,6 +1306,18 @@ export interface User {
      * @memberof User
      */
     'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof User
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'deleted'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1395,22 +1395,10 @@ export interface UserRequestBody {
     'accountNonLocked'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof UserRequestBody
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'username'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1423,6 +1411,18 @@ export interface UserRequestBody {
      * @memberof UserRequestBody
      */
     'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof UserRequestBody
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'deleted'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
