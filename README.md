@@ -4,10 +4,10 @@ Developed in part by Lam Nguyen, Raphael Paquin and Moncef Moutaki.
 
 ##### LINKS
 
-- [Swagger-ui](http://localhost:8080/swagger-ui/index.html)
-- [Swagger yaml](http://localhost:8080/v3/api-docs.yaml)
-- [Swagger JSON](http://localhost:8080/v3/api-docs)
-- [h2 Console](http://localhost:8080/h2-console)
+- [Swagger-ui](http://localhost:9090/swagger-ui/index.html)
+- [Swagger yaml](http://localhost:9090/v3/api-docs.yaml)
+- [Swagger JSON](http://localhost:9090/v3/api-docs)
+- [h2 Console](http://localhost:9090/h2-console)
 
 ---  
 

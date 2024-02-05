@@ -9,7 +9,7 @@ class AuthenticationService {
     public async login(loginDTO: import("./Service").SignInDTO): Promise<boolean> {
 
         // /login
-        var isLoggedIn: boolean = await this.authApi.authenticate(loginDTO)
+        await this.authApi.authenticate(loginDTO)
             .then((res) => {
                 sessionStorage.setItem("access-token", res.data.access_token ?? "")
                 localStorage.setItem("refresh-token", res.data.refresh_token ?? "")
@@ -21,12 +21,10 @@ class AuthenticationService {
                 return false;
             });
 
-        return isLoggedIn;
+        return false;
     }
 
     public logout = () => {
-
-
         this.authApi.logout(sessionStorage.getItem("refresh-token") ?? "");
         localStorage.clear();
         sessionStorage.clear();
@@ -95,7 +93,7 @@ class AuthenticationService {
     public getApiConfig = () => {
 
         const configParam: Api.ConfigurationParameters = {
-            accessToken:this.getAccessTokenOrDefault()
+            accessToken:this.getAccessTokenOrDefault(),
         }
         return new Api.Configuration(configParam);
     } 
