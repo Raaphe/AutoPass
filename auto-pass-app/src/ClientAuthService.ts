@@ -1,4 +1,6 @@
 import {AuthenticationApi, IsLoggedInDTO, RefreshTokenDTO} from "./Service";
+import * as Api from "./Service";
+
 
 class AuthenticationService {
 
@@ -15,7 +17,7 @@ class AuthenticationService {
                 return true;
             })
             .catch(() => {
-                this.logout();
+                console.log("Error");
                 return false;
             });
 
@@ -37,14 +39,14 @@ class AuthenticationService {
     public async isUserLoggedIn() {
 
 
-        let access_token = sessionStorage.getItem("access-token");
+        let access_token = this.getAccessTokenOrDefault();
 
         let refreshTokenDTO: RefreshTokenDTO = {
-            refreshToken: sessionStorage.getItem("refresh-token") ?? ""
+            refreshToken: this.getRefreshTokenOrDefault()
         }
 
         let loggedInDTO: IsLoggedInDTO = {
-            accessToken: access_token ?? "",
+            accessToken: access_token,
             userId: parseInt(sessionStorage.getItem("user-id") ?? "-1")
         }
 
@@ -55,12 +57,15 @@ class AuthenticationService {
             var isRefreshTokenExpired = (await this.authApi.isRefreshTokenExpired(refreshTokenDTO)).data;
 
             if (isRefreshTokenExpired) {
+                
+                console.log("Bad refresh token logged out :" + refreshTokenDTO.refreshToken );
+                
                 this.logout();
                 return false;
             } else {
                 // refresh token if refresh token is valid and access token is expired.
                 sessionStorage.setItem(
-                    "access-token", (await this.authApi.refreshTokenCookie(refreshTokenDTO.refreshToken ?? "")).data)
+                    "access-token", (await this.authApi.refreshAccessToken(refreshTokenDTO.refreshToken ?? "")).data)
                 return true;
             }
         } else {
@@ -82,7 +87,18 @@ class AuthenticationService {
     public getRefreshTokenOrDefault = () => {
         return localStorage.getItem("refresh-token") ?? "";
     }
+    
+    public getUserId = () => {
+        return parseInt(sessionStorage.getItem("user-id") ?? "-1")
+    }
 
+    public getApiConfig = () => {
+
+        const configParam: Api.ConfigurationParameters = {
+            accessToken:this.getAccessTokenOrDefault()
+        }
+        return new Api.Configuration(configParam);
+    } 
 }
 
 
