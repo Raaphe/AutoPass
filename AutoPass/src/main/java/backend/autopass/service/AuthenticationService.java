@@ -36,7 +36,7 @@ public class AuthenticationService implements IAuthenticationService {
         } else if (request.getRole() == Role.USER) {
             user = userService.createUser(request);
         } else {
-            return null;
+            user =  userService.createUser(request);
         }
 
 
