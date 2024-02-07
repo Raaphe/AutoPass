@@ -6,6 +6,7 @@ import ProtectedRoutesGuests from './routes/ProtectedRoutesAnonymous';
 import Login from './components/Login/Login';
 import ProtectedRoutesUser from './routes/ProtectedRoutesUser';
 import UserLandingPage from './components/UserLandingPage/UserLandingPage';
+import SignUp from './components/SignUp/SignUp';
 
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
                 <Routes>
                     <Route element={<ProtectedRoutesGuests/>}>
                         <Route path='/' element={<LandingPage/>}/>
-                        <Route path='/signup' element={<LandingPage/>}/>
+                        <Route path='/signup' element={<SignUp/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Route>
 
