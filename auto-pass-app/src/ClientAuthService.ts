@@ -24,6 +24,11 @@ class AuthenticationService {
         return false;
     }
 
+    public async signup(SignUpDTO: import ("./Service").SignUpDTO): Promise<boolean>{
+        await this.authApi.register(SignUpDTO)
+        return false;
+    }
+
     public logout = () => {
         this.authApi.logout(sessionStorage.getItem("refresh-token") ?? "");
         localStorage.clear();
