@@ -1,12 +1,12 @@
 /* eslint-disable */
-import Login from './SignUp';
+import SignUp from "./SignUp";
 
 export default {
-    title: "Login",
+    title: "Sign Up",
 };
 
-export const Default = () => <Login/>;
-
+export const Default = () => <SignUp/>;
+  
 Default.story = {
     name: 'default',
 };

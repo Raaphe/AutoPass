@@ -1,11 +1,11 @@
 import React, {lazy, Suspense} from 'react';
+const LazySignUp = lazy(() => import('./SignUp'));
 
-const LazyLogin = lazy(() => import('./SignUp'));
-
-const Login = (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; }) => (
+const SignUp = (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; }) => (
     <Suspense fallback={null}>
-        <LazyLogin {...props} />
+        <LazySignUp {...props} />
     </Suspense>
 );
 
-export default Login;
+export default SignUp;
+
