@@ -6,7 +6,7 @@ export default {
 };
 
 export const Default = () => <SignUp/>;
-
+  
 Default.story = {
     name: 'default',
 };

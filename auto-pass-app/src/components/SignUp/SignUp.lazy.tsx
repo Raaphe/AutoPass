@@ -1,5 +1,4 @@
 import React, {lazy, Suspense} from 'react';
-
 const LazySignUp = lazy(() => import('./SignUp'));
 
 const SignUp = (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; }) => (
@@ -9,3 +8,4 @@ const SignUp = (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; }
 );
 
 export default SignUp;
+
