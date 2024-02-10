@@ -6,6 +6,7 @@ import ProtectedRoutesGuests from './routes/ProtectedRoutesAnonymous';
 import Login from './components/Login/Login';
 import ProtectedRoutesUser from './routes/ProtectedRoutesUser';
 import UserLandingPage from './components/UserLandingPage/UserLandingPage';
+import SignUp from './components/SignUp/SignUp';
 
 
 

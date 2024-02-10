@@ -92,9 +92,7 @@ const SignUp: FC<SignUpProps> = () => {
                             <label htmlFor="email" className="form-label">Email Address</label>
                             <input
                                 type="email"
-
                                 placeholder='JohnDoe@gmail.com'
-
                                 className="form-control"
                                 id="email"
                                 value={signUpData.email}
@@ -107,7 +105,6 @@ const SignUp: FC<SignUpProps> = () => {
                             <input
                                 type="password"
                                 placeholder='**********'
-
                                 className="form-control"
                                 id="password"
                                 value={signUpData.password}
@@ -115,11 +112,9 @@ const SignUp: FC<SignUpProps> = () => {
                                 required
                             />
                         </div>
-
                         <button type="submit" className="btn btn-primary">Register</button>
                         <p>Alreay have an account ?</p>
                         <button type="submit" className="btn btn-secondary" onClick={loginInHandle}>Login</button>
-
                     </form>
                 </div>
             </div>
