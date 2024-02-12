@@ -74,8 +74,14 @@ public class RefreshTokenService implements IRefreshTokenService {
         return token;
     }
 
-    public Boolean isTokenExpired(Token token) {
-        return token != null && token.getExpiryDate().compareTo(Instant.now()) >= 0;
+    @Override
+    public boolean isTokenExpired(Token token) {
+        if (token == null) return true;
+        boolean isExpired = Instant.now().isAfter(token.getExpiryDate());
+        if (isExpired) {
+            refreshTokenRepository.delete(token);
+            return true;
+        } else return false;
     }
 
     @Override
@@ -131,8 +137,13 @@ public class RefreshTokenService implements IRefreshTokenService {
     }
 
     @Override
-    public void deleteByToken(String token) {
-        refreshTokenRepository.findByToken(token).ifPresent(refreshTokenRepository::delete);
+    public void deleteByUserId(Long userId) {
+        try {
+            Optional<User> user = userRepository.getUserById(Math.toIntExact(userId));
+            user.flatMap(refreshTokenRepository::findByUser).ifPresent(refreshTokenRepository::delete);
+        } catch (Exception e) {
+            log.error("Refresh token Doesn't Exist.");
+        }
     }
 
     @Override

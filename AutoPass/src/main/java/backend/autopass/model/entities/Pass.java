@@ -12,15 +12,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pass implements Serializable {
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private int id;
-
     @Lob
     private byte[] pass;
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }

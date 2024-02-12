@@ -29,33 +29,37 @@ public class AuthenticationService implements IAuthenticationService {
     @Override
     public AuthenticationResponse register(SignUpDTO request) throws Exception {
 
-        User user;
+        try {
+            User user;
 
-        if (request.getRole() == Role.ADMIN) {
-            user = userService.createAdmin(request);
-        } else if (request.getRole() == Role.USER) {
-            user = userService.createUser(request);
-        } else {
+            if (request.getRole() == Role.ADMIN) {
+                user = userService.createAdmin(request);
+            } else if (request.getRole() == Role.USER) {
+                user = userService.createUser(request);
+            } else {
+                return null;
+            }
+
+
+            var jwt = jwtService.generateToken(user);
+            var refreshToken = refreshTokenService.createRefreshToken((long) user.getId());
+
+            var roles = user.getRole().getAuthorities()
+                    .stream()
+                    .map(SimpleGrantedAuthority::getAuthority)
+                    .toList();
+
+            return AuthenticationResponse.builder()
+                    .accessToken(jwt)
+                    .email(user.getEmail())
+                    .id((long) user.getId())
+                    .refreshToken(refreshToken.getToken())
+                    .roles(roles)
+                    .tokenType(TokenType.BEARER.name())
+                    .build();
+        } catch (Exception e) {
             return null;
         }
-
-
-        var jwt = jwtService.generateToken(user);
-        var refreshToken = refreshTokenService.createRefreshToken((long) user.getId());
-
-        var roles = user.getRole().getAuthorities()
-                .stream()
-                .map(SimpleGrantedAuthority::getAuthority)
-                .toList();
-
-        return AuthenticationResponse.builder()
-                .accessToken(jwt)
-                .email(user.getEmail())
-                .id((long) user.getId())
-                .refreshToken(refreshToken.getToken())
-                .roles(roles)
-                .tokenType(TokenType.BEARER.name())
-                .build();
     }
 
     @Override

@@ -1,9 +1,7 @@
 package backend.autopass.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -11,6 +9,8 @@ import java.util.Date;
 @Entity
 @Data
 @Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserWallet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,19 +22,4 @@ public class UserWallet {
     private Date memberShipEnds;
     @Builder.Default
     private boolean membershipActive = false;
-
-    public UserWallet(int id, int ticketAmount, Date memberShipEnds, boolean membershipActive) {
-        this.id = id;
-        this.ticketAmount = ticketAmount;
-        this.memberShipEnds = memberShipEnds;
-        this.membershipActive = membershipActive;
-    }
-
-    public UserWallet() {
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
 }

@@ -14,8 +14,7 @@ const UserLandingPage: FC<UserLandingPageProps> = () => {
 
     const handleLogout = () => {
         ClientAuthService.logout();
-        navigate("/login")
-
+        navigate("/login");
     }
 
     useEffect(() => {
@@ -27,13 +26,12 @@ const UserLandingPage: FC<UserLandingPageProps> = () => {
         const userAPI = new Api.UserControllerApi(config);
 
         const fetchUserData = async () => {
-            await userAPI.getUserById(ClientAuthService.getUserId())
+            await userAPI.getUserById()
                 .then((res) =>{
                     setUserData(res.data);
                 })  
-                .catch((e) => {
+                .catch(() => {
                     navigate("/");
-                    alert("error occured: " + e)
                 })
         }
         fetchUserData();

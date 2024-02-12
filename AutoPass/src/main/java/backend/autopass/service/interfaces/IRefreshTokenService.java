@@ -23,9 +23,17 @@ public interface IRefreshTokenService {
 
     String getRefreshTokenFromCookies(HttpServletRequest request);
 
-    void deleteByToken(String token);
+    void deleteByUserId(Long userId);
 
     ResponseCookie getCleanRefreshTokenCookie();
+
+    /**
+     * Checks if the given token is expired and deletes it from the repository if so.
+     *
+     * @param token the token to check for expiration; must not be null
+     * @return true if the token is expired, false otherwise
+     */
+    boolean isTokenExpired(Token token);
 
     Optional<User> findUserByToken(String token);
 

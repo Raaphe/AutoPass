@@ -5,6 +5,4 @@ public enum Privilege {
     WRITE_PRIVILEGE,
     DELETE_PRIVILEGE,
     UPDATE_PRIVILEGE,
-
-
 }

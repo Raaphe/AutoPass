@@ -1,9 +1,7 @@
 package backend.autopass.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -11,6 +9,8 @@ import java.io.Serializable;
 @Data
 @Entity
 @Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Membership implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,19 +23,5 @@ public class Membership implements Serializable {
     @Column(nullable = false)
     @Builder.Default
     private boolean isDeleted = false;
-
-    public Membership(int id, int membershipDurationDays, float price, boolean isDeleted) {
-        this.id = id;
-        this.membershipDurationDays = membershipDurationDays;
-        this.price = price;
-        this.isDeleted = isDeleted;
-    }
-
-    public Membership() {
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
 }

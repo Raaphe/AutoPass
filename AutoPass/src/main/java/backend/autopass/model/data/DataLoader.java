@@ -48,31 +48,40 @@ public class DataLoader {
                     .email("alitteralpotato@gmail.com")
                     .role(Role.ADMIN)
                     .build());
-
         }
 
 
         if (membershipRepository.count() == 0) {
 
-            Membership membership1 = new Membership();
-            membership1.setMembershipDurationDays(1);
-            membership1.setPrice(11f);
+            Membership membership1 = Membership
+                    .builder()
+                    .price(11f)
+                    .membershipDurationDays(1)
+                    .build();
 
-            Membership membership2 = new Membership();
-            membership2.setMembershipDurationDays(3);
-            membership2.setPrice(21.25f);
+            Membership membership2 = Membership
+                    .builder()
+                    .price(21.25f)
+                    .membershipDurationDays(3)
+                    .build();
 
-            Membership membership3 = new Membership();
-            membership3.setMembershipDurationDays(7);
-            membership3.setPrice(30f);
+            Membership membership3 = Membership
+                    .builder()
+                    .price(30f)
+                    .membershipDurationDays(7)
+                    .build();
 
-            Membership membership4 = new Membership();
-            membership4.setMembershipDurationDays(30);
-            membership4.setPrice(97f);
+            Membership membership4 = Membership
+                    .builder()
+                    .price(97f)
+                    .membershipDurationDays(30)
+                    .build();
 
-            Membership membership5 = new Membership();
-            membership5.setMembershipDurationDays(140);
-            membership5.setPrice(226f);
+            Membership membership5 = Membership
+                    .builder()
+                    .price(226f)
+                    .membershipDurationDays(140)
+                    .build();
 
             membershipRepository.saveAll(new ArrayList<>(List.of(new Membership[]{membership1, membership2, membership3, membership4, membership5})));
 

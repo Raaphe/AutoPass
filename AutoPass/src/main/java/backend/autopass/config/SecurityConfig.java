@@ -27,6 +27,7 @@ public class SecurityConfig {
             "/auth/login",
             "/auth/signup",
             "/auth/logout",
+            "/dashboard",
             "/auth/isLogged",
             "/auth/check-refresh-token",
             "/auth/refresh-token",
@@ -41,6 +42,7 @@ public class SecurityConfig {
             "/v3/api-docs",
             "/v3/api-docs/**",
             "/swagger-resources",
+            "/error",
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**"
@@ -59,9 +61,9 @@ public class SecurityConfig {
                         .authenticationEntryPoint(unauthorizedEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler)
                 )
-                .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers(WHITE_LIST_URL).permitAll()
-                                .requestMatchers(HttpMethod.GET, "/user/**").authenticated()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user").authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
