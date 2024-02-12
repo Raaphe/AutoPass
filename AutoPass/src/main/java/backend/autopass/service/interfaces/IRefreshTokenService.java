@@ -4,8 +4,6 @@ import backend.autopass.model.entities.User;
 import backend.autopass.payload.dto.RefreshTokenDTO;
 import backend.autopass.payload.viewmodels.RefreshTokenResponse;
 import backend.autopass.security.jwt.refreshToken.Token;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
@@ -19,13 +17,8 @@ public interface IRefreshTokenService {
 
     RefreshTokenResponse generateNewToken(RefreshTokenDTO request);
 
-    ResponseCookie generateRefreshTokenCookie(String token);
-
-    String getRefreshTokenFromCookies(HttpServletRequest request);
-
     void deleteByUserId(Long userId);
 
-    ResponseCookie getCleanRefreshTokenCookie();
 
     /**
      * Checks if the given token is expired and deletes it from the repository if so.

@@ -41,7 +41,7 @@ public class UserController {
     })
     @GetMapping("/user")
     @SecurityRequirement(name = "Bearer Authentication")
-    public ResponseEntity<User> getUserById() {
+    public ResponseEntity<User> getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
 

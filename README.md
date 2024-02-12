@@ -15,10 +15,6 @@ Developed in part by Lam Nguyen, Raphael Paquin and Moncef Moutaki.
 
 > `jdbc:h2:mem:autopass`
 
-#### JaCoCo Report Generation command
-
-> `mvn clean install`
-
 ---
 
 >

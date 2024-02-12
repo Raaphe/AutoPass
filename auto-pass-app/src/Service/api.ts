@@ -190,13 +190,13 @@ export interface EntityModelPaymentType {
      * @type {string}
      * @memberof EntityModelPaymentType
      */
-    'cvv'?: string;
+    'pan'?: string;
     /**
      * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
-    'pan'?: string;
+    'cvv'?: string;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -325,7 +325,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -337,13 +337,13 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonLocked'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -1050,13 +1050,13 @@ export interface PaymentTypeRequestBody {
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
-    'cvv'?: string;
+    'pan'?: string;
     /**
      * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
-    'pan'?: string;
+    'cvv'?: string;
 }
 /**
  * 
@@ -1293,7 +1293,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1305,13 +1305,13 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonLocked'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof User
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1398,7 +1398,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1410,13 +1410,13 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonLocked'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -6540,7 +6540,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserById: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6584,10 +6584,10 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserById(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserById(options);
+        async getUser(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUser(options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['UserControllerApi.getUserById']?.[index]?.url;
+            const operationBasePath = operationServerMap['UserControllerApi.getUser']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
@@ -6606,8 +6606,8 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserById(options?: any): AxiosPromise<User> {
-            return localVarFp.getUserById(options).then((request) => request(axios, basePath));
+        getUser(options?: any): AxiosPromise<User> {
+            return localVarFp.getUser(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -6626,8 +6626,8 @@ export class UserControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserControllerApi
      */
-    public getUserById(options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).getUserById(options).then((request) => request(this.axios, this.basePath));
+    public getUser(options?: RawAxiosRequestConfig) {
+        return UserControllerApiFp(this.configuration).getUser(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
