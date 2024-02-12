@@ -2,18 +2,20 @@ package backend.autopass.model.entities;
 
 import backend.autopass.model.enums.Role;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "_user")
+@RequiredArgsConstructor
 public class User implements UserDetails {
     @Setter
     @Id
@@ -38,16 +40,16 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(User user) {
-        this.id = user.id;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.email = user.email;
-        this.password = user.password;
-        this.wallet = user.wallet;
-        this.pass = user.pass;
-        this.isDeleted = user.isDeleted;
-        this.role = user.role;
+    public User(int id, String firstName, String lastName, String email, String password, UserWallet wallet, Pass pass, boolean isDeleted, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.wallet = wallet;
+        this.pass = pass;
+        this.isDeleted = isDeleted;
+        this.role = role;
     }
 
     @Override

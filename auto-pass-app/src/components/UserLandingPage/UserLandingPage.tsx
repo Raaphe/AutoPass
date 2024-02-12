@@ -2,7 +2,6 @@ import React, {FC, useEffect, useState} from 'react';
 import styles from './UserLandingPage.module.scss';
 import ClientAuthService from '../../ClientAuthService';
 import { useNavigate } from 'react-router-dom';
-// import { Configuration, User, UserControllerApiAxiosParamCreator } from '../../Service'; 
 import * as Api from '../../Service'; 
 
 interface UserLandingPageProps {
@@ -14,8 +13,7 @@ const UserLandingPage: FC<UserLandingPageProps> = () => {
 
     const handleLogout = () => {
         ClientAuthService.logout();
-        navigate("/login")
-
+        navigate("/login");
     }
 
     useEffect(() => {
@@ -27,13 +25,12 @@ const UserLandingPage: FC<UserLandingPageProps> = () => {
         const userAPI = new Api.UserControllerApi(config);
 
         const fetchUserData = async () => {
-            await userAPI.getUserById(ClientAuthService.getUserId())
+            await userAPI.getUser()
                 .then((res) =>{
                     setUserData(res.data);
                 })  
-                .catch((e) => {
+                .catch(() => {
                     navigate("/");
-                    alert("error occured: " + e)
                 })
         }
         fetchUserData();

@@ -1,6 +1,7 @@
 package backend.autopass.web;
 
 
+import backend.autopass.model.entities.User;
 import backend.autopass.payload.dto.IsLoggedInDTO;
 import backend.autopass.payload.dto.RefreshTokenDTO;
 import backend.autopass.payload.dto.SignInDTO;
@@ -21,6 +22,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,10 +35,11 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "Authentication", description = "The Authentication API. Contains operations like login, logout, refresh-token etc.")
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9090"})
 @RequestMapping("/auth")
 @SecurityRequirements()
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -63,10 +67,12 @@ public class AuthenticationController {
                     content = @Content
             )
     })
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody SignInDTO request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@Valid @RequestBody SignInDTO request) {
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(request);
-        return ok()
-                .body(authenticationResponse);
+        if (authenticationResponse == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
     }
 
     @PostMapping("/signup")
@@ -86,8 +92,10 @@ public class AuthenticationController {
     })
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody SignUpDTO request) throws Exception {
         AuthenticationResponse authenticationResponse = authenticationService.register(request);
-        return ok()
-                .body(authenticationResponse);
+        if (authenticationResponse == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
     }
 
     @PostMapping("/refresh-token")
@@ -105,29 +113,27 @@ public class AuthenticationController {
                     content = @Content
             )
     })
-    public ResponseEntity<String> refreshAccessToken(String refreshToken) {
+    public ResponseEntity<String> refreshAccessToken(@RequestParam String refreshToken) {
         Optional<Token> token = refreshTokenService.findTokenByToken(refreshToken);
         String accessToken;
 
         if (token.isPresent()) {
             Boolean isExpired = refreshTokenService.isTokenExpired(token.get());
+            Optional<User> user = refreshTokenService.findUserByToken(refreshToken);
 
             if (isExpired) {
-                refreshTokenService.deleteByToken(refreshToken);
-                return ok()
-                        .body("");
+                user.ifPresent(value -> refreshTokenService.deleteByUserId((long) value.getId()));
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
 
             RefreshTokenResponse tokenResponse = refreshTokenService.generateNewToken(new RefreshTokenDTO(refreshToken));
             accessToken = tokenResponse.getAccessToken();
 
         } else {
-            return ok()
-                    .body("");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        return ok()
-                .body(accessToken);
+        return new ResponseEntity<>(accessToken, HttpStatus.OK);
     }
 
     @PostMapping("/logout")
@@ -141,31 +147,33 @@ public class AuthenticationController {
                     content = @Content
             )
     })
-    public ResponseEntity<Void> logout(String refreshToken) {
-        refreshTokenService.deleteByToken(refreshToken);
-        return ok()
-                .build();
+    public ResponseEntity<Void> logout(@RequestParam Long userId) {
+        refreshTokenService.deleteByUserId(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/isLogged")
+    @PostMapping("/isLogged")
     @Operation(summary = "Checks if the access token is valid.")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "Access token is valid, resources are permitted.",
+                    responseCode = "200", description = "Access token is valid, resources are permitted. Returns true or false.",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = Boolean.class))
                     }
             ),
             @ApiResponse(
-                    responseCode = "400", description = "Invalid token.",
+                    responseCode = "400", description = "Bad Request.",
                     content = @Content
             )
     })
-    public ResponseEntity<Boolean> isLogged(IsLoggedInDTO dto) {
+    public ResponseEntity<Boolean> isLogged(@RequestBody IsLoggedInDTO dto) {
 
-        if (dto.getAccessToken().isBlank() || dto.getUserId() == -1) {
-            return ok().body(false);
+        // User doesn't exist
+        if (dto.getAccessToken().isBlank() || dto.getUserId() == -1 || String.valueOf(dto.getUserId()).equals("-1")) {
+            System.out.println("isLogged -> Empty DTO");
+            return ResponseEntity.ok()
+                    .body(false);
         }
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(
@@ -173,14 +181,19 @@ public class AuthenticationController {
         );
 
         // ===== ACCESS TOKEN ====
-        if (!jwtService.isTokenValid(dto.getAccessToken(), userDetails)) {
-            return ok().body(false);
+        try {
+            if (!jwtService.isTokenValid(dto.getAccessToken(), userDetails)) {
+                return ResponseEntity.ok().body(false);
+            } else {
+                return ResponseEntity.ok().body(true);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(false);
         }
 
-        return ok().body(true);
     }
 
-    @GetMapping("/check-refresh-token")
+    @PostMapping("/check-refresh-token")
     @Operation(summary = "Checks if the refresh token is valid.")
     @ApiResponses(value = {
             @ApiResponse(
@@ -191,19 +204,29 @@ public class AuthenticationController {
                     }
             ),
             @ApiResponse(
-                    responseCode = "400", description = "Invalid tokens",
+                    responseCode = "401", description = "Invalid tokens",
                     content = @Content
             )
     })
-    public ResponseEntity<Boolean> isRefreshTokenExpired(RefreshTokenDTO dto) {
+    public ResponseEntity<Boolean> isRefreshTokenExpired(@RequestBody RefreshTokenDTO dto) {
+        try {
+            Optional<Token> refreshToken = refreshTokenService.findTokenByToken(dto.getRefreshToken());
 
-        if (dto.getRefreshToken().isBlank()) {
-            return ok().body(true);
+            if (refreshToken.isEmpty()) {
+                log.trace("Empty token : " + refreshToken);
+                return ok().body(true);
+            }
+
+            if (refreshTokenService.isTokenExpired(refreshToken.get())) {
+                System.out.println("bad token : " + refreshToken.get());
+                return ok().body(true);
+            } else {
+                System.out.println("good token: " + refreshToken.get());
+                return ok().body(false);
+            }
+        } catch (Exception e) {
+            log.error("An error occurred while checking the refresh token: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-
-        Optional<Token> refreshToken = refreshTokenService.findTokenByToken(dto.getRefreshToken());
-        return refreshToken.map(token -> ok()
-                .body(refreshTokenService.isTokenExpired(token))).orElseGet(() -> ok()
-                .body(true));
     }
 }

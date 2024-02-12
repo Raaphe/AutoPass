@@ -9,16 +9,12 @@ import backend.autopass.payload.viewmodels.RefreshTokenResponse;
 import backend.autopass.security.jwt.refreshToken.Token;
 import backend.autopass.security.jwt.refreshToken.TokenRepository;
 import backend.autopass.service.interfaces.IRefreshTokenService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.WebUtils;
 
 import java.time.Instant;
 import java.util.Base64;
@@ -74,8 +70,14 @@ public class RefreshTokenService implements IRefreshTokenService {
         return token;
     }
 
-    public Boolean isTokenExpired(Token token) {
-        return token != null && token.getExpiryDate().compareTo(Instant.now()) >= 0;
+    @Override
+    public boolean isTokenExpired(Token token) {
+        if (token == null) return true;
+        boolean isExpired = Instant.now().isAfter(token.getExpiryDate());
+        if (isExpired) {
+            refreshTokenRepository.delete(token);
+            return true;
+        } else return false;
     }
 
     @Override
@@ -110,39 +112,13 @@ public class RefreshTokenService implements IRefreshTokenService {
     }
 
     @Override
-    public ResponseCookie generateRefreshTokenCookie(String token) {
-        return ResponseCookie.from(refreshTokenName, token)
-                .path("/")
-                .maxAge(refreshExpiration / 1000) // 15 days in seconds
-                .httpOnly(true)
-                .secure(true)
-                .sameSite(sameSiteCookieSetting)
-                .build();
-    }
-
-    @Override
-    public String getRefreshTokenFromCookies(HttpServletRequest request) {
-        Cookie cookie = WebUtils.getCookie(request, refreshTokenName);
-        if (cookie != null) {
-            return cookie.getValue();
-        } else {
-            return "";
+    public void deleteByUserId(Long userId) {
+        try {
+            Optional<User> user = userRepository.getUserById(Math.toIntExact(userId));
+            user.flatMap(refreshTokenRepository::findByUser).ifPresent(refreshTokenRepository::delete);
+        } catch (Exception e) {
+            log.error("Refresh token Doesn't Exist.");
         }
-    }
-
-    @Override
-    public void deleteByToken(String token) {
-        refreshTokenRepository.findByToken(token).ifPresent(refreshTokenRepository::delete);
-    }
-
-    @Override
-    public ResponseCookie getCleanRefreshTokenCookie() {
-        return ResponseCookie.from(refreshTokenName, "")
-                .path("/")
-                .httpOnly(true)
-                .sameSite(sameSiteCookieSetting)
-                .maxAge(0)
-                .build();
     }
 
     @Override

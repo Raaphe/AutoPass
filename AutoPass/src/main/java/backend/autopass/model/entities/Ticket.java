@@ -1,10 +1,7 @@
 package backend.autopass.model.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -13,6 +10,7 @@ import java.io.Serializable;
 @Data
 @Builder
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Ticket implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,14 +20,7 @@ public class Ticket implements Serializable {
     private int ticketAmount;
     @Column(nullable = false)
     private double price;
-
     @Builder.Default
     private boolean isDeleted = false;
 
-    public Ticket() {
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }

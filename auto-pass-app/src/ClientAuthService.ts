@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {AuthenticationApi, IsLoggedInDTO, RefreshTokenDTO} from "./Service";
 import * as Api from "./Service";
 
@@ -8,20 +9,24 @@ class AuthenticationService {
 
     public async login(loginDTO: import("./Service").SignInDTO): Promise<boolean> {
 
-        // /login
+        // login
+        let statusCode = 0;
         await this.authApi.authenticate(loginDTO)
             .then((res) => {
                 sessionStorage.setItem("access-token", res.data.access_token ?? "")
                 localStorage.setItem("refresh-token", res.data.refresh_token ?? "")
                 sessionStorage.setItem("user-id", res.data.user_id?.toString() ?? "")
-                return true;
+                statusCode = res.status;
             })
-            .catch(() => {
-                console.log("Error");
+            .catch((e) => {
+                console.log("Error " + e + " \nCAS 22");
                 return false;
             });
 
-        return false;
+
+        return (statusCode === 200)
+
+        
     }
 
     public async signup(SignUpDTO: import ("./Service").SignUpDTO): Promise<boolean>{
@@ -30,10 +35,9 @@ class AuthenticationService {
     }
 
     public logout = () => {
-        this.authApi.logout(sessionStorage.getItem("refresh-token") ?? "");
+        this.authApi.logout(this.getUserId());
         localStorage.clear();
-        sessionStorage.clear();
-        window.location.reload();
+        sessionStorage.clear();    
     }
 
     // This method will use authentication api to check if the access token in local and session storage are valid. 
@@ -74,6 +78,10 @@ class AuthenticationService {
         } else {
             return true;
         }
+    }
+
+    public signup(signUpData: Api.SignUpDTO): boolean | PromiseLike<boolean> {
+        throw new Error('Method not implemented.');
     }
 
     public isUserLoggedOut() {
