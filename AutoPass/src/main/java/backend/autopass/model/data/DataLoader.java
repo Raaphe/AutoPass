@@ -50,8 +50,15 @@ public class DataLoader {
                     .build());
         }
 
+        if (!userService.userExists("cefcurlz@gmail.com")) {
+            authenticationService.register(SignUpDTO.builder()
+                    .password("2133588")
+                    .firstname("Cef")
+                    .lastname("Taki")
+                    .email("cefcurlz@gmail.com")
+                    .role(Role.ADMIN)
+                    .build());
 
-        if (membershipRepository.count() == 0) {
 
             Membership membership1 = Membership
                     .builder()
@@ -82,39 +89,42 @@ public class DataLoader {
                     .price(226f)
                     .membershipDurationDays(140)
                     .build();
+          
+            if (membershipRepository.count() == 0) {
 
-            membershipRepository.saveAll(new ArrayList<>(List.of(new Membership[]{membership1, membership2, membership3, membership4, membership5})));
+                membershipRepository.saveAll(new ArrayList<>(List.of(new Membership[]{membership1, membership2, membership3, membership4, membership5})));
 
-        }
+            }
 
-        if (ticketRepository.count() == 0) {
+            if (ticketRepository.count() == 0) {
 
-            Ticket ticket1 = new Ticket();
-            ticket1.setTicketAmount(1);
-            ticket1.setPrice(3.75);
+                Ticket ticket1 = new Ticket();
+                ticket1.setTicketAmount(1);
+                ticket1.setPrice(3.75);
 
-            Ticket ticket2 = new Ticket();
-            ticket2.setTicketAmount(2);
-            ticket2.setPrice(7f);
+                Ticket ticket2 = new Ticket();
+                ticket2.setTicketAmount(2);
+                ticket2.setPrice(7f);
 
-            Ticket ticket3 = new Ticket();
-            ticket3.setTicketAmount(10);
-            ticket3.setPrice(32.50);
+                Ticket ticket3 = new Ticket();
+                ticket3.setTicketAmount(10);
+                ticket3.setPrice(32.50);
 
-            ticketRepository.saveAll(new ArrayList<>(List.of(new Ticket[]{ticket1, ticket2, ticket3})));
+                ticketRepository.saveAll(new ArrayList<>(List.of(new Ticket[]{ticket1, ticket2, ticket3})));
 
-        }
+            }
 
-        if (!userRepository.existsByEmail("william@gmail.com")) {
+            if (!userRepository.existsByEmail("william@gmail.com")) {
 
-            userService.createUser(SignUpDTO.builder()
-                    .email("william@gmail.com")
-                    .firstname("will")
-                    .lastname("rex")
-                    .password("abc-123")
-                    .build());
+                userService.createUser(SignUpDTO.builder()
+                        .email("william@gmail.com")
+                        .firstname("will")
+                        .lastname("rex")
+                        .password("abc-123")
+                        .build());
+            }
+
         }
 
     }
-
 }

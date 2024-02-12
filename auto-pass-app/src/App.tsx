@@ -8,6 +8,7 @@ import ProtectedRoutesUser from './routes/ProtectedRoutesUser';
 import UserLandingPage from './components/UserLandingPage/UserLandingPage';
 
 
+
 const App = () => {
 
 
@@ -19,7 +20,7 @@ const App = () => {
                 <Routes>
                     <Route element={<ProtectedRoutesGuests/>}>
                         <Route path='/' element={<LandingPage/>}/>
-                        <Route path='/signup' element={<LandingPage/>}/>
+                        <Route path='/signup' element={<SignUp/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Route>
 

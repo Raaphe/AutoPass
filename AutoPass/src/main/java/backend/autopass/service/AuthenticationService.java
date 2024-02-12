@@ -31,7 +31,7 @@ public class AuthenticationService implements IAuthenticationService {
 
         try {
             User user;
-
+          
             if (request.getRole() == Role.ADMIN) {
                 user = userService.createAdmin(request);
             } else if (request.getRole() == Role.USER) {
@@ -39,6 +39,7 @@ public class AuthenticationService implements IAuthenticationService {
             } else {
                 return null;
             }
+
 
 
             var jwt = jwtService.generateToken(user);
