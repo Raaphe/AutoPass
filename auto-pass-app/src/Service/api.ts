@@ -181,12 +181,6 @@ export interface EntityModelPaymentType {
     'expiryDate'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof EntityModelPaymentType
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
@@ -197,6 +191,12 @@ export interface EntityModelPaymentType {
      * @memberof EntityModelPaymentType
      */
     'cvv'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelPaymentType
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -304,18 +304,6 @@ export interface EntityModelUser {
     'role'?: EntityModelUserRoleEnum;
     /**
      * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'enabled'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelUser
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {Array<GrantedAuthority>}
      * @memberof EntityModelUser
      */
@@ -325,7 +313,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -340,10 +328,22 @@ export interface EntityModelUser {
     'accountNonExpired'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'username'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonLocked'?: boolean;
+    'deleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'enabled'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -1041,12 +1041,6 @@ export interface PaymentTypeRequestBody {
     'expiryDate'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof PaymentTypeRequestBody
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
@@ -1057,6 +1051,12 @@ export interface PaymentTypeRequestBody {
      * @memberof PaymentTypeRequestBody
      */
     'cvv'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PaymentTypeRequestBody
+     */
+    'deleted'?: boolean;
 }
 /**
  * 
@@ -1138,7 +1138,7 @@ export interface SignUpDTO {
      * @type {string}
      * @memberof SignUpDTO
      */
-    'role': SignUpDTORoleEnum;
+    'role'?: SignUpDTORoleEnum;
 }
 
 export const SignUpDTORoleEnum = {
@@ -1272,18 +1272,6 @@ export interface User {
     'role'?: UserRoleEnum;
     /**
      * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'enabled'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {Array<GrantedAuthority>}
      * @memberof User
      */
@@ -1293,7 +1281,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1308,10 +1296,22 @@ export interface User {
     'accountNonExpired'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    'username'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof User
      */
-    'accountNonLocked'?: boolean;
+    'deleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'enabled'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1377,18 +1377,6 @@ export interface UserRequestBody {
     'role'?: UserRequestBodyRoleEnum;
     /**
      * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'enabled'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserRequestBody
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {Array<GrantedAuthority>}
      * @memberof UserRequestBody
      */
@@ -1398,7 +1386,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1413,10 +1401,22 @@ export interface UserRequestBody {
     'accountNonExpired'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'username'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonLocked'?: boolean;
+    'deleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'enabled'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -6568,6 +6568,43 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        markUserAsDeleted: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('markUserAsDeleted', 'id', id)
+            const localVarPath = `/user{id}/markAsDeleted`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -6590,6 +6627,18 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
             const operationBasePath = operationServerMap['UserControllerApi.getUser']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async markUserAsDeleted(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.markUserAsDeleted(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserControllerApi.markUserAsDeleted']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
     }
 };
 
@@ -6608,6 +6657,15 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
          */
         getUser(options?: any): AxiosPromise<User> {
             return localVarFp.getUser(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        markUserAsDeleted(id: number, options?: any): AxiosPromise<object> {
+            return localVarFp.markUserAsDeleted(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -6628,6 +6686,17 @@ export class UserControllerApi extends BaseAPI {
      */
     public getUser(options?: RawAxiosRequestConfig) {
         return UserControllerApiFp(this.configuration).getUser(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserControllerApi
+     */
+    public markUserAsDeleted(id: number, options?: RawAxiosRequestConfig) {
+        return UserControllerApiFp(this.configuration).markUserAsDeleted(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

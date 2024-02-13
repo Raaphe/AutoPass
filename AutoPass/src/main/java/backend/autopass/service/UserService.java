@@ -57,6 +57,21 @@ public class UserService implements IUserService {
         return userRepository.save(user);
     }
 
+
+    public void markUserAsDeleted(Long userId) throws Exception {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new Exception("User not found");
+        }
+        User user = userOptional.get();
+        if (!user.isDeleted()) {
+            user.setDeleted(true);
+            userRepository.save(user);
+        } else {
+            throw new Exception("User is already marked as deleted");
+        }
+    }
+
     @Override
     public User getUserById(Long userId) {
         Optional<User> user = userRepository.getUserById(Math.toIntExact(userId));
