@@ -33,15 +33,18 @@ public class AuthenticationService implements IAuthenticationService {
             User user;
           
             if (request.getRole() == Role.ADMIN) {
+                System.out.println(36);
                 user = userService.createAdmin(request);
+                System.out.println(38);
             } else if (request.getRole() == Role.USER) {
+                System.out.println(40);
                 user = userService.createUser(request);
             } else {
+                System.out.println(43);
                 return null;
             }
 
-
-
+            System.out.println(47);
             var jwt = jwtService.generateToken(user);
             var refreshToken = refreshTokenService.createRefreshToken((long) user.getId());
 

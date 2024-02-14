@@ -8,7 +8,6 @@ import {useNavigate} from 'react-router-dom';
 
 interface SignUpProps {
 
-
 }
 
 const SignUp: FC<SignUpProps> = () => {
@@ -38,12 +37,12 @@ const SignUp: FC<SignUpProps> = () => {
         // Prevents page reload. may be removed
         event.preventDefault();
 
-        var isCredentialCorrect: boolean = await ClientAuthService.login(signUpData);
+        var signupSuccess: boolean = await ClientAuthService.signup(signUpData);
 
-        console.log(isCredentialCorrect);
+        console.log(signupSuccess);
         
 
-        if (!isCredentialCorrect) {
+        if (!signupSuccess) {
             setSignUpData(
                 {firstname: "",
                 lastname: "",
