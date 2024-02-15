@@ -66,7 +66,7 @@ public class UserController {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User currentUser = (User) authentication.getPrincipal();
-            userService.markUserAsDeleted((long) currentUser.getId());
+            userService.deleteUser((long) currentUser.getId());
             return ResponseEntity.ok().build();
         } catch (Exception response) {
             return (ResponseEntity<?>) ResponseEntity.badRequest();

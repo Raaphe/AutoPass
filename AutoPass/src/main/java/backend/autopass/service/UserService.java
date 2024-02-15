@@ -59,7 +59,7 @@ public class UserService implements IUserService {
     }
 
 
-    public void markUserAsDeleted(Long userId) throws Exception {
+    public void deleteUser(Long userId) throws Exception {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
             throw new Exception("User not found");
