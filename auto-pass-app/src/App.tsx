@@ -7,6 +7,7 @@ import Login from './components/Login/Login';
 import ProtectedRoutesUser from './routes/ProtectedRoutesUser';
 import UserLandingPage from './components/UserLandingPage/UserLandingPage';
 import SignUp from './components/SignUp/SignUp';
+import Footer from './components/Footer/Footer';
 
 
 
@@ -16,7 +17,7 @@ const App = () => {
     return (
 
         <Router>
-            <div className="App">
+            <div>
                 <Header/> 
                 <Routes>
                     <Route element={<ProtectedRoutesGuests/>}>
@@ -33,7 +34,9 @@ const App = () => {
 
 
                 </Routes>
+                <Footer/>
             </div>
+            
         </Router>
     );
 }
