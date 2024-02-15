@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    @GetMapping("/user")
+    @GetMapping("/user/info")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Gets a user's information by their ID.")
     @ApiResponses(value = {
@@ -56,16 +56,53 @@ public class UserController {
                     }
             ),
             @ApiResponse(
-                    responseCode = "404", description = "User already marked as deleted",
+                    responseCode = "409", description = "User already marked as deleted",
                     content = @Content
             )
     })
-    public ResponseEntity<?> markUserAsDeleted() throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) authentication.getPrincipal();
-        userService.markUserAsDeleted((long) currentUser.getId());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> markUserAsDeleted(){
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User currentUser = (User) authentication.getPrincipal();
+            userService.markUserAsDeleted((long) currentUser.getId());
+            return ResponseEntity.ok().build();
+        }catch(Exception response){
+            return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
+
 
     }
+
+    @PutMapping("/update-user-info")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Updates a user info by their ID.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "User info updated.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = User.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad request.",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "User not found.",
+                    content = @Content
+            )
+    })
+    public ResponseEntity<?> updateUser(){
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User currentUser = (User) authentication.getPrincipal();
+            userService.updateUser((long) currentUser.getId(), currentUser.getFirstName(), currentUser.getLastName(), currentUser.getEmail());
+            return ResponseEntity.ok(currentUser);
+        }catch (Exception response){
+            return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
+    }
+
 
 }

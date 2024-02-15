@@ -72,6 +72,19 @@ public class UserService implements IUserService {
         }
     }
 
+    public void updateUser(Long id, String newFirstName, String newLastname, String newEmail) throws Exception{
+        Optional<User> userOptional = userRepository.findById(id);
+        if(userOptional.isEmpty()){
+            throw new Exception("User not found.");
+        }else{
+            User user = userOptional.get();
+            user.setEmail(newEmail);
+            user.setFirstName(newFirstName);
+            user.setLastName(newLastname);
+            userRepository.save(user);
+        }
+    }
+
     @Override
     public User getUserById(Long userId) {
         Optional<User> user = userRepository.getUserById(Math.toIntExact(userId));

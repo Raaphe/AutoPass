@@ -32,8 +32,6 @@ const SignUp: FC<SignUpProps> = () => {
     };
 
     const handleSignUp = async (event: React.FormEvent) => {
-
-
         // Prevents page reload. may be removed
         event.preventDefault();
 
