@@ -1,5 +1,6 @@
 package backend.autopass.web;
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
     @GetMapping("/user/info")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Gets a user's information by their ID.")
@@ -44,7 +46,7 @@ public class UserController {
         return ResponseEntity.ok(currentUser);
     }
 
-    @PutMapping("/markAsDeleted")
+    @PutMapping("/delete-user")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Soft delete a user's by their ID.")
     @ApiResponses(value = {
@@ -60,13 +62,13 @@ public class UserController {
                     content = @Content
             )
     })
-    public ResponseEntity<?> markUserAsDeleted(){
-        try{
+    public ResponseEntity<?> markUserAsDeleted() {
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User currentUser = (User) authentication.getPrincipal();
             userService.markUserAsDeleted((long) currentUser.getId());
             return ResponseEntity.ok().build();
-        }catch(Exception response){
+        } catch (Exception response) {
             return (ResponseEntity<?>) ResponseEntity.badRequest();
         }
 
@@ -93,16 +95,11 @@ public class UserController {
                     content = @Content
             )
     })
-    public ResponseEntity<?> updateUser(){
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            User currentUser = (User) authentication.getPrincipal();
-            userService.updateUser((long) currentUser.getId(), currentUser.getFirstName(), currentUser.getLastName(), currentUser.getEmail());
-            return ResponseEntity.ok(currentUser);
-        }catch (Exception response){
+    public ResponseEntity<?> updateUser(UpdateUserDTO userNewInfo) {
+        if (userService.updateUser(userNewInfo)) {
+            return (ResponseEntity<?>) ResponseEntity.ok();
+        } else {
             return (ResponseEntity<?>) ResponseEntity.badRequest();
         }
     }
-
-
 }

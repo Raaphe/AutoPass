@@ -181,6 +181,12 @@ export interface EntityModelPaymentType {
     'expiryDate'?: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof EntityModelPaymentType
+     */
+    'deleted'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
@@ -191,12 +197,6 @@ export interface EntityModelPaymentType {
      * @memberof EntityModelPaymentType
      */
     'cvv'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelPaymentType
-     */
-    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -304,10 +304,10 @@ export interface EntityModelUser {
     'role'?: EntityModelUserRoleEnum;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
+     * @type {boolean}
      * @memberof EntityModelUser
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -322,16 +322,16 @@ export interface EntityModelUser {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof EntityModelUser
+     */
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
@@ -1041,6 +1041,12 @@ export interface PaymentTypeRequestBody {
     'expiryDate'?: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof PaymentTypeRequestBody
+     */
+    'deleted'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
@@ -1051,12 +1057,6 @@ export interface PaymentTypeRequestBody {
      * @memberof PaymentTypeRequestBody
      */
     'cvv'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PaymentTypeRequestBody
-     */
-    'deleted'?: boolean;
 }
 /**
  * 
@@ -1219,6 +1219,37 @@ export interface TokenRequestBody {
 /**
  * 
  * @export
+ * @interface UpdateUserDTO
+ */
+export interface UpdateUserDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserDTO
+     */
+    'firstName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserDTO
+     */
+    'lastName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserDTO
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserDTO
+     */
+    'password'?: string;
+}
+/**
+ * 
+ * @export
  * @interface User
  */
 export interface User {
@@ -1272,10 +1303,10 @@ export interface User {
     'role'?: UserRoleEnum;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
+     * @type {boolean}
      * @memberof User
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1290,16 +1321,16 @@ export interface User {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof User
      */
     'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof User
+     */
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
@@ -1377,10 +1408,10 @@ export interface UserRequestBody {
     'role'?: UserRequestBodyRoleEnum;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
+     * @type {boolean}
      * @memberof UserRequestBody
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1395,16 +1426,16 @@ export interface UserRequestBody {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof UserRequestBody
+     */
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
@@ -6541,7 +6572,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
          * @throws {RequiredError}
          */
         getUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/user`;
+            const localVarPath = `/user/user/info`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6570,15 +6601,12 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {number} id 
+         * @summary Soft delete a user\'s by their ID.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        markUserAsDeleted: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('markUserAsDeleted', 'id', id)
-            const localVarPath = `/user{id}/markAsDeleted`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        markUserAsDeleted: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/user/delete-user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6593,6 +6621,49 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
             // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Updates a user info by their ID.
+         * @param {UpdateUserDTO} userNewInfo 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUser: async (userNewInfo: UpdateUserDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userNewInfo' is not null or undefined
+            assertParamExists('updateUser', 'userNewInfo', userNewInfo)
+            const localVarPath = `/user/update-user-info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (userNewInfo !== undefined) {
+                for (const [key, value] of Object.entries(userNewInfo)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
 
 
     
@@ -6629,14 +6700,27 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {number} id 
+         * @summary Soft delete a user\'s by their ID.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async markUserAsDeleted(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.markUserAsDeleted(id, options);
+        async markUserAsDeleted(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.markUserAsDeleted(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserControllerApi.markUserAsDeleted']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Updates a user info by their ID.
+         * @param {UpdateUserDTO} userNewInfo 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateUser(userNewInfo: UpdateUserDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(userNewInfo, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserControllerApi.updateUser']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
@@ -6660,12 +6744,22 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
-         * @param {number} id 
+         * @summary Soft delete a user\'s by their ID.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        markUserAsDeleted(id: number, options?: any): AxiosPromise<object> {
-            return localVarFp.markUserAsDeleted(id, options).then((request) => request(axios, basePath));
+        markUserAsDeleted(options?: any): AxiosPromise<User> {
+            return localVarFp.markUserAsDeleted(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Updates a user info by their ID.
+         * @param {UpdateUserDTO} userNewInfo 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUser(userNewInfo: UpdateUserDTO, options?: any): AxiosPromise<User> {
+            return localVarFp.updateUser(userNewInfo, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -6690,13 +6784,25 @@ export class UserControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {number} id 
+     * @summary Soft delete a user\'s by their ID.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserControllerApi
      */
-    public markUserAsDeleted(id: number, options?: RawAxiosRequestConfig) {
-        return UserControllerApiFp(this.configuration).markUserAsDeleted(id, options).then((request) => request(this.axios, this.basePath));
+    public markUserAsDeleted(options?: RawAxiosRequestConfig) {
+        return UserControllerApiFp(this.configuration).markUserAsDeleted(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Updates a user info by their ID.
+     * @param {UpdateUserDTO} userNewInfo 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserControllerApi
+     */
+    public updateUser(userNewInfo: UpdateUserDTO, options?: RawAxiosRequestConfig) {
+        return UserControllerApiFp(this.configuration).updateUser(userNewInfo, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

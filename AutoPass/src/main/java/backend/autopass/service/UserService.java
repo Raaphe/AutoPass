@@ -8,6 +8,7 @@ import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
 import backend.autopass.payload.dto.SignUpDTO;
+import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -72,17 +73,25 @@ public class UserService implements IUserService {
         }
     }
 
-    public void updateUser(Long id, String newFirstName, String newLastname, String newEmail) throws Exception{
-        Optional<User> userOptional = userRepository.findById(id);
-        if(userOptional.isEmpty()){
-            throw new Exception("User not found.");
-        }else{
-            User user = userOptional.get();
-            user.setEmail(newEmail);
-            user.setFirstName(newFirstName);
-            user.setLastName(newLastname);
-            userRepository.save(user);
+    public boolean updateUser(UpdateUserDTO updateDto){
+        Optional<User> userOptional = userRepository.findByEmail(updateDto.getEmail());
+        try {
+            if (userOptional.isEmpty()) {
+                return false;
+            } else {
+                User user = userOptional.get();
+                user.setEmail(updateDto.getEmail());
+                user.setFirstName(updateDto.getFirstName());
+                user.setLastName(updateDto.getLastName());
+                user.setPassword(updateDto.getPassword());
+                userRepository.save(user);
+                return true;
+            }
+        }catch (Exception userMess){
+            return false;
+
         }
+
     }
 
     @Override
