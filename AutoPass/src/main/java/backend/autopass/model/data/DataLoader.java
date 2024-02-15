@@ -58,6 +58,7 @@ public class DataLoader {
                     .email("cefcurlz@gmail.com")
                     .role(Role.ADMIN)
                     .build());
+        }
 
 
             Membership membership1 = Membership
@@ -127,4 +128,3 @@ public class DataLoader {
         }
 
     }
-}

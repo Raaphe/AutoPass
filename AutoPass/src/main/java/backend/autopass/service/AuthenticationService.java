@@ -40,8 +40,6 @@ public class AuthenticationService implements IAuthenticationService {
                 return null;
             }
 
-
-
             var jwt = jwtService.generateToken(user);
             var refreshToken = refreshTokenService.createRefreshToken((long) user.getId());
 

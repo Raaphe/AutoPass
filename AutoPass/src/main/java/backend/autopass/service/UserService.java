@@ -8,6 +8,7 @@ import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
 import backend.autopass.payload.dto.SignUpDTO;
+import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -55,6 +56,42 @@ public class UserService implements IUserService {
         user.setRole(Role.ADMIN);
 
         return userRepository.save(user);
+    }
+
+
+    public void deleteUser(Long userId) throws Exception {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new Exception("User not found");
+        }
+        User user = userOptional.get();
+        if (!user.isDeleted()) {
+            user.setDeleted(true);
+            userRepository.save(user);
+        } else {
+            throw new Exception("User is already marked as deleted");
+        }
+    }
+
+    public boolean updateUser(UpdateUserDTO updateDto){
+        Optional<User> userOptional = userRepository.findByEmail(updateDto.getEmail());
+        try {
+            if (userOptional.isEmpty()) {
+                return false;
+            } else {
+                User user = userOptional.get();
+                user.setEmail(updateDto.getEmail());
+                user.setFirstName(updateDto.getFirstName());
+                user.setLastName(updateDto.getLastName());
+                user.setPassword(updateDto.getPassword());
+                userRepository.save(user);
+                return true;
+            }
+        }catch (Exception userMess){
+            return false;
+
+        }
+
     }
 
     @Override
