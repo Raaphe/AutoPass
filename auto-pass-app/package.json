@@ -9,12 +9,16 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
     "bootstrap": "^5.3.2",
+    "create-react-app": "^5.0.1",
     "react": "^18.2.0",
     "react-auth-kit": "^3.0.2-alpha.19",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1",
     "react-router-dom": "^6.21.2",
     "react-scripts": "^5.0.1",
     "sass": "^1.70.0",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4"
   },
@@ -43,10 +47,14 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "",
     "@babel/plugin-transform-private-methods": "^7.23.3",
     "@types/body-parser": "^1.19.5",
-    "@babel/plugin-proposal-private-property-in-object":"",
     "create-react-cli": "^0.0.1",
     "typescript": "^4.9.5"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
