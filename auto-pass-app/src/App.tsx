@@ -17,6 +17,7 @@ const App = () => {
             <div className="App">
                 <Header/> 
                 <Routes>
+
                     <Route element={<ProtectedRoutesGuests/>}>
                         <Route path='/' element={<LandingPage/>}/>
                         <Route path='/signup' element={<LandingPage/>}/>
@@ -28,7 +29,6 @@ const App = () => {
                         {/* Edit user (/edit/:userId), user details (/:userId)*/}
                         
                     </Route>
-
 
                 </Routes>
             </div>
