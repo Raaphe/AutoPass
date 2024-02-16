@@ -1,11 +1,11 @@
 /* eslint-disable */
-import Header from './Footer';
+import Footer from './Footer';
 
 export default {
-    title: "Header",
+    title: "Footer",
 };
 
-export const Default = () => <Header/>;
+export const Default = () => <Footer/>;
 
 Default.story = {
     name: 'default',
