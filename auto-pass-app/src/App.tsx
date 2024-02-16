@@ -20,6 +20,7 @@ const App = () => {
             <div>
                 <Header/> 
                 <Routes>
+
                     <Route element={<ProtectedRoutesGuests/>}>
                         <Route path='/' element={<LandingPage/>}/>
                         <Route path='/signup' element={<SignUp/>}/>
@@ -31,7 +32,6 @@ const App = () => {
                         {/* Edit user (/edit/:userId), user details (/:userId)*/}
                         
                     </Route>
-
 
                 </Routes>
             </div>

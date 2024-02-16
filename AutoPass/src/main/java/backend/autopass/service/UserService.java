@@ -11,8 +11,6 @@ import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,21 +26,21 @@ public class UserService implements IUserService {
     private final UserWalletRepository walletRepository;
 
 
-    public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Username Not Found"));
-    }
-
     @Override
-    public User createUser(SignUpDTO signUpDTO) throws Exception {
+    public User createUser(SignUpDTO signUpDTO) {
 
-        if (userRepository.existsByEmail(signUpDTO.getEmail())) {
-            throw new Exception("Email already in use");
+        try {
+            if (userRepository.existsByEmail(signUpDTO.getEmail())) {
+                throw new Exception("Email already in use");
+            }
+
+            User user = this.buildUser(signUpDTO);
+            user.setRole(Role.USER);
+
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        User user = this.buildUser(signUpDTO);
-        user.setRole(Role.USER);
-
-        return userRepository.save(user);
     }
 
     @Override
@@ -121,10 +119,9 @@ public class UserService implements IUserService {
                 .firstName(signUpDTO.getFirstname())
                 .lastName(signUpDTO.getLastname())
                 .password(passwordEncoder.encode(signUpDTO.getPassword()))
+                .pass(pass)
                 .wallet(wallet)
                 .build();
-
-        user.setPass(pass);
 
         return userRepository.save(user);
     }
