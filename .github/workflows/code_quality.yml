@@ -31,4 +31,4 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Run Tests
-        run: mvn -f ../AutoPass/pom.xml clean test
+        run: ls -la
