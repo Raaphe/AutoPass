@@ -261,10 +261,8 @@ public class AuthenticationController {
     @PostMapping("/update-password")
     public ResponseEntity<Boolean> changePassword(@RequestBody @Valid ChangePasswordDTO passwordDTO) {
         try {
-            System.out.println("72UC");
             return ResponseEntity.ok().body(this.userService.changePassword(passwordDTO));
         } catch (Exception e) {
-            System.out.println("75UC");
             return ResponseEntity.ok().body(false);
         }
     }
