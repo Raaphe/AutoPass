@@ -7,12 +7,15 @@ import backend.autopass.model.enums.Role;
 import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
+import backend.autopass.payload.dto.ChangePasswordDTO;
 import backend.autopass.payload.dto.SignUpDTO;
+import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -23,7 +26,8 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PassRepository passRepository;
     private final UserWalletRepository walletRepository;
-
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public User createUser(SignUpDTO signUpDTO) {
@@ -36,6 +40,7 @@ public class UserService implements IUserService {
             User user = this.buildUser(signUpDTO);
             user.setRole(Role.USER);
 
+
             return userRepository.save(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -45,14 +50,54 @@ public class UserService implements IUserService {
     @Override
     public User createAdmin(SignUpDTO signUpDTO) throws Exception {
 
-        if (userRepository.existsByEmail(signUpDTO.getEmail())) {
-            throw new Exception("Email already in use");
-        }
+        try {
+            if (userRepository.existsByEmail(signUpDTO.getEmail())) {
+                throw new Exception("Email already in use");
+            }
 
         User user = this.buildUser(signUpDTO);
         user.setRole(Role.ADMIN);
 
-        return userRepository.save(user);
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void deleteUser(Long userId) throws Exception {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new Exception("User not found");
+        }
+        User user = userOptional.get();
+        if (!user.isDeleted()) {
+            user.setDeleted(true);
+            userRepository.save(user);
+        } else {
+            throw new Exception("User is already marked as deleted");
+        }
+    }
+
+    public boolean updateUser(UpdateUserDTO updateDto){
+        Optional<User> userOptional = userRepository.findByEmail(updateDto.getEmail());
+        try {
+            if (userOptional.isEmpty()) {
+                return false;
+            } else {
+                User user = userOptional.get();
+                user.setEmail(updateDto.getEmail());
+                user.setFirstName(updateDto.getFirstName());
+                user.setLastName(updateDto.getLastName());
+                user.setPassword(updateDto.getPassword());
+                userRepository.save(user);
+                return true;
+            }
+        }catch (Exception userMess){
+            return false;
+
+        }
+
     }
 
     @Override
@@ -69,6 +114,23 @@ public class UserService implements IUserService {
     @Override
     public Boolean userExists(Long id) {
         return userRepository.existsById(id);
+    }
+
+    @Override
+    public Boolean changePassword(ChangePasswordDTO dto) {
+        String email = jwtService.extractUserName(dto.getToken());
+
+        if (this.userExists(email)) {
+            Optional<User> user = this.userRepository.findByEmail(email);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            if (user.isPresent() && jwtService.isTokenValid(dto.getToken(), userDetails)) {
+                User concreteUser = user.get();
+                concreteUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+                concreteUser = userRepository.save(concreteUser);
+                return passwordEncoder.matches(dto.getPassword(), concreteUser.getPassword());
+            }
+        }
+        return false;
     }
 
 

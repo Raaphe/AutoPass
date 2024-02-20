@@ -1,33 +1,35 @@
 package backend.autopass.service;
 
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@ActiveProfiles("test")
-//@DisplayName("User Service Class")
-//@ExtendWith(MockitoExtension.class)
+import backend.autopass.model.repositories.PassRepository;
+import backend.autopass.model.repositories.UserRepository;
+import backend.autopass.model.repositories.UserWalletRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@DisplayName("User Service Class")
+@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
-//    @Mock
-//    private UserRepository mockUserRepository;
-//    @Mock
-//    private PassRepository mockPassRepository;
-//    @Mock
-//    private UserWalletRepository mockUserWalletRepository;
-//    @Mock
-//    private PasswordEncoder mockPasswordEncoder;
-//
-//    @InjectMocks
-//    private UserService mockUserService;
-//
-//    @BeforeEach
-//    void setUp() {
-//        ReflectionTestUtils.setField(mockUserService, "userRepository", mockUserRepository);
-//        ReflectionTestUtils.setField(mockUserService, "passRepository", mockPassRepository);
-//        ReflectionTestUtils.setField(mockUserService, "userWalletRepository", mockUserWalletRepository);
-//        ReflectionTestUtils.setField(mockUserService, "passwordEncoder", mockPasswordEncoder);
-//    }
-//
-//    @Test
-//    void createUser() {
+    @Mock
+    private UserRepository mockUserRepository;
+    @Mock
+    private PassRepository mockPassRepository;
+    @Mock
+    private UserWalletRepository mockUserWalletRepository;
+    @Mock
+    private PasswordEncoder mockPasswordEncoder;
+
+    @InjectMocks
+    private UserService mockUserService;
+
+    @Test
+    void createUser() {
+
 //        // Given
 //        SignUpDTO dto = SignUpDTO.builder()
 //                .email("user@hotmail.com")
@@ -52,7 +54,7 @@ class UserServiceTest {
 //
 //        User expectedUser = User.builder()
 //                .email("user@hotmail.com")
-//                .id(1L)
+//                .id(1)
 //                .isDeleted(false)
 //                .role(Role.USER)
 //                .firstName("Swiss")
@@ -65,7 +67,8 @@ class UserServiceTest {
 //        given(mockUserRepository.save(any(User.class))).willReturn(expectedUser);
 //        given(mockPassRepository.save(any(Pass.class))).willReturn(pass);
 //        given(mockUserWalletRepository.save(any(UserWallet.class))).willReturn(wallet);
-//        given(mockPasswordEncoder.encode(anyString())).willReturn(mockPasswordEncoder.encode("passwd"));
+////        given(mockPasswordEncoder.encode(anyString())).willReturn(mockPasswordEncoder.encode("passwd"));
+
 //
 //        // When
 //        User resultUser = mockUserService.createUser(dto);
@@ -76,8 +79,9 @@ class UserServiceTest {
 //        verify(mockUserWalletRepository).save(any(UserWallet.class));
 //        verify(mockPasswordEncoder).encode(eq("passwd"));
 //
-//        assertEquals(expectedUser, resultUser); // Simplified assertion, adjust as needed.
-//    }
+//        Assertions.assertEquals(expectedUser, resultUser); // Simplified assertion, adjust as needed.
+    }
+
 //
 //    @Test
 //    void createAdmin() {

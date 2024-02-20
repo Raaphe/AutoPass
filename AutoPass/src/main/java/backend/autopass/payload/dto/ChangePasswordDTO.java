@@ -1,5 +1,6 @@
 package backend.autopass.payload.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,10 +8,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class SignInDTO {
-    String email;
+@AllArgsConstructor
+public class ChangePasswordDTO {
+    @NotBlank
+    String token;
+    @NotBlank
     String password;
 }
-

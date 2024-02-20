@@ -8,12 +8,20 @@ import backend.autopass.payload.dto.SignInDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.viewmodels.AuthenticationResponse;
 import backend.autopass.service.interfaces.IAuthenticationService;
+import com.resend.Resend;
+import com.resend.services.emails.model.SendEmailRequest;
+import com.resend.services.emails.model.SendEmailResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +33,20 @@ public class AuthenticationService implements IAuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     private final UserService userService;
+    private final UserDetailsService userDetailsService;
+
+    @Value("${resend.api.key}")
+    private String resendAPIKey;
+
+    @Value("${frontend.server.port}")
+    private String frontendPort;
 
     @Override
     public AuthenticationResponse register(SignUpDTO request) throws Exception {
 
         try {
             User user;
-
+          
             if (request.getRole() == Role.ADMIN) {
                 user = userService.createAdmin(request);
             } else if (request.getRole() == Role.USER) {
@@ -39,7 +54,6 @@ public class AuthenticationService implements IAuthenticationService {
             } else {
                 return null;
             }
-
 
             var jwt = jwtService.generateToken(user);
             var refreshToken = refreshTokenService.createRefreshToken((long) user.getId());
@@ -82,5 +96,35 @@ public class AuthenticationService implements IAuthenticationService {
                 .refreshToken(refreshToken.getToken())
                 .tokenType(TokenType.BEARER.name())
                 .build();
+    }
+
+    @Override
+    public Boolean forgotPassword(String email) {
+        SendEmailResponse data;
+        try {
+            Optional<User> user = userRepository.findByEmail(email);
+            if (user.isEmpty()) {
+                return false;
+            }
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            String accessToken = jwtService.generateToken(userDetails);
+
+            Resend resend = new Resend(resendAPIKey);
+            String url = "http://localhost:" + this.frontendPort + "/change-password?token=" + accessToken;
+
+            SendEmailRequest sendEmailRequest = SendEmailRequest.builder()
+                    .from("onboarding@resend.dev")
+                    .to(email)
+                    .subject("Reset your AutoPass account password 🚏")
+                    .html("<p>Congrats on sending your <strong>first email</strong>!</p><a href=\"" + url + "\">Change Password</a>")
+                    .build();
+
+            data = resend.emails().send(sendEmailRequest);
+
+        } catch (Exception e) {
+            return false;
+        }
+        return data.getId() != null;
     }
 }

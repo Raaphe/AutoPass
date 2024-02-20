@@ -21,4 +21,12 @@ public interface IAuthenticationService {
      * @return an Authentication response with access and refresh tokens as well as token type and user email.
      */
     AuthenticationResponse authenticate(SignInDTO request);
+
+    /**
+     * Sends the user an email that will allow them to change their password.
+     *
+     * @param email The target user's email.
+     * @return Whether the email has successfully been sent or not.
+     */
+    Boolean forgotPassword(String email);
 }

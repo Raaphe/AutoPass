@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {AuthenticationApi, IsLoggedInDTO, RefreshTokenDTO} from "./Service";
 import * as Api from "./Service";
+import SignUp from "./components/SignUp/SignUp";
 
 
 class AuthenticationService {
@@ -28,6 +29,24 @@ class AuthenticationService {
 
         
     }
+
+    public async signup(signUpData: Api.SignUpDTO): Promise<boolean> {
+        let statusCode = 0;
+        await this.authApi.register(signUpData)
+            .then((res) => {
+                sessionStorage.setItem("access-token", res.data.access_token ?? "")
+                localStorage.setItem("refresh-token", res.data.refresh_token ?? "")
+                sessionStorage.setItem("user-id", res.data.user_id?.toString() ?? "")
+                statusCode = res.status;
+            })
+            .catch((e) => {
+                console.log("Error " + e + " \nCAS 22");
+                return false;
+            });
+        return (statusCode === 200)
+    } 
+
+
 
     public logout = () => {
         this.authApi.logout(this.getUserId());
@@ -75,10 +94,6 @@ class AuthenticationService {
         }
     }
 
-    public signup(signUpData: Api.SignUpDTO): boolean | PromiseLike<boolean> {
-        throw new Error('Method not implemented.');
-    }
-
     public isUserLoggedOut() {
         if (this.getAccessTokenOrDefault() === "" && this.getRefreshTokenOrDefault() === "") {
             return true;
@@ -102,6 +117,15 @@ class AuthenticationService {
 
         const configParam: Api.ConfigurationParameters = {
             accessToken:this.getAccessTokenOrDefault(),
+        }
+        return new Api.Configuration(configParam);
+    } 
+
+    
+    public getApiConfigWithToken = (token: string) => {
+
+        const configParam: Api.ConfigurationParameters = {
+            accessToken:token,
         }
         return new Api.Configuration(configParam);
     } 

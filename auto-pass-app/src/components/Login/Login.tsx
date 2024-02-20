@@ -67,6 +67,7 @@ const Login: FC<LoginProps> = () => {
                                 onChange={updateField}
                                 required
                             />
+                            <button onClick={() => navigate("/forgot-password")} type="button" className="btn btn-link">Forgot Password</button>
                         </div>
                         <button type="submit" className="btn btn-primary">Login</button>
                     </form>

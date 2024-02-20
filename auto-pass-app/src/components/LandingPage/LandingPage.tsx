@@ -13,10 +13,15 @@ const LandingPage: FC<LandingPageProps> = () => {
         navigate("/login");
     }
 
-    return (
+    function handleClickSignUp(): void {
+        navigate("/signup");
+    }
 
-        <div className="container-fluid">
+    return (
+        <div className="container-fluid m-5">
             <button onClick={handleClickLogon} className="btn btn-primary">Go to Login</button>
+            <button onClick={handleClickSignUp} className="btn btn-primary">Signup</button>
+            <button onClick={handleClickLogon} className="btn btn-primary m-3">Go to Login</button>
             LandingPage Component
         </div>
 
