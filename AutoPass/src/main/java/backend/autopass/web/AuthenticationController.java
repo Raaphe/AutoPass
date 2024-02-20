@@ -2,10 +2,7 @@ package backend.autopass.web;
 
 
 import backend.autopass.model.entities.User;
-import backend.autopass.payload.dto.IsLoggedInDTO;
-import backend.autopass.payload.dto.RefreshTokenDTO;
-import backend.autopass.payload.dto.SignInDTO;
-import backend.autopass.payload.dto.SignUpDTO;
+import backend.autopass.payload.dto.*;
 import backend.autopass.payload.viewmodels.AuthenticationResponse;
 import backend.autopass.payload.viewmodels.RefreshTokenResponse;
 import backend.autopass.security.jwt.refreshToken.Token;
@@ -118,7 +115,7 @@ public class AuthenticationController {
         String accessToken;
 
         if (token.isPresent()) {
-            Boolean isExpired = refreshTokenService.isTokenExpired(token.get());
+            boolean isExpired = refreshTokenService.isTokenExpired(token.get());
             Optional<User> user = refreshTokenService.findUserByToken(refreshToken);
 
             if (isExpired) {
@@ -211,22 +208,64 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> isRefreshTokenExpired(@RequestBody RefreshTokenDTO dto) {
         try {
             Optional<Token> refreshToken = refreshTokenService.findTokenByToken(dto.getRefreshToken());
-
             if (refreshToken.isEmpty()) {
-                log.trace("Empty token : " + refreshToken);
                 return ok().body(true);
             }
-
             if (refreshTokenService.isTokenExpired(refreshToken.get())) {
-                System.out.println("bad token : " + refreshToken.get());
                 return ok().body(true);
             } else {
-                System.out.println("good token: " + refreshToken.get());
                 return ok().body(false);
             }
         } catch (Exception e) {
-            log.error("An error occurred while checking the refresh token: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/forgot-password")
+    @Operation(summary = "Sends an email with link to reset password.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Link was successfully sent.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad Request.",
+                    content = @Content
+            )
+    })
+    public ResponseEntity<Boolean> forgotPassword(@RequestParam String email) {
+        try {
+            return ResponseEntity.ok(authenticationService.forgotPassword(email));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+        }
+    }
+
+    @Operation(summary = "Changes a user's password.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Password successfully changed",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "User not found",
+                    content = @Content
+            )
+    })
+    @PostMapping("/update-password")
+    public ResponseEntity<Boolean> changePassword(@RequestBody @Valid ChangePasswordDTO passwordDTO) {
+        try {
+            System.out.println("72UC");
+            return ResponseEntity.ok().body(this.userService.changePassword(passwordDTO));
+        } catch (Exception e) {
+            System.out.println("75UC");
+            return ResponseEntity.ok().body(false);
         }
     }
 }

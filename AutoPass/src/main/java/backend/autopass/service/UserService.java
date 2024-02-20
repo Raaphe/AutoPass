@@ -7,10 +7,13 @@ import backend.autopass.model.enums.Role;
 import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
+import backend.autopass.payload.dto.ChangePasswordDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,8 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PassRepository passRepository;
     private final UserWalletRepository walletRepository;
-
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public User createUser(SignUpDTO signUpDTO) {
@@ -106,6 +110,23 @@ public class UserService implements IUserService {
     @Override
     public Boolean userExists(Long id) {
         return userRepository.existsById(id);
+    }
+
+    @Override
+    public Boolean changePassword(ChangePasswordDTO dto) {
+        String email = jwtService.extractUserName(dto.getToken());
+
+        if (this.userExists(email)) {
+            Optional<User> user = this.userRepository.findByEmail(email);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            if (user.isPresent() && jwtService.isTokenValid(dto.getToken(), userDetails)) {
+                User concreteUser = user.get();
+                concreteUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+                concreteUser = userRepository.save(concreteUser);
+                return passwordEncoder.matches(dto.getPassword(), concreteUser.getPassword());
+            }
+        }
+        return false;
     }
 
 

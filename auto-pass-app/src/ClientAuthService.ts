@@ -120,6 +120,15 @@ class AuthenticationService {
         }
         return new Api.Configuration(configParam);
     } 
+
+    
+    public getApiConfigWithToken = (token: string) => {
+
+        const configParam: Api.ConfigurationParameters = {
+            accessToken:token,
+        }
+        return new Api.Configuration(configParam);
+    } 
 }
 
 

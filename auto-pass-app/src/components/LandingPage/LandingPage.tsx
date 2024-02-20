@@ -18,17 +18,12 @@ const LandingPage: FC<LandingPageProps> = () => {
     }
 
     return (
-
-        <div className="container-fluid">
+        <div className="container-fluid m-5">
             <button onClick={handleClickLogon} className="btn btn-primary">Go to Login</button>
             <button onClick={handleClickSignUp} className="btn btn-primary">Signup</button>
+            <button onClick={handleClickLogon} className="btn btn-primary m-3">Go to Login</button>
             LandingPage Component
         </div>
-        
-
-        
-
-        
 
     );
 };
