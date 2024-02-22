@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ISaleRepository {
     Optional<Sale> findSaleById(long id);
 
+
 }

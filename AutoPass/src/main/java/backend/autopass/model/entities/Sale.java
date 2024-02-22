@@ -39,10 +39,16 @@ public class Sale {
     @Column(nullable = false)
     private String userEmail;
 
-
-
-
-
-
-
+    public Sale(long id, User userId, String serviceDetails, double totalAmount, long stripPaymentId, String paymentStatus, PaymentType paymentType, LocalDateTime paymentDate, String cAD, String userEmail) {
+        this.id = id;
+        this.userId = userId;
+        this.serviceDetails = serviceDetails;
+        this.totalAmount = totalAmount;
+        this.stripPaymentId = stripPaymentId;
+        this.paymentStatus = paymentStatus;
+        this.paymentType = paymentType;
+        this.paymentDate = paymentDate;
+        this.cAD = cAD;
+        this.userEmail = userEmail;
+    }
 }
