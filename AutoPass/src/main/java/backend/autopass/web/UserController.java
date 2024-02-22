@@ -24,7 +24,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user/info")
+    @GetMapping("/info")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Gets a user's information by their ID.")
     @ApiResponses(value = {

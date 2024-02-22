@@ -124,7 +124,7 @@ public class RefreshTokenService implements IRefreshTokenService {
     @Override
     public Token getTokenFromUserDetails(UserDetails userDetails) {
 
-        Optional<User> user = userRepository.findByEmail(userDetails.getUsername());
+        Optional<User> user = userRepository.findUserByEmail(userDetails.getUsername());
         Optional<Token> token = Optional.empty();
 
         if (user.isPresent()) {

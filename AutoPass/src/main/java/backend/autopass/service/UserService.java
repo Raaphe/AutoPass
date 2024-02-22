@@ -76,7 +76,7 @@ public class UserService implements IUserService {
     }
 
     public boolean updateUser(UpdateUserDTO updateDto){
-        Optional<User> userOptional = userRepository.findByEmail(updateDto.getEmail());
+        Optional<User> userOptional = userRepository.findUserByEmail(updateDto.getEmail());
         try {
             if (userOptional.isEmpty()) {
                 return false;
@@ -117,7 +117,7 @@ public class UserService implements IUserService {
         String email = jwtService.extractUserName(dto.getToken());
 
         if (this.userExists(email)) {
-            Optional<User> user = this.userRepository.findByEmail(email);
+            Optional<User> user = this.userRepository.findUserByEmail(email);
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             if (user.isPresent() && jwtService.isTokenValid(dto.getToken(), userDetails)) {
                 User concreteUser = user.get();

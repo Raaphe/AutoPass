@@ -113,7 +113,11 @@
         </dependency>
 
         <!-- ===== MISC ===== -->
-
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>24.16.0</version>
+        </dependency>
         <dependency>
             <groupId>com.resend</groupId>
             <artifactId>resend-java</artifactId>

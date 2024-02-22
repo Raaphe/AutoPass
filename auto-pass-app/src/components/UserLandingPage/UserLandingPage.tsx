@@ -34,7 +34,7 @@ const UserLandingPage: FC<UserLandingPageProps> = () => {
                 })
         }
         fetchUserData();
-    },[])
+    },[navigate])
 
 
     return (

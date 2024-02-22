@@ -81,7 +81,7 @@ public class AuthenticationService implements IAuthenticationService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+        var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         var roles = user.getRole().getAuthorities()
                 .stream()
                 .map(SimpleGrantedAuthority::getAuthority)
@@ -102,7 +102,7 @@ public class AuthenticationService implements IAuthenticationService {
     public Boolean forgotPassword(String email) {
         SendEmailResponse data;
         try {
-            Optional<User> user = userRepository.findByEmail(email);
+            Optional<User> user = userRepository.findUserByEmail(email);
             if (user.isEmpty()) {
                 return false;
             }

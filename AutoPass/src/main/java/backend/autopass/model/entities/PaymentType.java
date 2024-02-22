@@ -28,5 +28,4 @@ public class PaymentType implements Serializable {
     private String cVV;
     @Builder.Default
     private boolean isDeleted = false;
-
 }
