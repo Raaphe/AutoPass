@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import styles from './Header.module.scss';
-import { motion } from 'framer-motion';
+// import styles from './Header.module.scss';
+// import { motion } from 'framer-motion';
 
 interface HeaderProps {
 }
