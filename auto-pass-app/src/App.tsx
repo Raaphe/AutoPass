@@ -9,6 +9,7 @@ import UserLandingPage from './components/UserLandingPage/UserLandingPage';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import ChangePassword from './components/ChangePassword/ChangePassword';
 import SignUp from './components/SignUp/SignUp';
+import Footer from './components/Footer/Footer';
 
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
                     </Route>
 
                 </Routes>
+                <Footer/>
             </div>
         </Router>
     );

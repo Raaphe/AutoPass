@@ -22,8 +22,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -32,7 +35,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "Authentication", description = "The Authentication API. Contains operations like login, logout, refresh-token etc.")
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9090"})
+@CrossOrigin
 @RequestMapping("/auth")
 @SecurityRequirements()
 @RequiredArgsConstructor

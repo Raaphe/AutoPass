@@ -1,5 +1,4 @@
-import React, {ChangeEvent, FC, useState} from 'react';
-import ClientAuthService from '../../ClientAuthService';
+import React, {FC, useState} from 'react';
 import * as Api from '../../Service'; 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChangePasswordDTO } from '../../Service';
