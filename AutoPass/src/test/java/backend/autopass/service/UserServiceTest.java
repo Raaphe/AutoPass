@@ -29,6 +29,7 @@ class UserServiceTest {
 
     @Test
     void createUser() {
+
 //        // Given
 //        SignUpDTO dto = SignUpDTO.builder()
 //                .email("user@hotmail.com")
@@ -67,6 +68,7 @@ class UserServiceTest {
 //        given(mockPassRepository.save(any(Pass.class))).willReturn(pass);
 //        given(mockUserWalletRepository.save(any(UserWallet.class))).willReturn(wallet);
 ////        given(mockPasswordEncoder.encode(anyString())).willReturn(mockPasswordEncoder.encode("passwd"));
+
 //
 //        // When
 //        User resultUser = mockUserService.createUser(dto);
@@ -79,6 +81,7 @@ class UserServiceTest {
 //
 //        Assertions.assertEquals(expectedUser, resultUser); // Simplified assertion, adjust as needed.
     }
+
 //
 //    @Test
 //    void createAdmin() {

@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -41,6 +40,7 @@ public class UserService implements IUserService {
             User user = this.buildUser(signUpDTO);
             user.setRole(Role.USER);
 
+
             return userRepository.save(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -50,14 +50,18 @@ public class UserService implements IUserService {
     @Override
     public User createAdmin(SignUpDTO signUpDTO) throws Exception {
 
-        if (userRepository.existsByEmail(signUpDTO.getEmail())) {
-            throw new Exception("Email already in use");
-        }
+        try {
+            if (userRepository.existsByEmail(signUpDTO.getEmail())) {
+                throw new Exception("Email already in use");
+            }
 
         User user = this.buildUser(signUpDTO);
         user.setRole(Role.ADMIN);
 
-        return userRepository.save(user);
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
