@@ -19,7 +19,7 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = "https://d835-70-81-171-8.ngrok-free.app".replace(/\/+$/, "");
+export const BASE_PATH = "http://localhost:9090".replace(/\/+$/, "");
 
 /**
  *
