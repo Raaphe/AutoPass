@@ -8,7 +8,7 @@ interface DashboardProps {
 
 const Dashboard: FC<DashboardProps> = () => (
 
-<div className="container mt-5">
+<div className="container mt-5" style={{ paddingBottom: '80px' }}>
       <motion.div
         className="row g-5"
         initial={{ opacity: 0, y: 50 }}
