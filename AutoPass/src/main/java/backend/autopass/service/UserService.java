@@ -7,15 +7,15 @@ import backend.autopass.model.enums.Role;
 import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
+import backend.autopass.payload.dto.ChangePasswordDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -26,36 +26,42 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PassRepository passRepository;
     private final UserWalletRepository walletRepository;
-
-
-    public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Username Not Found"));
-    }
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
-    public User createUser(SignUpDTO signUpDTO) throws Exception {
+    public User createUser(SignUpDTO signUpDTO) {
 
-        if (userRepository.existsByEmail(signUpDTO.getEmail())) {
-            throw new Exception("Email already in use");
+        try {
+            if (userRepository.existsByEmail(signUpDTO.getEmail())) {
+                throw new Exception("Email already in use");
+            }
+
+            User user = this.buildUser(signUpDTO);
+            user.setRole(Role.USER);
+
+
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        User user = this.buildUser(signUpDTO);
-        user.setRole(Role.USER);
-
-        return userRepository.save(user);
     }
 
     @Override
     public User createAdmin(SignUpDTO signUpDTO) throws Exception {
 
-        if (userRepository.existsByEmail(signUpDTO.getEmail())) {
-            throw new Exception("Email already in use");
-        }
+        try {
+            if (userRepository.existsByEmail(signUpDTO.getEmail())) {
+                throw new Exception("Email already in use");
+            }
 
         User user = this.buildUser(signUpDTO);
         user.setRole(Role.ADMIN);
 
-        return userRepository.save(user);
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -89,9 +95,7 @@ public class UserService implements IUserService {
             }
         }catch (Exception userMess){
             return false;
-
         }
-
     }
 
     @Override
@@ -110,6 +114,23 @@ public class UserService implements IUserService {
         return userRepository.existsById(id);
     }
 
+    @Override
+    public Boolean changePassword(ChangePasswordDTO dto) {
+        String email = jwtService.extractUserName(dto.getToken());
+
+        if (this.userExists(email)) {
+            Optional<User> user = this.userRepository.findByEmail(email);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            if (user.isPresent() && jwtService.isTokenValid(dto.getToken(), userDetails)) {
+                User concreteUser = user.get();
+                concreteUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+                concreteUser = userRepository.save(concreteUser);
+                return passwordEncoder.matches(dto.getPassword(), concreteUser.getPassword());
+            }
+        }
+        return false;
+    }
+
 
     private User buildUser(SignUpDTO signUpDTO) {
 
@@ -121,10 +142,9 @@ public class UserService implements IUserService {
                 .firstName(signUpDTO.getFirstname())
                 .lastName(signUpDTO.getLastname())
                 .password(passwordEncoder.encode(signUpDTO.getPassword()))
+                .pass(pass)
                 .wallet(wallet)
                 .build();
-
-        user.setPass(pass);
 
         return userRepository.save(user);
     }

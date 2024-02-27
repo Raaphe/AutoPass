@@ -26,7 +26,7 @@ const Login: FC<LoginProps> = () => {
 
         // Prevents page reload. may be removed
         event.preventDefault();
-
+        
         var isCredentialCorrect: boolean = await ClientAuthService.login(signInData);
 
         console.log(isCredentialCorrect);
@@ -67,6 +67,7 @@ const Login: FC<LoginProps> = () => {
                                 onChange={updateField}
                                 required
                             />
+                            <button onClick={() => navigate("/forgot-password")} type="button" className="btn btn-link">Forgot Password</button>
                         </div>
                         <button type="submit" className="btn btn-primary">Login</button>
                     </form>

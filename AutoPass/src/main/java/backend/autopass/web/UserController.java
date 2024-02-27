@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -16,15 +17,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9090"})
+@CrossOrigin
 @PreAuthorize("hasAnyRole('ADMIN','USER')")
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user/info")
+    @GetMapping("/info")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Gets a user's information by their ID.")
     @ApiResponses(value = {

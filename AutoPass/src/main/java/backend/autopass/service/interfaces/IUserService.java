@@ -1,6 +1,7 @@
 package backend.autopass.service.interfaces;
 
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.dto.ChangePasswordDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 
 public interface IUserService {
@@ -44,4 +45,13 @@ public interface IUserService {
      * @return Whether the user exists by id.
      */
     Boolean userExists(Long id);
+
+    /**
+     * Changes a user's password.
+     *
+     * @param dto The user's username and new password.
+     * @return Whether the password was successfully changed.
+     */
+    Boolean changePassword(ChangePasswordDTO dto);
+
 }
