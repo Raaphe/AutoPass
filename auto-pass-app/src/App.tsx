@@ -8,6 +8,7 @@ import ProtectedRoutesUser from './routes/ProtectedRoutesUser';
 import UserLandingPage from './components/UserLandingPage/UserLandingPage';
 import SignUp from './components/SignUp/SignUp';
 import Footer from './components/Footer/Footer';
+import Dashboard from './components/Dashboard/Dashboard';
 
 
 
@@ -29,6 +30,8 @@ const App = () => {
                     <Route element={<ProtectedRoutesUser/>}>
                         <Route path='/home' element={<UserLandingPage/>}/>
                         {/* Edit user (/edit/:userId), user details (/:userId)*/}
+                        <Route path='/Dashboard' element={<Dashboard/>}/>
+                        
                         
                     </Route>
 
