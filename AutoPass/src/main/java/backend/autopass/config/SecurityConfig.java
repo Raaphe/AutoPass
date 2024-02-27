@@ -26,11 +26,13 @@ public class SecurityConfig {
     public static final String[] WHITE_LIST_URL = {
             "/auth/login",
             "/auth/signup",
-            "/auth/logout",
-            "/dashboard",
-            "/auth/isLogged",
-            "/auth/check-refresh-token",
             "/auth/refresh-token",
+            "/auth/logout",
+            "/auth/isLogged",
+            "/auth/forgot-password",
+            "/auth/check-refresh-token",
+            "/auth/update-password",
+            "/dashboard",
             "/swagger-ui.html",
             "/v3/api-docs",
             "/v3/api-docs.yaml",
@@ -63,7 +65,9 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/user/info").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/user/delete-user").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/user/update-user-info").authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)

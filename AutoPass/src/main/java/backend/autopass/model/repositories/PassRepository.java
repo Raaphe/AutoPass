@@ -8,10 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface PassRepository extends JpaRepository<Pass, Long> {
-
     Optional<Pass> getPassById(int id);
 
-    @Override
     boolean existsById(Long id);
-
 }

@@ -26,7 +26,7 @@ const Login: FC<LoginProps> = () => {
 
         // Prevents page reload. may be removed
         event.preventDefault();
-
+        
         var isCredentialCorrect: boolean = await ClientAuthService.login(signInData);
 
         console.log(isCredentialCorrect);
@@ -73,7 +73,6 @@ const Login: FC<LoginProps> = () => {
         </div>
     </div>
 </div>
-
     );
 };
 
