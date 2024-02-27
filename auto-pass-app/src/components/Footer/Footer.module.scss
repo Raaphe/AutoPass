@@ -6,4 +6,9 @@
     background-color: #50B8E7;
     text-align: center;
     border-top: 4px solid lightblue;
+    z-index: 10;
+    transition: height 0.5s ease;
 }
+.Footer.extended {
+    height: 100vh; /* Make the footer extend to the full height of the viewport */
+  }
