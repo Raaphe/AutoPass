@@ -1,2 +1,23 @@
 .Header {
-}
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #50B8E7;
+    padding: 10px 0;
+    z-index: 10;
+    border-bottom: 4px solid lightblue;
+  }
+  
+  .Header a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .Header a:hover {
+    color: lightgray;
+  }
+  
