@@ -1,14 +1,45 @@
-import React, {FC, useState} from 'react';
-import styles from './Dashboard.module.scss';
+import React, { FC, useEffect, useState } from "react";
+import styles from "./Dashboard.module.scss";
 import { motion } from "framer-motion";
+import ClientAuthService from "../../ClientAuthService";
+import { useNavigate } from "react-router-dom";
+import * as Api from "../../Service";
 
-interface DashboardProps {
-}
+interface DashboardProps {}
 
+const Dashboard: FC<DashboardProps> = () => {
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState<Api.User>();
 
-const Dashboard: FC<DashboardProps> = () => (
+  const handleLogout = () => {
+    ClientAuthService.logout();
+    navigate("/login");
+  };
 
-<div className="container mt-5">
+  useEffect(() => {
+    // This is how we setup the access token inside the subsequent request's `Authorization Header` like so :
+    // "Bearer <access_token>"
+    console.log(
+      `user token when making call${ClientAuthService.getAccessTokenOrDefault()}`
+    );
+    const config = ClientAuthService.getApiConfig();
+    const userAPI = new Api.UserControllerApi(config);
+
+    const fetchUserData = async () => {
+      await userAPI
+        .getUser()
+        .then((res) => {
+          setUserData(res.data);
+        })
+        .catch(() => {
+          navigate("/");
+        });
+    };
+    fetchUserData();
+  }, [navigate]);
+
+  return (
+    <div className="container mt-5">
       <motion.div
         className="row g-5"
         initial={{ opacity: 0, y: 50 }}
@@ -46,9 +77,7 @@ const Dashboard: FC<DashboardProps> = () => (
               <div className={styles.blackDebitCard}>
                 <div className={styles.chip}></div>
                 <div className={styles.cardNumber}>
-                  <div className={styles.number}>
-                    1234 5678 9012 3456
-                  </div>
+                  <div className={styles.number}>1234 5678 9012 3456</div>
                 </div>
                 <div className={styles.cardInfo}>
                   <div className={styles.cardHolder}>John Doe</div>
@@ -139,6 +168,7 @@ const Dashboard: FC<DashboardProps> = () => (
         </div>
       </motion.div>
     </div>
-);
+  );
+};
 
 export default Dashboard;
