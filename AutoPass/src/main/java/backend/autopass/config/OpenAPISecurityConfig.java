@@ -7,15 +7,16 @@ import io.swagger.v3.core.converter.ResolvedSchema;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,12 +30,6 @@ import org.springframework.context.annotation.Configuration;
                 title = "OpenApi specification - AutoPass",
                 version = "1.0"
         ),
-        servers = {
-                @Server(
-                        description = "Local ENV",
-                        url = "http://localhost:9090"
-                ),
-        },
         security = {
                 @io.swagger.v3.oas.annotations.security.SecurityRequirement(
                         name = "Bearer"
@@ -51,6 +46,12 @@ import org.springframework.context.annotation.Configuration;
 )
 @Configuration
 public class OpenAPISecurityConfig {
+
+    @Value("${application.ip}")
+    private String serverIp;
+
+    @Value("${server.port}")
+    private String backendPort;
 
     @Bean
     public OpenApiCustomizer schemaCustomizer() {
@@ -70,7 +71,9 @@ public class OpenAPISecurityConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+                .addServersItem(new Server().url(("http://") + serverIp + ":" + backendPort))
                 .components(new Components()
                         .addSecuritySchemes("Bearer", createAPIKeyScheme()))
                 .info(new Info()
