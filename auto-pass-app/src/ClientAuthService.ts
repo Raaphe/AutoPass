@@ -14,9 +14,7 @@ class AuthenticationService {
     await this.authApi
       .authenticate(loginDTO)
       .then((res) => {
-        sessionStorage.setItem("access-token", res.data.access_token ?? "");
-        localStorage.setItem("refresh-token", res.data.refresh_token ?? "");
-        sessionStorage.setItem("user-id", res.data.user_id?.toString() ?? "");
+        this.setAuthenticationResponseInMemory(res.data);
         statusCode = res.status;
       })
       .catch(() => {
@@ -31,9 +29,7 @@ class AuthenticationService {
     await this.authApi
       .register(signUpData)
       .then((res) => {
-        sessionStorage.setItem("access-token", res.data.access_token ?? "");
-        localStorage.setItem("refresh-token", res.data.refresh_token ?? "");
-        sessionStorage.setItem("user-id", res.data.user_id?.toString() ?? "");
+        this.setAuthenticationResponseInMemory(res.data);
         statusCode = res.status;
       })
       .catch(() => {
@@ -131,6 +127,12 @@ class AuthenticationService {
     };
     return new Api.Configuration(configParam);
   };
+
+  public setAuthenticationResponseInMemory(authResponse: Api.AuthenticationResponse) {
+    sessionStorage.setItem("access-token", authResponse.access_token ?? "");
+    localStorage.setItem("refresh-token", authResponse.refresh_token ?? "");
+    sessionStorage.setItem("user-id", authResponse.user_id?.toString() ?? "");
+  }
 }
 
 const authenticationService = new AuthenticationService();

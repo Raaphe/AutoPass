@@ -3,19 +3,12 @@ package backend.autopass.service;
 import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-//import static org.mockito.BDDMockito.*;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@DisplayName("User Service Class")
-@ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+public class UserServiceTest {
 
     @Mock
     private UserRepository mockUserRepository;
@@ -30,7 +23,7 @@ class UserServiceTest {
     private UserService mockUserService;
 
     @Test
-    void createUser() {
+    public void createUser() {
 
 //        // Given
 //        SignUpDTO dto = SignUpDTO.builder()

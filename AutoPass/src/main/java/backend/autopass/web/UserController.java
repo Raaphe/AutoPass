@@ -14,11 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
-@PreAuthorize("hasAnyRole('ADMIN','USER')")
+@PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER')")
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/user")
@@ -44,8 +48,17 @@ public class UserController {
     })
     public ResponseEntity<User> getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(currentUser);
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null; // or throw an exception based on your requirements
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ResponseEntity.ok(userService.getUserByEmail(((UserDetails) principal).getUsername()));
+        }
+
+        return null; // Handle accordingly
     }
 
     @PutMapping("/delete-user")

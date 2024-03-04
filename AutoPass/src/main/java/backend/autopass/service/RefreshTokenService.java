@@ -21,6 +21,7 @@ import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +32,8 @@ public class RefreshTokenService implements IRefreshTokenService {
     private final TokenRepository refreshTokenRepository;
     private final JwtService jwtService;
 
-    @Value("${application.security.same-site-setting}")
-    private String sameSiteCookieSetting;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
-    @Value("${application.security.jwt.refresh-token.cookie-name}")
-    private String refreshTokenName;
-
 
     @Transactional
     @Override
@@ -133,6 +129,13 @@ public class RefreshTokenService implements IRefreshTokenService {
 
         assert Objects.requireNonNull(token).isPresent();
         return token.orElse(null);
+    }
+
+    @Override
+    public Token getTokenFromUserEmail(String email) {
+        AtomicReference<Token> refreshToken = new AtomicReference<>(Token.builder().build());
+        userRepository.findByEmail(email).flatMap(refreshTokenRepository::findByUser).ifPresent(refreshToken::set);
+        return refreshToken.get();
     }
 
 

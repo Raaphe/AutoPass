@@ -12,6 +12,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,6 +57,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwt = jwtService.getJwtFromCookies(request);
         }
 
+        System.out.println("Current request path in filter :" + requestPath);
+
         // List the paths that should not require authentication
         List<String> authFreeEndpoints = List.of(SecurityConfig.WHITE_LIST_URL);
 
@@ -62,8 +67,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+
+
         if (jwt != null) {
-            final String userEmail = jwtService.extractUserName(jwt);
+            String userEmail = jwtService.extractUserName(jwt);
+
+
             if (isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails;
                 userDetails = this.userService.loadUserByUsername(userEmail);
@@ -78,7 +87,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if (jwtService.isTokenValid(jwt, userDetails) || isRefreshTokenValid) {
                     // Set authentication in the context
-                    System.out.println(requestPath + "setting auth");
+                    log.info(requestPath + " setting auth");
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

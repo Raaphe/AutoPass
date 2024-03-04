@@ -42,9 +42,10 @@ public class AuthenticationService implements IAuthenticationService {
     private String frontendPort;
 
     @Override
-    public AuthenticationResponse register(SignUpDTO request) throws Exception {
+    public AuthenticationResponse register(SignUpDTO request) {
 
         try {
+
             User user;
           
             if (request.getRole() == Role.ADMIN) {
@@ -82,6 +83,11 @@ public class AuthenticationService implements IAuthenticationService {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+
+        if (user.getRole() == Role.GOOGLE_USER) {
+            throw new IllegalArgumentException("Cannot authenticate here with a google linked account.");
+        }
+
         var roles = user.getRole().getAuthorities()
                 .stream()
                 .map(SimpleGrantedAuthority::getAuthority)
