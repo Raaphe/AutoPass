@@ -34,6 +34,7 @@ const App = () => {
                     </Route>
 
                     <Route element={<ProtectedRoutesUser/>}>
+
                         <Route path='/home' element={<UserDetailsPage/>}/>
                         {/* Edit user (/edit/:userId), user details (/:userId)*/}
                         <Route path='/Dashboard' element={<Dashboard/>}/>
