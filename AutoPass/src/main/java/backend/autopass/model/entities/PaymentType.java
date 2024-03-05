@@ -6,7 +6,6 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Getter
 @Entity
 @Data
 @Builder

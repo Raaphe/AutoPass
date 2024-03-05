@@ -170,27 +170,24 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> isLogged(@RequestBody IsLoggedInDTO dto) {
 
         // User doesn't exist
-        if (dto.getAccessToken().isBlank() || dto.getUserId() == -1 || String.valueOf(dto.getUserId()).equals("-1")) {
+        if (dto.getAccessToken().isBlank() || dto.getUserId() < 0 || String.valueOf(dto.getUserId()).equals("-1")) {
             System.out.println("isLogged -> Empty DTO");
             return ResponseEntity.ok()
                     .body(false);
         }
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(
-                this.userService.getUserById((long) dto.getUserId()).getEmail() // email
-        );
-
         // ===== ACCESS TOKEN ====
         try {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(this.jwtService.extractUserName(dto.getAccessToken()));
             if (!jwtService.isTokenValid(dto.getAccessToken(), userDetails)) {
                 return ResponseEntity.ok().body(false);
             } else {
                 return ResponseEntity.ok().body(true);
             }
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().body(false);
         }
-
     }
 
     @PostMapping("/check-refresh-token")

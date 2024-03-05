@@ -72,4 +72,11 @@ public interface IRefreshTokenService {
      */
     Token getTokenFromUserDetails(UserDetails userDetails);
 
+    /**
+     * Gets a user's refresh token or null.
+     *
+     * @param email The user's email.
+     * @return The user's refresh token or null.
+     */
+    Token getTokenFromUserEmail(String email);
 }

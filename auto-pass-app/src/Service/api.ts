@@ -222,13 +222,13 @@ export interface EntityModelPaymentType {
      * @type {string}
      * @memberof EntityModelPaymentType
      */
-    'cvv'?: string;
+    'pan'?: string;
     /**
      * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
-    'pan'?: string;
+    'cvv'?: string;
     /**
      * 
      * @type {boolean}
@@ -342,10 +342,34 @@ export interface EntityModelUser {
     'role'?: EntityModelUserRoleEnum;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'googleAccessToken'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'profileImageUrl'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
     'enabled'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'accountNonLocked'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -360,28 +384,16 @@ export interface EntityModelUser {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
+     * @type {Array<GrantedAuthority>}
      * @memberof EntityModelUser
      */
-    'accountNonLocked'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'username'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'deleted'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof EntityModelUser
-     */
-    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -392,7 +404,8 @@ export interface EntityModelUser {
 
 export const EntityModelUserRoleEnum = {
     Admin: 'ADMIN',
-    User: 'USER'
+    User: 'USER',
+    GoogleUser: 'GOOGLE_USER'
 } as const;
 
 export type EntityModelUserRoleEnum = typeof EntityModelUserRoleEnum[keyof typeof EntityModelUserRoleEnum];
@@ -1082,13 +1095,13 @@ export interface PaymentTypeRequestBody {
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
-    'cvv'?: string;
+    'pan'?: string;
     /**
      * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
-    'pan'?: string;
+    'cvv'?: string;
     /**
      * 
      * @type {boolean}
@@ -1181,7 +1194,8 @@ export interface SignUpDTO {
 
 export const SignUpDTORoleEnum = {
     Admin: 'ADMIN',
-    User: 'USER'
+    User: 'USER',
+    GoogleUser: 'GOOGLE_USER'
 } as const;
 
 export type SignUpDTORoleEnum = typeof SignUpDTORoleEnum[keyof typeof SignUpDTORoleEnum];
@@ -1341,10 +1355,34 @@ export interface User {
     'role'?: UserRoleEnum;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    'googleAccessToken'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'profileImageUrl'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof User
      */
     'enabled'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'accountNonLocked'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1359,33 +1397,22 @@ export interface User {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
+     * @type {Array<GrantedAuthority>}
      * @memberof User
      */
-    'accountNonLocked'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {string}
      * @memberof User
      */
     'username'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'deleted'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof User
-     */
-    'authorities'?: Array<GrantedAuthority>;
 }
 
 export const UserRoleEnum = {
     Admin: 'ADMIN',
-    User: 'USER'
+    User: 'USER',
+    GoogleUser: 'GOOGLE_USER'
 } as const;
 
 export type UserRoleEnum = typeof UserRoleEnum[keyof typeof UserRoleEnum];
@@ -1446,10 +1473,34 @@ export interface UserRequestBody {
     'role'?: UserRequestBodyRoleEnum;
     /**
      * 
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'googleAccessToken'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'profileImageUrl'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
     'enabled'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'accountNonLocked'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1464,33 +1515,22 @@ export interface UserRequestBody {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
+     * @type {Array<GrantedAuthority>}
      * @memberof UserRequestBody
      */
-    'accountNonLocked'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'username'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'deleted'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof UserRequestBody
-     */
-    'authorities'?: Array<GrantedAuthority>;
 }
 
 export const UserRequestBodyRoleEnum = {
     Admin: 'ADMIN',
-    User: 'USER'
+    User: 'USER',
+    GoogleUser: 'GOOGLE_USER'
 } as const;
 
 export type UserRequestBodyRoleEnum = typeof UserRequestBodyRoleEnum[keyof typeof UserRequestBodyRoleEnum];
@@ -2659,19 +2699,19 @@ export class MembershipEntityControllerApi extends BaseAPI {
 
 
 /**
- * MembershipSearchControllerApi - axios parameter creator
+ * OAuth2ControllerApi - axios parameter creator
  * @export
  */
-export const MembershipSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const OAuth2ControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} [id] 
+         * @summary Gets a user\'s information by their ID.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchMembershipGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/memberships/search/getMembershipById`;
+        getUser1: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/google/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2682,14 +2722,6 @@ export const MembershipSearchControllerApiAxiosParamCreator = function (configur
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (id !== undefined) {
-                localVarQueryParameter['id'] = id;
-            }
 
 
     
@@ -2706,62 +2738,62 @@ export const MembershipSearchControllerApiAxiosParamCreator = function (configur
 };
 
 /**
- * MembershipSearchControllerApi - functional programming interface
+ * OAuth2ControllerApi - functional programming interface
  * @export
  */
-export const MembershipSearchControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = MembershipSearchControllerApiAxiosParamCreator(configuration)
+export const OAuth2ControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OAuth2ControllerApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {number} [id] 
+         * @summary Gets a user\'s information by their ID.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchMembershipGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchMembershipGet(id, options);
+        async getUser1(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUser1(options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['MembershipSearchControllerApi.executeSearchMembershipGet']?.[index]?.url;
+            const operationBasePath = operationServerMap['OAuth2ControllerApi.getUser1']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
 };
 
 /**
- * MembershipSearchControllerApi - factory interface
+ * OAuth2ControllerApi - factory interface
  * @export
  */
-export const MembershipSearchControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = MembershipSearchControllerApiFp(configuration)
+export const OAuth2ControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OAuth2ControllerApiFp(configuration)
     return {
         /**
          * 
-         * @param {number} [id] 
+         * @summary Gets a user\'s information by their ID.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchMembershipGet(id?: number, options?: any): AxiosPromise<EntityModelMembership> {
-            return localVarFp.executeSearchMembershipGet(id, options).then((request) => request(axios, basePath));
+        getUser1(options?: any): AxiosPromise<User> {
+            return localVarFp.getUser1(options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * MembershipSearchControllerApi - object-oriented interface
+ * OAuth2ControllerApi - object-oriented interface
  * @export
- * @class MembershipSearchControllerApi
+ * @class OAuth2ControllerApi
  * @extends {BaseAPI}
  */
-export class MembershipSearchControllerApi extends BaseAPI {
+export class OAuth2ControllerApi extends BaseAPI {
     /**
      * 
-     * @param {number} [id] 
+     * @summary Gets a user\'s information by their ID.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MembershipSearchControllerApi
+     * @memberof OAuth2ControllerApi
      */
-    public executeSearchMembershipGet(id?: number, options?: RawAxiosRequestConfig) {
-        return MembershipSearchControllerApiFp(this.configuration).executeSearchMembershipGet(id, options).then((request) => request(this.axios, this.basePath));
+    public getUser1(options?: RawAxiosRequestConfig) {
+        return OAuth2ControllerApiFp(this.configuration).getUser1(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3252,115 +3284,6 @@ export class PassEntityControllerApi extends BaseAPI {
      */
     public putItemResourcePassPut(id: string, passRequestBody: PassRequestBody, options?: RawAxiosRequestConfig) {
         return PassEntityControllerApiFp(this.configuration).putItemResourcePassPut(id, passRequestBody, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * PassSearchControllerApi - axios parameter creator
- * @export
- */
-export const PassSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {number} [id] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        executeSearchPassGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/passes/search/getPassById`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (id !== undefined) {
-                localVarQueryParameter['id'] = id;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * PassSearchControllerApi - functional programming interface
- * @export
- */
-export const PassSearchControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = PassSearchControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {number} [id] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async executeSearchPassGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPass>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchPassGet(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PassSearchControllerApi.executeSearchPassGet']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-    }
-};
-
-/**
- * PassSearchControllerApi - factory interface
- * @export
- */
-export const PassSearchControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = PassSearchControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {number} [id] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        executeSearchPassGet(id?: number, options?: any): AxiosPromise<EntityModelPass> {
-            return localVarFp.executeSearchPassGet(id, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * PassSearchControllerApi - object-oriented interface
- * @export
- * @class PassSearchControllerApi
- * @extends {BaseAPI}
- */
-export class PassSearchControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {number} [id] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PassSearchControllerApi
-     */
-    public executeSearchPassGet(id?: number, options?: RawAxiosRequestConfig) {
-        return PassSearchControllerApiFp(this.configuration).executeSearchPassGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
