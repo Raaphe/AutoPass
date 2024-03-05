@@ -29,12 +29,12 @@ const App = () => {
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/forgot-password' element={<ForgotPassword/>}/>
                         <Route path='/change-password' element={<ChangePassword/>}/>
-                        <Route path='/home' element={<UserDetailsPage/>}/>
+                        
 
                     </Route>
 
                     <Route element={<ProtectedRoutesUser/>}>
-                        {/* <Route path='/home' element={<UserDetailsPage/>}/> */}
+                        <Route path='/home' element={<UserDetailsPage/>}/>
                         {/* Edit user (/edit/:userId), user details (/:userId)*/}
                         <Route path='/Dashboard' element={<Dashboard/>}/>
                         
