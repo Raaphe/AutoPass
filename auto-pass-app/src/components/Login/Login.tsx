@@ -56,7 +56,7 @@ const Login: FC<LoginProps> = () => {
   };
 
   const handleLoginWithGoogle = (): void => {
-    window.location.href = "http://localhost/login/oauth2/code/google";
+    window.location.href = "http://localhost:9090/oauth2/authorization/google";
   };
 
     return (
@@ -92,7 +92,7 @@ const Login: FC<LoginProps> = () => {
                                         required
                                     />
                                 </div>
-                                <div className="mb-3">
+                                <div>
                                     <input
                                         type="password"
                                         placeholder="Password"
@@ -102,16 +102,6 @@ const Login: FC<LoginProps> = () => {
                                         onChange={updateField}
                                         required
                                     />
-                                </div>
-
-                                <hr className="my-4" />
-                                <div className="mb-3 form-check">
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        id="rememberMe"
-                                    />
-                                    <label className="form-check-label" htmlFor="rememberMe">Remember Me</label>
                                 </div>
                                 <button
                                     onClick={() => navigate("/forgot-password")}
@@ -124,6 +114,15 @@ const Login: FC<LoginProps> = () => {
                                         <path fill-rule="evenodd" d="M11 10.5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1 0-1h3.793L1.146 1.854a.5.5 0 1 1 .708-.708L10 9.293V5.5a.5.5 0 0 1 1 0z"/>
                                     </svg>
                                 </button>
+                                <hr className="my-4" />
+                                <div className="mb-3 form-check">
+                                    <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        id="rememberMe"
+                                    />
+                                    <label className="form-check-label" htmlFor="rememberMe">Remember Me</label>
+                                </div>
                                 <div className="text-end">
                                     <button type="submit" className="btn btn-primary">Login</button>
                                 </div>
