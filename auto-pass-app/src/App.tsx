@@ -10,6 +10,7 @@ import ChangePassword from './components/ChangePassword/ChangePassword';
 import SignUp from './components/SignUp/SignUp';
 import Footer from './components/Footer/Footer';
 import Dashboard from './components/Dashboard/Dashboard';
+import UserDetailsPage from './components/UserDetails/UserDetailsPage';
 
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
 
         <Router>
             <div className="App">
-                <Header/> 
+                {/* <Header/>  */}
                 <Routes>
 
                     <Route element={<ProtectedRoutesGuests/>}>
@@ -28,10 +29,13 @@ const App = () => {
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/forgot-password' element={<ForgotPassword/>}/>
                         <Route path='/change-password' element={<ChangePassword/>}/>
+                        
 
                     </Route>
 
                     <Route element={<ProtectedRoutesUser/>}>
+
+                        <Route path='/home' element={<UserDetailsPage/>}/>
                         {/* Edit user (/edit/:userId), user details (/:userId)*/}
                         <Route path='/Dashboard' element={<Dashboard/>}/>
                         
@@ -39,7 +43,7 @@ const App = () => {
                     </Route>
 
                 </Routes>
-                <Footer/>
+                {/* <Footer/> */}
             </div>
         </Router>
     );
