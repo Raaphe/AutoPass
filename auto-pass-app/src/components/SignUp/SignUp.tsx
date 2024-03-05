@@ -36,10 +36,7 @@ const SignUp: FC<SignUpProps> = () => {
         event.preventDefault();
 
         var signupSuccess: boolean = await ClientAuthService.signup(signUpData);
-
-        console.log(signupSuccess);
         
-
         if (!signupSuccess) {
             setSignUpData(
                 {firstname: "",
@@ -59,6 +56,11 @@ const SignUp: FC<SignUpProps> = () => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6 offset-md-3">
+                    <button type="submit" className="btn btn-outline-primary" onClick={() => navigate(-1)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-arrow-left m-1" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                        </svg>
+                    </button>
                     <h2 className="text-center">SignUp</h2>
                     <form onSubmit={(e) => handleSignUp(e)}>
                         <div className="mb-3">
@@ -103,7 +105,7 @@ const SignUp: FC<SignUpProps> = () => {
                             <label htmlFor="password" className="form-label">Password</label>
                             <input
                                 type="password"
-                                placeholder='**********'
+                                placeholder='*****'
 
                                 className="form-control"
                                 id="password"
@@ -111,11 +113,10 @@ const SignUp: FC<SignUpProps> = () => {
                                 onChange={updateField}
                                 required
                             />
+                            <button type="submit" className="btn btn-link" onClick={loginInHandle}>Alreay have an account ?</button>
                         </div>
-
                         <button type="submit" className="btn btn-primary">Register</button>
-                        <p>Alreay have an account ?</p>
-                        <button type="submit" className="btn btn-secondary" onClick={loginInHandle}>Login</button>
+                        
 
                     </form>
                 </div>
