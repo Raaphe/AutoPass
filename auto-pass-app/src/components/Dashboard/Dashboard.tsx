@@ -21,9 +21,6 @@ const Dashboard: FC<DashboardProps> = () => {
   useEffect(() => {
     // This is how we setup the access token inside the subsequent request's `Authorization Header` like so :
     // "Bearer <access_token>"
-    console.log(
-      `user token when making call${ClientAuthService.getAccessTokenOrDefault()}`
-    );
     const config = ClientAuthService.getApiConfig();
     const userAPI = new Api.UserControllerApi(config);
 
