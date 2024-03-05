@@ -103,7 +103,7 @@ const Login: FC<LoginProps> = () => {
                                         required
                                     />
                                 </div>
-                                
+
                                 <hr className="my-4" />
                                 <div className="mb-3 form-check">
                                     <input
