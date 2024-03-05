@@ -22,7 +22,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-@PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER')")
+@PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER', 'GOOGLE_USER')")
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/user")

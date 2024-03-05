@@ -86,7 +86,7 @@ public class Oauth2CustomAuthSuccessHandler implements AuthenticationSuccessHand
             SecurityContextHolder.getContext().setAuthentication(authToken);
 
             // Returning an object with tokens that will be saved in client.
-            log.error("==== Setting Google user : " + userDetails.getUsername() + " in context. ====");
+            log.info("==== Setting Google user : " + userDetails.getUsername() + " in context. ====");
             return AuthenticationResponse
                     .builder()
                     .accessToken(accessToken)

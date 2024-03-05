@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class IsLoggedInDTO {
     private String accessToken;
-    private int userId;
+    private Long userId;
 }

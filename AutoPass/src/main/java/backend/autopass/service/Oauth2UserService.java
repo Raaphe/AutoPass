@@ -33,7 +33,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
         OAuth2User user = super.loadUser(userRequest);
 
 
-        // TODO: MULTIPLE SCENARIOS
+        // MULTIPLE SCENARIOS
         //  - 1 . User with gmail already exists, and has role USER -> turn into GOOGLE_USER
         //  - 2 . User with gmail does NOT already exist -> Create GOOGLE_USER
         //  - 3 . User with gmail already exists, and has role GOOGLE_USER -> Do nothing
@@ -64,7 +64,6 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                     return user;
                 }
 
-                // TODO: return with refresh token
                 // 3 - Is google account that already exists in database.
 
                 // Assigns user refresh token
@@ -91,9 +90,10 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                     .googleAccessToken(userRequest.getAccessToken().getTokenValue())
                     .role(Role.GOOGLE_USER)
                     .isDeleted(false)
+                    .profileImageUrl(user.getAttribute("photo"))
                     .wallet(userWallet)
                     .pass(pass)
-                    .password(null)
+                    .password("")
                     .firstName(user.getAttribute("given_name"))
                     .lastName(user.getAttribute("family_name"))
                     .build();
