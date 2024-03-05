@@ -18,8 +18,10 @@ public enum Role {
     ),
     USER(
             Set.of(READ_PRIVILEGE, WRITE_PRIVILEGE)
+    ),
+    GOOGLE_USER(
+            Set.of(READ_PRIVILEGE, WRITE_PRIVILEGE)
     );
-
     private final Set<Privilege> privileges;
 
     public List<SimpleGrantedAuthority> getAuthorities() {

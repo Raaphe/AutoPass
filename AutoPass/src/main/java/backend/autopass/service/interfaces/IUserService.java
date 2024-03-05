@@ -54,4 +54,10 @@ public interface IUserService {
      */
     Boolean changePassword(ChangePasswordDTO dto);
 
+    /**
+     * Gets a User entity by an email or default.
+     * @param email The target user's email.
+     * @return A User entity.
+     */
+    User getUserByEmail(String email);
 }

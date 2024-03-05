@@ -2,10 +2,7 @@ package backend.autopass.model.entities;
 
 import backend.autopass.model.enums.Role;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,6 +13,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "_user")
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
     @Setter
     @Id
@@ -39,6 +37,8 @@ public class User implements UserDetails {
     private boolean isDeleted = false;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private String googleAccessToken;
+    private String profileImageUrl;
 
     public User(int id, String firstName, String lastName, String email, String password, UserWallet wallet, Pass pass, boolean isDeleted, Role role) {
         this.id = id;

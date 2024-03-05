@@ -6,7 +6,6 @@ import backend.autopass.model.repositories.UserWalletRepository;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserServiceTest {
@@ -19,10 +18,6 @@ public class UserServiceTest {
     private UserWalletRepository mockUserWalletRepository;
     @Mock
     private PasswordEncoder mockPasswordEncoder;
-    @Mock
-    private JwtService jwtService;
-    @Mock
-    private UserDetailsService userDetailsService;
 
     @InjectMocks
     private UserService mockUserService;

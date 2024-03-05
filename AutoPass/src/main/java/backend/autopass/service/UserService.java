@@ -12,15 +12,19 @@ import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements IUserService {
+public class UserService implements IUserService, UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -48,7 +52,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User createAdmin(SignUpDTO signUpDTO) throws Exception {
+    public User createAdmin(SignUpDTO signUpDTO) {
 
         try {
             if (userRepository.existsByEmail(signUpDTO.getEmail())) {
@@ -131,6 +135,12 @@ public class UserService implements IUserService {
         return false;
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        Optional<User> user = this.userRepository.findByEmail(email);
+        return user.orElse(null);
+    }
+
 
     private User buildUser(SignUpDTO signUpDTO) {
 
@@ -149,4 +159,14 @@ public class UserService implements IUserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+
+        Role role = user.getRole();
+        var authorities = role.getAuthorities();
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+    }
 }
