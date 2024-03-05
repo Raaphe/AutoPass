@@ -16,7 +16,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState("https://via.placeholder.com/150"); // Initial placeholder avatar URL
     const [isHovered, setIsHovered] = useState(false);
-    const [userData, setUserData] = useState<any>(null); // State to store user data
+    const [userData, setUserData] = useState<any>(null); 
 
     // useEffect(() => {
     //     // Fetch user data when the component mounts

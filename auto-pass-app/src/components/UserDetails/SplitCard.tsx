@@ -4,7 +4,7 @@ interface SplitCardProps {
     id: string;
     title: string;
     description: string;
-    children: ReactNode; // Define children prop
+    children: ReactNode;
 }
 
 const SplitCard: FC<SplitCardProps> = ({ id, title, description, children }) => {
