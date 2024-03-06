@@ -1,5 +1,6 @@
 import React, {FC, useState} from 'react';
 
+
 import './SignUp.scss';
 
 import {SignUpDTO} from '../../Service';
@@ -10,10 +11,12 @@ interface SignUpProps {
 
 }
 
+
 const SignUp: FC<SignUpProps> = () => {
 
     const navigate = useNavigate();
     const loginInHandle = () => navigate('/login');
+    const [isRevealPwd, setIsRevealPwd] = useState(false);
 
     const [signUpData, setSignUpData] = useState<SignUpDTO>({
         firstname: "",
@@ -89,9 +92,7 @@ const SignUp: FC<SignUpProps> = () => {
                             <label htmlFor="email" className="form-label">Email Address</label>
                             <input
                                 type="email"
-
                                 placeholder='JohnDoe@gmail.com'
-
                                 className="form-control"
                                 id="email"
                                 value={signUpData.email}
@@ -102,15 +103,17 @@ const SignUp: FC<SignUpProps> = () => {
                         <div className="mb-3">
                             <label htmlFor="password" className="form-label">Password</label>
                             <input
-                                type="password"
+                                type={isRevealPwd ? "text" : "password"}
                                 placeholder='**********'
-
                                 className="form-control"
                                 id="password"
                                 value={signUpData.password}
                                 onChange={updateField}
                                 required
                             />
+                             <button onClick={() => setIsRevealPwd(prevState => !prevState)}>
+                                {isRevealPwd ? "Hide password" : "Show password"}
+                            </button>
                         </div>
 
                         <button type="submit" className="btn btn-primary">Register</button>

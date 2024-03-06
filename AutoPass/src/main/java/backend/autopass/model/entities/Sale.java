@@ -29,9 +29,6 @@ public class Sale {
     private long stripPaymentId;
     @Column(nullable = false)
     private String paymentStatus;
-    @OneToOne
-    @Column
-    private PaymentType paymentType;
     @Column(nullable = false)
     private LocalDateTime paymentDate;
     @Column(nullable = false)
@@ -39,14 +36,13 @@ public class Sale {
     @Column(nullable = false)
     private String userEmail;
 
-    public Sale(long id, User userId, String serviceDetails, double totalAmount, long stripPaymentId, String paymentStatus, PaymentType paymentType, LocalDateTime paymentDate, String cAD, String userEmail) {
+    public Sale(long id, User userId, String serviceDetails, double totalAmount, long stripPaymentId, String paymentStatus,LocalDateTime paymentDate, String cAD, String userEmail) {
         this.id = id;
         this.userId = userId;
         this.serviceDetails = serviceDetails;
         this.totalAmount = totalAmount;
         this.stripPaymentId = stripPaymentId;
         this.paymentStatus = paymentStatus;
-        this.paymentType = paymentType;
         this.paymentDate = paymentDate;
         this.cAD = cAD;
         this.userEmail = userEmail;

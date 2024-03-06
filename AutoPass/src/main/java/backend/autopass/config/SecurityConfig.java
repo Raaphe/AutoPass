@@ -32,6 +32,7 @@ public class SecurityConfig {
             "/auth/check-refresh-token",
             "/auth/refresh-token",
             "/auth/forgot-password",
+            "/create-checkout-session",
             "/auth/update-password",
             "/swagger-ui.html",
             "/v3/api-docs",
