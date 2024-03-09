@@ -11,6 +11,7 @@ import SignUp from './components/SignUp/SignUp';
 import Footer from './components/Footer/Footer';
 import Dashboard from './components/Dashboard/Dashboard';
 import UserDetailsPage from './components/UserDetails/UserDetailsPage';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
                         <Route path='/forgot-password' element={<ForgotPassword/>}/>
                         <Route path='/change-password' element={<ChangePassword/>}/>
                         
+                        
 
                     </Route>
 
@@ -40,7 +42,7 @@ const App = () => {
                         
                         
                     </Route>
-
+                    <Route path='/*' element={<ErrorPage/>}/>   
                 </Routes>
                 {/* <Footer/> */}
             </div>
