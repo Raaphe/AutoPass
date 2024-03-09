@@ -29,6 +29,11 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
             await userAPI.getUser()
                 .then((res) => {
                     setUserData(res.data);
+                    if (res.data.role === "ADMIN" || res.data.role === "GOOGLE_USER") {
+                        setGoogleLinked(true);
+                    } else {
+                        setGoogleLinked(false);
+                    }
                 })
                 .catch(() => {
                     navigate("/");
@@ -43,10 +48,9 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
         return <div>Loading...</div>;
     }
 
+    
     const handleGoogleLink = () => {
-        // Placeholder for linking Google account
-        console.log("Linking Google account...");
-        setGoogleLinked(true); // Set state to indicate Google account linked
+        setGoogleLinked(true);
     };
 
     const handleLogout = () => {
