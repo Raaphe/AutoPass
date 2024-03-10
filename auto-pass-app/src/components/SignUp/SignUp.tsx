@@ -1,7 +1,5 @@
 import React, {FC, useState} from 'react';
-
 import './SignUp.scss';
-
 import {SignUpDTO} from '../../Service';
 import ClientAuthService from '../../ClientAuthService';
 import {useNavigate} from 'react-router-dom';
@@ -21,7 +19,6 @@ const SignUp: FC<SignUpProps> = () => {
         email: "",
         password: "",
         role: "USER"
-
     });
 
     const updateField = (e: React.ChangeEvent<HTMLInputElement>) => {

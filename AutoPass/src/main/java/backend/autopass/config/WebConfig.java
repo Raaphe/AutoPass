@@ -13,13 +13,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${application.ip}")
     private String localHostIP;
 
-    @Value("${ngrok.server.address}")
-    private String ngrokAddress;
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-//                .allowedOrigins(ngrokAddress)
                 .allowedOrigins("http://" + localHostIP + ":3000")
                 .allowedOrigins("http://localhost:3000")
                 .allowedMethods("*")

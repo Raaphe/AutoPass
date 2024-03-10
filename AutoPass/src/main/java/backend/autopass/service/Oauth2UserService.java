@@ -54,9 +54,13 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                 }
 
                 // 1 - Transition from normal user to google user account.
-                if (concreteUser.getRole() == Role.USER) {
+                if (concreteUser.getRole() == Role.USER || concreteUser.getRole() == Role.ADMIN ) {
                     concreteUser.setRole(Role.GOOGLE_USER);
                     concreteUser.setGoogleAccessToken(concreteUser.getGoogleAccessToken());
+
+                    if (!concreteUser.getIsProfileImageChanged()) {
+                        concreteUser.setProfileImageUrl(user.getAttribute("picture"));
+                    }
 
                     userRepository.save(concreteUser);
 
@@ -69,7 +73,6 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                 // Assigns user refresh token
                 this.createGoogleUser();
                 return user;
-
             }
 
 
@@ -90,14 +93,13 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                     .googleAccessToken(userRequest.getAccessToken().getTokenValue())
                     .role(Role.GOOGLE_USER)
                     .isDeleted(false)
-                    .profileImageUrl(user.getAttribute("photo"))
+                    .profileImageUrl(user.getAttribute("picture"))
                     .wallet(userWallet)
                     .pass(pass)
                     .password("")
                     .firstName(user.getAttribute("given_name"))
                     .lastName(user.getAttribute("family_name"))
                     .build();
-
 
             userRepository.save(newGoogleUser);
             this.createGoogleUser();

@@ -1,8 +1,13 @@
 package backend.autopass.service.interfaces;
 
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.dto.ChangeImageDTO;
 import backend.autopass.payload.dto.ChangePasswordDTO;
 import backend.autopass.payload.dto.SignUpDTO;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.stream.Stream;
 
 public interface IUserService {
 
@@ -60,4 +65,11 @@ public interface IUserService {
      * @return A User entity.
      */
     User getUserByEmail(String email);
+
+    /**
+     * Takes in an image and saves it in s3 bucket.
+     * @param dto The image to save and the user id.
+     * @return The Url of the saved image.
+     */
+    String saveImageToUser(ChangeImageDTO dto) throws IOException;
 }
