@@ -7,19 +7,27 @@ import backend.autopass.model.enums.Role;
 import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
+import backend.autopass.payload.dto.ChangeImageDTO;
 import backend.autopass.payload.dto.ChangePasswordDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -32,6 +40,15 @@ public class UserService implements IUserService, UserDetailsService {
     private final UserWalletRepository walletRepository;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
+    @Value("${AWS.bucket_name}")
+    private String bucketName;
+
+    @Value("${AWS.access_key}")
+    private String awsAccessKey;
+
+    @Value("${AWS.secret_key}")
+    private String awsSecretKey;
 
     @Override
     public User createUser(SignUpDTO signUpDTO) {
@@ -141,22 +158,68 @@ public class UserService implements IUserService, UserDetailsService {
         return user.orElse(null);
     }
 
+    @Override
+    public String saveImageToUser(ChangeImageDTO dto) throws AwsServiceException, SdkClientException {
+        String fileName = "pfp_" + System.currentTimeMillis();
+
+        try {
+            AwsBasicCredentials awsCreds = AwsBasicCredentials.create(awsAccessKey, awsSecretKey);
+
+            S3Client client = S3Client.builder()
+                    .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+                    .region(Region.US_EAST_2)
+                    .build();
+
+            PutObjectRequest request = PutObjectRequest
+                    .builder()
+                    .bucket(this.bucketName)
+                    .key(fileName)
+                    .acl("public-read")
+                    .build();
+
+            client.putObject(request,
+                    RequestBody.fromInputStream(dto.getImage().getInputStream(), dto.getImage().getInputStream().available()));
+        } catch (AwsServiceException | SdkClientException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String imageUrl =  "https://photosforraph.s3.us-east-2.amazonaws.com/" + fileName;
+        Optional<User> user = userRepository.getUserById(dto.getUserId());
+        if (user.isPresent()) {
+            User concreteUser = user.get();
+            concreteUser.setProfileImageUrl(imageUrl);
+            concreteUser.setIsProfileImageChanged(true);
+            this.userRepository.save(concreteUser);
+        }
+        return imageUrl;
+    }
+
 
     private User buildUser(SignUpDTO signUpDTO) {
 
         Pass pass = passRepository.save(new Pass());
         UserWallet wallet = walletRepository.save(UserWallet.builder().membershipActive(false).ticketAmount(0).build());
 
-        User user = User.builder()
+        Optional<User> user = userRepository.findByEmail(signUpDTO.getEmail());
+        String imageUrl = "";
+        if (user.isEmpty()) {
+            imageUrl = "https://photosforraph.s3.us-east-2.amazonaws.com/photos/profileImage.png";
+        } else if (user.get().getProfileImageUrl() != null) {
+            imageUrl = user.get().getProfileImageUrl();
+        }
+
+        User concreteUser = User.builder()
                 .email(signUpDTO.getEmail())
                 .firstName(signUpDTO.getFirstname())
                 .lastName(signUpDTO.getLastname())
                 .password(passwordEncoder.encode(signUpDTO.getPassword()))
                 .pass(pass)
+                .isProfileImageChanged(false)
+                .profileImageUrl(imageUrl)
                 .wallet(wallet)
                 .build();
 
-        return userRepository.save(user);
+        return userRepository.save(concreteUser);
     }
 
     @Override

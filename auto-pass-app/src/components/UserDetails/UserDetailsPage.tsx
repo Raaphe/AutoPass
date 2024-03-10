@@ -1,6 +1,7 @@
+import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import React, { FC, useEffect, useState } from 'react';
 import { RiUserSettingsLine, RiInformationLine, RiLogoutBoxLine } from 'react-icons/ri';
-import { SiGoogle } from 'react-icons/si';
+import DeleteIcon from '@mui/icons-material/Delete';
 import styles from './UserDetailsPage.module.scss';
 import ClientAuthService from '../../ClientAuthService';
 import { useNavigate } from 'react-router-dom';
@@ -8,22 +9,27 @@ import SplitCard from './SplitCard';
 import AvatarModal from './AvatarModal';
 import { motion } from 'framer-motion';
 import * as API from "../../Service/api"
+import TextField from '@mui/material/TextField/TextField';
+import { Fab } from '@mui/material';
+import { red } from '@mui/material/colors';
 interface UserDetailsPageProps { }
 
 const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const navigate = useNavigate();
     const [googleLinked, setGoogleLinked] = useState(false);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
-    const [avatarUrl, setAvatarUrl] = useState("https://via.placeholder.com/150"); // Initial placeholder avatar URL
     const [isHovered, setIsHovered] = useState(false);
     const [userData, setUserData] = useState<API.User>();
+    const [isEmailSent, setIsEmailSent] = useState(false);
+
+    // This is how we setup the access token inside the subsequent request's `Authorization Header` like so :
+    // "Bearer <access_token>"
+    const config = ClientAuthService.getApiConfig();
+    const userAPI = new API.UserControllerApi(config);
+    const authAPI = new API.AuthenticationApi(config);
+
 
     useEffect(() => {
-
-        // This is how we setup the access token inside the subsequent request's `Authorization Header` like so :
-        // "Bearer <access_token>"
-        const config = ClientAuthService.getApiConfig();
-        const userAPI = new API.UserControllerApi(config);
 
         const fetchUserData = async () => {
             await userAPI.getUser()
@@ -40,6 +46,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                 })
         }
         fetchUserData();
+
     }, [navigate])
 
 
@@ -48,7 +55,13 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
         return <div>Loading...</div>;
     }
 
-    
+
+    const handleAccountDelete = async () => {
+        await userAPI.markUserAsDeleted();
+        handleLogout();
+    }
+
+
     const handleGoogleLink = () => {
         setGoogleLinked(true);
     };
@@ -58,18 +71,34 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
         navigate("/login");
     };
 
-    const handleAvatarChange = (file: File) => {
-        // Handle avatar change
-        const imageUrl = URL.createObjectURL(file);
-        setAvatarUrl(imageUrl);
-        setAvatarModalOpen(false); // Close modal after selecting a file
-    };
+    const onModalClose = (): void => {
+        setAvatarModalOpen(false);
+    }
 
     const handleSavePersonalInfo = () => {
-        // Handle saving personal information
         console.log("Saving personal information:");
-        // You can add logic here to save the edited personal information
+        // TODO: 
     };
+
+    const handleImageSave = (setImageRequest: API.SetUserImageRequest) => {
+        const formData = new FormData();
+        formData.append('file', setImageRequest.file);
+
+        fetch('http://localhost:9090/user/upload-profile-image', {
+            method: 'POST',
+            body: formData,
+            headers: [["Authorization", `Bearer ${ClientAuthService.getAccessTokenOrDefault()}`]]
+        })
+            .then(response => {
+                var data = response.json()
+                console.log(data);
+
+                // setUserData({...userData, profileImageUrl: data.catch()})
+                setAvatarModalOpen(false);
+                window.location.reload();
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
     return (
         <div className="container-fluid" style={{ marginTop: '60px', paddingBottom: '50px' }}>
@@ -86,13 +115,14 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                         </li>
                         <li className="list-group-item d-flex align-items-center justify-content-start">
                             <RiLogoutBoxLine style={{ marginRight: '10px' }} />
-                            <a href="#logout" className="text-decoration-none" style={{ color: 'black' }}>Logout</a>
+                            <a onClick={handleLogout} className="text-decoration-none" style={{ color: 'black' }}>Logout</a>
                         </li>
                     </ul>
                 </div>
                 <div className="col-md-9">
                     {/* User Details Card */}
                     <SplitCard id="user-details" title="User Details" description="Edit your personal information below">
+
                         <motion.div
                             className="avatar-container"
                             whileHover={{ scale: 0.9 }}
@@ -101,25 +131,29 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
                         >
-                            <img className="avatar" src="https://via.placeholder.com/150" alt="User Avatar" />
+                            <img width={100} height={100} className="avatar" src={userData.profileImageUrl} alt="User Avatar" />
                             {isHovered && <div className="hover-overlay"></div>}
                         </motion.div>
                         <div className="user-details">
-                            <input
-                                type="text"
-                                placeholder="First Name"
-                                name="firstName"
+                            <TextField
+                                id="outlined-helperText"
+                                label="First Name"
+                                defaultValue="John"
+                                className='m-2 mt-4 col-12'
                                 value={userData.firstName}
-                                onChange={() => { }}
-                                className="form-control"
                             />
-                            <input
-                                type="text"
-                                placeholder="Last Name"
-                                name="lastName"
+                            <TextField
+                                className='m-2 col-12'
+                                id="outlined-helperText"
+                                label="Last Name"
+                                defaultValue="Doe"
                                 value={userData.lastName}
-                                onChange={() => { }}
-                                className="form-control mt-2"
+                            />
+                            <TextField
+                                className='m-2 col-12'
+                                id="outlined-helperText"
+                                label="Email"
+                                value={userData.email}
                             />
                             <button onClick={handleSavePersonalInfo} className="btn btn-success float-end m-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">
@@ -130,57 +164,54 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                         </div>
                     </SplitCard>
 
-                    {/* Personal Information Card */}
-                    <SplitCard id="personal-info" title="Personal Information" description="Provide your personal details below">
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            name="Email"
-                            value={userData.email}
-                            onChange={() => { }}
-                            className="form-control"
-                        />
-                        <input
-                            type="text"
-                            placeholder="Date of Birth"
-                            name="dob"
-                            value=""
-                            onChange={() => { }}
-                            className="form-control mt-2"
-                        />
-                        <button onClick={handleSavePersonalInfo} className="btn btn-success float-end m-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">
-                                <path d="M11 2H9v3h2z" />
-                                <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
-                            </svg>
-                        </button>
-                    </SplitCard>
-
                     {/* Link Google Account Card */}
                     <SplitCard id="google-link" title="Link Google Account" description="Link your Google account to enable additional features">
                         <div className="text-center">
                             {!googleLinked ? (
-                                <button onClick={handleGoogleLink} className="btn btn-primary">
+                                <Fab variant="extended" color='primary' onClick={() => { authAPI.forgotPassword(userData.email ?? ""); setIsEmailSent(true) }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-google m-1" viewBox="0 0 16 16">
                                         <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z" />
                                     </svg>
-                                    Link Google Account</button>
+                                    Link Google Account
+                                </Fab>
                             ) : (
                                 <p>Google account linked successfully!</p>
                             )}
                         </div>
                     </SplitCard>
 
+
+                    {userData.role !== "GOOGLE_USER" &&
+                        <SplitCard id="password-reset" title="Reset Password" description="Forgot your Password? Reset it.">
+                            <div className="text-center">
+                                {!isEmailSent ? (
+                                    <Fab variant="extended" onClick={() => { authAPI.forgotPassword(userData.email ?? ""); setIsEmailSent(true) }}>
+                                        Reset Password
+                                    </Fab>
+                                ) : (
+                                    <p className='mt-4'><AttachEmailIcon />  Email Sent ! </p>
+                                )}
+                            </div>
+                        </SplitCard>
+
+                    }
+
                     {/* Logout Button Card */}
-                    <SplitCard id="logout" title="Logout" description="Click the button below to log out of your account">
-                        <div className='text-center'><button onClick={handleLogout} className='btn btn-sm btn-danger'>Logout</button></div>
+                    <SplitCard id="account-removal" title="Delete Account" description="Permenently delete your account?">
+                        <div className='text-center'>
+                            <Fab variant="extended" onClick={handleAccountDelete}>
+                                <DeleteIcon sx={{ mr: 1, color: red }} />
+                                Delete Account
+                            </Fab>
+                        </div>
                     </SplitCard>
 
                     {/* Avatar Modal */}
                     <AvatarModal
                         isOpen={isAvatarModalOpen}
-                        onClose={() => setAvatarModalOpen(false)}
-                        onFileChange={handleAvatarChange}
+                        onClose={onModalClose}
+                        onFileChange={handleImageSave}
+                        imageUrl={userData.profileImageUrl !== "" || userData.profileImageUrl !== null ? userData.profileImageUrl ?? "https://via.placeholder.com/150" : "https://via.placeholder.com/150"}
                     />
                 </div>
             </div>

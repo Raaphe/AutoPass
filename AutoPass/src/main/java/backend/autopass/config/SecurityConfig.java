@@ -84,6 +84,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/user/info").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/delete-user").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/update-user-info").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/user/upload-profile-image").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google/user").authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login

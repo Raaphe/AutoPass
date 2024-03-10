@@ -73,7 +73,7 @@ public class OpenAPISecurityConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
-                .addServersItem(new Server().url(("http://") + serverIp + ":" + backendPort))
+                .addServersItem(new Server().url("http://" + serverIp + ":" + backendPort))
 //                .addServersItem(new Server().url("https://d835-70-81-171-8.ngrok-free.app"))
                 .components(new Components()
                         .addSecuritySchemes("Bearer", createAPIKeyScheme()))

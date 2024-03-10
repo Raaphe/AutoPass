@@ -39,18 +39,9 @@ public class User implements UserDetails {
     private Role role;
     private String googleAccessToken;
     private String profileImageUrl;
+    private Boolean isProfileImageChanged;
 
-    public User(int id, String firstName, String lastName, String email, String password, UserWallet wallet, Pass pass, boolean isDeleted, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.wallet = wallet;
-        this.pass = pass;
-        this.isDeleted = isDeleted;
-        this.role = role;
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
