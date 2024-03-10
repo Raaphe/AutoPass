@@ -13,13 +13,13 @@
  */
 
 
-import type {Configuration} from './configuration';
+import type { Configuration } from './configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import type {AxiosInstance, AxiosPromise, RawAxiosRequestConfig} from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = "http://localhost:8080".replace(/\/+$/, "");
+export const BASE_PATH = "http://10.0.0.37:9090".replace(/\/+$/, "");
 
 /**
  *
@@ -82,4 +82,5 @@ interface ServerMap {
  *
  * @export
  */
-export const operationServerMap: ServerMap = {}
+export const operationServerMap: ServerMap = {
+}

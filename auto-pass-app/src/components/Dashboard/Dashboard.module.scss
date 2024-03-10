@@ -1,2 +1,42 @@
 .Dashboard {
+    padding: 50 px;
+}
+.blackDebitCard {
+    background-color: #000;
+    color: #fff;
+    width: 350px;
+    height: 200px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.chip {
+     /* Replace 'chip.png' with your chip image */
+    width: 50px;
+    height: 40px;
+    background-size: cover;
+    margin-bottom: 20px;
+}
+
+.cardNumber {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.cardInfo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardHolder {
+    font-size: 16px;
+}
+
+.validThru {
+    font-size: 12px;
+}
+
+.expiration {
+    font-size: 14px;
 }
