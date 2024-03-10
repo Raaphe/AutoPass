@@ -45,7 +45,7 @@ const App = () => {
                     </Route>
                     <Route path='/*' element={<ErrorPage/>}/>   
                 </Routes>
-                {/* <Footer/> */}
+                <Footer/>
             </div>
         </Router>
     );
