@@ -1,5 +1,6 @@
 package backend.autopass.web;
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.dto.ChangeImageDTO;
 import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
 
 import java.security.Principal;
 import java.util.Map;
@@ -86,8 +90,6 @@ public class UserController {
         } catch (Exception response) {
             return (ResponseEntity<?>) ResponseEntity.badRequest();
         }
-
-
     }
 
     @PutMapping("/update-user-info")
@@ -115,6 +117,40 @@ public class UserController {
             return (ResponseEntity<?>) ResponseEntity.ok();
         } else {
             return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
+    }
+
+    @PostMapping("/upload-profile-image")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Updates a user's profile image.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "User profile image is saved.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = String.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad request.",
+                    content = @Content
+            ),
+    })
+    public ResponseEntity<String> setUserImage(@RequestParam("file") MultipartFile file) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails currentUser = (UserDetails) authentication.getPrincipal();
+
+            User user = userService.getUserByEmail(currentUser.getUsername());
+
+            ChangeImageDTO dto = ChangeImageDTO
+                    .builder()
+                    .image(file)
+                    .userId(user.getId())
+                    .build();
+            return ResponseEntity.ok().body(this.userService.saveImageToUser(dto));
+        } catch (AwsServiceException | SdkClientException e) {
+            return ResponseEntity.badRequest().body("");
         }
     }
 }

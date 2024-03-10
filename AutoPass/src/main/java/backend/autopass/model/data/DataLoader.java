@@ -11,6 +11,7 @@ import backend.autopass.service.AuthenticationService;
 import backend.autopass.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class DataLoader {
 
     private final TicketRepository ticketRepository;
@@ -27,7 +29,7 @@ public class DataLoader {
     private final AuthenticationService authenticationService;
 
     @PostConstruct
-    public void loadData() throws Exception {
+    public void loadData() {
 
         if (!userService.userExists("raphaelpaquin19@gmail.com")) {
             authenticationService.register(SignUpDTO.builder()
@@ -124,7 +126,5 @@ public class DataLoader {
                         .password("abc-123")
                         .build());
             }
-
         }
-
     }

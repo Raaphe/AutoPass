@@ -50,10 +50,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         String requestPath = request.getRequestURI();
 
-        if (requestPath.equals("/user/info")) {
-            System.out.println("s");
-        }
-
         // Proceed with extracting the JWT from the Authorization header if present
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7); // Extract the token
