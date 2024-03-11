@@ -84,8 +84,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/user/info").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/delete-user").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/update-user-info").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/user/get-user-pfp").authenticated()
                         .requestMatchers(HttpMethod.POST, "/user/upload-profile-image").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google/user").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/payment/charge").authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/oauth2/authorization/google")

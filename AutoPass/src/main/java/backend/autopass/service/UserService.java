@@ -194,6 +194,12 @@ public class UserService implements IUserService, UserDetailsService {
         return imageUrl;
     }
 
+    @Override
+    public String getImageFromUser(int userId) {
+        String url = userRepository.findProfileImageUrlById(userId);
+        return url.isEmpty() ? "" : url;
+    }
+
 
     private User buildUser(SignUpDTO signUpDTO) {
 

@@ -23,7 +23,7 @@ import java.security.Principal;
 
 @Controller
 @SecurityRequirements()
-@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 @RequiredArgsConstructor
 public class OAuth2Controller {
 

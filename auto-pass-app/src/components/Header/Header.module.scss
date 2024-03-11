@@ -1,23 +1,46 @@
 .Header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    background-color: #50B8E7;
-    padding: 10px 0;
-    z-index: 10;
-    border-bottom: 4px solid lightblue;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #50B8E7;
+  padding: 10px 0;
+  z-index: 10;
+  border-bottom: 4px solid lightblue;
+
   
-  .Header a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-  }
+
+}
   
-  .Header a:hover {
-    color: lightgray;
+.Header a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+
+.Header a:hover {
+  color: lightgray;
+}
+
+
+img {
+  margin-top: 5px;
+  margin-left: 15px;
+  max-width: 80px; /* Smaller size for mobile */
+  max-height: 80px; /* Smaller size for mobile */
+  cursor: pointer;
+  transform: scale(1.2); /* You might want to remove the scale for mobile */
+}
+
+@media (max-width: 768px) {
+  img {
+    max-width: 70px; /* Even smaller size for very small screens */
+    max-height: 70px;
   }
-  
+  .tab {
+    padding: 8px; /* Smaller padding */
+    font-size: 0.7rem; /* Smaller font size */
+  }
+}

@@ -35,7 +35,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "Authentication", description = "The Authentication API. Contains operations like login, logout, refresh-token etc.")
-@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/auth")
 @SecurityRequirements()
 @RequiredArgsConstructor

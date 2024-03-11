@@ -21,7 +21,6 @@ const App = () => {
 
         <Router>
             <div className="App">
-                {/* <Header/>  */}
                 <Routes>
 
                     <Route element={<ProtectedRoutesGuests/>}>
@@ -37,9 +36,8 @@ const App = () => {
 
                     <Route element={<ProtectedRoutesUser/>}>
 
-                        <Route path='/home' element={<UserDetailsPage/>}/>
-                        {/* Edit user (/edit/:userId), user details (/:userId)*/}
-                        <Route path='/Dashboard' element={<Dashboard/>}/>
+                        <Route path='/profile' element={<UserDetailsPage/>}/>
+                        <Route path='/home' element={<Dashboard/>}/>
                         
                         
                     </Route>
