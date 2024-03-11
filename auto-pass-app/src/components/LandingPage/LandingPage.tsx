@@ -1,6 +1,6 @@
-import React, {FC} from 'react';
+import React, { FC, useState } from 'react';
 import './LandingPage.scss';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface LandingPageProps {
 }
@@ -16,13 +16,29 @@ const LandingPage: FC<LandingPageProps> = () => {
     function handleClickSignUp(): void {
         navigate("/signup");
     }
+    const [showButtons, setShowButtons] = useState(false);
+
+    const handleGetStartedClick = () => {
+        setShowButtons(true);
+    };
 
     return (
-        <div className="container-fluid m-5">
-            <button onClick={handleClickSignUp} className="btn btn-primary">Signup</button>
-            <button onClick={handleClickLogon} className="btn btn-primary m-3">Go to Login</button>
+        <div className="container-fluid">
+            <div className="row justify-content-center align-items-center vh-100">
+                <div className="col-md-6 text-center">
+                    <h1 className="display-4 fw-bold">Virtual Pass for Public Transportation</h1>
+                    <p className="lead">Simplify your commute with our digital pass system. No more hassle, no more queues.</p>
+                    {showButtons ? (
+                        <div className="d-grid gap-3">
+                            <a href="#" className="btn btn-primary btn-lg" onClick={handleClickLogon}>Login</a>
+                            <a href="#" className="btn btn-secondary btn-lg" onClick={handleClickSignUp}>Sign Up</a>
+                        </div>
+                    ) : (
+                        <button className="btn btn-primary btn-lg" onClick={handleGetStartedClick}>Get Started</button>
+                    )}
+                </div>
+            </div>
         </div>
-
     );
 };
 
