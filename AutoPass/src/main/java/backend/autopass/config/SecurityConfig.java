@@ -13,10 +13,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
@@ -50,6 +52,7 @@ public class SecurityConfig {
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
+            "/favicon.ico",
             "/swagger-resources",
             "/error",
             "/webjars/**",
@@ -74,6 +77,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .headers((headers) ->
+                    headers.defaultsDisabled()
+                    .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                )
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(unauthorizedEntryPoint)
@@ -88,6 +95,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/upload-profile-image").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google/user").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/payment/charge").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/wallet/wallet-info").authenticated()
+                        .requestMatchers("/h2-console/**").permitAll()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/oauth2/authorization/google")

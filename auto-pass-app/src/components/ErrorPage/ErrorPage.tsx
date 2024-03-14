@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ErrorPageImage from "../../assets/12.png"
+import ErrorPageImage from "../../assets/9NonTransparentHD.png"
 
 interface ErrorPageProps { }
 

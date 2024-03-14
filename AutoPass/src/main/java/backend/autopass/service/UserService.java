@@ -204,7 +204,14 @@ public class UserService implements IUserService, UserDetailsService {
     private User buildUser(SignUpDTO signUpDTO) {
 
         Pass pass = passRepository.save(new Pass());
-        UserWallet wallet = walletRepository.save(UserWallet.builder().membershipActive(false).ticketAmount(0).build());
+        UserWallet wallet = walletRepository.save(
+                UserWallet
+                        .builder()
+                        .membershipActive(false)
+                        .ticketAmount(0)
+                        .memberShipEnds(System.currentTimeMillis())
+                        .build()
+        );
 
         Optional<User> user = userRepository.findByEmail(signUpDTO.getEmail());
         String imageUrl = "";

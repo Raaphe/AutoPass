@@ -10,6 +10,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ClientAuthService from "../../ClientAuthService";
 import { Avatar } from "@mui/material";
 import * as API from "../../Service";
+import LogoutIcon from '@mui/icons-material/Logout';
+import InfoIcon from '@mui/icons-material/Info';
+import LoginIcon from '@mui/icons-material/Login';
 
 interface HeaderProps {
   isAuth: boolean;
@@ -41,6 +44,10 @@ const Header: FC<HeaderProps> = ({ isAuth }) => {
 
   const handleTabChange = (event: any, newPath: any) => {
     console.log(newPath);
+
+    if (currentPath === "/profile") {
+
+    }
 
     if (newPath === "/logout") {
       console.log("logging out");
@@ -85,21 +92,40 @@ const Header: FC<HeaderProps> = ({ isAuth }) => {
   };
 
   const AvatarIcon = styled(Avatar)`
+    margin-right: 30px; 
+    margin-left: 16px; 
+    width: 45px; 
+    height: 45px; 
+    padding:px;
+    &:hover {
+      background-color: ${blue[400]};
+    }
+
+    &:focus {
+      color: #fff;
+      outline: 3px solid ${blue[200]};
+    }
+
+    &.${tabClasses.selected} {
+      background-color: #fff;
+      color: ${blue[600]};
+    }
+
+    &.${buttonClasses.disabled} {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  `;
+
+  const LogOutIcon = styled(LogoutIcon)`
     cursor: pointer;
     background-color: transparent;
-    
-    margin-right: 30px; // Adjust this value as needed
-    margin-left: 16px; 
-
-    
-    width: 45px; // Adjust this value as needed
-    height: 45px; // Adjust this value as needed
-
-    // Add flex properties if needed
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+    color:white;
+    border: none;
+    border-radius: 7px;
+    width: 45px; 
+    height: 45px; 
+    transform: scale(0.59);
     &:hover {
       background-color: ${blue[400]};
     }
@@ -196,19 +222,39 @@ const Header: FC<HeaderProps> = ({ isAuth }) => {
           <img src={Logo} alt="Logo" id="logo" onClick={handleLogoSelect} />
         </LogoContainer>
 
-        <TabsContainer>
+        <TabsContainer style={{display:"flex", justifyContent:"center"}}>
           {isAuth ?
             <>
-              <Tab label="About" value="/about">About</Tab>
+              <Tab label="About" value="/about">
+                About
+                <InfoIcon className="mx-2"/>
+
+              </Tab>
               <Tab label="Wallet" value="/wallet">Wallet</Tab>
-              <Tab label="Logout" value="/logout">Logout</Tab>
-              <AvatarIcon alt="You" onClick={() => navigate("profile")} src={avatarUrl} />
             </>
             :
             <>
-              <Tab label="About" value="/about">About</Tab>
+              <Tab label="About" value="/about">
+                About
+                <InfoIcon className="mx-2"/>
+              </Tab>
+            </>
+          }
+        </TabsContainer>
+
+        <TabsContainer>
+          {isAuth ?
+            <>
+              <LogOutIcon onClick={() => {ClientAuthService.logout(); navigate("/")}} className="mt-2"/>
+              <AvatarIcon className="mt-2" alt="You" onClick={() => {navigate("profile"); }} src={avatarUrl} />
+            </>
+            :
+            <>
               <Tab label="SignUp" value="/signup">Sign Up</Tab>
-              <Tab label="Login" value="/login">Login</Tab>
+              <Tab label="Login" value="/login">
+                Login
+                <LoginIcon className="mx-2"/>
+              </Tab>
             </>
           }
         </TabsContainer>

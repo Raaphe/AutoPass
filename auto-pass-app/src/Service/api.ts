@@ -547,6 +547,12 @@ export interface ApplicationFee {
     'applicationObject'?: Application;
     /**
      * 
+     * @type {Account}
+     * @memberof ApplicationFee
+     */
+    'accountObject'?: Account;
+    /**
+     * 
      * @type {Charge}
      * @memberof ApplicationFee
      */
@@ -563,12 +569,6 @@ export interface ApplicationFee {
      * @memberof ApplicationFee
      */
     'chargeObject'?: Charge;
-    /**
-     * 
-     * @type {Account}
-     * @memberof ApplicationFee
-     */
-    'accountObject'?: Account;
 }
 /**
  * 
@@ -708,13 +708,13 @@ export interface BalanceTransaction {
      * @type {HasId}
      * @memberof BalanceTransaction
      */
-    'sourceObject'?: HasId;
+    'sourceObjectAs'?: HasId;
     /**
      * 
      * @type {HasId}
      * @memberof BalanceTransaction
      */
-    'sourceObjectAs'?: HasId;
+    'sourceObject'?: HasId;
 }
 /**
  * 
@@ -1306,40 +1306,10 @@ export interface Charge {
     'statementDescription'?: string;
     /**
      * 
-     * @type {Account}
+     * @type {Review}
      * @memberof Charge
      */
-    'destinationObject'?: Account;
-    /**
-     * 
-     * @type {Transfer}
-     * @memberof Charge
-     */
-    'sourceTransferObject'?: Transfer;
-    /**
-     * 
-     * @type {ApplicationFee}
-     * @memberof Charge
-     */
-    'applicationFeeObject'?: ApplicationFee;
-    /**
-     * 
-     * @type {Application}
-     * @memberof Charge
-     */
-    'applicationObject'?: Application;
-    /**
-     * 
-     * @type {Customer}
-     * @memberof Charge
-     */
-    'customerObject'?: Customer;
-    /**
-     * 
-     * @type {Dispute}
-     * @memberof Charge
-     */
-    'disputeObject'?: Dispute;
+    'reviewObject'?: Review;
     /**
      * 
      * @type {Transfer}
@@ -1354,16 +1324,46 @@ export interface Charge {
     'orderObject'?: Order;
     /**
      * 
-     * @type {Review}
-     * @memberof Charge
-     */
-    'reviewObject'?: Review;
-    /**
-     * 
      * @type {Invoice}
      * @memberof Charge
      */
     'invoiceObject'?: Invoice;
+    /**
+     * 
+     * @type {Customer}
+     * @memberof Charge
+     */
+    'customerObject'?: Customer;
+    /**
+     * 
+     * @type {Dispute}
+     * @memberof Charge
+     */
+    'disputeObject'?: Dispute;
+    /**
+     * 
+     * @type {Application}
+     * @memberof Charge
+     */
+    'applicationObject'?: Application;
+    /**
+     * 
+     * @type {Account}
+     * @memberof Charge
+     */
+    'destinationObject'?: Account;
+    /**
+     * 
+     * @type {ApplicationFee}
+     * @memberof Charge
+     */
+    'applicationFeeObject'?: ApplicationFee;
+    /**
+     * 
+     * @type {Transfer}
+     * @memberof Charge
+     */
+    'sourceTransferObject'?: Transfer;
     /**
      * 
      * @type {BalanceTransaction}
@@ -1415,16 +1415,16 @@ export interface ChargeOutcome {
     'type'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof ChargeOutcome
-     */
-    'ruleId'?: string;
-    /**
-     * 
      * @type {ChargeOutcomeRule}
      * @memberof ChargeOutcome
      */
     'ruleObject'?: ChargeOutcomeRule;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChargeOutcome
+     */
+    'ruleId'?: string;
 }
 /**
  * 
@@ -2143,12 +2143,6 @@ export interface EntityModelPaymentType {
     'expiryDate'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof EntityModelPaymentType
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
@@ -2159,6 +2153,12 @@ export interface EntityModelPaymentType {
      * @memberof EntityModelPaymentType
      */
     'pan'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelPaymentType
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -2290,28 +2290,22 @@ export interface EntityModelUser {
     'enabled'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof EntityModelUser
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelUser
      */
     'username'?: string;
     /**
      * 
-     * @type {boolean}
+     * @type {Array<GrantedAuthority>}
      * @memberof EntityModelUser
      */
-    'deleted'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -2323,7 +2317,13 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonLocked'?: boolean;
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -2354,10 +2354,10 @@ export interface EntityModelUserWallet {
     'ticketAmount'?: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof EntityModelUserWallet
      */
-    'memberShipEnds'?: string;
+    'memberShipEnds'?: number;
     /**
      * 
      * @type {boolean}
@@ -2842,16 +2842,16 @@ export interface FeeRefund {
     'feeObject'?: ApplicationFee;
     /**
      * 
-     * @type {string}
-     * @memberof FeeRefund
-     */
-    'instanceURL'?: string;
-    /**
-     * 
      * @type {BalanceTransaction}
      * @memberof FeeRefund
      */
     'balanceTransactionObject'?: BalanceTransaction;
+    /**
+     * 
+     * @type {string}
+     * @memberof FeeRefund
+     */
+    'instanceURL'?: string;
 }
 /**
  * 
@@ -3670,6 +3670,37 @@ export interface LoginLinkCollection {
 /**
  * 
  * @export
+ * @interface Membership
+ */
+export interface Membership {
+    /**
+     * 
+     * @type {number}
+     * @memberof Membership
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Membership
+     */
+    'membershipDurationDays'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Membership
+     */
+    'price'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Membership
+     */
+    'deleted'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface MembershipRequestBody
  */
 export interface MembershipRequestBody {
@@ -3927,13 +3958,13 @@ export interface OrderItem {
      * @type {HasId}
      * @memberof OrderItem
      */
-    'parentObjectAs'?: HasId;
+    'parentObject'?: HasId;
     /**
      * 
      * @type {HasId}
      * @memberof OrderItem
      */
-    'parentObject'?: HasId;
+    'parentObjectAs'?: HasId;
 }
 /**
  * 
@@ -4455,12 +4486,6 @@ export interface PaymentTypeRequestBody {
     'expiryDate'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof PaymentTypeRequestBody
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
@@ -4471,6 +4496,12 @@ export interface PaymentTypeRequestBody {
      * @memberof PaymentTypeRequestBody
      */
     'pan'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PaymentTypeRequestBody
+     */
+    'deleted'?: boolean;
 }
 /**
  * 
@@ -4786,16 +4817,16 @@ export interface Reversal {
     'transferObject'?: Transfer;
     /**
      * 
-     * @type {string}
-     * @memberof Reversal
-     */
-    'instanceURL'?: string;
-    /**
-     * 
      * @type {BalanceTransaction}
      * @memberof Reversal
      */
     'balanceTransactionObject'?: BalanceTransaction;
+    /**
+     * 
+     * @type {string}
+     * @memberof Reversal
+     */
+    'instanceURL'?: string;
 }
 /**
  * 
@@ -5145,16 +5176,16 @@ export interface Subscription {
     'trialStart'?: number;
     /**
      * 
-     * @type {SubscriptionItemCollection}
-     * @memberof Subscription
-     */
-    'subscriptionItems'?: SubscriptionItemCollection;
-    /**
-     * 
      * @type {Customer}
      * @memberof Subscription
      */
     'customerObject'?: Customer;
+    /**
+     * 
+     * @type {SubscriptionItemCollection}
+     * @memberof Subscription
+     */
+    'subscriptionItems'?: SubscriptionItemCollection;
 }
 /**
  * 
@@ -5880,28 +5911,22 @@ export interface User {
     'enabled'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof User
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
      * @type {string}
      * @memberof User
      */
     'username'?: string;
     /**
      * 
-     * @type {boolean}
+     * @type {Array<GrantedAuthority>}
      * @memberof User
      */
-    'deleted'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -5913,7 +5938,13 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonLocked'?: boolean;
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'deleted'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -6004,28 +6035,22 @@ export interface UserRequestBody {
     'enabled'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof UserRequestBody
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
      * @type {string}
      * @memberof UserRequestBody
      */
     'username'?: string;
     /**
      * 
-     * @type {boolean}
+     * @type {Array<GrantedAuthority>}
      * @memberof UserRequestBody
      */
-    'deleted'?: boolean;
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -6037,7 +6062,13 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonLocked'?: boolean;
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'deleted'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -6068,16 +6099,22 @@ export interface UserWallet {
     'ticketAmount'?: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof UserWallet
      */
-    'memberShipEnds'?: string;
+    'memberShipEnds'?: number;
     /**
      * 
      * @type {boolean}
      * @memberof UserWallet
      */
     'membershipActive'?: boolean;
+    /**
+     * 
+     * @type {Membership}
+     * @memberof UserWallet
+     */
+    'membershipType'?: Membership;
 }
 /**
  * 
@@ -6099,16 +6136,22 @@ export interface UserWalletRequestBody {
     'ticketAmount'?: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof UserWalletRequestBody
      */
-    'memberShipEnds'?: string;
+    'memberShipEnds'?: number;
     /**
      * 
      * @type {boolean}
      * @memberof UserWalletRequestBody
      */
     'membershipActive'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserWalletRequestBody
+     */
+    'membershipType'?: string;
 }
 /**
  * 
@@ -13914,6 +13957,606 @@ export class UserWalletEntityControllerApi extends BaseAPI {
      */
     public putItemResourceUserwalletPut(id: string, userWalletRequestBody: UserWalletRequestBody, options?: RawAxiosRequestConfig) {
         return UserWalletEntityControllerApiFp(this.configuration).putItemResourceUserwalletPut(id, userWalletRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * UserWalletPropertyReferenceControllerApi - axios parameter creator
+ * @export
+ */
+export const UserWalletPropertyReferenceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * patch-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceUserwalletPatch: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createPropertyReferenceUserwalletPatch', 'id', id)
+            // verify required parameter 'collectionModelObject' is not null or undefined
+            assertParamExists('createPropertyReferenceUserwalletPatch', 'collectionModelObject', collectionModelObject)
+            const localVarPath = `/userWallets/{id}/membershipType`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(collectionModelObject, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * update-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceUserwalletPut: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createPropertyReferenceUserwalletPut', 'id', id)
+            // verify required parameter 'collectionModelObject' is not null or undefined
+            assertParamExists('createPropertyReferenceUserwalletPut', 'collectionModelObject', collectionModelObject)
+            const localVarPath = `/userWallets/{id}/membershipType`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(collectionModelObject, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * delete-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceIdUserwalletDelete: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePropertyReferenceIdUserwalletDelete', 'id', id)
+            // verify required parameter 'propertyId' is not null or undefined
+            assertParamExists('deletePropertyReferenceIdUserwalletDelete', 'propertyId', propertyId)
+            const localVarPath = `/userWallets/{id}/membershipType/{propertyId}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * delete-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceUserwalletDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePropertyReferenceUserwalletDelete', 'id', id)
+            const localVarPath = `/userWallets/{id}/membershipType`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceUserwalletGet: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('followPropertyReferenceUserwalletGet', 'id', id)
+            // verify required parameter 'propertyId' is not null or undefined
+            assertParamExists('followPropertyReferenceUserwalletGet', 'propertyId', propertyId)
+            const localVarPath = `/userWallets/{id}/membershipType/{propertyId}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceUserwalletGet1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('followPropertyReferenceUserwalletGet1', 'id', id)
+            const localVarPath = `/userWallets/{id}/membershipType`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UserWalletPropertyReferenceControllerApi - functional programming interface
+ * @export
+ */
+export const UserWalletPropertyReferenceControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UserWalletPropertyReferenceControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * patch-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPropertyReferenceUserwalletPatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserwalletPatch(id, collectionModelObject, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserWalletPropertyReferenceControllerApi.createPropertyReferenceUserwalletPatch']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * update-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPropertyReferenceUserwalletPut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceUserwalletPut(id, collectionModelObject, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserWalletPropertyReferenceControllerApi.createPropertyReferenceUserwalletPut']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * delete-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePropertyReferenceIdUserwalletDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdUserwalletDelete(id, propertyId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserWalletPropertyReferenceControllerApi.deletePropertyReferenceIdUserwalletDelete']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * delete-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePropertyReferenceUserwalletDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceUserwalletDelete(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserWalletPropertyReferenceControllerApi.deletePropertyReferenceUserwalletDelete']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async followPropertyReferenceUserwalletGet(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserwalletGet(id, propertyId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserWalletPropertyReferenceControllerApi.followPropertyReferenceUserwalletGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async followPropertyReferenceUserwalletGet1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceUserwalletGet1(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserWalletPropertyReferenceControllerApi.followPropertyReferenceUserwalletGet1']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * UserWalletPropertyReferenceControllerApi - factory interface
+ * @export
+ */
+export const UserWalletPropertyReferenceControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UserWalletPropertyReferenceControllerApiFp(configuration)
+    return {
+        /**
+         * patch-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceUserwalletPatch(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.createPropertyReferenceUserwalletPatch(id, collectionModelObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * update-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceUserwalletPut(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.createPropertyReferenceUserwalletPut(id, collectionModelObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * delete-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceIdUserwalletDelete(id: string, propertyId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceIdUserwalletDelete(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * delete-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceUserwalletDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceUserwalletDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceUserwalletGet(id: string, propertyId: string, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.followPropertyReferenceUserwalletGet(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-membership-by-userwallet-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceUserwalletGet1(id: string, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.followPropertyReferenceUserwalletGet1(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * UserWalletPropertyReferenceControllerApi - object-oriented interface
+ * @export
+ * @class UserWalletPropertyReferenceControllerApi
+ * @extends {BaseAPI}
+ */
+export class UserWalletPropertyReferenceControllerApi extends BaseAPI {
+    /**
+     * patch-membership-by-userwallet-Id
+     * @param {string} id 
+     * @param {CollectionModelObject} collectionModelObject 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserWalletPropertyReferenceControllerApi
+     */
+    public createPropertyReferenceUserwalletPatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return UserWalletPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserwalletPatch(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * update-membership-by-userwallet-Id
+     * @param {string} id 
+     * @param {CollectionModelObject} collectionModelObject 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserWalletPropertyReferenceControllerApi
+     */
+    public createPropertyReferenceUserwalletPut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return UserWalletPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceUserwalletPut(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * delete-membership-by-userwallet-Id
+     * @param {string} id 
+     * @param {string} propertyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserWalletPropertyReferenceControllerApi
+     */
+    public deletePropertyReferenceIdUserwalletDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return UserWalletPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdUserwalletDelete(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * delete-membership-by-userwallet-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserWalletPropertyReferenceControllerApi
+     */
+    public deletePropertyReferenceUserwalletDelete(id: string, options?: RawAxiosRequestConfig) {
+        return UserWalletPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceUserwalletDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-membership-by-userwallet-Id
+     * @param {string} id 
+     * @param {string} propertyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserWalletPropertyReferenceControllerApi
+     */
+    public followPropertyReferenceUserwalletGet(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return UserWalletPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserwalletGet(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-membership-by-userwallet-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserWalletPropertyReferenceControllerApi
+     */
+    public followPropertyReferenceUserwalletGet1(id: string, options?: RawAxiosRequestConfig) {
+        return UserWalletPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceUserwalletGet1(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * WalletControllerApi - axios parameter creator
+ * @export
+ */
+export const WalletControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Gets a user\'s wallet information by their ID.
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserWalletByUserId: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('getUserWalletByUserId', 'userId', userId)
+            const localVarPath = `/wallet/wallet-info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * WalletControllerApi - functional programming interface
+ * @export
+ */
+export const WalletControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = WalletControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Gets a user\'s wallet information by their ID.
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserWalletByUserId(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserWallet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserWalletByUserId(userId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['WalletControllerApi.getUserWalletByUserId']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * WalletControllerApi - factory interface
+ * @export
+ */
+export const WalletControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = WalletControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Gets a user\'s wallet information by their ID.
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserWalletByUserId(userId: number, options?: any): AxiosPromise<UserWallet> {
+            return localVarFp.getUserWalletByUserId(userId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * WalletControllerApi - object-oriented interface
+ * @export
+ * @class WalletControllerApi
+ * @extends {BaseAPI}
+ */
+export class WalletControllerApi extends BaseAPI {
+    /**
+     * 
+     * @summary Gets a user\'s wallet information by their ID.
+     * @param {number} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WalletControllerApi
+     */
+    public getUserWalletByUserId(userId: number, options?: RawAxiosRequestConfig) {
+        return WalletControllerApiFp(this.configuration).getUserWalletByUserId(userId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

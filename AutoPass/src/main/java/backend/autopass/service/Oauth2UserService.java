@@ -1,5 +1,6 @@
 package backend.autopass.service;
 
+import backend.autopass.model.entities.Membership;
 import backend.autopass.model.entities.Pass;
 import backend.autopass.model.entities.User;
 import backend.autopass.model.entities.UserWallet;
@@ -13,9 +14,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-
 import java.security.Principal;
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -83,7 +82,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                     .builder()
                     .membershipActive(false)
                     .ticketAmount(0)
-                    .memberShipEnds(new Date(System.currentTimeMillis()))
+                    .memberShipEnds(System.currentTimeMillis())
                     .build();
             userWallet = userWalletRepository.save(userWallet);
 
