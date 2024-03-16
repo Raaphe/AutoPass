@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from "./components/Header/Header";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import LandingPage from './components/LandingPage/LandingPage';
 import ProtectedRoutesGuests from './routes/ProtectedRoutesAnonymous';
@@ -13,7 +12,6 @@ import Dashboard from './components/Dashboard/Dashboard';
 import UserDetailsPage from './components/UserDetails/UserDetailsPage';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import WalletDetails from './components/WalletDetails/WalletDetails';
-
 
 const App = () => {
 
@@ -44,7 +42,7 @@ const App = () => {
                     </Route>
                     <Route path='/*' element={<ErrorPage/>}/>   
                 </Routes>
-                {/* <Footer/> */}
+                <Footer/>
             </div>
         </Router>
     );
