@@ -25,7 +25,7 @@ import java.security.Principal;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://192.168.56.1:3000")
 @PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER', 'GOOGLE_USER')")
 @RequiredArgsConstructor
 @Slf4j
