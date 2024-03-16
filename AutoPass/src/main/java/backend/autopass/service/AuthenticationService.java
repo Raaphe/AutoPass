@@ -11,6 +11,9 @@ import backend.autopass.service.interfaces.IAuthenticationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,9 +31,7 @@ public class AuthenticationService implements IAuthenticationService {
     private final RefreshTokenService refreshTokenService;
     private final UserService userService;
     private final UserDetailsService userDetailsService;
-
-    @Value("${resend.api.key}")
-    private String resendAPIKey;
+    private final JavaMailSender emailSender;
 
     @Value("${frontend.server.port}")
     private String frontendPort;
@@ -100,6 +101,31 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public Boolean forgotPassword(String email) {
-        return null;
+
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message);
+
+        try {
+            Optional<User> user = userRepository.findByEmail(email);
+            if (user.isEmpty()) {
+                return false;
+            }
+
+            // Creating password reset link
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            String accessToken = jwtService.generateToken(userDetails);
+            String url = "http://localhost:" + this.frontendPort + "/change-password?token=" + accessToken;
+
+            // Constructing Email
+            messageHelper.setFrom("raphaelpaquin19@gmail.com");
+            messageHelper.setTo(email);
+            message.setText("<!DOCTYPE html> <html> <head> <title>Password Reset</title> <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\"> </head> <body> <div class=\"container\" style=\"margin-top: 20px;\"> <h2>Password Reset Request \uD83D\uDD12</h2> <hr/> <p>To reset your password, please click the button below:</p> <a href='"+ url + "' class=\"btn btn-primary\">Reset Password</a> </div> </body> </html>", "UTF-8", "html");
+            message.setSubject("Reset Your AutoPass password 🚏");
+            message.setSentDate(Date.from(Instant.now()));
+            emailSender.send(message);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

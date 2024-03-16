@@ -5,11 +5,12 @@ import Logo from "../../assets/6.png";
 import { useNavigate } from 'react-router-dom';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-
 const Footer: FC = () => {
   const [showFooter, setShowFooter] = useState(true);
   const controls = useAnimation();
   const navigate = useNavigate();
+
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -35,7 +36,7 @@ const Footer: FC = () => {
 
   return (
     <motion.div
-      className={`${styles.Footer}`}
+      className={`${styles.Footer} mx-2`}
       initial={{ opacity: 1, y: 0 }}
       animate={controls}
       transition={{ duration: 0.05 }}
