@@ -21,11 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 
-import java.security.Principal;
-import java.util.Map;
-
 @RestController
-@CrossOrigin("http://192.168.56.1:3000")
+@CrossOrigin("http://localhost:3000")
 @PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER', 'GOOGLE_USER')")
 @RequiredArgsConstructor
 @Slf4j
@@ -117,6 +114,30 @@ public class UserController {
             return (ResponseEntity<?>) ResponseEntity.ok();
         } else {
             return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
+    }
+
+    @GetMapping("/get-user-pfp")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Gets a user's profile image url.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "User image was fetched.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = String.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad request.",
+                    content = @Content
+            ),
+    })
+    public ResponseEntity<String> getUserImage(int userId) {
+        try {
+            return ResponseEntity.ok().body(userService.getImageFromUser(userId));
+        } catch (AwsServiceException | SdkClientException e) {
+            return ResponseEntity.badRequest().body("");
         }
     }
 

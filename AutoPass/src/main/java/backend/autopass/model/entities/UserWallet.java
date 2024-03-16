@@ -3,6 +3,7 @@ package backend.autopass.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -10,7 +11,7 @@ import java.util.Date;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class UserWallet {
+public class UserWallet implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
@@ -18,7 +19,9 @@ public class UserWallet {
     @Column(nullable = false)
     @Builder.Default
     private int ticketAmount = 0;
-    private Date memberShipEnds;
+    private double memberShipEnds;
     @Builder.Default
     private boolean membershipActive = false;
+    @ManyToOne
+    private Membership membershipType;
 }

@@ -10,6 +10,7 @@ import backend.autopass.service.AuthenticationService;
 import backend.autopass.service.JwtService;
 import backend.autopass.service.RefreshTokenService;
 import backend.autopass.service.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,11 +23,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -35,7 +33,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "Authentication", description = "The Authentication API. Contains operations like login, logout, refresh-token etc.")
-@CrossOrigin("http://192.168.56.1:3000")
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/auth")
 @SecurityRequirements()
 @RequiredArgsConstructor
@@ -90,7 +88,7 @@ public class AuthenticationController {
                     content = @Content
             )
     })
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody SignUpDTO request) throws Exception {
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody SignUpDTO request) {
         AuthenticationResponse authenticationResponse = authenticationService.register(request);
         if (authenticationResponse == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -184,6 +182,8 @@ public class AuthenticationController {
             } else {
                 return ResponseEntity.ok().body(true);
             }
+        } catch (ExpiredJwtException je) {
+            return ok().body(false);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.badRequest().body(false);

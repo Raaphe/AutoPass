@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from "./components/Header/Header";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import LandingPage from './components/LandingPage/LandingPage';
 import ProtectedRoutesGuests from './routes/ProtectedRoutesAnonymous';
@@ -12,7 +11,7 @@ import Footer from './components/Footer/Footer';
 import Dashboard from './components/Dashboard/Dashboard';
 import UserDetailsPage from './components/UserDetails/UserDetailsPage';
 import ErrorPage from './components/ErrorPage/ErrorPage';
-
+import WalletDetails from './components/WalletDetails/WalletDetails';
 
 const App = () => {
 
@@ -21,7 +20,6 @@ const App = () => {
 
         <Router>
             <div className="App">
-                {/* <Header/>  */}
                 <Routes>
 
                     <Route element={<ProtectedRoutesGuests/>}>
@@ -37,10 +35,9 @@ const App = () => {
 
                     <Route element={<ProtectedRoutesUser/>}>
 
-                        <Route path='/home' element={<UserDetailsPage/>}/>
-                        {/* Edit user (/edit/:userId), user details (/:userId)*/}
-                        <Route path='/Dashboard' element={<Dashboard/>}/>
-                        
+                        <Route path='/profile' element={<UserDetailsPage/>}/>
+                        <Route path='/home' element={<Dashboard/>}/>
+                        <Route path='/wallet' element={<WalletDetails/>}/>
                         
                     </Route>
                     <Route path='/*' element={<ErrorPage/>}/>   

@@ -22,9 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 
 @Controller
-@CrossOrigin("http://192.168.56.1:3000")
+@CrossOrigin({"http://192.168.56.1:3000", "http://localhost:3000"})
 @SecurityRequirements()
-@CrossOrigin
 @RequiredArgsConstructor
 public class OAuth2Controller {
 

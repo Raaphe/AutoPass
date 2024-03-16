@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import ClientAuthService from "../../ClientAuthService";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../Service";
+import StripeModule from "../StripeModule/StripeModule";
 
 
 interface DashboardProps {}
@@ -12,11 +13,6 @@ interface DashboardProps {}
 const Dashboard: FC<DashboardProps> = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<Api.User>();
-
-  const handleLogout = () => {
-    ClientAuthService.logout();
-    navigate("/login");
-  };
 
   useEffect(() => {
     // This is how we setup the access token inside the subsequent request's `Authorization Header` like so :
@@ -36,6 +32,8 @@ const Dashboard: FC<DashboardProps> = () => {
     };
     fetchUserData();
   }, [navigate]);
+
+
 
   return (
     <div className="container mt-5">
@@ -88,7 +86,7 @@ const Dashboard: FC<DashboardProps> = () => {
           </motion.div>
         </div>
       </motion.div>
-
+      <StripeModule/>
       <motion.div
         className="row mb-5"
         initial={{ opacity: 0, scale: 0.5 }}

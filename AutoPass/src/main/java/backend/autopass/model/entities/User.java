@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 @Builder
@@ -14,7 +15,7 @@ import java.util.Collection;
 @Table(name = "_user")
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -21,14 +21,30 @@ Developed in part by Lam Nguyen, Raphael Paquin and Moncef Moutaki.
 
 ---
 
-
-
 ## Accessing the app from another machine
-
 
 1. Change the `application.properties` property `application.ip` to whatever the IP of the machine you will host on will be.
 2. Run a `mvn verify`.
 3. Access the page from `http://<YOUR_IP>:3000`.
+
+---
+
+
+
+# Scanner App
+
+The app responsible for scanning user cards is the directory named `autopass-scanner`. This is an extension to our backend and will only serve as a view component of our app, but built natively through react and `electronjs`.
+
+>  `> cd /autopass-scanner`
+
+> `> npm run start`
+
+> `> npm run electron start`
+
+
+---
+
+
 
 
 ![img.png](img.png)

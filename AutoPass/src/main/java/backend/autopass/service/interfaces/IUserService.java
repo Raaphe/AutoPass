@@ -72,4 +72,11 @@ public interface IUserService {
      * @return The Url of the saved image.
      */
     String saveImageToUser(ChangeImageDTO dto) throws IOException;
+
+    /**
+     * Gets an image url from the database.
+     * @param userId The user id to get from.
+     * @return The Url of the saved image.
+     */
+    String getImageFromUser(int userId);
 }
