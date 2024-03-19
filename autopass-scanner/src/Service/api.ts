@@ -45,534 +45,6 @@ export interface AbstractJsonSchemaPropertyObject {
 /**
  * 
  * @export
- * @interface Account
- */
-export interface Account {
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'businessLogo'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'businessName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'businessPrimaryColor'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'businessURL'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Account
-     */
-    'chargesEnabled'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'country'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Account
-     */
-    'debitNegativeBalances'?: boolean;
-    /**
-     * 
-     * @type {AccountDeclineChargeOn}
-     * @memberof Account
-     */
-    'declineChargeOn'?: AccountDeclineChargeOn;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'defaultCurrency'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Account
-     */
-    'detailsSubmitted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'displayName'?: string;
-    /**
-     * 
-     * @type {LoginLinkCollection}
-     * @memberof Account
-     */
-    'loginLinks'?: LoginLinkCollection;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'email'?: string;
-    /**
-     * 
-     * @type {ExternalAccountCollection}
-     * @memberof Account
-     */
-    'externalAccounts'?: ExternalAccountCollection;
-    /**
-     * 
-     * @type {Keys}
-     * @memberof Account
-     */
-    'keys'?: Keys;
-    /**
-     * 
-     * @type {LegalEntity}
-     * @memberof Account
-     */
-    'legalEntity'?: LegalEntity;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Account
-     * @deprecated
-     */
-    'managed'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Account
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Account
-     */
-    'payoutsEnabled'?: boolean;
-    /**
-     * 
-     * @type {AccountPayoutSchedule}
-     * @memberof Account
-     */
-    'payoutSchedule'?: AccountPayoutSchedule;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'productDescription'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'statementDescriptor'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'supportEmail'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'supportPhone'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'supportURL'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'timezone'?: string;
-    /**
-     * 
-     * @type {AccountTosAcceptance}
-     * @memberof Account
-     */
-    'tosAcceptance'?: AccountTosAcceptance;
-    /**
-     * 
-     * @type {AccountTransferSchedule}
-     * @memberof Account
-     */
-    'transferSchedule'?: AccountTransferSchedule;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Account
-     */
-    'transfersEnabled'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Account
-     */
-    'type'?: string;
-    /**
-     * 
-     * @type {Verification}
-     * @memberof Account
-     */
-    'verification'?: Verification;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Account
-     * @deprecated
-     */
-    'currenciesSupported'?: Array<string>;
-}
-/**
- * 
- * @export
- * @interface AccountDeclineChargeOn
- */
-export interface AccountDeclineChargeOn {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AccountDeclineChargeOn
-     */
-    'avsFailure'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AccountDeclineChargeOn
-     */
-    'cvcFailure'?: boolean;
-}
-/**
- * 
- * @export
- * @interface AccountPayoutSchedule
- */
-export interface AccountPayoutSchedule {
-    /**
-     * 
-     * @type {number}
-     * @memberof AccountPayoutSchedule
-     */
-    'delayDays'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountPayoutSchedule
-     */
-    'interval'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AccountPayoutSchedule
-     */
-    'monthlyAnchor'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountPayoutSchedule
-     */
-    'weeklyAnchor'?: string;
-}
-/**
- * 
- * @export
- * @interface AccountTosAcceptance
- */
-export interface AccountTosAcceptance {
-    /**
-     * 
-     * @type {number}
-     * @memberof AccountTosAcceptance
-     */
-    'date'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountTosAcceptance
-     */
-    'ip'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountTosAcceptance
-     */
-    'userAgent'?: string;
-}
-/**
- * 
- * @export
- * @interface AccountTransferSchedule
- */
-export interface AccountTransferSchedule {
-    /**
-     * 
-     * @type {number}
-     * @memberof AccountTransferSchedule
-     */
-    'delayDays'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountTransferSchedule
-     */
-    'interval'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AccountTransferSchedule
-     */
-    'monthlyAnchor'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountTransferSchedule
-     */
-    'weeklyAnchor'?: string;
-}
-/**
- * 
- * @export
- * @interface Address
- */
-export interface Address {
-    /**
-     * 
-     * @type {string}
-     * @memberof Address
-     */
-    'city'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Address
-     */
-    'country'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Address
-     */
-    'line1'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Address
-     */
-    'line2'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Address
-     */
-    'postalCode'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Address
-     */
-    'state'?: string;
-}
-/**
- * 
- * @export
- * @interface AlternateStatementDescriptors
- */
-export interface AlternateStatementDescriptors {
-    /**
-     * 
-     * @type {string}
-     * @memberof AlternateStatementDescriptors
-     */
-    'kana'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AlternateStatementDescriptors
-     */
-    'kanji'?: string;
-}
-/**
- * 
- * @export
- * @interface Application
- */
-export interface Application {
-    /**
-     * 
-     * @type {string}
-     * @memberof Application
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Application
-     */
-    'name'?: string;
-}
-/**
- * 
- * @export
- * @interface ApplicationFee
- */
-export interface ApplicationFee {
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     */
-    'account'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApplicationFee
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApplicationFee
-     */
-    'amountRefunded'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     */
-    'application'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     */
-    'balanceTransaction'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     */
-    'charge'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApplicationFee
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ApplicationFee
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     */
-    'originatingTransaction'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ApplicationFee
-     */
-    'refunded'?: boolean;
-    /**
-     * 
-     * @type {FeeRefundCollection}
-     * @memberof ApplicationFee
-     */
-    'refunds'?: FeeRefundCollection;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationFee
-     * @deprecated
-     */
-    'user'?: string;
-    /**
-     * 
-     * @type {Account}
-     * @memberof ApplicationFee
-     */
-    'accountObject'?: Account;
-    /**
-     * 
-     * @type {Charge}
-     * @memberof ApplicationFee
-     */
-    'chargeObject'?: Charge;
-    /**
-     * 
-     * @type {Charge}
-     * @memberof ApplicationFee
-     */
-    'originatingTransactionObject'?: Charge;
-    /**
-     * 
-     * @type {Application}
-     * @memberof ApplicationFee
-     */
-    'applicationObject'?: Application;
-    /**
-     * 
-     * @type {BalanceTransaction}
-     * @memberof ApplicationFee
-     */
-    'balanceTransactionObject'?: BalanceTransaction;
-}
-/**
- * 
- * @export
  * @interface AuthenticationResponse
  */
 export interface AuthenticationResponse {
@@ -616,436 +88,6 @@ export interface AuthenticationResponse {
 /**
  * 
  * @export
- * @interface BalanceTransaction
- */
-export interface BalanceTransaction {
-    /**
-     * 
-     * @type {string}
-     * @memberof BalanceTransaction
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BalanceTransaction
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof BalanceTransaction
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof BalanceTransaction
-     */
-    'availableOn'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof BalanceTransaction
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof BalanceTransaction
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BalanceTransaction
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof BalanceTransaction
-     */
-    'fee'?: number;
-    /**
-     * 
-     * @type {Array<Fee>}
-     * @memberof BalanceTransaction
-     */
-    'feeDetails'?: Array<Fee>;
-    /**
-     * 
-     * @type {number}
-     * @memberof BalanceTransaction
-     */
-    'net'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof BalanceTransaction
-     */
-    'source'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BalanceTransaction
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BalanceTransaction
-     */
-    'type'?: string;
-    /**
-     * 
-     * @type {TransferCollection}
-     * @memberof BalanceTransaction
-     */
-    'sourcedTransfers'?: TransferCollection;
-    /**
-     * 
-     * @type {HasId}
-     * @memberof BalanceTransaction
-     */
-    'sourceObject'?: HasId;
-    /**
-     * 
-     * @type {HasId}
-     * @memberof BalanceTransaction
-     */
-    'sourceObjectAs'?: HasId;
-}
-/**
- * 
- * @export
- * @interface BankAccount
- */
-export interface BankAccount {
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'account'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'customer'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof BankAccount
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'accountHolderName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'accountHolderType'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'bankName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'country'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof BankAccount
-     */
-    'defaultForCurrency'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'fingerprint'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'last4'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'routingNumber'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof BankAccount
-     */
-    'validated'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof BankAccount
-     */
-    'instanceURL'?: string;
-}
-/**
- * 
- * @export
- * @interface Card
- */
-export interface Card {
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'account'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'customer'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Card
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'addressCity'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'addressCountry'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'addressLine1'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'addressLine1Check'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'addressLine2'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'addressState'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'addressZip'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'addressZipCheck'?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Card
-     */
-    'availablePayoutMethods'?: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'brand'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'country'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'cvcCheck'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Card
-     */
-    'defaultForCurrency'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'dynamicLast4'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Card
-     */
-    'expMonth'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Card
-     */
-    'expYear'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'fingerprint'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'funding'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'last4'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'recipient'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {ThreeDSecure}
-     * @memberof Card
-     */
-    'threeDSecure'?: ThreeDSecure;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'tokenizationMethod'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'iin'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'issuer'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     * @deprecated
-     */
-    'type'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'instanceURL'?: string;
-}
-/**
- * 
- * @export
  * @interface ChangePasswordDTO
  */
 export interface ChangePasswordDTO {
@@ -1065,444 +107,6 @@ export interface ChangePasswordDTO {
 /**
  * 
  * @export
- * @interface Charge
- */
-export interface Charge {
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Charge
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Charge
-     */
-    'amountRefunded'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'application'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'applicationFee'?: string;
-    /**
-     * 
-     * @type {AlternateStatementDescriptors}
-     * @memberof Charge
-     */
-    'alternateStatementDescriptors'?: AlternateStatementDescriptors;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'balanceTransaction'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Charge
-     */
-    'captured'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof Charge
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'customer'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'destination'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'dispute'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'failureCode'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'failureMessage'?: string;
-    /**
-     * 
-     * @type {FraudDetails}
-     * @memberof Charge
-     */
-    'fraudDetails'?: FraudDetails;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'invoice'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Charge
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Charge
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {ChargeOutcome}
-     * @memberof Charge
-     */
-    'outcome'?: ChargeOutcome;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'order'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Charge
-     */
-    'paid'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'receiptEmail'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'receiptNumber'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Charge
-     */
-    'refunded'?: boolean;
-    /**
-     * 
-     * @type {ChargeRefundCollection}
-     * @memberof Charge
-     */
-    'refunds'?: ChargeRefundCollection;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'review'?: string;
-    /**
-     * 
-     * @type {ShippingDetails}
-     * @memberof Charge
-     */
-    'shipping'?: ShippingDetails;
-    /**
-     * 
-     * @type {ExternalAccount}
-     * @memberof Charge
-     */
-    'source'?: ExternalAccount;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'sourceTransfer'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'statementDescriptor'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'transfer'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     */
-    'transferGroup'?: string;
-    /**
-     * 
-     * @type {Card}
-     * @memberof Charge
-     */
-    'card'?: Card;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Charge
-     * @deprecated
-     */
-    'disputed'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Charge
-     * @deprecated
-     */
-    'statementDescription'?: string;
-    /**
-     * 
-     * @type {Application}
-     * @memberof Charge
-     */
-    'applicationObject'?: Application;
-    /**
-     * 
-     * @type {Transfer}
-     * @memberof Charge
-     */
-    'sourceTransferObject'?: Transfer;
-    /**
-     * 
-     * @type {ApplicationFee}
-     * @memberof Charge
-     */
-    'applicationFeeObject'?: ApplicationFee;
-    /**
-     * 
-     * @type {Account}
-     * @memberof Charge
-     */
-    'destinationObject'?: Account;
-    /**
-     * 
-     * @type {Customer}
-     * @memberof Charge
-     */
-    'customerObject'?: Customer;
-    /**
-     * 
-     * @type {Dispute}
-     * @memberof Charge
-     */
-    'disputeObject'?: Dispute;
-    /**
-     * 
-     * @type {Invoice}
-     * @memberof Charge
-     */
-    'invoiceObject'?: Invoice;
-    /**
-     * 
-     * @type {Order}
-     * @memberof Charge
-     */
-    'orderObject'?: Order;
-    /**
-     * 
-     * @type {Review}
-     * @memberof Charge
-     */
-    'reviewObject'?: Review;
-    /**
-     * 
-     * @type {Transfer}
-     * @memberof Charge
-     */
-    'transferObject'?: Transfer;
-    /**
-     * 
-     * @type {BalanceTransaction}
-     * @memberof Charge
-     */
-    'balanceTransactionObject'?: BalanceTransaction;
-}
-/**
- * 
- * @export
- * @interface ChargeOutcome
- */
-export interface ChargeOutcome {
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcome
-     */
-    'networkStatus'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcome
-     */
-    'reason'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcome
-     */
-    'riskLevel'?: string;
-    /**
-     * 
-     * @type {ChargeOutcomeRule}
-     * @memberof ChargeOutcome
-     */
-    'rule'?: ChargeOutcomeRule;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcome
-     */
-    'sellerMessage'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcome
-     */
-    'type'?: string;
-    /**
-     * 
-     * @type {ChargeOutcomeRule}
-     * @memberof ChargeOutcome
-     */
-    'ruleObject'?: ChargeOutcomeRule;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcome
-     */
-    'ruleId'?: string;
-}
-/**
- * 
- * @export
- * @interface ChargeOutcomeRule
- */
-export interface ChargeOutcomeRule {
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcomeRule
-     */
-    'action'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcomeRule
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeOutcomeRule
-     */
-    'predicate'?: string;
-}
-/**
- * 
- * @export
- * @interface ChargeRefundCollection
- */
-export interface ChargeRefundCollection {
-    /**
-     * 
-     * @type {Array<Refund>}
-     * @memberof ChargeRefundCollection
-     */
-    'data'?: Array<Refund>;
-    /**
-     * 
-     * @type {number}
-     * @memberof ChargeRefundCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ChargeRefundCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof ChargeRefundCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof ChargeRefundCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof ChargeRefundCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ChargeRefundCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
  * @interface CollectionModelEntityModelPaymentType
  */
 export interface CollectionModelEntityModelPaymentType {
@@ -1516,6 +120,25 @@ export interface CollectionModelEntityModelPaymentType {
      * 
      * @type {{ [key: string]: Link; }}
      * @memberof CollectionModelEntityModelPaymentType
+     */
+    '_links'?: { [key: string]: Link; };
+}
+/**
+ * 
+ * @export
+ * @interface CollectionModelEntityModelUser
+ */
+export interface CollectionModelEntityModelUser {
+    /**
+     * 
+     * @type {PagedModelEntityModelUserEmbedded}
+     * @memberof CollectionModelEntityModelUser
+     */
+    '_embedded'?: PagedModelEntityModelUserEmbedded;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof CollectionModelEntityModelUser
      */
     '_links'?: { [key: string]: Link; };
 }
@@ -1550,534 +173,6 @@ export interface CollectionModelObjectEmbedded {
      * @memberof CollectionModelObjectEmbedded
      */
     'objects'?: Array<object>;
-}
-/**
- * 
- * @export
- * @interface Coupon
- */
-export interface Coupon {
-    /**
-     * 
-     * @type {string}
-     * @memberof Coupon
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Coupon
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Coupon
-     */
-    'amountOff'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Coupon
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Coupon
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Coupon
-     */
-    'duration'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Coupon
-     */
-    'durationInMonths'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Coupon
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof Coupon
-     */
-    'maxRedemptions'?: number;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Coupon
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {number}
-     * @memberof Coupon
-     */
-    'percentOff'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Coupon
-     */
-    'redeemBy'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Coupon
-     */
-    'timesRedeemed'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Coupon
-     */
-    'valid'?: boolean;
-}
-/**
- * 
- * @export
- * @interface Customer
- */
-export interface Customer {
-    /**
-     * 
-     * @type {string}
-     * @memberof Customer
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Customer
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Customer
-     */
-    'accountBalance'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Customer
-     */
-    'businessVatId'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Customer
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Customer
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Customer
-     */
-    'defaultSource'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Customer
-     */
-    'deleted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Customer
-     */
-    'delinquent'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Customer
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {Discount}
-     * @memberof Customer
-     */
-    'discount'?: Discount;
-    /**
-     * 
-     * @type {string}
-     * @memberof Customer
-     */
-    'email'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Customer
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Customer
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {ShippingDetails}
-     * @memberof Customer
-     */
-    'shipping'?: ShippingDetails;
-    /**
-     * 
-     * @type {ExternalAccountCollection}
-     * @memberof Customer
-     */
-    'sources'?: ExternalAccountCollection;
-    /**
-     * 
-     * @type {CustomerSubscriptionCollection}
-     * @memberof Customer
-     */
-    'subscriptions'?: CustomerSubscriptionCollection;
-    /**
-     * 
-     * @type {CustomerCardCollection}
-     * @memberof Customer
-     */
-    'cards'?: CustomerCardCollection;
-    /**
-     * 
-     * @type {string}
-     * @memberof Customer
-     * @deprecated
-     */
-    'defaultCard'?: string;
-    /**
-     * 
-     * @type {NextRecurringCharge}
-     * @memberof Customer
-     */
-    'nextRecurringCharge'?: NextRecurringCharge;
-    /**
-     * 
-     * @type {Subscription}
-     * @memberof Customer
-     */
-    'subscription'?: Subscription;
-    /**
-     * 
-     * @type {number}
-     * @memberof Customer
-     * @deprecated
-     */
-    'trialEnd'?: number;
-    /**
-     * 
-     * @type {ExternalAccount}
-     * @memberof Customer
-     */
-    'defaultSourceObject'?: ExternalAccount;
-}
-/**
- * 
- * @export
- * @interface CustomerCardCollection
- */
-export interface CustomerCardCollection {
-    /**
-     * 
-     * @type {Array<Card>}
-     * @memberof CustomerCardCollection
-     */
-    'data'?: Array<Card>;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerCardCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerCardCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof CustomerCardCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof CustomerCardCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerCardCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerCardCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
- * @interface CustomerSubscriptionCollection
- */
-export interface CustomerSubscriptionCollection {
-    /**
-     * 
-     * @type {Array<Subscription>}
-     * @memberof CustomerSubscriptionCollection
-     */
-    'data'?: Array<Subscription>;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerSubscriptionCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerSubscriptionCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof CustomerSubscriptionCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof CustomerSubscriptionCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerSubscriptionCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerSubscriptionCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
- * @interface DateOfBirth
- */
-export interface DateOfBirth {
-    /**
-     * 
-     * @type {number}
-     * @memberof DateOfBirth
-     */
-    'day'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DateOfBirth
-     */
-    'month'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DateOfBirth
-     */
-    'year'?: number;
-}
-/**
- * 
- * @export
- * @interface Discount
- */
-export interface Discount {
-    /**
-     * 
-     * @type {string}
-     * @memberof Discount
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Discount
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {Coupon}
-     * @memberof Discount
-     */
-    'coupon'?: Coupon;
-    /**
-     * 
-     * @type {string}
-     * @memberof Discount
-     */
-    'customer'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Discount
-     */
-    'end'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Discount
-     */
-    'start'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Discount
-     */
-    'subscription'?: string;
-}
-/**
- * 
- * @export
- * @interface Dispute
- */
-export interface Dispute {
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Dispute
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {Array<BalanceTransaction>}
-     * @memberof Dispute
-     */
-    'balanceTransactions'?: Array<BalanceTransaction>;
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     */
-    'charge'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Dispute
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {EvidenceSubObject}
-     * @memberof Dispute
-     */
-    'evidenceSubObject'?: EvidenceSubObject;
-    /**
-     * 
-     * @type {EvidenceDetails}
-     * @memberof Dispute
-     */
-    'evidenceDetails'?: EvidenceDetails;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Dispute
-     */
-    'isChargeRefundable'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Dispute
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Dispute
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     */
-    'reason'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     */
-    'networkReasonCode'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     * @deprecated
-     */
-    'balanceTransaction'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Dispute
-     * @deprecated
-     */
-    'evidence'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Dispute
-     * @deprecated
-     */
-    'evidenceDueBy'?: number;
 }
 /**
  * 
@@ -2118,10 +213,10 @@ export interface EntityModelMembership {
 export interface EntityModelPass {
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof EntityModelPass
      */
-    'pass'?: string;
+    'pass'?: Array<string>;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -2293,18 +388,6 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
     'deleted'?: boolean;
     /**
      * 
@@ -2312,6 +395,18 @@ export interface EntityModelUser {
      * @memberof EntityModelUser
      */
     'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {Array<GrantedAuthority>}
@@ -2335,7 +430,8 @@ export interface EntityModelUser {
 export const EntityModelUserRoleEnum = {
     Admin: 'ADMIN',
     User: 'USER',
-    GoogleUser: 'GOOGLE_USER'
+    GoogleUser: 'GOOGLE_USER',
+    ScannerUser: 'SCANNER_USER'
 } as const;
 
 export type EntityModelUserRoleEnum = typeof EntityModelUserRoleEnum[keyof typeof EntityModelUserRoleEnum];
@@ -2472,458 +568,6 @@ export interface ErrorResponseStackTraceElementsInner {
 /**
  * 
  * @export
- * @interface EvidenceDetails
- */
-export interface EvidenceDetails {
-    /**
-     * 
-     * @type {number}
-     * @memberof EvidenceDetails
-     */
-    'dueBy'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof EvidenceDetails
-     */
-    'submissionCount'?: number;
-}
-/**
- * 
- * @export
- * @interface EvidenceSubObject
- */
-export interface EvidenceSubObject {
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'productDescription'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'customerName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'customerEmailAddress'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'customerPurchaseIp'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'billingAddress'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'receipt'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'shippingAddress'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'shippingDate'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'shippingTrackingNumber'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'customerSignature'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'shippingDocumentation'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'accessActivityLog'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'serviceDate'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'serviceDocumentation'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'customerCommunication'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'duplicateChargeId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'duplicateChargeExplanation'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'duplicateChargeDocumentation'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'refundPolicy'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'refundPolicyDisclosure'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'refundRefusalExplanation'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'cancellationPolicy'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'cancellationPolicyDisclosure'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'cancellationRebuttal'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'uncategorizedText'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EvidenceSubObject
-     */
-    'uncategorizedFile'?: string;
-}
-/**
- * 
- * @export
- * @interface ExternalAccount
- */
-export interface ExternalAccount {
-    /**
-     * 
-     * @type {string}
-     * @memberof ExternalAccount
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ExternalAccount
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ExternalAccount
-     */
-    'account'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ExternalAccount
-     */
-    'customer'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof ExternalAccount
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {string}
-     * @memberof ExternalAccount
-     */
-    'instanceURL'?: string;
-}
-/**
- * 
- * @export
- * @interface ExternalAccountCollection
- */
-export interface ExternalAccountCollection {
-    /**
-     * 
-     * @type {Array<ExternalAccount>}
-     * @memberof ExternalAccountCollection
-     */
-    'data'?: Array<ExternalAccount>;
-    /**
-     * 
-     * @type {number}
-     * @memberof ExternalAccountCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ExternalAccountCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof ExternalAccountCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof ExternalAccountCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof ExternalAccountCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ExternalAccountCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
- * @interface Fee
- */
-export interface Fee {
-    /**
-     * 
-     * @type {number}
-     * @memberof Fee
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Fee
-     */
-    'application'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Fee
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Fee
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Fee
-     */
-    'type'?: string;
-}
-/**
- * 
- * @export
- * @interface FeeRefund
- */
-export interface FeeRefund {
-    /**
-     * 
-     * @type {string}
-     * @memberof FeeRefund
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FeeRefund
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FeeRefund
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof FeeRefund
-     */
-    'balanceTransaction'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FeeRefund
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FeeRefund
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof FeeRefund
-     */
-    'fee'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof FeeRefund
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {ApplicationFee}
-     * @memberof FeeRefund
-     */
-    'feeObject'?: ApplicationFee;
-    /**
-     * 
-     * @type {string}
-     * @memberof FeeRefund
-     */
-    'instanceURL'?: string;
-    /**
-     * 
-     * @type {BalanceTransaction}
-     * @memberof FeeRefund
-     */
-    'balanceTransactionObject'?: BalanceTransaction;
-}
-/**
- * 
- * @export
- * @interface FeeRefundCollection
- */
-export interface FeeRefundCollection {
-    /**
-     * 
-     * @type {Array<FeeRefund>}
-     * @memberof FeeRefundCollection
-     */
-    'data'?: Array<FeeRefund>;
-    /**
-     * 
-     * @type {number}
-     * @memberof FeeRefundCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof FeeRefundCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof FeeRefundCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof FeeRefundCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof FeeRefundCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FeeRefundCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
- * @interface FraudDetails
- */
-export interface FraudDetails {
-    /**
-     * 
-     * @type {string}
-     * @memberof FraudDetails
-     */
-    'userReport'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FraudDetails
-     */
-    'stripeReport'?: string;
-}
-/**
- * 
- * @export
  * @interface GrantedAuthority
  */
 export interface GrantedAuthority {
@@ -2933,413 +577,6 @@ export interface GrantedAuthority {
      * @memberof GrantedAuthority
      */
     'authority'?: string;
-}
-/**
- * 
- * @export
- * @interface HasId
- */
-export interface HasId {
-    /**
-     * 
-     * @type {string}
-     * @memberof HasId
-     */
-    'id'?: string;
-}
-/**
- * 
- * @export
- * @interface Invoice
- */
-export interface Invoice {
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'amountDue'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'applicationFee'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'attemptCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Invoice
-     */
-    'attempted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'billing'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'charge'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Invoice
-     */
-    'closed'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'customer'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'date'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {Discount}
-     * @memberof Invoice
-     */
-    'discount'?: Discount;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'dueDate'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'endingBalance'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Invoice
-     */
-    'forgiven'?: boolean;
-    /**
-     * 
-     * @type {InvoiceLineItemCollection}
-     * @memberof Invoice
-     */
-    'lines'?: InvoiceLineItemCollection;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Invoice
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Invoice
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'nextPaymentAttempt'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'number'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Invoice
-     */
-    'paid'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'periodEnd'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'periodStart'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'receiptNumber'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'startingBalance'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'statementDescriptor'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Invoice
-     */
-    'subscription'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'subscriptionProrationDate'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'subtotal'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'tax'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'taxPercent'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'total'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Invoice
-     */
-    'webhooksDeliveredAt'?: number;
-    /**
-     * 
-     * @type {Subscription}
-     * @memberof Invoice
-     */
-    'subscriptionObject'?: Subscription;
-    /**
-     * 
-     * @type {Charge}
-     * @memberof Invoice
-     */
-    'chargeObject'?: Charge;
-}
-/**
- * 
- * @export
- * @interface InvoiceLineItem
- */
-export interface InvoiceLineItem {
-    /**
-     * 
-     * @type {string}
-     * @memberof InvoiceLineItem
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof InvoiceLineItem
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceLineItem
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof InvoiceLineItem
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof InvoiceLineItem
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InvoiceLineItem
-     */
-    'discountable'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InvoiceLineItem
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof InvoiceLineItem
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {InvoiceLineItemPeriod}
-     * @memberof InvoiceLineItem
-     */
-    'period'?: InvoiceLineItemPeriod;
-    /**
-     * 
-     * @type {Plan}
-     * @memberof InvoiceLineItem
-     */
-    'plan'?: Plan;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InvoiceLineItem
-     */
-    'proration'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceLineItem
-     */
-    'quantity'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof InvoiceLineItem
-     */
-    'subscription'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof InvoiceLineItem
-     */
-    'type'?: string;
-}
-/**
- * 
- * @export
- * @interface InvoiceLineItemCollection
- */
-export interface InvoiceLineItemCollection {
-    /**
-     * 
-     * @type {Array<InvoiceLineItem>}
-     * @memberof InvoiceLineItemCollection
-     */
-    'data'?: Array<InvoiceLineItem>;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceLineItemCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InvoiceLineItemCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof InvoiceLineItemCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof InvoiceLineItemCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof InvoiceLineItemCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceLineItemCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
- * @interface InvoiceLineItemPeriod
- */
-export interface InvoiceLineItemPeriod {
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceLineItemPeriod
-     */
-    'end'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceLineItemPeriod
-     */
-    'start'?: number;
 }
 /**
  * 
@@ -3437,104 +674,6 @@ export interface JsonSchema {
 /**
  * 
  * @export
- * @interface Keys
- */
-export interface Keys {
-    /**
-     * 
-     * @type {string}
-     * @memberof Keys
-     */
-    'publishable'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Keys
-     */
-    'secret'?: string;
-}
-/**
- * 
- * @export
- * @interface LegalEntity
- */
-export interface LegalEntity {
-    /**
-     * 
-     * @type {Array<Owner>}
-     * @memberof LegalEntity
-     */
-    'additionalOwners'?: Array<Owner>;
-    /**
-     * 
-     * @type {Address}
-     * @memberof LegalEntity
-     */
-    'address'?: Address;
-    /**
-     * 
-     * @type {string}
-     * @memberof LegalEntity
-     */
-    'businessName'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LegalEntity
-     */
-    'businessTaxIdProvided'?: boolean;
-    /**
-     * 
-     * @type {DateOfBirth}
-     * @memberof LegalEntity
-     */
-    'dob'?: DateOfBirth;
-    /**
-     * 
-     * @type {string}
-     * @memberof LegalEntity
-     */
-    'firstName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof LegalEntity
-     */
-    'lastName'?: string;
-    /**
-     * 
-     * @type {Address}
-     * @memberof LegalEntity
-     */
-    'personalAddress'?: Address;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LegalEntity
-     */
-    'personalIdNumberProvided'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LegalEntity
-     */
-    'ssnLast4Provided'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof LegalEntity
-     */
-    'type'?: string;
-    /**
-     * 
-     * @type {Verification}
-     * @memberof LegalEntity
-     */
-    'verification'?: Verification;
-}
-/**
- * 
- * @export
  * @interface Link
  */
 export interface Link {
@@ -3586,86 +725,6 @@ export interface Link {
      * @memberof Link
      */
     'templated'?: boolean;
-}
-/**
- * 
- * @export
- * @interface LoginLink
- */
-export interface LoginLink {
-    /**
-     * 
-     * @type {string}
-     * @memberof LoginLink
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof LoginLink
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof LoginLink
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof LoginLink
-     */
-    'id'?: string;
-}
-/**
- * 
- * @export
- * @interface LoginLinkCollection
- */
-export interface LoginLinkCollection {
-    /**
-     * 
-     * @type {Array<LoginLink>}
-     * @memberof LoginLinkCollection
-     */
-    'data'?: Array<LoginLink>;
-    /**
-     * 
-     * @type {number}
-     * @memberof LoginLinkCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LoginLinkCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof LoginLinkCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof LoginLinkCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof LoginLinkCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof LoginLinkCollection
-     */
-    'count'?: number;
 }
 /**
  * 
@@ -3728,402 +787,6 @@ export interface MembershipRequestBody {
      * @memberof MembershipRequestBody
      */
     'deleted'?: boolean;
-}
-/**
- * 
- * @export
- * @interface NextRecurringCharge
- */
-export interface NextRecurringCharge {
-    /**
-     * 
-     * @type {number}
-     * @memberof NextRecurringCharge
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof NextRecurringCharge
-     */
-    'date'?: string;
-}
-/**
- * 
- * @export
- * @interface Order
- */
-export interface Order {
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
-    'amountReturned'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'application'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
-    'applicationFee'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'charge'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'customer'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'email'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'externalCouponCode'?: string;
-    /**
-     * 
-     * @type {Array<OrderItem>}
-     * @memberof Order
-     */
-    'items'?: Array<OrderItem>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Order
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Order
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {OrderReturnCollection}
-     * @memberof Order
-     */
-    'returns'?: OrderReturnCollection;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'selectedShippingMethod'?: string;
-    /**
-     * 
-     * @type {ShippingDetails}
-     * @memberof Order
-     */
-    'shipping'?: ShippingDetails;
-    /**
-     * 
-     * @type {Array<ShippingMethod>}
-     * @memberof Order
-     */
-    'shippingMethods'?: Array<ShippingMethod>;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {StatusTransitions}
-     * @memberof Order
-     */
-    'statusTransitions'?: StatusTransitions;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
-    'updated'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
-    'upstreamId'?: string;
-    /**
-     * 
-     * @type {Charge}
-     * @memberof Order
-     */
-    'chargeObject'?: Charge;
-    /**
-     * 
-     * @type {Customer}
-     * @memberof Order
-     */
-    'customerObject'?: Customer;
-}
-/**
- * 
- * @export
- * @interface OrderItem
- */
-export interface OrderItem {
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderItem
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof OrderItem
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderItem
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderItem
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderItem
-     */
-    'parent'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof OrderItem
-     */
-    'quantity'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderItem
-     */
-    'type'?: string;
-    /**
-     * 
-     * @type {HasId}
-     * @memberof OrderItem
-     */
-    'parentObject'?: HasId;
-    /**
-     * 
-     * @type {HasId}
-     * @memberof OrderItem
-     */
-    'parentObjectAs'?: HasId;
-}
-/**
- * 
- * @export
- * @interface OrderReturn
- */
-export interface OrderReturn {
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderReturn
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderReturn
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof OrderReturn
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof OrderReturn
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderReturn
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {Array<OrderItem>}
-     * @memberof OrderReturn
-     */
-    'items'?: Array<OrderItem>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof OrderReturn
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderReturn
-     */
-    'order'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderReturn
-     */
-    'refund'?: string;
-    /**
-     * 
-     * @type {Refund}
-     * @memberof OrderReturn
-     */
-    'refundObject'?: Refund;
-    /**
-     * 
-     * @type {Order}
-     * @memberof OrderReturn
-     */
-    'orderObject'?: Order;
-}
-/**
- * 
- * @export
- * @interface OrderReturnCollection
- */
-export interface OrderReturnCollection {
-    /**
-     * 
-     * @type {Array<OrderReturn>}
-     * @memberof OrderReturnCollection
-     */
-    'data'?: Array<OrderReturn>;
-    /**
-     * 
-     * @type {number}
-     * @memberof OrderReturnCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof OrderReturnCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof OrderReturnCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof OrderReturnCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof OrderReturnCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof OrderReturnCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
- * @interface Owner
- */
-export interface Owner {
-    /**
-     * 
-     * @type {Address}
-     * @memberof Owner
-     */
-    'address'?: Address;
-    /**
-     * 
-     * @type {DateOfBirth}
-     * @memberof Owner
-     */
-    'dob'?: DateOfBirth;
-    /**
-     * 
-     * @type {string}
-     * @memberof Owner
-     */
-    'firstName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Owner
-     */
-    'lastName'?: string;
-    /**
-     * 
-     * @type {Verification}
-     * @memberof Owner
-     */
-    'verification'?: Verification;
 }
 /**
  * 
@@ -4436,10 +1099,10 @@ export interface Pass {
     'id'?: number;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof Pass
      */
-    'pass'?: string;
+    'pass'?: Array<string>;
 }
 /**
  * 
@@ -4455,10 +1118,10 @@ export interface PassRequestBody {
     'id'?: number;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof PassRequestBody
      */
-    'pass'?: string;
+    'pass'?: Array<string>;
 }
 /**
  * 
@@ -4506,92 +1169,6 @@ export interface PaymentTypeRequestBody {
 /**
  * 
  * @export
- * @interface Plan
- */
-export interface Plan {
-    /**
-     * 
-     * @type {string}
-     * @memberof Plan
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Plan
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Plan
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Plan
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Plan
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Plan
-     */
-    'interval'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Plan
-     */
-    'intervalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Plan
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Plan
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {string}
-     * @memberof Plan
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Plan
-     */
-    'statementDescriptor'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Plan
-     */
-    'trialPeriodDays'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Plan
-     * @deprecated
-     */
-    'statementDescription'?: string;
-}
-/**
- * 
- * @export
  * @interface RefreshTokenDTO
  */
 export interface RefreshTokenDTO {
@@ -4601,97 +1178,6 @@ export interface RefreshTokenDTO {
      * @memberof RefreshTokenDTO
      */
     'refreshToken'?: string;
-}
-/**
- * 
- * @export
- * @interface Refund
- */
-export interface Refund {
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Refund
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'balanceTransaction'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'charge'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Refund
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Refund
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'reason'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'receiptNumber'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Refund
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {Charge}
-     * @memberof Refund
-     */
-    'chargeObject'?: Charge;
-    /**
-     * 
-     * @type {BalanceTransaction}
-     * @memberof Refund
-     */
-    'balanceTransactionObject'?: BalanceTransaction;
 }
 /**
  * 
@@ -4709,173 +1195,27 @@ export interface RepresentationModelObject {
 /**
  * 
  * @export
- * @interface RequestOptions
+ * @interface ScannerRegistrationDTO
  */
-export interface RequestOptions {
+export interface ScannerRegistrationDTO {
     /**
      * 
      * @type {string}
-     * @memberof RequestOptions
+     * @memberof ScannerRegistrationDTO
      */
-    'apiKey'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestOptions
-     */
-    'clientId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestOptions
-     */
-    'stripeVersion'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestOptions
-     */
-    'idempotencyKey'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestOptions
-     */
-    'stripeAccount'?: string;
+    'pwd'?: string;
     /**
      * 
      * @type {number}
-     * @memberof RequestOptions
+     * @memberof ScannerRegistrationDTO
      */
-    'connectTimeout'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RequestOptions
-     */
-    'readTimeout'?: number;
-}
-/**
- * 
- * @export
- * @interface Reversal
- */
-export interface Reversal {
+    'busNumber'?: number;
     /**
      * 
      * @type {string}
-     * @memberof Reversal
+     * @memberof ScannerRegistrationDTO
      */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Reversal
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Reversal
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Reversal
-     */
-    'balanceTransaction'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Reversal
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Reversal
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Reversal
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {string}
-     * @memberof Reversal
-     */
-    'transfer'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Reversal
-     */
-    'instanceURL'?: string;
-    /**
-     * 
-     * @type {Transfer}
-     * @memberof Reversal
-     */
-    'transferObject'?: Transfer;
-    /**
-     * 
-     * @type {BalanceTransaction}
-     * @memberof Reversal
-     */
-    'balanceTransactionObject'?: BalanceTransaction;
-}
-/**
- * 
- * @export
- * @interface Review
- */
-export interface Review {
-    /**
-     * 
-     * @type {string}
-     * @memberof Review
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Review
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Review
-     */
-    'charge'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Review
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Review
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Review
-     */
-    'open'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Review
-     */
-    'reason'?: string;
+    'routeName'?: string;
 }
 /**
  * 
@@ -4889,62 +1229,6 @@ export interface SetUserImageRequest {
      * @memberof SetUserImageRequest
      */
     'file': File;
-}
-/**
- * 
- * @export
- * @interface ShippingDetails
- */
-export interface ShippingDetails {
-    /**
-     * 
-     * @type {Address}
-     * @memberof ShippingDetails
-     */
-    'address'?: Address;
-    /**
-     * 
-     * @type {string}
-     * @memberof ShippingDetails
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ShippingDetails
-     */
-    'phone'?: string;
-}
-/**
- * 
- * @export
- * @interface ShippingMethod
- */
-export interface ShippingMethod {
-    /**
-     * 
-     * @type {string}
-     * @memberof ShippingMethod
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ShippingMethod
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ShippingMethod
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ShippingMethod
-     */
-    'description'?: string;
 }
 /**
  * 
@@ -5006,413 +1290,12 @@ export interface SignUpDTO {
 export const SignUpDTORoleEnum = {
     Admin: 'ADMIN',
     User: 'USER',
-    GoogleUser: 'GOOGLE_USER'
+    GoogleUser: 'GOOGLE_USER',
+    ScannerUser: 'SCANNER_USER'
 } as const;
 
 export type SignUpDTORoleEnum = typeof SignUpDTORoleEnum[keyof typeof SignUpDTORoleEnum];
 
-/**
- * 
- * @export
- * @interface StatusTransitions
- */
-export interface StatusTransitions {
-    /**
-     * 
-     * @type {number}
-     * @memberof StatusTransitions
-     */
-    'canceled'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof StatusTransitions
-     */
-    'fulfiled'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof StatusTransitions
-     */
-    'paid'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof StatusTransitions
-     */
-    'returned'?: number;
-}
-/**
- * 
- * @export
- * @interface Subscription
- */
-export interface Subscription {
-    /**
-     * 
-     * @type {string}
-     * @memberof Subscription
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Subscription
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'applicationFeePercent'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Subscription
-     */
-    'billing'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Subscription
-     */
-    'cancelAtPeriodEnd'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'canceledAt'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'currentPeriodEnd'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'currentPeriodStart'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Subscription
-     */
-    'customer'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'daysUntilDue'?: number;
-    /**
-     * 
-     * @type {Discount}
-     * @memberof Subscription
-     */
-    'discount'?: Discount;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'endedAt'?: number;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Subscription
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {Plan}
-     * @memberof Subscription
-     */
-    'plan'?: Plan;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'quantity'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'start'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Subscription
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'taxPercent'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'trialEnd'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Subscription
-     */
-    'trialStart'?: number;
-    /**
-     * 
-     * @type {SubscriptionItemCollection}
-     * @memberof Subscription
-     */
-    'subscriptionItems'?: SubscriptionItemCollection;
-    /**
-     * 
-     * @type {Customer}
-     * @memberof Subscription
-     */
-    'customerObject'?: Customer;
-}
-/**
- * 
- * @export
- * @interface SubscriptionItem
- */
-export interface SubscriptionItem {
-    /**
-     * 
-     * @type {string}
-     * @memberof SubscriptionItem
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SubscriptionItem
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof SubscriptionItem
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {Plan}
-     * @memberof SubscriptionItem
-     */
-    'plan'?: Plan;
-    /**
-     * 
-     * @type {number}
-     * @memberof SubscriptionItem
-     */
-    'quantity'?: number;
-}
-/**
- * 
- * @export
- * @interface SubscriptionItemCollection
- */
-export interface SubscriptionItemCollection {
-    /**
-     * 
-     * @type {Array<SubscriptionItem>}
-     * @memberof SubscriptionItemCollection
-     */
-    'data'?: Array<SubscriptionItem>;
-    /**
-     * 
-     * @type {number}
-     * @memberof SubscriptionItemCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SubscriptionItemCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof SubscriptionItemCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof SubscriptionItemCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof SubscriptionItemCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof SubscriptionItemCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
- * @interface Summary
- */
-export interface Summary {
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'adjustmentCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'adjustmentGross'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'chargeCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'chargeFees'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'chargeGross'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'net'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'refundCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'refundFees'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'refundGross'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'validationCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Summary
-     */
-    'validationFees'?: number;
-}
-/**
- * 
- * @export
- * @interface ThreeDSecure
- */
-export interface ThreeDSecure {
-    /**
-     * 
-     * @type {string}
-     * @memberof ThreeDSecure
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ThreeDSecure
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ThreeDSecure
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ThreeDSecure
-     */
-    'authenticated'?: boolean;
-    /**
-     * 
-     * @type {Card}
-     * @memberof ThreeDSecure
-     */
-    'card'?: Card;
-    /**
-     * 
-     * @type {number}
-     * @memberof ThreeDSecure
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ThreeDSecure
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ThreeDSecure
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof ThreeDSecure
-     */
-    'redirectURL'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ThreeDSecure
-     */
-    'status'?: string;
-}
 /**
  * 
  * @export
@@ -5480,325 +1363,6 @@ export interface TokenRequestBody {
      * @memberof TokenRequestBody
      */
     'expiryDate'?: string;
-}
-/**
- * 
- * @export
- * @interface Transfer
- */
-export interface Transfer {
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'object'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Transfer
-     */
-    'amount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Transfer
-     */
-    'amountReversed'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'applicationFee'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'balanceTransaction'?: string;
-    /**
-     * 
-     * @type {BankAccount}
-     * @memberof Transfer
-     */
-    'bankAccount'?: BankAccount;
-    /**
-     * 
-     * @type {number}
-     * @memberof Transfer
-     */
-    'created'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'currency'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Transfer
-     */
-    'date'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'destination'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'destinationPayment'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'failureCode'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'failureMessage'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Transfer
-     */
-    'livemode'?: boolean;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof Transfer
-     */
-    'metadata'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {TransferReversalCollection}
-     * @memberof Transfer
-     */
-    'reversals'?: TransferReversalCollection;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Transfer
-     */
-    'reversed'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'sourceTransaction'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'sourceType'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'statementDescriptor'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     */
-    'transferGroup'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'type'?: string;
-    /**
-     * 
-     * @type {BankAccount}
-     * @memberof Transfer
-     */
-    'account'?: BankAccount;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'otherTransfers'?: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'recipient'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Transfer
-     * @deprecated
-     */
-    'statementDescription'?: string;
-    /**
-     * 
-     * @type {Summary}
-     * @memberof Transfer
-     */
-    'summary'?: Summary;
-    /**
-     * 
-     * @type {Charge}
-     * @memberof Transfer
-     */
-    'sourceTransactionObject'?: Charge;
-    /**
-     * 
-     * @type {Charge}
-     * @memberof Transfer
-     */
-    'destinationPaymentObject'?: Charge;
-    /**
-     * 
-     * @type {Account}
-     * @memberof Transfer
-     */
-    'destinationObject'?: Account;
-    /**
-     * 
-     * @type {BalanceTransaction}
-     * @memberof Transfer
-     */
-    'balanceTransactionObject'?: BalanceTransaction;
-}
-/**
- * 
- * @export
- * @interface TransferCollection
- */
-export interface TransferCollection {
-    /**
-     * 
-     * @type {Array<Transfer>}
-     * @memberof TransferCollection
-     */
-    'data'?: Array<Transfer>;
-    /**
-     * 
-     * @type {number}
-     * @memberof TransferCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof TransferCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof TransferCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof TransferCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof TransferCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof TransferCollection
-     */
-    'count'?: number;
-}
-/**
- * 
- * @export
- * @interface TransferReversalCollection
- */
-export interface TransferReversalCollection {
-    /**
-     * 
-     * @type {Array<Reversal>}
-     * @memberof TransferReversalCollection
-     */
-    'data'?: Array<Reversal>;
-    /**
-     * 
-     * @type {number}
-     * @memberof TransferReversalCollection
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof TransferReversalCollection
-     */
-    'hasMore'?: boolean;
-    /**
-     * 
-     * @type {RequestOptions}
-     * @memberof TransferReversalCollection
-     */
-    'requestOptions'?: RequestOptions;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof TransferReversalCollection
-     */
-    'requestParams'?: { [key: string]: object; };
-    /**
-     * 
-     * @type {string}
-     * @memberof TransferReversalCollection
-     */
-    'url'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof TransferReversalCollection
-     */
-    'count'?: number;
 }
 /**
  * 
@@ -5914,18 +1478,6 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
     'deleted'?: boolean;
     /**
      * 
@@ -5933,6 +1485,18 @@ export interface User {
      * @memberof User
      */
     'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {Array<GrantedAuthority>}
@@ -5950,7 +1514,8 @@ export interface User {
 export const UserRoleEnum = {
     Admin: 'ADMIN',
     User: 'USER',
-    GoogleUser: 'GOOGLE_USER'
+    GoogleUser: 'GOOGLE_USER',
+    ScannerUser: 'SCANNER_USER'
 } as const;
 
 export type UserRoleEnum = typeof UserRoleEnum[keyof typeof UserRoleEnum];
@@ -6038,18 +1603,6 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
     'deleted'?: boolean;
     /**
      * 
@@ -6057,6 +1610,18 @@ export interface UserRequestBody {
      * @memberof UserRequestBody
      */
     'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {Array<GrantedAuthority>}
@@ -6074,7 +1639,8 @@ export interface UserRequestBody {
 export const UserRequestBodyRoleEnum = {
     Admin: 'ADMIN',
     User: 'USER',
-    GoogleUser: 'GOOGLE_USER'
+    GoogleUser: 'GOOGLE_USER',
+    ScannerUser: 'SCANNER_USER'
 } as const;
 
 export type UserRequestBodyRoleEnum = typeof UserRequestBodyRoleEnum[keyof typeof UserRequestBodyRoleEnum];
@@ -6152,37 +1718,6 @@ export interface UserWalletRequestBody {
      * @memberof UserWalletRequestBody
      */
     'membershipType'?: string;
-}
-/**
- * 
- * @export
- * @interface Verification
- */
-export interface Verification {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Verification
-     */
-    'contacted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Verification
-     */
-    'disabledReason'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Verification
-     */
-    'dueBy'?: number;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Verification
-     */
-    'fieldsNeeded'?: Array<string>;
 }
 
 /**
@@ -6287,6 +1822,43 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
 
             if (email !== undefined) {
                 localVarQueryParameter['email'] = email;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Gets a user\'s role from access token.
+         * @param {string} accessToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserRole: async (accessToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'accessToken' is not null or undefined
+            assertParamExists('getUserRole', 'accessToken', accessToken)
+            const localVarPath = `/auth/get-user-role`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (accessToken !== undefined) {
+                localVarQueryParameter['accessToken'] = accessToken;
             }
 
 
@@ -6533,6 +2105,19 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Gets a user\'s role from access token.
+         * @param {string} accessToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserRole(accessToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserRole(accessToken, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['AuthenticationApi.getUserRole']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Checks if the access token is valid.
          * @param {IsLoggedInDTO} isLoggedInDTO 
          * @param {*} [options] Override http request option.
@@ -6638,6 +2223,16 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
+         * @summary Gets a user\'s role from access token.
+         * @param {string} accessToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserRole(accessToken: string, options?: any): AxiosPromise<string> {
+            return localVarFp.getUserRole(accessToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Checks if the access token is valid.
          * @param {IsLoggedInDTO} isLoggedInDTO 
          * @param {*} [options] Override http request option.
@@ -6730,6 +2325,18 @@ export class AuthenticationApi extends BaseAPI {
      */
     public forgotPassword(email: string, options?: RawAxiosRequestConfig) {
         return AuthenticationApiFp(this.configuration).forgotPassword(email, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Gets a user\'s role from access token.
+     * @param {string} accessToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public getUserRole(accessToken: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).getUserRole(accessToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9566,24 +5173,21 @@ export class ProfileControllerApi extends BaseAPI {
 
 
 /**
- * StripeControllerApi - axios parameter creator
+ * ScannerControllerApi - axios parameter creator
  * @export
  */
-export const StripeControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const ScannerControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {string} token 
-         * @param {number} amount 
+         * Takes a scanner registration object to create a scanner account.
+         * @param {ScannerRegistrationDTO} scannerRegistrationDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        chargeCard: async (token: string, amount: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'token' is not null or undefined
-            assertParamExists('chargeCard', 'token', token)
-            // verify required parameter 'amount' is not null or undefined
-            assertParamExists('chargeCard', 'amount', amount)
-            const localVarPath = `/api/payment/charge`;
+        createScannerAccount: async (scannerRegistrationDTO: ScannerRegistrationDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'scannerRegistrationDTO' is not null or undefined
+            assertParamExists('createScannerAccount', 'scannerRegistrationDTO', scannerRegistrationDTO)
+            const localVarPath = `/admin/scanner/create-scanner`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -9599,14 +5203,120 @@ export const StripeControllerApiAxiosParamCreator = function (configuration?: Co
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (token != null) {
-                localVarHeaderParameter['token'] = String(token);
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(scannerRegistrationDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Deleted a bus.
+         * @param {number} busNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteScanner: async (busNumber: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'busNumber' is not null or undefined
+            assertParamExists('deleteScanner', 'busNumber', busNumber)
+            const localVarPath = `/admin/scanner/delete-bus`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
             }
 
-            if (amount != null) {
-                localVarHeaderParameter['amount'] = typeof amount === 'string'
-                    ? amount
-                    : JSON.stringify(amount);
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (busNumber !== undefined) {
+                localVarQueryParameter['busNumber'] = busNumber;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Gets all the scanner accounts found in the database that are not deleted.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllScanners: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/admin/scanner/scanners`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Gets a scanner account from bus number.
+         * @param {number} busNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getScannerByBusNumber: async (busNumber: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'busNumber' is not null or undefined
+            assertParamExists('getScannerByBusNumber', 'busNumber', busNumber)
+            const localVarPath = `/admin/scanner/scanner-info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (busNumber !== undefined) {
+                localVarQueryParameter['busNumber'] = busNumber;
             }
 
 
@@ -9624,65 +5334,155 @@ export const StripeControllerApiAxiosParamCreator = function (configuration?: Co
 };
 
 /**
- * StripeControllerApi - functional programming interface
+ * ScannerControllerApi - functional programming interface
  * @export
  */
-export const StripeControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = StripeControllerApiAxiosParamCreator(configuration)
+export const ScannerControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ScannerControllerApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {string} token 
-         * @param {number} amount 
+         * Takes a scanner registration object to create a scanner account.
+         * @param {ScannerRegistrationDTO} scannerRegistrationDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async chargeCard(token: string, amount: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Charge>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.chargeCard(token, amount, options);
+        async createScannerAccount(scannerRegistrationDTO: ScannerRegistrationDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createScannerAccount(scannerRegistrationDTO, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['StripeControllerApi.chargeCard']?.[index]?.url;
+            const operationBasePath = operationServerMap['ScannerControllerApi.createScannerAccount']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Deleted a bus.
+         * @param {number} busNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteScanner(busNumber: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteScanner(busNumber, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ScannerControllerApi.deleteScanner']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Gets all the scanner accounts found in the database that are not deleted.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllScanners(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<User>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllScanners(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ScannerControllerApi.getAllScanners']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Gets a scanner account from bus number.
+         * @param {number} busNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getScannerByBusNumber(busNumber: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getScannerByBusNumber(busNumber, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ScannerControllerApi.getScannerByBusNumber']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
 };
 
 /**
- * StripeControllerApi - factory interface
+ * ScannerControllerApi - factory interface
  * @export
  */
-export const StripeControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = StripeControllerApiFp(configuration)
+export const ScannerControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ScannerControllerApiFp(configuration)
     return {
         /**
-         * 
-         * @param {string} token 
-         * @param {number} amount 
+         * Takes a scanner registration object to create a scanner account.
+         * @param {ScannerRegistrationDTO} scannerRegistrationDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        chargeCard(token: string, amount: number, options?: any): AxiosPromise<Charge> {
-            return localVarFp.chargeCard(token, amount, options).then((request) => request(axios, basePath));
+        createScannerAccount(scannerRegistrationDTO: ScannerRegistrationDTO, options?: any): AxiosPromise<User> {
+            return localVarFp.createScannerAccount(scannerRegistrationDTO, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Deleted a bus.
+         * @param {number} busNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteScanner(busNumber: number, options?: any): AxiosPromise<boolean> {
+            return localVarFp.deleteScanner(busNumber, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Gets all the scanner accounts found in the database that are not deleted.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllScanners(options?: any): AxiosPromise<Array<User>> {
+            return localVarFp.getAllScanners(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Gets a scanner account from bus number.
+         * @param {number} busNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getScannerByBusNumber(busNumber: number, options?: any): AxiosPromise<User> {
+            return localVarFp.getScannerByBusNumber(busNumber, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * StripeControllerApi - object-oriented interface
+ * ScannerControllerApi - object-oriented interface
  * @export
- * @class StripeControllerApi
+ * @class ScannerControllerApi
  * @extends {BaseAPI}
  */
-export class StripeControllerApi extends BaseAPI {
+export class ScannerControllerApi extends BaseAPI {
     /**
-     * 
-     * @param {string} token 
-     * @param {number} amount 
+     * Takes a scanner registration object to create a scanner account.
+     * @param {ScannerRegistrationDTO} scannerRegistrationDTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StripeControllerApi
+     * @memberof ScannerControllerApi
      */
-    public chargeCard(token: string, amount: number, options?: RawAxiosRequestConfig) {
-        return StripeControllerApiFp(this.configuration).chargeCard(token, amount, options).then((request) => request(this.axios, this.basePath));
+    public createScannerAccount(scannerRegistrationDTO: ScannerRegistrationDTO, options?: RawAxiosRequestConfig) {
+        return ScannerControllerApiFp(this.configuration).createScannerAccount(scannerRegistrationDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Deleted a bus.
+     * @param {number} busNumber 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ScannerControllerApi
+     */
+    public deleteScanner(busNumber: number, options?: RawAxiosRequestConfig) {
+        return ScannerControllerApiFp(this.configuration).deleteScanner(busNumber, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Gets all the scanner accounts found in the database that are not deleted.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ScannerControllerApi
+     */
+    public getAllScanners(options?: RawAxiosRequestConfig) {
+        return ScannerControllerApiFp(this.configuration).getAllScanners(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Gets a scanner account from bus number.
+     * @param {number} busNumber 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ScannerControllerApi
+     */
+    public getScannerByBusNumber(busNumber: number, options?: RawAxiosRequestConfig) {
+        return ScannerControllerApiFp(this.configuration).getScannerByBusNumber(busNumber, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -13275,11 +9075,82 @@ export const UserSearchControllerApiAxiosParamCreator = function (configuration?
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchUserGet3: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users/search/getAllScanners`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [busNumber] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchUserGet4: async (busNumber?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users/search/getBusByBusNumber`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (busNumber !== undefined) {
+                localVarQueryParameter['busNumber'] = busNumber;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserGet3: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        executeSearchUserGet5: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/users/search/getUserById`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -13359,14 +9230,37 @@ export const UserSearchControllerApiFp = function(configuration?: Configuration)
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchUserGet3(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CollectionModelEntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet3(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserSearchControllerApi.executeSearchUserGet3']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} [busNumber] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchUserGet4(busNumber?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet4(busNumber, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserSearchControllerApi.executeSearchUserGet4']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @param {number} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async executeSearchUserGet3(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet3(id, options);
+        async executeSearchUserGet5(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchUserGet5(id, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['UserSearchControllerApi.executeSearchUserGet3']?.[index]?.url;
+            const operationBasePath = operationServerMap['UserSearchControllerApi.executeSearchUserGet5']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
@@ -13408,12 +9302,29 @@ export const UserSearchControllerApiFactory = function (configuration?: Configur
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchUserGet3(options?: any): AxiosPromise<CollectionModelEntityModelUser> {
+            return localVarFp.executeSearchUserGet3(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [busNumber] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchUserGet4(busNumber?: number, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.executeSearchUserGet4(busNumber, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {number} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        executeSearchUserGet3(id?: number, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.executeSearchUserGet3(id, options).then((request) => request(axios, basePath));
+        executeSearchUserGet5(id?: number, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.executeSearchUserGet5(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -13460,13 +9371,34 @@ export class UserSearchControllerApi extends BaseAPI {
 
     /**
      * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserSearchControllerApi
+     */
+    public executeSearchUserGet3(options?: RawAxiosRequestConfig) {
+        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet3(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [busNumber] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserSearchControllerApi
+     */
+    public executeSearchUserGet4(busNumber?: number, options?: RawAxiosRequestConfig) {
+        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet4(busNumber, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {number} [id] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserSearchControllerApi
      */
-    public executeSearchUserGet3(id?: number, options?: RawAxiosRequestConfig) {
-        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet3(id, options).then((request) => request(this.axios, this.basePath));
+    public executeSearchUserGet5(id?: number, options?: RawAxiosRequestConfig) {
+        return UserSearchControllerApiFp(this.configuration).executeSearchUserGet5(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

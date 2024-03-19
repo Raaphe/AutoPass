@@ -56,6 +56,21 @@ class UtilService {
     public msToDays(t: number) {
         return Math.ceil(t / (24 * 60 * 60 * 1000));
     }
+
+    /**
+     * Takes a scanner email and extracts the bus number.
+     * @param email The target scanner email.
+     * @returns The found bus number
+     */
+    public getBusNumberFromEmail(email: string) : number {
+
+        const match = email.match(/.*_(\d+)@/);
+
+        if (match) {
+            return parseInt(match[1]);
+        }
+        else return -1;
+    }
 }
 
 const utilService = new UtilService();

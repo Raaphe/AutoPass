@@ -23,7 +23,7 @@ const ProtectedRoutesGuests = () => {
     } else {
         return (
             <>
-                <Header isAuth={isAuth}/>
+                <Header isAdmin={false} isAuth={isAuth}/>
                 <Outlet/>
             </>
         )

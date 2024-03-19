@@ -3,7 +3,7 @@ import styles from "./Dashboard.module.scss";
 import { motion } from "framer-motion";
 import ClientAuthService from "../../ClientAuthService";
 import { useNavigate } from "react-router-dom";
-import * as Api from "../../Service";
+import { User, UserControllerApi } from "../../Service/api";
 import StripeModule from "../StripeModule/StripeModule";
 
 
@@ -12,13 +12,13 @@ interface DashboardProps {}
 
 const Dashboard: FC<DashboardProps> = () => {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState<Api.User>();
+  const [userData, setUserData] = useState<User>();
 
   useEffect(() => {
     // This is how we setup the access token inside the subsequent request's `Authorization Header` like so :
     // "Bearer <access_token>"
     const config = ClientAuthService.getApiConfig();
-    const userAPI = new Api.UserControllerApi(config);
+    const userAPI = new UserControllerApi(config);
 
     const fetchUserData = async () => {
       await userAPI

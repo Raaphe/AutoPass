@@ -12,6 +12,8 @@ import Dashboard from './components/Dashboard/Dashboard';
 import UserDetailsPage from './components/UserDetails/UserDetailsPage';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import WalletDetails from './components/WalletDetails/WalletDetails';
+import Scanners from './components/Scanners/Scanners';
+import ScannerDetails from './components/ScannerDetails/ScannerDetails';
 
 const App = () => {
 
@@ -38,7 +40,10 @@ const App = () => {
                         <Route path='/profile' element={<UserDetailsPage/>}/>
                         <Route path='/home' element={<Dashboard/>}/>
                         <Route path='/wallet' element={<WalletDetails/>}/>
-                        
+                        <Route path='/scanners' element={<Scanners/>}/>
+                        <Route path='/scanner/:id' element={<ScannerDetails/>}/>
+                        <Route path='/scanner' element={<ScannerDetails/>}/>
+
                     </Route>
                     <Route path='/*' element={<ErrorPage/>}/>   
                 </Routes>

@@ -10,8 +10,6 @@ const Footer: FC = () => {
   const controls = useAnimation();
   const navigate = useNavigate();
 
-  const isMobile = useMediaQuery('(max-width:600px)');
-
   useEffect(() => {
     let lastScrollTop = 0;
 
@@ -23,8 +21,12 @@ const Footer: FC = () => {
     }
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // This is so that when I render that page for the first time the footer will be hidden.
+  useEffect(() => {
+    setShowFooter(false);
+  },[])
 
   useEffect(() => {
     if (showFooter) {
@@ -36,7 +38,7 @@ const Footer: FC = () => {
 
   return (
     <motion.div
-      className={`${styles.Footer} mx-2`}
+      className={`${styles.Footer} mt-5`}
       initial={{ opacity: 1, y: 0 }}
       animate={controls}
       transition={{ duration: 0.05 }}

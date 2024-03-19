@@ -1,9 +1,6 @@
 import React, { ChangeEvent, FC, useState } from 'react';
-import { AuthenticationApi } from '../../Service';
+import { AuthenticationApi } from '../../Service/api';
 import { useNavigate } from 'react-router-dom';
-import CircularProgress from '@mui/material/CircularProgress';
-import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
 import Loading from './Loading';
 
 interface ForgotPassword {

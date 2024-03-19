@@ -187,7 +187,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                     </SplitCard>
 
 
-                    {userData.role !== "GOOGLE_USER" &&
+                    {(userData.role !== "GOOGLE_USER" || userData.googleAccessToken === null) &&
                         <SplitCard id="password-reset" title="Reset Password" description="Forgot your Password? Reset it.">
                             <div className="text-center">
                                 {!isEmailSent ? (

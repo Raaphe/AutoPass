@@ -9,18 +9,18 @@ import "./Header.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import ClientAuthService from "../../ClientAuthService";
 import { Avatar } from "@mui/material";
-import * as API from "../../Service";
-import LogoutIcon from '@mui/icons-material/Logout';
-import InfoIcon from '@mui/icons-material/Info';
-import LoginIcon from '@mui/icons-material/Login';
+import { UserControllerApi } from "../../Service/api";
+import LogoutIcon from "@mui/icons-material/Logout";
+import InfoIcon from "@mui/icons-material/Info";
+import LoginIcon from "@mui/icons-material/Login";
+import QrCodeScannerOutlinedIcon from "@mui/icons-material/QrCodeScannerOutlined";
 
 interface HeaderDesktopProps {
   isAuth: boolean;
+  isAdmin: boolean;
 }
 
-const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
-
-
+const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -30,23 +30,21 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
     const getUserImage = () => {
       if (!isAuth) return;
       const config = ClientAuthService.getApiConfig();
-      const userApi = new API.UserControllerApi(config);
-      userApi.getUserImage(ClientAuthService.getUserId())
-        .then(res => {
+      const userApi = new UserControllerApi(config);
+      userApi
+        .getUserImage(ClientAuthService.getUserId())
+        .then((res) => {
           if (res.status !== 200) return;
-          setAvatarUrl(res.data)
+          setAvatarUrl(res.data);
         })
-        .catch(_ => {
-        })
-    }
+        .catch((_) => {});
+    };
     getUserImage();
-  }, [navigate])
+  }, [navigate]);
 
   const handleTabChange = (event: any, newPath: any) => {
-    console.log(newPath);
 
     if (currentPath === "/profile") {
-
     }
 
     if (newPath === "/logout") {
@@ -56,7 +54,7 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
       return;
     }
     navigate(newPath);
-  }
+  };
 
   const handleLogoSelect = () => {
     if (isAuth) {
@@ -64,7 +62,7 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
     } else {
       navigate("/home");
     }
-  }
+  };
 
   const grey = {
     50: "#F3F6F9",
@@ -92,11 +90,11 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
   };
 
   const AvatarIcon = styled(Avatar)`
-    margin-right: 30px; 
-    margin-left: 16px; 
-    width: 45px; 
-    height: 45px; 
-    padding:px;
+    margin-right: 30px;
+    margin-left: 16px;
+    width: 45px;
+    height: 45px;
+    padding: px;
     &:hover {
       background-color: ${blue[400]};
     }
@@ -120,11 +118,11 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
   const LogOutIcon = styled(LogoutIcon)`
     cursor: pointer;
     background-color: transparent;
-    color:white;
+    color: white;
     border: none;
     border-radius: 7px;
-    width: 45px; 
-    height: 45px; 
+    width: 45px;
+    height: 45px;
     transform: scale(0.59);
     &:hover {
       background-color: ${blue[400]};
@@ -137,6 +135,34 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
 
     &.${tabClasses.selected} {
       background-color: #fff;
+      color: ${blue[600]};
+    }
+
+    &.${buttonClasses.disabled} {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  `;
+
+  const ScannerIcon = styled(QrCodeScannerOutlinedIcon)`
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    width: 45px;
+    height: 45px;
+    transform: scale(0.59);
+    &:hover {
+      background-color: ${blue[400]};
+    }
+
+    &:focus {
+      color: #fff;
+      outline: 3px solid ${blue[200]};
+    }
+
+    &.${tabClasses.selected} {
       color: ${blue[600]};
     }
 
@@ -192,21 +218,23 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
     background-color: ${blue[500]};
     border-radius: 12px;
     margin-bottom: 16px;
-    box-shadow: 0px 4px 8px ${theme.palette.mode === "dark" ? grey[900] : grey[200]};
+    box-shadow: 0px 4px 8px ${
+      theme.palette.mode === "dark" ? grey[900] : grey[200]
+    };
     `
   );
 
   // New styled component for the logo container
-  const LogoContainer = styled('div')`
+  const LogoContainer = styled("div")`
     flex-grow: 1;
     display: flex;
-    justify-content: flex-start; 
+    justify-content: flex-start;
   `;
 
-  const TabsContainer = styled('div')`
+  const TabsContainer = styled("div")`
     flex-grow: 1;
     display: flex;
-    justify-content: flex-end; 
+    justify-content: flex-end;
   `;
 
   return (
@@ -217,46 +245,71 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth }) => {
       aria-label="nav-tab"
       onChange={handleTabChange}
     >
-    <TabsList >
+      <TabsList>
         <LogoContainer>
           <img src={Logo} alt="Logo" id="logo" onClick={handleLogoSelect} />
         </LogoContainer>
 
-        <TabsContainer style={{display:"flex", justifyContent:"center"}}>
-          {isAuth ?
+        <TabsContainer style={{ display: "flex", justifyContent: "center" }}>
+          {isAuth ? (
+            <>
+              <Tab label="About" value="/about">
+                <div style={{marginTop:"11px"}}>
+                  About
+                  <InfoIcon className="mx-2" />
+                </div>
+              </Tab>
+              <Tab label="Wallet" value="/wallet">
+                <div style={{marginTop:"11px"}}>
+                  Wallet
+                </div>
+              </Tab>
+              {isAdmin && 
+                <Tab label="Scanners" value="/scanners" >
+                  <ScannerIcon/>
+                </Tab>
+              }
+            </>
+          ) : (
             <>
               <Tab label="About" value="/about">
                 About
-                <InfoIcon className="mx-2"/>
-
-              </Tab>
-              <Tab label="Wallet" value="/wallet">Wallet</Tab>
-            </>
-            :
-            <>
-              <Tab label="About" value="/about">
-                About
-                <InfoIcon className="mx-2"/>
+                <InfoIcon className="mx-2" />
               </Tab>
             </>
-          }
+          )}
         </TabsContainer>
 
         <TabsContainer>
-          {isAuth ?
+          {isAuth ? (
             <>
-              <LogOutIcon onClick={() => {ClientAuthService.logout(); navigate("/")}} className="mt-2"/>
-              <AvatarIcon className="mt-2" alt="You" onClick={() => {navigate("profile"); }} src={avatarUrl} />
+              <LogOutIcon
+                onClick={() => {
+                  ClientAuthService.logout();
+                  navigate("/");
+                }}
+                style={{ marginTop: "6px" }}
+              />
+              <AvatarIcon
+                style={{ marginTop: "4px" }}
+                alt="You"
+                onClick={() => {
+                  navigate("profile");
+                }}
+                src={avatarUrl}
+              />
             </>
-            :
+          ) : (
             <>
-              <Tab label="SignUp" value="/signup">Sign Up</Tab>
+              <Tab label="SignUp" value="/signup">
+                Sign Up
+              </Tab>
               <Tab label="Login" value="/login">
                 Login
-                <LoginIcon className="mx-2"/>
+                <LoginIcon className="mx-2" />
               </Tab>
             </>
-          }
+          )}
         </TabsContainer>
       </TabsList>
     </Tabs>

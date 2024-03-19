@@ -5,6 +5,7 @@ import Header from '../components/Header/Header';
 
 const ProtectedRoutesUser = () => {
     const [isAuth, setIsAuth] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -15,12 +16,19 @@ const ProtectedRoutesUser = () => {
             setIsAuth(auth);
         };
 
+        const checkAdminState = async () => {
+            var role = await ClientAuthService.getPrincipalAuthority();
+
+            setIsAdmin(role === "ADMIN");
+        }
+
+        checkAdminState();
         checkAuth();
     }, []);
 
     return isAuth ? 
         <>
-            <Header isAuth={isAuth}/>
+            <Header isAdmin={isAdmin} isAuth={isAuth}/>
             <Outlet/> 
         </>
         : 

@@ -8,17 +8,21 @@ import backend.autopass.payload.dto.SignInDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.viewmodels.AuthenticationResponse;
 import backend.autopass.service.interfaces.IAuthenticationService;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import java.time.Instant;
+import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -79,7 +83,7 @@ public class AuthenticationService implements IAuthenticationService {
 
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
 
-        if (user.getRole() == Role.GOOGLE_USER) {
+        if (user.getRole() == Role.GOOGLE_USER || user.getGoogleAccessToken() != null) {
             throw new IllegalArgumentException("Cannot authenticate here with a google linked account.");
         }
 
@@ -100,6 +104,21 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     @Override
+    public Role getRoleFromAccessToken(String accessToken) {
+
+        String email = jwtService.extractUserName(accessToken);
+        User user = userService.getUserByEmail(email);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+        if (user == null || !jwtService.isTokenValid(accessToken, userDetails)) {
+            return null;
+        }
+
+        return user.getRole();
+
+    }
+
+    @Override
     public Boolean forgotPassword(String email) {
 
         MimeMessage message = emailSender.createMimeMessage();
@@ -111,7 +130,7 @@ public class AuthenticationService implements IAuthenticationService {
                 return false;
             }
 
-            // Creating password reset link
+            // Creating a password reset link
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             String accessToken = jwtService.generateToken(userDetails);
             String url = "http://localhost:" + this.frontendPort + "/change-password?token=" + accessToken;

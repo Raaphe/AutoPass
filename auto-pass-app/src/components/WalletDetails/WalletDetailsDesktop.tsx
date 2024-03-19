@@ -3,8 +3,7 @@ import "./WalletDetails.module.scss";
 import { useNavigate } from "react-router-dom";
 import ClientAuthService from "../../ClientAuthService";
 import ClienUtil from "../../ClientUtil";
-import * as API from "../../Service";
-import { UserWallet } from "../../Service";
+import { UserWallet, WalletControllerApi } from "../../Service/api";
 import { Button, Card, Fab, Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
@@ -27,7 +26,7 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
   useEffect(() => {
     const getUserImage = () => {
       const config = ClientAuthService.getApiConfig();
-      const walletAPI = new API.WalletControllerApi(config);
+      const walletAPI = new WalletControllerApi(config);
 
       walletAPI.getUserWalletByUserId(ClientAuthService.getUserId())
         .then(res => {
@@ -114,13 +113,13 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
         </Card>
 
         {/* Tickets card */}
-        <Card className="col-6 m-2 " elevation={12} style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: 'column', width: "46%", height:"407px" }}>
+        <Card className="col-6 m-2 " elevation={12} style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: 'column', width: "46%", height:"407px",  }}>
           <Typography style={{ alignSelf: 'start' }} className="mt-2" gutterBottom variant="h5" component="div">
             Tickets
           </Typography>
           <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
 
-          <Card className="container-fluid m-5" elevation={12} style={{  borderRadius: '16px',backgroundColor: 'rgba(80, 200, 255, 0.5)', display: "flex", justifyContent: "center", alignItems: "center", flexDirection: 'column', width: "60%", height:"407px" }}>
+          <Card className="container-fluid m-3" elevation={12} style={{  borderRadius: '16px',backgroundColor: 'rgba(80, 200, 255, 0.5)', display: "flex", justifyContent: "center", alignItems: "center", flexDirection: 'column', width: "60%", height:"407px" }}>
             <Typography className="mt-3" gutterBottom variant="h6" component="div">
               you have 
             </Typography>
@@ -134,7 +133,7 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
 
           <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
           <Fab variant="extended" className="m-4" onClick={HandleSeeCatalog}>
-            <ConfirmationNumberIcon sx={{ mr: 1 }} />
+            <ConfirmationNumberIcon sx={{ mt:3,mb:3,ml:1, mr:1 }} />
             Add More
           </Fab>
 
