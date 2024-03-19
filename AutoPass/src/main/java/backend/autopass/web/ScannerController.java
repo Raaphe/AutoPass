@@ -99,7 +99,7 @@ public class ScannerController {
     @Operation(description = "Gets a scanner account from bus number.")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "Scanner successfully deleted.",
+                    responseCode = "200", description = "Scanner successfully fetched.",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = User.class))
