@@ -133,13 +133,14 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>6.1.4</version>
+            <version>6.1.5</version>
         </dependency>
         <dependency>
             <groupId>com.stripe</groupId>
             <artifactId>stripe-java</artifactId>
-            <version>5.21.0</version>
+            <version>24.20.0</version>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -196,7 +197,9 @@
                 <version>7.2.0</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
+                    <!-- First execution for auto-pass-app -->
                     <execution>
+                        <id>generate-typescript-axios-auto-pass-app</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>generate</goal>
@@ -206,10 +209,22 @@
                             <cleanupOutput>true</cleanupOutput>
                             <inputSpec>${project.basedir}/target/openapi.json</inputSpec>
                             <output>../auto-pass-app/src/Service</output>
+                        </configuration>
+                    </execution>
+                    <!-- Second execution for autopass-scanner -->
+                    <execution>
+                        <id>generate-typescript-axios-autopass-scanner</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generatorName>typescript-axios</generatorName>
+                            <cleanupOutput>true</cleanupOutput>
+                            <inputSpec>${project.basedir}/target/openapi.json</inputSpec>
                             <output>../autopass-scanner/src/Service</output>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
         </plugins>

@@ -1,5 +1,6 @@
 package backend.autopass.service.interfaces;
 
+import backend.autopass.model.enums.Role;
 import backend.autopass.payload.dto.SignInDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.viewmodels.AuthenticationResponse;
@@ -21,6 +22,13 @@ public interface IAuthenticationService {
      * @return an Authentication response with access and refresh tokens as well as token type and user email.
      */
     AuthenticationResponse authenticate(SignInDTO request);
+
+    /**
+     * Gets a user's role from their access token.
+     * @param accessToken The access token.
+     * @return The role.
+     */
+    Role getRoleFromAccessToken(String accessToken);
 
     /**
      * Sends the user an email that will allow them to change their password.

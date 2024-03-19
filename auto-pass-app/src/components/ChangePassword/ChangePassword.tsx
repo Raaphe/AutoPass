@@ -1,7 +1,6 @@
 import React, {FC, useState} from 'react';
-import * as Api from '../../Service'; 
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ChangePasswordDTO } from '../../Service';
+import { AuthenticationApi, ChangePasswordDTO } from '../../Service/api';
 
 interface ChangePasswordProps {
 }
@@ -17,7 +16,7 @@ const ChangePassword: FC<ChangePasswordProps> = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
-    const authApi = new Api.AuthenticationApi();
+    const authApi = new AuthenticationApi();
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {

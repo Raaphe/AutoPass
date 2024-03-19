@@ -17,11 +17,15 @@ public enum Role {
             Set.of(READ_PRIVILEGE, WRITE_PRIVILEGE, UPDATE_PRIVILEGE, DELETE_PRIVILEGE)
     ),
     USER(
-            Set.of(READ_PRIVILEGE, WRITE_PRIVILEGE)
+            Set.of(READ_PRIVILEGE, WRITE_PRIVILEGE, UPDATE_PRIVILEGE)
     ),
     GOOGLE_USER(
+            Set.of(READ_PRIVILEGE, WRITE_PRIVILEGE, UPDATE_PRIVILEGE)
+    ),
+    SCANNER_USER (
             Set.of(READ_PRIVILEGE, WRITE_PRIVILEGE)
     );
+
     private final Set<Privilege> privileges;
 
     public List<SimpleGrantedAuthority> getAuthorities() {

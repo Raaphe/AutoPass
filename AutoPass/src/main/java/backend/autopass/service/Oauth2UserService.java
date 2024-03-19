@@ -1,6 +1,5 @@
 package backend.autopass.service;
 
-import backend.autopass.model.entities.Membership;
 import backend.autopass.model.entities.Pass;
 import backend.autopass.model.entities.User;
 import backend.autopass.model.entities.UserWallet;
@@ -33,9 +32,9 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
 
 
         // MULTIPLE SCENARIOS
-        //  - 1 . User with gmail already exists, and has role USER -> turn into GOOGLE_USER
-        //  - 2 . User with gmail does NOT already exist -> Create GOOGLE_USER
-        //  - 3 . User with gmail already exists, and has role GOOGLE_USER -> Do nothing
+        //  - 1. User with gmail already exists, and has role USER -> turn into GOOGLE_USER
+        //  - 2. User with gmail does NOT already exist -> Create GOOGLE_USER
+        //  - 3. User with gmail already exists, and has role GOOGLE_USER -> Do nothing
         //  - NOTE: After all of these steps, we will always have to make user's new refresh token.
 
         if (Optional.ofNullable(user.getAttribute("email")).isPresent()) {
@@ -52,13 +51,21 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                     return null;
                 }
 
-                // 1 - Transition from normal user to google user account.
-                if (concreteUser.getRole() == Role.USER || concreteUser.getRole() == Role.ADMIN ) {
-                    concreteUser.setRole(Role.GOOGLE_USER);
+                // 1 - Transition from normal user to a Google user account.
+                // In the case where the account is ADMIN, we cannot overwrite the ADMIN role with
+                // the GOOGLE_USER role. Instead, I'm putting an access token inside the user when a Google account is linked.
+                // This is now the new condition for checking if an account is a Google account.
+                if (concreteUser.getGoogleAccessToken() == null && !concreteUser.getRole().equals(Role.SCANNER_USER)) {
+
+                    if (!concreteUser.getRole().equals(Role.ADMIN)) {
+                        concreteUser.setRole(Role.GOOGLE_USER);
+                    }
+
                     concreteUser.setGoogleAccessToken(concreteUser.getGoogleAccessToken());
 
                     if (!concreteUser.getIsProfileImageChanged()) {
                         concreteUser.setProfileImageUrl(user.getAttribute("picture"));
+                        concreteUser.setGoogleAccessToken(userRequest.getAccessToken().getTokenValue());
                     }
 
                     userRepository.save(concreteUser);
@@ -67,7 +74,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                     return user;
                 }
 
-                // 3 - Is google account that already exists in database.
+                // 3 - Is google account that already exists in a database.
 
                 // Assigns user refresh token
                 this.createGoogleUser();

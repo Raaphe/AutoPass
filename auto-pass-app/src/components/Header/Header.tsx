@@ -5,9 +5,10 @@ import HeaderDesktop from "./HeaderDesktop";
 
 interface HeaderProps {
   isAuth: boolean,
+  isAdmin: boolean
 }
 
-const Header: FC<HeaderProps> = ({isAuth}) => {
+const Header: FC<HeaderProps> = ({isAuth, isAdmin}) => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -23,9 +24,9 @@ const Header: FC<HeaderProps> = ({isAuth}) => {
   return (
 
     isMobile ? 
-      <HeaderMobile isAuth={isAuth}/>
+      <HeaderMobile isAdmin={isAdmin} isAuth={isAuth}/>
     :
-      <HeaderDesktop isAuth={isAuth}/>
+      <HeaderDesktop isAdmin={isAdmin} isAuth={isAuth}/>
 
   );
 

@@ -41,6 +41,7 @@ public class SecurityConfig {
             "/auth/forgot-password",
             "/auth/check-refresh-token",
             "/auth/update-password",
+            "/auth/get-user-role",
             "/dashboard",
             "/swagger-ui.html",
             "/v3/api-docs",
@@ -95,6 +96,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/google/user").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/payment/charge").authenticated()
                         .requestMatchers(HttpMethod.GET, "/wallet/wallet-info").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/admin/scanner/scanners").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/admin/scanner/delete-bus").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/admin/scanner/scanner-info").authenticated()
                         .requestMatchers("/h2-console/**").permitAll()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login

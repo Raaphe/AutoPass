@@ -22,7 +22,6 @@ import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 @PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER', 'GOOGLE_USER')")
 @RequiredArgsConstructor
 @Slf4j

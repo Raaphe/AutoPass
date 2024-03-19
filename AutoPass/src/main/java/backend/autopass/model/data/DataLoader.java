@@ -8,12 +8,13 @@ import backend.autopass.model.repositories.TicketRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.service.AuthenticationService;
+import backend.autopass.service.ScannerService;
 import backend.autopass.service.UserService;
+import backend.autopass.service.interfaces.ScannerRegistrationDTO;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class DataLoader {
     private final UserRepository userRepository;
     private final UserService userService;
     private final AuthenticationService authenticationService;
+    private final ScannerService scannerService;
 
     @PostConstruct
     public void loadData() {
@@ -40,7 +42,6 @@ public class DataLoader {
                     .role(Role.ADMIN)
                     .build());
         }
-
 
         if (!userService.userExists("aliteralpotato@gmail.com")) {
             authenticationService.register(SignUpDTO.builder()
@@ -62,69 +63,70 @@ public class DataLoader {
                     .build());
         }
 
+        scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(18).routeName("Beaubien").pwd("abc-123").build());
+        scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(444).routeName("Marie-Victorin").pwd("abc-123").build());
+        scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(189).routeName("Notre-Dame").pwd("abc-123").build());
 
-            Membership membership1 = Membership
-                    .builder()
-                    .price(11f)
-                    .membershipDurationDays(1)
-                    .build();
+        Membership membership1 = Membership
+                .builder()
+                .price(11f)
+                .membershipDurationDays(1)
+                .build();
 
-            Membership membership2 = Membership
-                    .builder()
-                    .price(21.25f)
-                    .membershipDurationDays(3)
-                    .build();
+        Membership membership2 = Membership
+                .builder()
+                .price(21.25f)
+                .membershipDurationDays(3)
+                .build();
 
-            Membership membership3 = Membership
-                    .builder()
-                    .price(30f)
-                    .membershipDurationDays(7)
-                    .build();
+        Membership membership3 = Membership
+                .builder()
+                .price(30f)
+                .membershipDurationDays(7)
+                .build();
 
-            Membership membership4 = Membership
-                    .builder()
-                    .price(97f)
-                    .membershipDurationDays(30)
-                    .build();
+        Membership membership4 = Membership
+                .builder()
+                .price(97f)
+                .membershipDurationDays(30)
+                .build();
 
-            Membership membership5 = Membership
-                    .builder()
-                    .price(226f)
-                    .membershipDurationDays(140)
-                    .build();
+        Membership membership5 = Membership
+                .builder()
+                .price(226f)
+                .membershipDurationDays(140)
+                .build();
           
-            if (membershipRepository.count() == 0) {
+        if (membershipRepository.count() == 0) {
+            membershipRepository.saveAll(new ArrayList<>(List.of(new Membership[]{membership1, membership2, membership3, membership4, membership5})));
+        }
 
-                membershipRepository.saveAll(new ArrayList<>(List.of(new Membership[]{membership1, membership2, membership3, membership4, membership5})));
+        if (ticketRepository.count() == 0) {
 
-            }
+            Ticket ticket1 = new Ticket();
+            ticket1.setTicketAmount(1);
+            ticket1.setPrice(3.75);
 
-            if (ticketRepository.count() == 0) {
+            Ticket ticket2 = new Ticket();
+            ticket2.setTicketAmount(2);
+            ticket2.setPrice(7f);
 
-                Ticket ticket1 = new Ticket();
-                ticket1.setTicketAmount(1);
-                ticket1.setPrice(3.75);
+            Ticket ticket3 = new Ticket();
+            ticket3.setTicketAmount(10);
+            ticket3.setPrice(32.50);
 
-                Ticket ticket2 = new Ticket();
-                ticket2.setTicketAmount(2);
-                ticket2.setPrice(7f);
+            ticketRepository.saveAll(new ArrayList<>(List.of(new Ticket[]{ticket1, ticket2, ticket3})));
 
-                Ticket ticket3 = new Ticket();
-                ticket3.setTicketAmount(10);
-                ticket3.setPrice(32.50);
+        }
 
-                ticketRepository.saveAll(new ArrayList<>(List.of(new Ticket[]{ticket1, ticket2, ticket3})));
+        if (!userRepository.existsByEmail("william@gmail.com")) {
 
-            }
-
-            if (!userRepository.existsByEmail("william@gmail.com")) {
-
-                userService.createUser(SignUpDTO.builder()
-                        .email("william@gmail.com")
-                        .firstname("will")
-                        .lastname("rex")
-                        .password("abc-123")
-                        .build());
-            }
+            userService.createUser(SignUpDTO.builder()
+                    .email("william@gmail.com")
+                    .firstname("will")
+                    .lastname("rex")
+                    .password("abc-123")
+                    .build());
         }
     }
+}

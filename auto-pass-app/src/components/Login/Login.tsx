@@ -1,10 +1,8 @@
 import React, { FC, useState } from "react";
 import "./Login.scss";
-import { AuthenticationResponse, SignInDTO } from "../../Service";
+import { AuthenticationResponse, SignInDTO } from "../../Service/api";
 import ClientAuthService from "../../ClientAuthService";
 import { useNavigate, useLocation } from "react-router-dom";
-import BackGroundImage from "../../assets/10NonTransparentHD.png";
-import Box from "@mui/material/Box/Box";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -47,8 +45,6 @@ const Login: FC<LoginProps> = () => {
     var isCredentialCorrect: boolean = await ClientAuthService.login(
       signInData
     );
-
-    console.log(isCredentialCorrect);
 
     if (!isCredentialCorrect) {
       setSignInData({ email: "", password: "" });

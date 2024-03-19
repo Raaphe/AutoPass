@@ -3,8 +3,7 @@ import "./WalletDetails.module.scss";
 import { useNavigate } from "react-router-dom";
 import ClientAuthService from "../../ClientAuthService";
 import ClienUtil from "../../ClientUtil";
-import * as API from "../../Service";
-import { UserWallet } from "../../Service";
+import { UserWallet, WalletControllerApi } from "../../Service/api";
 import { Button, Card, Fab, Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
@@ -26,7 +25,7 @@ const WalletDetailsMobile: FC<WalletDetailsMobileProps> = () => {
   useEffect(() => {
     const getUserImage = () => {
       const config = ClientAuthService.getApiConfig();
-      const walletAPI = new API.WalletControllerApi(config);
+      const walletAPI = new WalletControllerApi(config);
 
       walletAPI.getUserWalletByUserId(ClientAuthService.getUserId())
         .then(res => {

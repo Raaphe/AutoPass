@@ -1,11 +1,11 @@
-import { AuthenticationApi, IsLoggedInDTO, RefreshTokenDTO } from "./Service";
-import * as Api from "./Service";
+import { AuthenticationApi, AuthenticationResponse, IsLoggedInDTO, RefreshTokenDTO, SignUpDTO } from "./Service/api";
+import { Configuration, ConfigurationParameters } from "./Service/configuration";
 
 class AuthenticationService {
   authApi = new AuthenticationApi();
 
   public async login(
-    loginDTO: import("./Service").SignInDTO
+    loginDTO: import("./Service/api").SignInDTO
   ): Promise<boolean> {
     console.log("logging in in service");
 
@@ -24,7 +24,7 @@ class AuthenticationService {
     return statusCode === 200;
   }
 
-  public async signup(signUpData: Api.SignUpDTO): Promise<boolean> {
+  public async signup(signUpData: SignUpDTO): Promise<boolean> {
     let statusCode = 0;
     await this.authApi
       .register(signUpData)
@@ -55,7 +55,7 @@ class AuthenticationService {
   // When an access token is invalid, this method will handle refreshing it
   public async isUserLoggedIn(): Promise<boolean> {
     const config = this.getApiConfig();
-    const authenticatedAuthApi = new Api.AuthenticationApi(config);
+    const authenticatedAuthApi = new AuthenticationApi(config);
     const accessToken = this.getAccessTokenOrDefault();
 
     const refreshTokenDTO: RefreshTokenDTO = {
@@ -95,6 +95,23 @@ class AuthenticationService {
     }
   }
 
+  public async getPrincipalAuthority() : Promise<string> {
+    if (this.isUserLoggedOut()) {
+      return "";
+    }
+
+    const role = await this.authApi.getUserRole(this.getAccessTokenOrDefault())
+    .then(res => {
+      if (res.status !== 200) {
+        return ""
+      }
+      return res.data;
+    })
+
+    return role;
+  }
+
+  
 
   public isUserLoggedOut() {
     if (
@@ -119,21 +136,21 @@ class AuthenticationService {
   };
 
   public getApiConfig = () => {
-    const configParam: Api.ConfigurationParameters = {
+    const configParam: ConfigurationParameters = {
       accessToken: this.getAccessTokenOrDefault(),
     };
-    return new Api.Configuration(configParam);
+    return new Configuration(configParam);
   };
 
   public getApiConfigWithToken = (token: string) => {
-    const configParam: Api.ConfigurationParameters = {
+    const configParam: ConfigurationParameters = {
       accessToken: token,
     };
-    return new Api.Configuration(configParam);
+    return new Configuration(configParam);
   };
 
   public setAuthenticationResponseInMemory(
-    authResponse: Api.AuthenticationResponse
+    authResponse: AuthenticationResponse
   ) {
     sessionStorage.setItem("access-token", authResponse.access_token ?? "");
     localStorage.setItem("refresh-token", authResponse.refresh_token ?? "");

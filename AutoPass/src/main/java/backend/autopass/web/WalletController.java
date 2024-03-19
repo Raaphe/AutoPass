@@ -1,6 +1,5 @@
 package backend.autopass.web;
 
-import backend.autopass.model.entities.User;
 import backend.autopass.model.entities.UserWallet;
 import backend.autopass.service.UserWalletService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +15,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GOOGLE_USER')")
 @RequiredArgsConstructor
 @RequestMapping("/wallet")

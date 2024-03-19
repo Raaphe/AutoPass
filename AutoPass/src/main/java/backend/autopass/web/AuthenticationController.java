@@ -2,6 +2,7 @@ package backend.autopass.web;
 
 
 import backend.autopass.model.entities.User;
+import backend.autopass.model.enums.Role;
 import backend.autopass.payload.dto.*;
 import backend.autopass.payload.viewmodels.AuthenticationResponse;
 import backend.autopass.payload.viewmodels.RefreshTokenResponse;
@@ -33,7 +34,6 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "Authentication", description = "The Authentication API. Contains operations like login, logout, refresh-token etc.")
-@CrossOrigin("http://localhost:3000")
 @RequestMapping("/auth")
 @SecurityRequirements()
 @RequiredArgsConstructor
@@ -264,6 +264,29 @@ public class AuthenticationController {
             return ResponseEntity.ok().body(this.userService.changePassword(passwordDTO));
         } catch (Exception e) {
             return ResponseEntity.ok().body(false);
+        }
+    }
+
+    @Operation(summary = "Gets a user's role from access token.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Role Successfully fetched.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Role.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "User not found",
+                    content = @Content
+            )
+    })
+    @GetMapping("/get-user-role")
+    public ResponseEntity<Role> getUserRole(@RequestParam String accessToken) {
+        try {
+            return ResponseEntity.ok(authenticationService.getRoleFromAccessToken(accessToken));
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(null);
         }
     }
 }
