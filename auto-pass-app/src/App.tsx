@@ -14,6 +14,7 @@ import ErrorPage from './components/ErrorPage/ErrorPage';
 import WalletDetails from './components/WalletDetails/WalletDetails';
 import Scanners from './components/Scanners/Scanners';
 import ScannerDetails from './components/ScannerDetails/ScannerDetails';
+import Products from './components/Products/Products';
 
 const App = () => {
 
@@ -43,6 +44,7 @@ const App = () => {
                         <Route path='/scanners' element={<Scanners/>}/>
                         <Route path='/scanner/:id' element={<ScannerDetails/>}/>
                         <Route path='/scanner' element={<ScannerDetails/>}/>
+                        <Route path='/products' element={<Products/>}/>
 
                     </Route>
                     <Route path='/*' element={<ErrorPage/>}/>   
