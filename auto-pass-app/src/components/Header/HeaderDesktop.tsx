@@ -94,7 +94,7 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
     margin-left: 16px;
     width: 45px;
     height: 45px;
-    padding: px;
+    padding: 10px;
     &:hover {
       background-color: ${blue[400]};
     }
