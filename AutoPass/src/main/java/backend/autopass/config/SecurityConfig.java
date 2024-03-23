@@ -38,6 +38,7 @@ public class SecurityConfig {
             "/auth/refresh-token",
             "/auth/logout",
             "/auth/isLogged",
+            "/auth/app-ip",
             "/auth/forgot-password",
             "/auth/check-refresh-token",
             "/auth/update-password",

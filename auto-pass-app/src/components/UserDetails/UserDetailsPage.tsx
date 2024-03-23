@@ -2,13 +2,14 @@ import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import React, { FC, useEffect, useState } from 'react';
 import { RiUserSettingsLine, RiInformationLine, RiLogoutBoxLine } from 'react-icons/ri';
 import DeleteIcon from '@mui/icons-material/Delete';
+import WalletIcon from '@mui/icons-material/Wallet';
 import styles from './UserDetailsPage.module.scss';
 import ClientAuthService from '../../ClientAuthService';
 import { useNavigate } from 'react-router-dom';
 import SplitCard from './SplitCard';
 import AvatarModal from './AvatarModal';
 import { motion } from 'framer-motion';
-import * as API from "../../Service/api"
+import * as API from "../../Service";
 import TextField from '@mui/material/TextField/TextField';
 import { Fab } from '@mui/material';
 import { red } from '@mui/material/colors';
@@ -22,7 +23,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const [userData, setUserData] = useState<API.User>();
     const [isEmailSent, setIsEmailSent] = useState(false);
 
-    // This is how we setup the access token inside the subsequent request's `Authorization Header` like so :
+    // This is how we set up the access token inside the subsequent request's `Authorization Header` like so :
     // "Bearer <access_token>"
     const config = ClientAuthService.getApiConfig();
     const userAPI = new API.UserControllerApi(config);
@@ -182,6 +183,19 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                                 </Fab>
                             ) : (
                                 <p>Google account linked successfully!</p>
+                            )}
+                        </div>
+                    </SplitCard>
+
+                    <SplitCard id="google-link" title="Link Google Account" description="Link your Google account to enable additional features">
+                        <div className="text-center">
+                            {!googleLinked ? (
+                                <p>Link Google account to add an AutoPass to your Google wallet <WalletIcon/> </p>
+                            ) : (
+                                <Fab variant="extended" color='primary' onClick={() => {
+                                }}>
+                                    Add AutoPass to Google Wallet  <WalletIcon className="m-1"/>
+                                </Fab>
                             )}
                         </div>
                     </SplitCard>

@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { Box, Button, Card, Divider, IconButton, Modal, Stack, TextField, Typography } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ScannerControllerApi, User, ScannerRegistrationDTO } from "../../Service/api";
+import { ScannerControllerApi, User, ScannerRegistrationDTO } from "../../Service";
 import ClientAuthService from "../../ClientAuthService";
 import "./ScannerDetails.module.scss";
 import DeleteIcon from '@mui/icons-material/Delete';

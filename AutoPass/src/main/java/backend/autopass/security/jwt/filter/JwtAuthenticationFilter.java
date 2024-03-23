@@ -57,10 +57,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwt = jwtService.getJwtFromCookies(request);
         }
 
-        if (requestPath.equals("/user/get-user-pfp")) {
-            System.out.println("rere");
-        }
-
         System.out.println("Current request path in filter :" + requestPath);
 
         // List the paths that should not require authentication

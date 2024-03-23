@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AuthenticationApi, ChangePasswordDTO } from '../../Service/api';
+import { AuthenticationApi, ChangePasswordDTO } from '../../Service';
 
 interface ChangePasswordProps {
 }

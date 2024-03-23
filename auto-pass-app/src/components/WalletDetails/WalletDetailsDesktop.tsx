@@ -3,14 +3,15 @@ import "./WalletDetails.module.scss";
 import { useNavigate } from "react-router-dom";
 import ClientAuthService from "../../ClientAuthService";
 import ClienUtil from "../../ClientUtil";
-import { UserWallet, WalletControllerApi } from "../../Service/api";
+import { UserWallet, WalletControllerApi } from "../../Service";
 import { Button, Card, Fab, Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import utilService from "../../ClientUtil";
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber"
-import Grid from "@mui/material/Grid";
+import MembershipStatusGraph from "../Views/MembershipStatusGraph";
+import ClientUtil from "../../ClientUtil";
 
 interface WalletDetailsDesktopProps {
 }
@@ -22,31 +23,9 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
   const [walletInfo, setWalletInfo] = useState<UserWallet>({});
   const [daysUntilExpiry, setDaysUntilExpiry] = useState(0);
 
-
   useEffect(() => {
-    const getUserImage = () => {
-      const config = ClientAuthService.getApiConfig();
-      const walletAPI = new WalletControllerApi(config);
-
-      walletAPI.getUserWalletByUserId(ClientAuthService.getUserId())
-        .then(res => {
-          if (res.status !== 200) return;
-          setWalletInfo(res.data);
-          console.log(walletInfo);
-
-          setDaysUntilExpiry(walletInfo.membershipActive ?
-            utilService.msToDays(walletInfo.memberShipEnds ?? 0) - utilService.msToDays(ClienUtil.getUTCNow().getTime())
-            :
-            0
-          );
-        })
-        .catch(_ => {
-        })
-    }
-    getUserImage();
+    ClientUtil.getUserWalletInfo(setDaysUntilExpiry, setWalletInfo, walletInfo);
   }, [navigate])
-
-
 
   function HandleSeeCatalog(): void {
     alert("not yet implemented")
@@ -57,7 +36,7 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
     <Card className="container"  elevation={12} variant="outlined">
       <button type="submit" className="btn btn-outline-primary mt-3" onClick={() => navigate(-1)}>
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-arrow-left m-1" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+          <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
         </svg>
       </button>
       <h2 className="display-3 m-2">Your wallet</h2>
@@ -71,26 +50,7 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
           <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
 
           <div style={{ width: "30vh", height: "30vh" }}>
-            <CircularProgressbarWithChildren
-              minValue={0}
-              className="m-3"
-              value={daysUntilExpiry}
-              maxValue={walletInfo.membershipType?.membershipDurationDays ?? 1}
-              styles={buildStyles({
-                pathColor: "#027FFF",
-                trailColor: "#D6D6D6"
-              })}
-            >
-              <div style={{ fontSize: "125%" }}>
-                <strong>
-                  {walletInfo.membershipActive ? `${daysUntilExpiry} days Remaining` :
-                    <Button>See Options</Button>
-                  }
-
-                </strong>
-              </div>
-
-            </CircularProgressbarWithChildren>
+            <MembershipStatusGraph daysUntilExpiry={daysUntilExpiry} walletInfo={walletInfo}/>
           </div>
 
           <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />

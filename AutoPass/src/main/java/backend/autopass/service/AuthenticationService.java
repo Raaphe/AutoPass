@@ -40,6 +40,9 @@ public class AuthenticationService implements IAuthenticationService {
     @Value("${frontend.server.port}")
     private String frontendPort;
 
+    @Value("${application.ip}")
+    private String localIp;
+
     @Override
     public AuthenticationResponse register(SignUpDTO request) {
 
@@ -115,7 +118,6 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         return user.getRole();
-
     }
 
     @Override
@@ -146,5 +148,10 @@ public class AuthenticationService implements IAuthenticationService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public String getAppIp() {
+        return this.localIp;
     }
 }
