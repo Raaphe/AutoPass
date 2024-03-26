@@ -2,13 +2,14 @@ package backend.autopass.web;
 
 import backend.autopass.model.entities.User;
 import backend.autopass.service.ScannerService;
-import backend.autopass.service.interfaces.ScannerRegistrationDTO;
+import backend.autopass.payload.dto.ScannerRegistrationDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,7 @@ public class ScannerController {
     private final ScannerService scannerService;
 
     @GetMapping("/scanners")
+    @SecurityRequirement(name = "Bearer Authentication")
     @Operation(description = "Gets all the scanner accounts found in the database that are not deleted.")
     @ApiResponses(value = {
             @ApiResponse(
@@ -50,6 +52,7 @@ public class ScannerController {
     }
 
     @PostMapping("/create-scanner")
+    @SecurityRequirement(name = "Bearer Authentication")
     @Operation(description = "Takes a scanner registration object to create a scanner account.")
     @ApiResponses(value = {
             @ApiResponse(
@@ -73,6 +76,7 @@ public class ScannerController {
     }
 
     @PostMapping("/delete-bus")
+    @SecurityRequirement(name = "Bearer Authentication")
     @Operation(description = "Deleted a bus.")
     @ApiResponses(value = {
             @ApiResponse(
@@ -96,6 +100,7 @@ public class ScannerController {
     }
 
     @GetMapping("/scanner-info")
+    @SecurityRequirement(name = "Bearer Authentication")
     @Operation(description = "Gets a scanner account from bus number.")
     @ApiResponses(value = {
             @ApiResponse(

@@ -10,7 +10,7 @@ import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.service.AuthenticationService;
 import backend.autopass.service.ScannerService;
 import backend.autopass.service.UserService;
-import backend.autopass.service.interfaces.ScannerRegistrationDTO;
+import backend.autopass.payload.dto.ScannerRegistrationDTO;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,5 +1,8 @@
 package backend.autopass.service;
 
+import backend.autopass.model.entities.Pass;
+import backend.autopass.model.entities.User;
+import backend.autopass.model.repositories.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.google.api.client.googleapis.batch.BatchRequest;
@@ -16,8 +19,12 @@ import com.google.api.services.walletobjects.model.*;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,7 +34,11 @@ import java.util.*;
 /**
  * @author Raphael Paquin
  * @version 01
- * Google Wallet Service. Much of this code comes from the sample google wallet repository from Google on <a href="https://github.com/google-wallet/rest-samples">Github</a>.
+ * Google Wallet Service.
+ * Much of this code comes from the sample Google wallet repository from Google on <a href="https://github.com/google-wallet/rest-samples">Github</a>.
+ * Also, important to know that much of this code will not be used as we already have a class created.
+ * In this instance, we will use our generic class `<IssuerID>.1`.
+ * Instead of Class suffix we will have 1 as previously mentioned, and as for object suffix we will use user's pass ID.
  * 2024-03-23
  * AutoPass
  */
@@ -36,7 +47,7 @@ import java.util.*;
 public class GoogleWalletService {
 
     /**
-     * Path to service account key file from Google Cloud Console. Environment variable:
+     * Path to a service account key file from Google Cloud Console. Environment variable:
      * GOOGLE_APPLICATION_CREDENTIALS.
      */
     public static String keyFilePath;
@@ -47,12 +58,28 @@ public class GoogleWalletService {
     /** Google Wallet service client. */
     public static Walletobjects service;
 
+    /**
+     * Google cloud project's issuer ID.
+     */
     @Value("${google.IssuerId}")
     public String issuerId;
 
-    public GoogleWalletService() throws Exception {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public GoogleWalletService(ResourceLoader loader) throws Exception {
+
+        // Gets file resource to then get its file path.
+        // The project will always be in different directories for different developers, this just gets the full path of
+        // the service account key always as an added measure
+        // -if the readme instructions were not properly followed.
+        Resource resource = loader.getResource("classpath:autopass-414515-f21ce763f523.json");
         keyFilePath =
-                System.getenv().getOrDefault("GOOGLE_APPLICATION_CREDENTIALS", "/Users/raphe/Desktop/AutoPass/AutoPass/src/main/resources/autopass-414515-f21ce763f523.json");
+                System.getenv().getOrDefault("GOOGLE_APPLICATION_CREDENTIALS", resource.getFile().getAbsolutePath());
 
         auth();
     }
@@ -60,7 +87,7 @@ public class GoogleWalletService {
 
     // [START auth]
     /**
-     * Create authenticated HTTP client using a service account file.
+     * Create an authenticated HTTP client using a service account file.
      *
      */
     public void auth() throws Exception {
@@ -104,9 +131,18 @@ public class GoogleWalletService {
             }
         }
 
-        // See link below for more information on required properties
+        // See the link below for more information on required properties
         // https://developers.google.com/wallet/generic/rest/v1/genericclass
-        GenericClass newClass = new GenericClass().setId(String.format("%s.%s", issuerId, classSuffix));
+
+        ArrayList<Long> issuers = new ArrayList<>();
+        issuers.add(Long.valueOf(issuerId));
+        GenericClass newClass = new GenericClass()
+                .setId(String.format("%s.%s", issuerId, classSuffix))
+                .setEnableSmartTap(true)
+                .setSecurityAnimation(new SecurityAnimation().setAnimationType("FOIL_SHIMMER"))
+                .setRedemptionIssuers(issuers)
+                .setImageModulesData(List.of(new ImageModuleData().setMainImage(new Image().setSourceUri(new ImageUri().setUri("https://photosforraph.s3.us-east-2.amazonaws.com/Passbanner.png")))))
+                .setMultipleDevicesAndHoldersAllowedStatus("ONE_USER_ONE_DEVICE");
 
         GenericClass response = service.genericclass().insert(newClass).execute();
 
@@ -117,121 +153,10 @@ public class GoogleWalletService {
     }
     // [END createClass]
 
-    // [START updateClass]
-    /**
-     * Update a class.
-     *
-     * <p><strong>Warning:</strong> This replaces all existing class attributes!
-     *
-     * @param classSuffix Developer-defined unique ID for this pass class.
-     * @return The pass class ID: "{issuerId}.{classSuffix}"
-     */
-    public String updateClass(String classSuffix) throws IOException {
-        GenericClass updatedClass;
-
-        // Check if the class exists
-        try {
-            updatedClass =
-                    service.genericclass().get(String.format("%s.%s", issuerId, classSuffix)).execute();
-        } catch (GoogleJsonResponseException ex) {
-            if (ex.getStatusCode() == 404) {
-                // Class does not exist
-                System.out.printf("Class %s.%s not found!%n", issuerId, classSuffix);
-            } else {
-                // Something else went wrong...
-                log.error(ex.getMessage());
-            }
-            return String.format("%s.%s", issuerId, classSuffix);
-        }
-
-        // Class exists
-        // Update the class by adding a link
-        Uri newLink =
-                new Uri()
-                        .setUri("https://developers.google.com/wallet")
-                        .setDescription("New link description");
-
-        if (updatedClass.getLinksModuleData() == null) {
-            // LinksModuleData was not set on the original object
-            updatedClass.setLinksModuleData(new LinksModuleData().setUris(new ArrayList<>()));
-        }
-        updatedClass.getLinksModuleData().getUris().add(newLink);
-
-        GenericClass response =
-                service
-                        .genericclass()
-                        .update(String.format("%s.%s", issuerId, classSuffix), updatedClass)
-                        .execute();
-
-        System.out.println("Class update response");
-        System.out.println(response.toPrettyString());
-
-        return response.getId();
-    }
-    // [END updateClass]
-
-    // [START patchClass]
-    /**
-     * Patch a class.
-     *
-     * <p>The PATCH method supports patch semantics.
-     *
-     * @param classSuffix Developer-defined unique ID for this pass class.
-     * @return The pass class ID: "{issuerId}.{classSuffix}"
-     */
-    public String patchClass(String classSuffix) throws IOException {
-        GenericClass existingClass;
-
-        // Check if the class exists
-        try {
-            existingClass =
-                    service.genericclass().get(String.format("%s.%s", issuerId, classSuffix)).execute();
-        } catch (GoogleJsonResponseException ex) {
-            if (ex.getStatusCode() == 404) {
-                // Class does not exist
-                System.out.printf("Class %s.%s not found!%n", issuerId, classSuffix);
-            } else {
-                // Something else went wrong...
-                log.error(ex.getMessage());
-            }
-            return String.format("%s.%s", issuerId, classSuffix);
-        }
-
-        // Class exists
-        // Patch the class by adding a homepage
-        GenericClass patchBody = new GenericClass();
-
-        // Class exists
-        // Update the class by adding a link
-        Uri newLink =
-                new Uri()
-                        .setUri("https://developers.google.com/wallet")
-                        .setDescription("New link description");
-
-        if (existingClass.getLinksModuleData() == null) {
-            // LinksModuleData was not set on the original object
-            patchBody.setLinksModuleData(new LinksModuleData().setUris(new ArrayList<>()));
-        } else {
-            patchBody.setLinksModuleData(existingClass.getLinksModuleData());
-        }
-        patchBody.getLinksModuleData().getUris().add(newLink);
-
-        GenericClass response =
-                service
-                        .genericclass()
-                        .patch(String.format("%s.%s", issuerId, classSuffix), patchBody)
-                        .execute();
-
-        System.out.println("Class patch response");
-        System.out.println(response.toPrettyString());
-
-        return response.getId();
-    }
-    // [END patchClass]
-
     // [START createObject]
     /**
      * Create an object.
+     * TODO: Not customized for our use-case
      *
      * @param classSuffix Developer-defined unique ID for this pass class.
      * @param objectSuffix Developer-defined unique ID for this pass object.
@@ -314,8 +239,8 @@ public class GoogleWalletService {
                         .setHeader(
                                 new LocalizedString()
                                         .setDefaultValue(
-                                                new TranslatedString().setLanguage("en-US").setValue("Generic header")))
-                        .setHexBackgroundColor("#4285f4")
+                                                new TranslatedString().setLanguage("en-US").setValue("Your AutoPass")))
+                        .setHexBackgroundColor("#333")
                         .setLogo(
                                 new Image()
                                         .setSourceUri(
@@ -450,6 +375,7 @@ public class GoogleWalletService {
     // [START expireObject]
     /**
      * Expire an object.
+     * TODO: Not customized for our use-case
      *
      * <p>Sets the object's state to Expire. If the valid time interval is already set, the pass will
      * expire automatically up to 24 hours after.
@@ -491,25 +417,36 @@ public class GoogleWalletService {
     // [START jwtNew]
     /**
      * Generate a signed JWT that creates a new pass class and object.
+     * TODO: Not customized for our use-case
      *
      * <p>When the user opens the "Add to Google Wallet" URL and saves the pass to their wallet, the
      * pass class and object defined in the JWT are created. This allows you to create multiple pass
      * classes and objects in one API call when the user saves the pass to their wallet.
      *
-     * @param classSuffix Developer-defined unique ID for this pass class.
-     * @param objectSuffix Developer-defined unique ID for the pass object.
      * @return An "Add to Google Wallet" link.
      */
-    public String createJWTNewObjects(String classSuffix, String objectSuffix) {
-        // See link below for more information on required properties
+    public String createJWTNewObjects(int userId) {
+
+        // The Google cloud project's main class' suffix
+        // https://pay.google.com/business/console/passes/BCR2DN4T7W7OBOCT/issuer/3388000000022325174/generic/edit/3388000000022325174.1
+        int classSuffix = 1;
+
+        // See the link below for more information on required properties
         // https://developers.google.com/wallet/generic/rest/v1/genericclass
         GenericClass newClass = new GenericClass().setId(String.format("%s.%s", issuerId, classSuffix));
 
-        // See link below for more information on required properties
+        // See the link below for more information on required properties
         // https://developers.google.com/wallet/generic/rest/v1/genericobject
+
+        User user = userService.getUserById((long) userId);
+        Pass pass = user.getPass();
+        assert pass != null;
+
+
+
         GenericObject newObject =
                 new GenericObject()
-                        .setId(String.format("%s.%s", issuerId, objectSuffix))
+                        .setId(String.format("%s.%s", issuerId, pass.getId()))
                         .setClassId(String.format("%s.%s", issuerId, classSuffix))
                         .setState("ACTIVE")
                         .setHeroImage(
@@ -523,25 +460,31 @@ public class GoogleWalletService {
                                                         .setDefaultValue(
                                                                 new TranslatedString()
                                                                         .setLanguage("en-US")
-                                                                        .setValue("Hero image description"))))
+                                                                        .setValue("AutoPass"))))
                         .setTextModulesData(
                                 List.of(
                                         new TextModuleData()
-                                                .setHeader("Text module header")
-                                                .setBody("Text module body")
-                                                .setId("TEXT_MODULE_ID")))
+                                                .setHeader("Your Auto-Pass")
+                                                .setBody(user.getFirstName() + ", " + user.getLastName())
+                                                .setId("1"),
+                                        new TextModuleData()
+                                                .setHeader("Ticket Amount")
+                                                .setBody("Count: " + user.getWallet().getTicketAmount())
+                                                .setId("2"),
+                                        new TextModuleData()
+                                                .setHeader("Ticket Amount")
+                                                .setBody("Count: " + user.getWallet().getTicketAmount())
+                                                .setId("3")
+                                ))
                         .setLinksModuleData(
                                 new LinksModuleData()
                                         .setUris(
-                                                Arrays.asList(
+                                                List.of(
                                                         new Uri()
-                                                                .setUri("http://maps.google.com/")
-                                                                .setDescription("Link module URI description")
-                                                                .setId("LINK_MODULE_URI_ID"),
-                                                        new Uri()
-                                                                .setUri("tel:6505555555")
-                                                                .setDescription("Link module tel description")
-                                                                .setId("LINK_MODULE_TEL_ID"))))
+                                                                .setUri("http://localhost:3000/about")
+                                                                .setDescription("AutoPass information")
+                                                                .setId("1")
+                                                )))
                         .setImageModulesData(
                                 List.of(
                                         new ImageModuleData()
@@ -550,36 +493,36 @@ public class GoogleWalletService {
                                                                 .setSourceUri(
                                                                         new ImageUri()
                                                                                 .setUri(
-                                                                                        "http://farm4.staticflickr.com/3738/12440799783_3dc3c20606_b.jpg"))
+                                                                                        "https://photosforraph.s3.us-east-2.amazonaws.com/Passbanner.png"))
                                                                 .setContentDescription(
                                                                         new LocalizedString()
                                                                                 .setDefaultValue(
                                                                                         new TranslatedString()
                                                                                                 .setLanguage("en-US")
-                                                                                                .setValue("Image module description"))))
-                                                .setId("IMAGE_MODULE_ID")))
-                        .setBarcode(new Barcode().setType("QR_CODE").setValue("QR code value"))
+                                                                                                .setValue("Pass Banner"))))
+                                                .setId("1")))
+                        .setBarcode(new Barcode().setType("QR_CODE").setValue(user.getGoogleAccessToken()))
                         .setCardTitle(
                                 new LocalizedString()
                                         .setDefaultValue(
-                                                new TranslatedString().setLanguage("en-US").setValue("Generic card title")))
+                                                new TranslatedString().setLanguage("en-US").setValue("AUTO_PASS")))
                         .setHeader(
                                 new LocalizedString()
                                         .setDefaultValue(
-                                                new TranslatedString().setLanguage("en-US").setValue("Generic header")))
-                        .setHexBackgroundColor("#4285f4")
+                                                new TranslatedString().setLanguage("en-US").setValue("Virtual Transit Pass")))
+                        .setHexBackgroundColor("#333")
                         .setLogo(
                                 new Image()
                                         .setSourceUri(
                                                 new ImageUri()
                                                         .setUri(
-                                                                "https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/pass_google_logo.jpg"))
+                                                                "https://photosforraph.s3.us-east-2.amazonaws.com/7.png"))
                                         .setContentDescription(
                                                 new LocalizedString()
                                                         .setDefaultValue(
                                                                 new TranslatedString()
                                                                         .setLanguage("en-US")
-                                                                        .setValue("Generic card logo"))));
+                                                                        .setValue("AutoPass Logo"))));
 
         // Create the JWT as a HashMap object
         HashMap<String, Object> claims = new HashMap<>();
@@ -610,6 +553,7 @@ public class GoogleWalletService {
     // [START jwtExisting]
     /**
      * Generate a signed JWT that references an existing pass object.
+     * TODO: Not customized for our use-case
      *
      * <p>When the user opens the "Add to Google Wallet" URL and saves the pass to their wallet, the
      * pass objects defined in the JWT are added to the user's Google Wallet app. This allows the user
@@ -621,7 +565,7 @@ public class GoogleWalletService {
      *
      * @return An "Add to Google Wallet" link.
      */
-    public String createJWTExistingObjects() {
+    public String createJWTExistingObjects(int userId) {
         // Multiple pass types can be added at the same time
         // At least one type must be specified in the JWT claims
         // Note: Make sure to replace the placeholder class and object suffixes
@@ -707,6 +651,7 @@ public class GoogleWalletService {
     // [START batch]
     /**
      * Batch create Google Wallet objects from an existing class.
+     * TODO: Not customized for our use-case
      *
      * @param issuerId The issuer ID being used for this request.
      * @param classSuffix Developer-defined unique ID for this pass class.
@@ -818,5 +763,34 @@ public class GoogleWalletService {
 
         // Invoke the batch API calls
         batch.execute();
+    }
+
+    public boolean doesPassExist(int userId) throws Exception {
+
+        User user = userService.getUserById((long) userId);
+        Pass pass = user.getPass();
+
+        // Check if the object exists
+        try {
+            service.genericobject().get(String.format("%s.%s", issuerId, pass.getId())).execute();
+        } catch (GoogleJsonResponseException ex) {
+            service.genericobject().get(String.format("%s.%s", issuerId, pass.getId())).execute();
+            if (ex.getStatusCode() == 404) {
+                // Object does not exist
+                user.setIsGoogleWalletPassAdded(false);
+                userRepository.save(user);
+                return false;
+            } else {
+                // Something else went wrong...
+                log.error(ex.getMessage());
+                throw new Exception("Something went wrong GoogleWalletService::doesPassExist()");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        user.setIsGoogleWalletPassAdded(true);
+        userRepository.save(user);
+        return true;
     }
 }

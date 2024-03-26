@@ -41,6 +41,7 @@ public class User implements UserDetails, Serializable {
     private String googleAccessToken;
     private String profileImageUrl;
     private Boolean isProfileImageChanged;
+    private Boolean isGoogleWalletPassAdded = false;
 
 
 

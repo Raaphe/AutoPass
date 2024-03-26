@@ -1,7 +1,7 @@
 package backend.autopass.service.interfaces;
 
 import backend.autopass.model.entities.User;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
+import backend.autopass.payload.dto.ScannerRegistrationDTO;
 
 import java.util.Collection;
 

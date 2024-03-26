@@ -241,13 +241,13 @@ export interface EntityModelPaymentType {
      * @type {string}
      * @memberof EntityModelPaymentType
      */
-    'pan'?: string;
+    'cvv'?: string;
     /**
      * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
-    'cvv'?: string;
+    'pan'?: string;
     /**
      * 
      * @type {boolean}
@@ -382,7 +382,31 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
+    'isGoogleWalletPassAdded'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
     'enabled'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof EntityModelUser
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -400,25 +424,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonLocked'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof EntityModelUser
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
     'deleted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelUser
-     */
-    'username'?: string;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -1152,13 +1158,13 @@ export interface PaymentTypeRequestBody {
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
-    'pan'?: string;
+    'cvv'?: string;
     /**
      * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
-    'cvv'?: string;
+    'pan'?: string;
     /**
      * 
      * @type {boolean}
@@ -1472,7 +1478,31 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
+    'isGoogleWalletPassAdded'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
     'enabled'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof User
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1490,25 +1520,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonLocked'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof User
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
     'deleted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'username'?: string;
 }
 
 export const UserRoleEnum = {
@@ -1597,7 +1609,31 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
+    'isGoogleWalletPassAdded'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
     'enabled'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof UserRequestBody
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1615,25 +1651,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonLocked'?: boolean;
-    /**
-     * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof UserRequestBody
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
     'deleted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserRequestBody
-     */
-    'username'?: string;
 }
 
 export const UserRequestBodyRoleEnum = {
