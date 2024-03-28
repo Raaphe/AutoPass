@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { Box, Button, Card, Divider, IconButton, Modal, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ScannerControllerApi, User } from "../../Service/api";
+import { ScannerControllerApi, User } from "../../Service";
 import ClientAuthService from "../../ClientAuthService";
 import ClientUtil from "../../ClientUtil";
 import "./ScannerDetails.module.scss";

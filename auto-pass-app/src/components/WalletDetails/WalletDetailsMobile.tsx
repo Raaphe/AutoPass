@@ -3,13 +3,14 @@ import "./WalletDetails.module.scss";
 import { useNavigate } from "react-router-dom";
 import ClientAuthService from "../../ClientAuthService";
 import ClienUtil from "../../ClientUtil";
-import { UserWallet, WalletControllerApi } from "../../Service/api";
+import { UserWallet, WalletControllerApi } from "../../Service";
 import { Button, Card, Fab, Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import utilService from "../../ClientUtil";
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber"
+import ClientUtil from "../../ClientUtil";
 
 interface WalletDetailsMobileProps {
 }
@@ -21,31 +22,9 @@ const WalletDetailsMobile: FC<WalletDetailsMobileProps> = () => {
   const [walletInfo, setWalletInfo] = useState<UserWallet>({});
   const [daysUntilExpiry, setDaysUntilExpiry] = useState(0);
 
-
   useEffect(() => {
-    const getUserImage = () => {
-      const config = ClientAuthService.getApiConfig();
-      const walletAPI = new WalletControllerApi(config);
-
-      walletAPI.getUserWalletByUserId(ClientAuthService.getUserId())
-        .then(res => {
-          if (res.status !== 200) return;
-          setWalletInfo(res.data);
-          console.log(walletInfo);
-
-          setDaysUntilExpiry(walletInfo.membershipActive ?
-            utilService.msToDays(walletInfo.memberShipEnds ?? 0) - utilService.msToDays(ClienUtil.getUTCNow().getTime())
-            :
-            0
-          );
-        })
-        .catch(_ => {
-        })
-    }
-    getUserImage();
+    ClientUtil.getUserWalletInfo(setDaysUntilExpiry, setWalletInfo, walletInfo);
   }, [navigate])
-
-
 
   function HandleSeeCatalog(): void {
     alert("not yet implemented")

@@ -3,8 +3,11 @@ import styles from "./Dashboard.module.scss";
 import { motion } from "framer-motion";
 import ClientAuthService from "../../ClientAuthService";
 import { useNavigate } from "react-router-dom";
-import { User, UserControllerApi } from "../../Service/api";
+import {User, UserControllerApi, UserWallet} from "../../Service";
 import StripeModule from "../StripeModule/StripeModule";
+import MembershipStatusGraph from "../Views/MembershipStatusGraph";
+import ClientUtil from "../../ClientUtil";
+import {Card} from "@mui/material";
 
 
 interface DashboardProps {}
@@ -13,9 +16,11 @@ interface DashboardProps {}
 const Dashboard: FC<DashboardProps> = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<User>();
+  const [walletInfo, setWalletInfo] = useState<UserWallet>({});
+  const [daysUntilExpiry, setDaysUntilExpiry] = useState(0);
 
   useEffect(() => {
-    // This is how we setup the access token inside the subsequent request's `Authorization Header` like so :
+    // This is how we set up the access token inside the subsequent request's `Authorization Header` like so :
     // "Bearer <access_token>"
     const config = ClientAuthService.getApiConfig();
     const userAPI = new UserControllerApi(config);
@@ -30,13 +35,15 @@ const Dashboard: FC<DashboardProps> = () => {
           navigate("/");
         });
     };
+
+    ClientUtil.getUserWalletInfo(setDaysUntilExpiry, setWalletInfo, walletInfo);
     fetchUserData();
   }, [navigate]);
 
 
 
   return (
-    <div className="container mt-5">
+    <Card elevation={14} className="container mt-5">
       <motion.div
         className="row g-5"
         initial={{ opacity: 0, y: 50 }}
@@ -50,16 +57,7 @@ const Dashboard: FC<DashboardProps> = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="card-body d-flex flex-column justify-content-center">
-              <img
-                className="rounded mx-auto d-block"
-                src="/qrPlaceholder.svg"
-                width="180"
-                height="180"
-                alt="QR Code"
-              />
-              <div className="text-center">QR Code</div>
-            </div>
+            <MembershipStatusGraph daysUntilExpiry={daysUntilExpiry} walletInfo={walletInfo}/>
           </motion.div>
         </div>
         <div className="col-sm-9">
@@ -164,7 +162,7 @@ const Dashboard: FC<DashboardProps> = () => {
           </motion.div>
         </div>
       </motion.div>
-    </div>
+    </Card>
   );
 };
 

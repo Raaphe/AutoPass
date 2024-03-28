@@ -1,8 +1,9 @@
 import React, { FC, useState } from "react";
 import "./Login.scss";
-import { AuthenticationResponse, SignInDTO } from "../../Service/api";
+import {AuthenticationApi, AuthenticationResponse, SignInDTO} from "../../Service";
 import ClientAuthService from "../../ClientAuthService";
 import { useNavigate, useLocation } from "react-router-dom";
+import {raw} from "body-parser";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -13,6 +14,7 @@ interface LoginProps { }
 const Login: FC<LoginProps> = () => {
   const query = useQuery();
   const navigate = useNavigate();
+  const authApi: AuthenticationApi = new AuthenticationApi();
 
   const [signInData, setSignInData] = useState<SignInDTO>({
     email: "",
@@ -20,7 +22,7 @@ const Login: FC<LoginProps> = () => {
   });
 
   if (query.get("accessToken") !== null) {
-    var authResponse: AuthenticationResponse = {
+    let authResponse: AuthenticationResponse = {
       access_token: query.get("accessToken") ?? "",
       token_type: query.get("tokenType") ?? "",
       user_id: parseInt(query.get("id") ?? "-1"),
@@ -42,8 +44,8 @@ const Login: FC<LoginProps> = () => {
     // Prevents page reload. may be removed
     event.preventDefault();
 
-    var isCredentialCorrect: boolean = await ClientAuthService.login(
-      signInData
+    const isCredentialCorrect: boolean = await ClientAuthService.login(
+        signInData
     );
 
     if (!isCredentialCorrect) {
@@ -53,8 +55,19 @@ const Login: FC<LoginProps> = () => {
     }
   };
 
-  const handleLoginWithGoogle = (): void => {
-    window.location.href = "http://localhost:9090/oauth2/authorization/google";
+  const handleLoginWithGoogle = async (): Promise<void> => {
+    let ip: string = await authApi.getAppIp()
+        .then(res => {
+          return res.data ?? "localhost"
+        })
+        .catch((e) => {
+          alert(e);
+          return "";
+        });
+
+    let url = "http://" + ip + ".nip.io:9090/oauth2/authorization/google";
+    console.log(url);
+    window.location.href = url;
   };
 
   return (
@@ -67,7 +80,7 @@ const Login: FC<LoginProps> = () => {
             <div className="card-body">
               <button type="submit" className="btn btn-outline-primary mb-3" onClick={() => navigate(-1)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-arrow-left m-1" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                  <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                 </svg>
               </button>
               <button onClick={handleLoginWithGoogle} type="button" className="btn btn-primary col-12 mb-3">
@@ -110,8 +123,8 @@ const Login: FC<LoginProps> = () => {
                 >
                   Forgot Password
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" className="bi bi-box-arrow-in-down-right m-1" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M6.364 2.5a.5.5 0 0 1 .5-.5H13.5A1.5 1.5 0 0 1 15 3.5v10a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 2 13.5V6.864a.5.5 0 1 1 1 0V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5H6.864a.5.5 0 0 1-.5-.5" />
-                    <path fill-rule="evenodd" d="M11 10.5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1 0-1h3.793L1.146 1.854a.5.5 0 1 1 .708-.708L10 9.293V5.5a.5.5 0 0 1 1 0z" />
+                    <path fillRule="evenodd" d="M6.364 2.5a.5.5 0 0 1 .5-.5H13.5A1.5 1.5 0 0 1 15 3.5v10a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 2 13.5V6.864a.5.5 0 1 1 1 0V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5H6.864a.5.5 0 0 1-.5-.5" />
+                    <path fillRule="evenodd" d="M11 10.5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1 0-1h3.793L1.146 1.854a.5.5 0 1 1 .708-.708L10 9.293V5.5a.5.5 0 0 1 1 0z" />
                   </svg>
                 </button>
                 <hr className="my-4" />

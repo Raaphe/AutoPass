@@ -1,4 +1,7 @@
 import { Dict } from "styled-components/dist/types";
+import ClientAuthService from "./ClientAuthService";
+import {UserWallet, WalletControllerApi} from "./Service";
+import React from "react";
 
 class UtilService {
 
@@ -70,6 +73,29 @@ class UtilService {
             return parseInt(match[1]);
         }
         else return -1;
+    }
+
+    public getUserWalletInfo = (
+        setDaysUntilExpiry : React.Dispatch<React.SetStateAction<number>>,
+        setWalletInfo:  React.Dispatch<React.SetStateAction<UserWallet>>,
+        currentWalletInfo: UserWallet
+    ) => {
+    const config = ClientAuthService.getApiConfig();
+    const walletAPI = new WalletControllerApi(config);
+
+    walletAPI.getUserWalletByUserId(ClientAuthService.getUserId())
+        .then(res => {
+            if (res.status !== 200) return;
+            setWalletInfo(res.data);
+
+            setDaysUntilExpiry(currentWalletInfo.membershipActive ?
+                utilService.msToDays(currentWalletInfo.memberShipEnds ?? 0) - utilService.msToDays(this.getUTCNow().getTime())
+                :
+                0
+            );
+        })
+        .catch(_ => {
+        })
     }
 }
 

@@ -4,7 +4,7 @@ import backend.autopass.model.entities.User;
 import backend.autopass.model.enums.Role;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.service.interfaces.IScannerService;
-import backend.autopass.service.interfaces.ScannerRegistrationDTO;
+import backend.autopass.payload.dto.ScannerRegistrationDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

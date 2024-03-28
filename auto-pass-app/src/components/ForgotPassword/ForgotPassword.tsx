@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useState } from 'react';
-import { AuthenticationApi } from '../../Service/api';
+import { AuthenticationApi } from '../../Service';
 import { useNavigate } from 'react-router-dom';
 import Loading from './Loading';
 

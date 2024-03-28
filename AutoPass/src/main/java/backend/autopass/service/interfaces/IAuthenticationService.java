@@ -37,4 +37,13 @@ public interface IAuthenticationService {
      * @return Whether the email has successfully been sent or not.
      */
     Boolean forgotPassword(String email);
+
+    /**
+     * Gets the application's currently running ip.
+     * This is used in the frontend to know what the ip of the backend is.
+     * Ensures that the frontend can dynamically make manual calls to the server without
+     * just stating `localhost`.
+     * @return The desired IP address.
+     */
+    String getAppIp();
 }

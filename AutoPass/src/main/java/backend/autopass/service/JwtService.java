@@ -25,11 +25,8 @@ public class JwtService {
     String jwtSecretKey;
     @Value("${token.expirationms}")
     Long jwtExpiration;
-    @Value("${application.security.same-site-setting}")
-    private String sameSiteCookieSetting;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
-
     @Value("${application.security.jwt.cookie-name}")
     private String jwtCookieName;
 

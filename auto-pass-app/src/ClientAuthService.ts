@@ -1,11 +1,19 @@
-import { AuthenticationApi, AuthenticationResponse, IsLoggedInDTO, RefreshTokenDTO, SignUpDTO } from "./Service/api";
-import { Configuration, ConfigurationParameters } from "./Service/configuration";
+import {
+  AuthenticationApi,
+  AuthenticationResponse,
+  Configuration,
+  ConfigurationParameters,
+  IsLoggedInDTO,
+  RefreshTokenDTO,
+  SignUpDTO
+} from "./Service";
+import * as url from "url";
 
 class AuthenticationService {
   authApi = new AuthenticationApi();
 
   public async login(
-    loginDTO: import("./Service/api").SignInDTO
+    loginDTO: import("./Service").SignInDTO
   ): Promise<boolean> {
     console.log("logging in in service");
 
@@ -100,27 +108,20 @@ class AuthenticationService {
       return "";
     }
 
-    const role = await this.authApi.getUserRole(this.getAccessTokenOrDefault())
-    .then(res => {
-      if (res.status !== 200) {
-        return ""
-      }
-      return res.data;
-    })
-
-    return role;
+    return await this.authApi.getUserRole(this.getAccessTokenOrDefault())
+        .then(res => {
+          if (res.status !== 200) {
+            return ""
+          }
+          return res.data;
+        });
   }
 
   
 
   public isUserLoggedOut() {
-    if (
-      this.getAccessTokenOrDefault() === "" &&
-      this.getRefreshTokenOrDefault() === ""
-    ) {
-      return true;
-    }
-    return false;
+    return this.getAccessTokenOrDefault() === "" &&
+        this.getRefreshTokenOrDefault() === "";
   }
 
   public getAccessTokenOrDefault = () => {
@@ -155,6 +156,24 @@ class AuthenticationService {
     sessionStorage.setItem("access-token", authResponse.access_token ?? "");
     localStorage.setItem("refresh-token", authResponse.refresh_token ?? "");
     sessionStorage.setItem("user-id", authResponse.user_id?.toString() ?? "");
+  }
+
+  public async getLocalHostIp(): Promise<string> {
+    let ip = "";
+
+    await this.authApi.getAppIp()
+        .then(res => {
+          if (res.status != 200) {
+            return "";
+          }
+
+          return res.data;
+        })
+        .catch(e => {
+          return "";
+        })
+
+    return ip;
   }
 }
 

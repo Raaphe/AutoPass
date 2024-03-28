@@ -58,6 +58,11 @@
             <version>0.12.3</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>4.4.0</version>
+        </dependency>
 
         <!-- ===== OpenAPI swagger / springdoc impl ===== -->
 
@@ -124,7 +129,16 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>3.2.3</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-walletobjects</artifactId>
+            <version>v1-rev20240312-2.0.0</version>
+        </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>

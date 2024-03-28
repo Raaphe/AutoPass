@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
 import './SignUp.scss';
-import {SignUpDTO} from '../../Service/api';
+import {SignUpDTO} from '../../Service';
 import ClientAuthService from '../../ClientAuthService';
 import {useNavigate} from 'react-router-dom';
 

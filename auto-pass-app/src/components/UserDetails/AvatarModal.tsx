@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SetUserImageRequest } from '../../Service/api';
+import { SetUserImageRequest } from '../../Service';
 
 interface AvatarModalProps {
     isOpen: boolean; 

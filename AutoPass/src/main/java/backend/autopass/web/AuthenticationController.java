@@ -150,6 +150,21 @@ public class AuthenticationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/app-ip")
+    @Operation(summary = "Gets the backend's Ip, which is set in application properties.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Successfully fetched."
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad Request.",
+                    content = @Content
+            )
+    })
+    public ResponseEntity<String> getAppIp() {
+        return ResponseEntity.ok(authenticationService.getAppIp());
+    }
+
     @PostMapping("/isLogged")
     @Operation(summary = "Checks if the access token is valid.")
     @ApiResponses(value = {

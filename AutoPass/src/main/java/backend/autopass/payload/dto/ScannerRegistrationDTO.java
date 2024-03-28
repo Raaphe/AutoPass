@@ -1,4 +1,4 @@
-package backend.autopass.service.interfaces;
+package backend.autopass.payload.dto;
 
 import lombok.Builder;
 import lombok.Data;

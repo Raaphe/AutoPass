@@ -38,6 +38,7 @@ public class SecurityConfig {
             "/auth/refresh-token",
             "/auth/logout",
             "/auth/isLogged",
+            "/auth/app-ip",
             "/auth/forgot-password",
             "/auth/check-refresh-token",
             "/auth/update-password",
@@ -88,6 +89,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/info").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/delete-user").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/update-user-info").authenticated()
@@ -100,7 +102,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/delete-bus").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanner-info").authenticated()
-                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/google-wallet-api/add-google-wallet-pass").authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/oauth2/authorization/google")

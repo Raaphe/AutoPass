@@ -244,16 +244,16 @@ export interface EntityModelPaymentType {
     'cvv'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof EntityModelPaymentType
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
     'pan'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelPaymentType
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -382,13 +382,19 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'enabled'?: boolean;
+    'isGoogleWalletPassAdded'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'deleted'?: boolean;
+    'enabled'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof EntityModelUser
+     */
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {string}
@@ -400,7 +406,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -409,16 +415,16 @@ export interface EntityModelUser {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
+     * @type {boolean}
      * @memberof EntityModelUser
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonLocked'?: boolean;
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -1155,16 +1161,16 @@ export interface PaymentTypeRequestBody {
     'cvv'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof PaymentTypeRequestBody
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
     'pan'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PaymentTypeRequestBody
+     */
+    'deleted'?: boolean;
 }
 /**
  * 
@@ -1472,13 +1478,19 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'enabled'?: boolean;
+    'isGoogleWalletPassAdded'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof User
      */
-    'deleted'?: boolean;
+    'enabled'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof User
+     */
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {string}
@@ -1490,7 +1502,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1499,16 +1511,16 @@ export interface User {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
+     * @type {boolean}
      * @memberof User
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof User
      */
-    'accountNonLocked'?: boolean;
+    'deleted'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1597,13 +1609,19 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'enabled'?: boolean;
+    'isGoogleWalletPassAdded'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'deleted'?: boolean;
+    'enabled'?: boolean;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof UserRequestBody
+     */
+    'authorities'?: Array<GrantedAuthority>;
     /**
      * 
      * @type {string}
@@ -1615,7 +1633,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1624,16 +1642,16 @@ export interface UserRequestBody {
     'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
+     * @type {boolean}
      * @memberof UserRequestBody
      */
-    'authorities'?: Array<GrantedAuthority>;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonLocked'?: boolean;
+    'deleted'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -1823,6 +1841,36 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             if (email !== undefined) {
                 localVarQueryParameter['email'] = email;
             }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Gets the backend\'s Ip, which is set in application properties.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAppIp: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth/app-ip`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
 
     
@@ -2105,6 +2153,18 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Gets the backend\'s Ip, which is set in application properties.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAppIp(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAppIp(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['AuthenticationApi.getAppIp']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Gets a user\'s role from access token.
          * @param {string} accessToken 
          * @param {*} [options] Override http request option.
@@ -2223,6 +2283,15 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
+         * @summary Gets the backend\'s Ip, which is set in application properties.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAppIp(options?: any): AxiosPromise<string> {
+            return localVarFp.getAppIp(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Gets a user\'s role from access token.
          * @param {string} accessToken 
          * @param {*} [options] Override http request option.
@@ -2325,6 +2394,17 @@ export class AuthenticationApi extends BaseAPI {
      */
     public forgotPassword(email: string, options?: RawAxiosRequestConfig) {
         return AuthenticationApiFp(this.configuration).forgotPassword(email, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Gets the backend\'s Ip, which is set in application properties.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public getAppIp(options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).getAppIp(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -9,7 +9,7 @@ import "./Header.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import ClientAuthService from "../../ClientAuthService";
 import { Avatar } from "@mui/material";
-import { UserControllerApi } from "../../Service/api";
+import { UserControllerApi } from "../../Service";
 import LogoutIcon from "@mui/icons-material/Logout";
 import InfoIcon from "@mui/icons-material/Info";
 import LoginIcon from "@mui/icons-material/Login";
@@ -94,7 +94,7 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
     margin-left: 16px;
     width: 45px;
     height: 45px;
-    padding: px;
+    padding: 10px;
     &:hover {
       background-color: ${blue[400]};
     }
