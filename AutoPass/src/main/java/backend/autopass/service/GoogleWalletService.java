@@ -10,24 +10,20 @@ import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.*;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.walletobjects.Walletobjects;
-import com.google.api.services.walletobjects.WalletobjectsScopes;
+import com.google.api.services.walletobjects.*;
 import com.google.api.services.walletobjects.model.*;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.*;
 
@@ -38,7 +34,7 @@ import java.util.*;
  * Much of this code comes from the sample Google wallet repository from Google on <a href="https://github.com/google-wallet/rest-samples">Github</a>.
  * Also, important to know that much of this code will not be used as we already have a class created.
  * In this instance, we will use our generic class `<IssuerID>.1`.
- * Instead of Class suffix we will have 1 as previously mentioned, and as for object suffix we will use user's pass ID.
+ * Instead of Class suffix we will have 1 as previously mentioned, and as for object suffix we will use user's email.
  * 2024-03-23
  * AutoPass
  */
@@ -64,6 +60,9 @@ public class GoogleWalletService {
     @Value("${google.IssuerId}")
     public String issuerId;
 
+
+    @Value("${application.ip}")
+    public String appIp;
 
     @Autowired
     private UserService userService;
@@ -104,349 +103,105 @@ public class GoogleWalletService {
                         httpTransport,
                         GsonFactory.getDefaultInstance(),
                         new HttpCredentialsAdapter(credentials))
-                        .setApplicationName("AUTOPASS")
+                        .setApplicationName("AutoPass")
                         .build();
     }
     // [END auth]
 
-    // [START createClass]
-    /**
-     * Create a class.
-     *
-     * @param classSuffix Developer-defined unique ID for this pass class.
-     * @return The pass class ID: "{issuerId}.{classSuffix}"
-     */
-    public String createClass(String classSuffix) throws IOException {
-        // Check if the class exists
-        try {
-            service.genericclass().get(String.format("%s.%s", issuerId, classSuffix)).execute();
-
-            System.out.printf("Class %s.%s already exists!%n", issuerId, classSuffix);
-            return String.format("%s.%s", issuerId, classSuffix);
-        } catch (GoogleJsonResponseException ex) {
-            if (ex.getStatusCode() != 404) {
-                // Something else went wrong...
-                log.error(ex.getMessage());
-                return String.format("%s.%s", issuerId, classSuffix);
-            }
-        }
-
-        // See the link below for more information on required properties
-        // https://developers.google.com/wallet/generic/rest/v1/genericclass
-
-        ArrayList<Long> issuers = new ArrayList<>();
-        issuers.add(Long.valueOf(issuerId));
-        GenericClass newClass = new GenericClass()
-                .setId(String.format("%s.%s", issuerId, classSuffix))
-                .setEnableSmartTap(true)
-                .setSecurityAnimation(new SecurityAnimation().setAnimationType("FOIL_SHIMMER"))
-                .setRedemptionIssuers(issuers)
-                .setImageModulesData(List.of(new ImageModuleData().setMainImage(new Image().setSourceUri(new ImageUri().setUri("https://photosforraph.s3.us-east-2.amazonaws.com/Passbanner.png")))))
-                .setMultipleDevicesAndHoldersAllowedStatus("ONE_USER_ONE_DEVICE");
-
-        GenericClass response = service.genericclass().insert(newClass).execute();
-
-        System.out.println("Class insert response");
-        System.out.println(response.toPrettyString());
-
-        return response.getId();
-    }
-    // [END createClass]
 
     // [START createObject]
     /**
      * Create an object.
      * TODO: Not customized for our use-case
      *
-     * @param classSuffix Developer-defined unique ID for this pass class.
-     * @param objectSuffix Developer-defined unique ID for this pass object.
      * @return The pass object ID: "{issuerId}.{objectSuffix}"
      */
-    public String createObject(String classSuffix, String objectSuffix)
+    public String createObject(int userId)
             throws IOException {
+
+
+
+        User user = userService.getUserById((long) userId);
+        Pass pass = user.getPass();
+        assert pass != null;
+
+        String objectSuffix = user.getEmail();
+        String classSuffix = "codelab_class";
+
+        GenericClass genericClass;
+        try {
+            genericClass = service.genericclass().get(String.format("%s.%s", issuerId, classSuffix)).execute();
+        } catch (GoogleJsonResponseException ex) {
+            if (ex.getStatusCode() != 404) {
+                // Something else went wrong...
+                log.error(String.format("%s.%s", issuerId, classSuffix));
+                return String.format("%s.%s", issuerId, classSuffix);
+            }
+            return null;
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+
+
+
         // Check if the object exists
         try {
-            service.genericobject().get(String.format("%s.%s", issuerId, objectSuffix)).execute();
+            service.genericobject().get(issuerId + "." + objectSuffix).execute();
 
             System.out.printf("Object %s.%s already exists!%n", issuerId, objectSuffix);
             return String.format("%s.%s", issuerId, objectSuffix);
         } catch (GoogleJsonResponseException ex) {
-            if (ex.getStatusCode() != 404) {
+            if (ex.getStatusCode() != 400) {
                 // Something else went wrong...
                 log.error(ex.getMessage());
                 return String.format("%s.%s", issuerId, objectSuffix);
             }
         }
 
-        // See link below for more information on required properties
-        // https://developers.google.com/wallet/generic/rest/v1/genericobject
-        GenericObject newObject =
+
+        GenericObject codelabObject =
                 new GenericObject()
-                        .setId(String.format("%s.%s", issuerId, objectSuffix))
+                        .setId(String.format("%s.%s", issuerId, user.getEmail()))
                         .setClassId(String.format("%s.%s", issuerId, classSuffix))
+                        .setHexBackgroundColor("#333")
                         .setState("ACTIVE")
+                        .setCardTitle(
+                                new LocalizedString(
+
+                                ).setDefaultValue(new TranslatedString().setValue("Google I/O \'22").setLanguage("en"))
+                        )
+                        .setSubheader(new LocalizedString().setDefaultValue(new TranslatedString().setLanguage("en").setValue("Attendee")))
+                        .setHeader(new LocalizedString().setDefaultValue(new TranslatedString().setValue("Alex McJacobs").setLanguage("en")))
+                        .setBarcode(new Barcode().setType("QR_CODE").setValue(issuerId + "." + user.getEmail()))
                         .setHeroImage(
                                 new Image()
                                         .setSourceUri(
                                                 new ImageUri()
                                                         .setUri(
-                                                                "https://farm4.staticflickr.com/3723/11177041115_6e6a3b6f49_o.jpg"))
-                                        .setContentDescription(
-                                                new LocalizedString()
-                                                        .setDefaultValue(
-                                                                new TranslatedString()
-                                                                        .setLanguage("en-US")
-                                                                        .setValue("Hero image description"))))
+                                                                "https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/google-io-hero-demo-only.jpg"))
+                        )
                         .setTextModulesData(
                                 List.of(
                                         new TextModuleData()
-                                                .setHeader("Text module header")
-                                                .setBody("Text module body")
-                                                .setId("TEXT_MODULE_ID")))
-                        .setLinksModuleData(
-                                new LinksModuleData()
-                                        .setUris(
-                                                Arrays.asList(
-                                                        new Uri()
-                                                                .setUri("http://maps.google.com/")
-                                                                .setDescription("Link module URI description")
-                                                                .setId("LINK_MODULE_URI_ID"),
-                                                        new Uri()
-                                                                .setUri("tel:6505555555")
-                                                                .setDescription("Link module tel description")
-                                                                .setId("LINK_MODULE_TEL_ID"))))
-                        .setImageModulesData(
-                                List.of(
-                                        new ImageModuleData()
-                                                .setMainImage(
-                                                        new Image()
-                                                                .setSourceUri(
-                                                                        new ImageUri()
-                                                                                .setUri(
-                                                                                        "http://farm4.staticflickr.com/3738/12440799783_3dc3c20606_b.jpg"))
-                                                                .setContentDescription(
-                                                                        new LocalizedString()
-                                                                                .setDefaultValue(
-                                                                                        new TranslatedString()
-                                                                                                .setLanguage("en-US")
-                                                                                                .setValue("Image module description"))))
-                                                .setId("IMAGE_MODULE_ID")))
-                        .setBarcode(new Barcode().setType("QR_CODE").setValue("QR code value"))
-                        .setCardTitle(
-                                new LocalizedString()
-                                        .setDefaultValue(
-                                                new TranslatedString().setLanguage("en-US").setValue("Generic card title")))
-                        .setHeader(
-                                new LocalizedString()
-                                        .setDefaultValue(
-                                                new TranslatedString().setLanguage("en-US").setValue("Your AutoPass")))
-                        .setHexBackgroundColor("#333")
-                        .setLogo(
-                                new Image()
-                                        .setSourceUri(
-                                                new ImageUri()
-                                                        .setUri(
-                                                                "https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/pass_google_logo.jpg"))
-                                        .setContentDescription(
-                                                new LocalizedString()
-                                                        .setDefaultValue(
-                                                                new TranslatedString()
-                                                                        .setLanguage("en-US")
-                                                                        .setValue("Generic card logo"))));
-
-        GenericObject response = service.genericobject().insert(newObject).execute();
-
-        System.out.println("Object insert response");
-        System.out.println(response.toPrettyString());
-
-        return response.getId();
-    }
-    // [END createObject]
-
-    // [START updateObject]
-    /**
-     * Update an object.
-     *
-     * <p><strong>Warning:</strong> This replaces all existing object attributes!
-     *
-     * @param objectSuffix Developer-defined unique ID for this pass object.
-     * @return The pass object ID: "{issuerId}.{objectSuffix}"
-     */
-    public String updateObject(String objectSuffix) throws IOException {
-        GenericObject updatedObject;
-
-        // Check if the object exists
-        try {
-            updatedObject =
-                    service.genericobject().get(String.format("%s.%s", issuerId, objectSuffix)).execute();
-        } catch (GoogleJsonResponseException ex) {
-            if (ex.getStatusCode() == 404) {
-                // Object does not exist
-                System.out.printf("Object %s.%s not found!%n", issuerId, objectSuffix);
-            } else {
-                // Something else went wrong...
-                log.error(ex.getMessage());
-            }
-            return String.format("%s.%s", issuerId, objectSuffix);
-        }
-
-        // Object exists
-        // Update the object by adding a link
-        Uri newLink =
-                new Uri()
-                        .setUri("https://developers.google.com/wallet")
-                        .setDescription("New link description");
-
-        if (updatedObject.getLinksModuleData() == null) {
-            // LinksModuleData was not set on the original object
-            updatedObject.setLinksModuleData(new LinksModuleData().setUris(List.of(newLink)));
-        } else {
-            updatedObject.getLinksModuleData().getUris().add(newLink);
-        }
-
-        GenericObject response =
-                service
-                        .genericobject()
-                        .update(String.format("%s.%s", issuerId, objectSuffix), updatedObject)
-                        .execute();
-
-        System.out.println("Object update response");
-        System.out.println(response.toPrettyString());
-
-        return response.getId();
-    }
-    // [END updateObject]
-
-    // [START patchObject]
-    /**
-     * Patch an object.
-     *
-     * @param objectSuffix Developer-defined unique ID for this pass object.
-     * @return The pass object ID: "{issuerId}.{objectSuffix}"
-     */
-    public String patchObject(String objectSuffix) throws IOException {
-        GenericObject existingObject;
-
-        // Check if the object exists
-        try {
-            existingObject =
-                    service.genericobject().get(String.format("%s.%s", issuerId, objectSuffix)).execute();
-        } catch (GoogleJsonResponseException ex) {
-            if (ex.getStatusCode() == 404) {
-                // Object does not exist
-                System.out.printf("Object %s.%s not found!%n", issuerId, objectSuffix);
-            } else {
-                // Something else went wrong...
-                log.error(ex.getMessage());
-            }
-            return String.format("%s.%s", issuerId, objectSuffix);
-        }
-
-        // Object exists
-        // Patch the object by adding a link
-        Uri newLink =
-                new Uri()
-                        .setUri("https://developers.google.com/wallet")
-                        .setDescription("New link description");
-
-        GenericObject patchBody = new GenericObject();
-
-        if (existingObject.getLinksModuleData() == null) {
-            // LinksModuleData was not set on the original object
-            patchBody.setLinksModuleData(new LinksModuleData().setUris(new ArrayList<>()));
-        } else {
-            patchBody.setLinksModuleData(existingObject.getLinksModuleData());
-        }
-        patchBody.getLinksModuleData().getUris().add(newLink);
-
-        GenericObject response =
-                service
-                        .genericobject()
-                        .patch(String.format("%s.%s", issuerId, objectSuffix), patchBody)
-                        .execute();
-
-        System.out.println("Object patch response");
-        System.out.println(response.toPrettyString());
-
-        return response.getId();
-    }
-    // [END patchObject]
-
-    // [START expireObject]
-    /**
-     * Expire an object.
-     * TODO: Not customized for our use-case
-     *
-     * <p>Sets the object's state to Expire. If the valid time interval is already set, the pass will
-     * expire automatically up to 24 hours after.
-     *
-     * @param objectSuffix Developer-defined unique ID for this pass object.
-     * @return The pass object ID: "{issuerId}.{objectSuffix}"
-     */
-    public String expireObject(String objectSuffix) throws IOException {
-        // Check if the object exists
-        try {
-            service.genericobject().get(String.format("%s.%s", issuerId, objectSuffix)).execute();
-        } catch (GoogleJsonResponseException ex) {
-            if (ex.getStatusCode() == 404) {
-                // Object does not exist
-                System.out.printf("Object %s.%s not found!%n", issuerId, objectSuffix);
-            } else {
-                // Something else went wrong...
-                log.error(ex.getMessage());
-            }
-            return String.format("%s.%s", issuerId, objectSuffix);
-        }
-
-        // Patch the object, setting the pass as expired
-        GenericObject patchBody = new GenericObject().setState("EXPIRED");
-
-        GenericObject response =
-                service
-                        .genericobject()
-                        .patch(String.format("%s.%s", issuerId, objectSuffix), patchBody)
-                        .execute();
-
-        System.out.println("Object expiration response");
-        System.out.println(response.toPrettyString());
-
-        return response.getId();
-    }
-    // [END expireObject]
-
-    // [START jwtNew]
-    /**
-     * Generate a signed JWT that creates a new pass class and object.
-     * TODO: Not customized for our use-case
-     *
-     * <p>When the user opens the "Add to Google Wallet" URL and saves the pass to their wallet, the
-     * pass class and object defined in the JWT are created. This allows you to create multiple pass
-     * classes and objects in one API call when the user saves the pass to their wallet.
-     *
-     * @return An "Add to Google Wallet" link.
-     */
-    public String createJWTNewObjects(int userId) {
-
-        // The Google cloud project's main class' suffix
-        // https://pay.google.com/business/console/passes/BCR2DN4T7W7OBOCT/issuer/3388000000022325174/generic/edit/3388000000022325174.1
-        int classSuffix = 1;
-
-        // See the link below for more information on required properties
-        // https://developers.google.com/wallet/generic/rest/v1/genericclass
-        GenericClass newClass = new GenericClass().setId(String.format("%s.%s", issuerId, classSuffix));
-
-        // See the link below for more information on required properties
-        // https://developers.google.com/wallet/generic/rest/v1/genericobject
-
-        User user = userService.getUserById((long) userId);
-        Pass pass = user.getPass();
-        assert pass != null;
-
+                                                .setHeader("Your Auto-Pass")
+                                                .setBody(user.getFirstName() + ", " + user.getLastName())
+                                                .setId("1"),
+                                        new TextModuleData()
+                                                .setHeader("Ticket Amount")
+                                                .setBody("Count: " + user.getWallet().getTicketAmount())
+                                                .setId("2"),
+                                        new TextModuleData()
+                                                .setHeader("Ticket Amount")
+                                                .setBody("Count: " + user.getWallet().getTicketAmount())
+                                                .setId("3")
+                                )
+                        );
 
 
         GenericObject newObject =
                 new GenericObject()
-                        .setId(String.format("%s.%s", issuerId, pass.getId()))
+                        .setId(String.format("%s.%s", issuerId, user.getEmail()))
                         .setClassId(String.format("%s.%s", issuerId, classSuffix))
                         .setState("ACTIVE")
                         .setHeroImage(
@@ -524,18 +279,205 @@ public class GoogleWalletService {
                                                                         .setLanguage("en-US")
                                                                         .setValue("AutoPass Logo"))));
 
+        GenericObject response;
+        try {
+            response = service.genericobject().insert(codelabObject).execute();
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+            throw new EOFException();
+        }
+
+        System.out.println("Object insert response");
+        System.out.println(response.toPrettyString());
+
+        return response.getId();
+    }
+    // [END createObject]
+
+    // [START jwtNew]
+    /**
+     * Generate a signed JWT that creates a new pass class and object.
+     * TODO: Not customized for our use-case
+     *
+     * <p>When the user opens the "Add to Google Wallet" URL and saves the pass to their wallet, the
+     * pass class and object defined in the JWT are created. This allows you to create multiple pass
+     * classes and objects in one API call when the user saves the pass to their wallet.
+     *
+     * @return An "Add to Google Wallet" link.
+     */
+    public String createJWTNewObjects(int userId) throws IOException {
+
+//        createObject(userId);
+        // The Google cloud project's main class' suffix
+        // https://pay.google.com/business/console/passes/BCR2DN4T7W7OBOCT/issuer/3388000000022325174/generic/edit/3388000000022325174.1
+        String classSuffix = "codelab_class";
+
+        // See the link below for more information on required properties
+        // https://developers.google.com/wallet/generic/rest/v1/genericclass
+        // See the link below for more information on required properties
+        // https://developers.google.com/wallet/generic/rest/v1/genericobject
+
+        User user = userService.getUserById((long) userId);
+        Pass pass = user.getPass();
+        assert pass != null;
+
+        // See link below for more information on required properties
+        // https://developers.google.com/wallet/generic/rest/v1/genericclass
+
+        TEST(issuerId, "1", user.getEmail());
+
+        GenericClass genericClass;
+        try {
+            genericClass = service.genericclass().get(String.format("%s.%s", issuerId, classSuffix)).execute();
+        } catch (GoogleJsonResponseException ex) {
+            if (ex.getStatusCode() != 404) {
+                // Something else went wrong...
+                log.error(String.format("%s.%s", issuerId, classSuffix));
+                return String.format("%s.%s", issuerId, classSuffix);
+            }
+            return null;
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+
+
+
+        GenericObject newObject =
+                new GenericObject()
+                        .setId(String.format("%s.%s", issuerId, user.getEmail()))
+                        .setClassId(String.format("%s.%s", issuerId, classSuffix))
+                        .setState("ACTIVE")
+                        .setHeroImage(
+                                new Image()
+                                        .setSourceUri(
+                                                new ImageUri()
+                                                        .setUri(
+                                                                "https://farm4.staticflickr.com/3723/11177041115_6e6a3b6f49_o.jpg"))
+                                        .setContentDescription(
+                                                new LocalizedString()
+                                                        .setDefaultValue(
+                                                                new TranslatedString()
+                                                                        .setLanguage("en-US")
+                                                                        .setValue("AutoPass"))))
+                        .setTextModulesData(
+                                List.of(
+                                        new TextModuleData()
+                                                .setHeader("Your Auto-Pass")
+                                                .setBody(user.getFirstName() + ", " + user.getLastName())
+                                                .setId("1"),
+                                        new TextModuleData()
+                                                .setHeader("Ticket Amount")
+                                                .setBody("Count: " + user.getWallet().getTicketAmount())
+                                                .setId("2"),
+                                        new TextModuleData()
+                                                .setHeader("Ticket Amount")
+                                                .setBody("Count: " + user.getWallet().getTicketAmount())
+                                                .setId("3")
+                                ))
+                        .setLinksModuleData(
+                                new LinksModuleData()
+                                        .setUris(
+                                                List.of(
+                                                        new Uri()
+                                                                .setUri("http://localhost:3000/about")
+                                                                .setDescription("AutoPass information")
+                                                                .setId("1")
+                                                )))
+                        .setImageModulesData(
+                                List.of(
+                                        new ImageModuleData()
+                                                .setMainImage(
+                                                        new Image()
+                                                                .setSourceUri(
+                                                                        new ImageUri()
+                                                                                .setUri(
+                                                                                        "https://photosforraph.s3.us-east-2.amazonaws.com/Passbanner.png"))
+                                                                .setContentDescription(
+                                                                        new LocalizedString()
+                                                                                .setDefaultValue(
+                                                                                        new TranslatedString()
+                                                                                                .setLanguage("en-US")
+                                                                                                .setValue("Pass Banner"))))
+                                                .setId("1")))
+                        .setBarcode(new Barcode().setType("QR_CODE").setValue(user.getGoogleAccessToken()))
+                        .setCardTitle(
+                                new LocalizedString()
+                                        .setDefaultValue(
+                                                new TranslatedString().setLanguage("en-US").setValue("AUTO_PASS")))
+                        .setHeader(
+                                new LocalizedString()
+                                        .setDefaultValue(
+                                                new TranslatedString().setLanguage("en-US").setValue("Virtual Transit Pass")))
+                        .setHexBackgroundColor("#333")
+                        .setLogo(
+                                new Image()
+                                        .setSourceUri(
+                                                new ImageUri()
+                                                        .setUri(
+                                                                "https://photosforraph.s3.us-east-2.amazonaws.com/7.png"))
+                                        .setContentDescription(
+                                                new LocalizedString()
+                                                        .setDefaultValue(
+                                                                new TranslatedString()
+                                                                        .setLanguage("en-US")
+                                                                        .setValue("AutoPass Logo"))));
+
+        GenericObject codelabObject =
+                new GenericObject()
+                        .setId(String.format("%s.%s", issuerId, user.getEmail()))
+                        .setClassId(String.format("%s.%s", issuerId, classSuffix))
+                        .setHexBackgroundColor("#333")
+                        .setState("ACTIVE")
+                        .setCardTitle(
+                                new LocalizedString(
+
+                                ).setDefaultValue(new TranslatedString().setValue("Google I/O \'22").setLanguage("en"))
+                        )
+                        .setSubheader(new LocalizedString().setDefaultValue(new TranslatedString().setLanguage("en").setValue("Attendee")))
+                        .setHeader(new LocalizedString().setDefaultValue(new TranslatedString().setValue("Alex McJacobs").setLanguage("en")))
+                        .setBarcode(new Barcode().setType("QR_CODE").setValue(issuerId + "." + user.getEmail()))
+                        .setHeroImage(
+                                new Image()
+                                        .setSourceUri(
+                                                new ImageUri()
+                                                        .setUri(
+                                                                "https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/google-io-hero-demo-only.jpg"))
+                        )
+                        .setTextModulesData(
+                                List.of(
+                                        new TextModuleData()
+                                                .setHeader("Your Auto-Pass")
+                                                .setBody(user.getFirstName() + ", " + user.getLastName())
+                                                .setId("1"),
+                                        new TextModuleData()
+                                                .setHeader("Ticket Amount")
+                                                .setBody("Count: " + user.getWallet().getTicketAmount())
+                                                .setId("2"),
+                                        new TextModuleData()
+                                                .setHeader("Ticket Amount")
+                                                .setBody("Count: " + user.getWallet().getTicketAmount())
+                                                .setId("3")
+                                )
+                        );
+
+
         // Create the JWT as a HashMap object
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("iss", ((ServiceAccountCredentials) credentials).getClientEmail());
         claims.put("aud", "google");
-        claims.put("origins", List.of("www.example.com"));
+        claims.put("origins", List.of("localhost", appIp));
         claims.put("typ", "savetowallet");
 
         // Create the Google Wallet payload and add to the JWT
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put("genericClasses", List.of(newClass));
+        HashMap<String, Object> payload = new HashMap<String, Object>();
+        payload.put("genericClasses", List.of(genericClass));
         payload.put("genericObjects", List.of(newObject));
         claims.put("payload", payload);
+
+        System.out.println(claims);
+        System.out.println(payload);
 
         // The service account credentials are used to sign the JWT
         Algorithm algorithm =
@@ -765,6 +707,126 @@ public class GoogleWalletService {
         batch.execute();
     }
 
+    // [START jwtNew]
+    /**
+     * Generate a signed JWT that creates a new pass class and object.
+     *
+     * <p>When the user opens the "Add to Google Wallet" URL and saves the pass to their wallet, the
+     * pass class and object defined in the JWT are created. This allows you to create multiple pass
+     * classes and objects in one API call when the user saves the pass to their wallet.
+     *
+     * @param issuerId The issuer ID being used for this request.
+     * @param classSuffix Developer-defined unique ID for this pass class.
+     * @param objectSuffix Developer-defined unique ID for the pass object.
+     * @return An "Add to Google Wallet" link.
+     */
+    public String TEST(String issuerId, String classSuffix, String objectSuffix) {
+        // See link below for more information on required properties
+        // https://developers.google.com/wallet/generic/rest/v1/genericclass
+        GenericClass newClass = new GenericClass().setId(String.format("%s.%s", issuerId, classSuffix));
+
+        // See link below for more information on required properties
+        // https://developers.google.com/wallet/generic/rest/v1/genericobject
+        GenericObject newObject =
+                new GenericObject()
+                        .setId(String.format("%s.%s", issuerId, objectSuffix))
+                        .setClassId(String.format("%s.%s", issuerId, classSuffix))
+                        .setState("ACTIVE")
+                        .setHeroImage(
+                                new Image()
+                                        .setSourceUri(
+                                                new ImageUri()
+                                                        .setUri(
+                                                                "https://farm4.staticflickr.com/3723/11177041115_6e6a3b6f49_o.jpg"))
+                                        .setContentDescription(
+                                                new LocalizedString()
+                                                        .setDefaultValue(
+                                                                new TranslatedString()
+                                                                        .setLanguage("en-US")
+                                                                        .setValue("Hero image description"))))
+                        .setTextModulesData(
+                                List.of(
+                                        new TextModuleData()
+                                                .setHeader("Text module header")
+                                                .setBody("Text module body")
+                                                .setId("TEXT_MODULE_ID")))
+                        .setLinksModuleData(
+                                new LinksModuleData()
+                                        .setUris(
+                                                Arrays.asList(
+                                                        new Uri()
+                                                                .setUri("http://maps.google.com/")
+                                                                .setDescription("Link module URI description")
+                                                                .setId("LINK_MODULE_URI_ID"),
+                                                        new Uri()
+                                                                .setUri("tel:6505555555")
+                                                                .setDescription("Link module tel description")
+                                                                .setId("LINK_MODULE_TEL_ID"))))
+                        .setImageModulesData(
+                                List.of(
+                                        new ImageModuleData()
+                                                .setMainImage(
+                                                        new Image()
+                                                                .setSourceUri(
+                                                                        new ImageUri()
+                                                                                .setUri(
+                                                                                        "http://farm4.staticflickr.com/3738/12440799783_3dc3c20606_b.jpg"))
+                                                                .setContentDescription(
+                                                                        new LocalizedString()
+                                                                                .setDefaultValue(
+                                                                                        new TranslatedString()
+                                                                                                .setLanguage("en-US")
+                                                                                                .setValue("Image module description"))))
+                                                .setId("IMAGE_MODULE_ID")))
+                        .setBarcode(new Barcode().setType("QR_CODE").setValue("QR code value"))
+                        .setCardTitle(
+                                new LocalizedString()
+                                        .setDefaultValue(
+                                                new TranslatedString().setLanguage("en-US").setValue("Generic card title")))
+                        .setHeader(
+                                new LocalizedString()
+                                        .setDefaultValue(
+                                                new TranslatedString().setLanguage("en-US").setValue("Generic header")))
+                        .setHexBackgroundColor("#4285f4")
+                        .setLogo(
+                                new Image()
+                                        .setSourceUri(
+                                                new ImageUri()
+                                                        .setUri(
+                                                                "https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/pass_google_logo.jpg"))
+                                        .setContentDescription(
+                                                new LocalizedString()
+                                                        .setDefaultValue(
+                                                                new TranslatedString()
+                                                                        .setLanguage("en-US")
+                                                                        .setValue("Generic card logo"))));
+
+        // Create the JWT as a HashMap object
+        HashMap<String, Object> claims = new HashMap<String, Object>();
+        claims.put("iss", ((ServiceAccountCredentials) credentials).getClientEmail());
+        claims.put("aud", "google");
+        claims.put("origins", List.of("www.example.com"));
+        claims.put("typ", "savetowallet");
+
+        // Create the Google Wallet payload and add to the JWT
+        HashMap<String, Object> payload = new HashMap<String, Object>();
+        payload.put("genericClasses", List.of(newClass));
+        payload.put("genericObjects", List.of(newObject));
+        claims.put("payload", payload);
+
+        // The service account credentials are used to sign the JWT
+        Algorithm algorithm =
+                Algorithm.RSA256(
+                        null, (RSAPrivateKey) ((ServiceAccountCredentials) credentials).getPrivateKey());
+        String token = JWT.create().withPayload(claims).sign(algorithm);
+
+        System.out.println("Add to Google Wallet link");
+        System.out.printf("https://pay.google.com/gp/v/save/%s%n", token);
+
+        return String.format("https://pay.google.com/gp/v/save/%s", token);
+    }
+    // [END jwtNew]
+
     public boolean doesPassExist(int userId) throws Exception {
 
         User user = userService.getUserById((long) userId);
@@ -772,10 +834,9 @@ public class GoogleWalletService {
 
         // Check if the object exists
         try {
-            service.genericobject().get(String.format("%s.%s", issuerId, pass.getId())).execute();
+            service.genericobject().get(String.format("%s.%s", issuerId, user.getEmail())).execute();
         } catch (GoogleJsonResponseException ex) {
-            service.genericobject().get(String.format("%s.%s", issuerId, pass.getId())).execute();
-            if (ex.getStatusCode() == 404) {
+            if (ex.getStatusCode() == 400) {
                 // Object does not exist
                 user.setIsGoogleWalletPassAdded(false);
                 userRepository.save(user);

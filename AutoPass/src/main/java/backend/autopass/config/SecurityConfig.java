@@ -99,16 +99,16 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/payment/charge").authenticated()
                         .requestMatchers(HttpMethod.GET, "/wallet/wallet-info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanners").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/delete-bus").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanner-info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google-wallet-api/add-google-wallet-pass").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/google-wallet-api/get-add-pass-url").authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/oauth2/authorization/google")
                         .successHandler(successHandler())
                 )
-
                 .logout(logout -> logout
                         .logoutSuccessUrl("/auth/logout")
                         .logoutSuccessHandler(oidcLogoutSuccessHandler())

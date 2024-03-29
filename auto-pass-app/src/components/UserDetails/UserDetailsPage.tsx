@@ -2,17 +2,20 @@ import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import React, { FC, useEffect, useState } from 'react';
 import { RiUserSettingsLine, RiInformationLine, RiLogoutBoxLine } from 'react-icons/ri';
 import DeleteIcon from '@mui/icons-material/Delete';
-import WalletIcon from '@mui/icons-material/Wallet';
 import styles from './UserDetailsPage.module.scss';
 import ClientAuthService from '../../ClientAuthService';
 import { useNavigate } from 'react-router-dom';
 import SplitCard from './SplitCard';
 import AvatarModal from './AvatarModal';
 import { motion } from 'framer-motion';
+import WalletIcon from '@mui/icons-material/Wallet';
 import * as API from "../../Service";
 import TextField from '@mui/material/TextField/TextField';
+import GoogleWalletButton from "../../assets/enCA_add_to_google_wallet_add-wallet-badge.png"
 import { Fab } from '@mui/material';
 import { red } from '@mui/material/colors';
+import "./UserDetailsPage.module.scss"
+
 interface UserDetailsPageProps { }
 
 const UserDetailsPage: FC<UserDetailsPageProps> = () => {
@@ -22,14 +25,16 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [userData, setUserData] = useState<API.User>();
     const [isEmailSent, setIsEmailSent] = useState(false);
+    const [addGoogleWalletURL, setGoogleWalletSaveURL] = useState("");
+    const [canResetPassword, setCanResetPassword] = useState(true);
 
     // This is how we set up the access token inside the subsequent request's `Authorization Header` like so :
     // "Bearer <access_token>"
     const config = ClientAuthService.getApiConfig();
     const userAPI = new API.UserControllerApi(config);
     const authAPI = new API.AuthenticationApi(config);
-
-
+    const googleWalletApi = new API.GoogleWalletControllerApi(config);
+    
     useEffect(() => {
 
         const fetchUserData = async () => {
@@ -46,7 +51,30 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                     navigate("/");
                 })
         }
+
+        const getSavePassURL = () => {
+            googleWalletApi.getSavePassURL(ClientAuthService.getUserId())
+                .then((res) => {
+                    if (res.status !== 200) {
+                        setGoogleWalletSaveURL("")
+                    }
+                    setGoogleWalletSaveURL(res.data);
+                })
+                .catch((e) => {
+                    alert(e);
+                })
+        }
+
+
+        getSavePassURL();
         fetchUserData();
+
+        if (userData?.role === "ADMIN" && userData.googleAccessToken !== null) {
+            setCanResetPassword(false);
+        } else if (userData?.role === "GOOGLE_USER") {
+            setCanResetPassword(false);
+        } else {setCanResetPassword(true);}
+
 
     }, [navigate])
 
@@ -56,6 +84,10 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
         return <div>Loading...</div>;
     }
 
+    const handleAddToGoogleWallet = () => {
+        // window.location.href = addGoogleWalletURL;
+        googleWalletApi.savePass(ClientAuthService.getUserId());
+    }
 
     const handleAccountDelete = async () => {
         await userAPI.markUserAsDeleted();
@@ -108,7 +140,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                     <ul className="list-group list-group-flush">
                         <li className="list-group-item d-flex align-items-center justify-content-start">
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-arrow-left m-1" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                                <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                             </svg>
                             <a href="/home" className="text-decoration-none mx-1" style={{ color: 'black' }}>Back To Dashboard</a>
                         </li>
@@ -187,21 +219,23 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                         </div>
                     </SplitCard>
 
-                    <SplitCard id="google-link" title="Link Google Account" description="Link your Google account to enable additional features">
-                        <div className="text-center">
-                            {!googleLinked ? (
-                                <p>Link Google account to add an AutoPass to your Google wallet <WalletIcon/> </p>
-                            ) : (
-                                <Fab variant="extended" color='primary' onClick={() => {
-                                }}>
-                                    Add AutoPass to Google Wallet  <WalletIcon className="m-1"/>
-                                </Fab>
-                            )}
-                        </div>
-                    </SplitCard>
+                    {(userData.role === "GOOGLE_USER" || userData.googleAccessToken !== null) &&
+                        <SplitCard id="Google-Wallet" title="Google Wallet Pass" description="Add Google Wallet Pass with a capable android device.">
+                            <div className="text-center">
+                                {!googleLinked ? (
+                                    <p>Link Google account to add an AutoPass to your Google wallet <WalletIcon/> </p>
+                                ) :
+                                    userData.isGoogleWalletPassAdded ?
+                                        <p>Link your Google account to access this feature</p>
+                                    :                            
+                                        <img src={GoogleWalletButton} style={{cursor:"pointer"}} onClick={handleAddToGoogleWallet} alt="" />
+                                }
+                            </div>
+                        </SplitCard>
+                    }
 
 
-                    {(userData.role !== "GOOGLE_USER" || userData.googleAccessToken === null) &&
+                    {canResetPassword  &&
                         <SplitCard id="password-reset" title="Reset Password" description="Forgot your Password? Reset it.">
                             <div className="text-center">
                                 {!isEmailSent ? (
@@ -213,7 +247,6 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                                 )}
                             </div>
                         </SplitCard>
-
                     }
 
                     {/* Logout Button Card */}

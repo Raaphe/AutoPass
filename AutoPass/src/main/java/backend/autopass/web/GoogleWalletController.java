@@ -15,16 +15,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @PreAuthorize("hasAnyRole('ADMIN', 'GOOGLE_USER')")
 @RequestMapping("/google-wallet-api")
 @RequiredArgsConstructor
+@RestController
 public class GoogleWalletController {
 
 
     private final GoogleWalletService walletService;
 
-    @GetMapping("/add-google-wallet-pass")
+    @GetMapping("/get-add-pass-url")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(description = "Constructs a URL used to add a pass to a user's Google wallet.")
     @ApiResponses(value = {
@@ -42,22 +44,43 @@ public class GoogleWalletController {
             @ApiResponse(
                     responseCode = "403", description = "Pass already exists.",
                     content = @Content
+            )
+    })
+    public ResponseEntity<String> getSavePassURL(@RequestParam Integer userId) throws Exception {
+
+        if (walletService.doesPassExist(userId)) {
+            return ResponseEntity.status(403).body(null);
+        } else {
+            return ResponseEntity.ok(walletService.createJWTNewObjects(userId));
+        }
+    }
+
+    @GetMapping("/add-google-wallet-pass")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(description = "Adds a pass to a user's Google wallet.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "URL sent successfully.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = String.class))
+                    }
             ),
             @ApiResponse(
-                    responseCode = "404", description = "User Not Found.",
+                    responseCode = "400", description = "Could not save pass.",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "403", description = "Pass already exists.",
                     content = @Content
             )
     })
-    public ResponseEntity<String> getSavePassURL(@RequestParam Integer userId) {
+    public ResponseEntity<String> savePass(@RequestParam Integer userId) throws Exception {
 
-        try {
-            if (walletService.doesPassExist(userId)) {
-                return ResponseEntity.status(403).body(null);
-            } else {
-                return ResponseEntity.ok(walletService.createJWTNewObjects(userId));
-            }
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+        if (walletService.doesPassExist(userId)) {
+            return ResponseEntity.status(403).body(null);
+        } else {
+            return ResponseEntity.ok(walletService.createJWTNewObjects(userId));
         }
     }
 }
