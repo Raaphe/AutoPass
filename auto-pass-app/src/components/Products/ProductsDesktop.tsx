@@ -1,55 +1,78 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Card, Button, Typography, Divider, IconButton } from "@mui/material"; // Import Material-UI components
-import { CircularProgressbarWithChildren } from "react-circular-progressbar"; // Import CircularProgressbar
-import "react-circular-progressbar/dist/styles.css"; // Import styles for CircularProgressbar
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs"; // Import Bootstrap icons for navigation buttons
 import { MdConfirmationNumber } from "react-icons/md"; // Import Material Design icon for ticket
 
+import ClientAuthService from "../../ClientAuthService";
+import * as API from "../../Service/api"; 
 interface ProductsDesktopProps {
 }
 
-interface Membership {
-  price: number;
-  membershipDurationDays: number;
-}
+/**
+ * @author : Lam Nguyen
+ * @version : 01
+ * Products Page
+ * Frontend component for products.
+ * 30/03/24
+ * AutoPass
+ */
 
-interface Ticket {
-  ticketAmount: number;
-  price: number;
-}
-//Ticket data cause i don't know how to code the api yet
 const ProductsDesktop: FC<ProductsDesktopProps> = () => {
-  const memberships: Membership[] = [
-    { price: 11, membershipDurationDays: 1 },
-    { price: 21.25, membershipDurationDays: 3 },
-    { price: 30, membershipDurationDays: 7 },
-    { price: 97, membershipDurationDays: 30 },
-    { price: 226, membershipDurationDays: 140 },
-  ];
 
-  const tickets: Ticket[] = [
-    { ticketAmount: 1, price: 3.75 },
-    { ticketAmount: 2, price: 7 },
-    { ticketAmount: 10, price: 32.50 },
-  ];
+  const productsAPI = new API.ProductsControllerApi(ClientAuthService.getApiConfig())
 
+  useEffect(() => {
+
+    const getProducts = () => {
+      productsAPI.getAllProducts()
+      .then((res) => {
+        if(res.status !== 200){
+          return;
+        }
+        setProductsInfo(res.data)
+      })
+    }
+    getProducts()
+  }, [])
+
+
+  const [productsInfo, setProductsInfo] = useState <API.ProductsViewModel>()
   const [membershipIndex, setMembershipIndex] = useState(0);
   const [ticketIndex, setTicketIndex] = useState(0);
 
+  const getMembershipSize = () => {
+    if(productsInfo?.membershipList?.length === null || productsInfo?.membershipList?.length === undefined){
+      return 0
+    }
+    else{
+      return productsInfo?.membershipList.length
+    }
+  }
+
+  const getTicketsSize = () => {
+    if(productsInfo?.ticketsList?.length === null || productsInfo?.ticketsList?.length === undefined){
+      return 0
+    }
+    else{
+      return productsInfo?.ticketsList.length
+    }
+  }
+
+
   const handleMembershipNext = () => {
-    setMembershipIndex((prevIndex) => (prevIndex + 1) % memberships.length);
+    setMembershipIndex((prevIndex) => (prevIndex + 1) % getMembershipSize());
   };
 
   const handleMembershipPrev = () => {
-    setMembershipIndex((prevIndex) => (prevIndex - 1 + memberships.length) % memberships.length);
+    setMembershipIndex((prevIndex) => (prevIndex - 1 + getMembershipSize()) % getMembershipSize());
   };
 
   const handleTicketNext = () => {
-    setTicketIndex((prevIndex) => (prevIndex + 1) % tickets.length);
+    setTicketIndex((prevIndex) => (prevIndex + 1) % getTicketsSize());
   };
 
   const handleTicketPrev = () => {
-    setTicketIndex((prevIndex) => (prevIndex - 1 + tickets.length) % tickets.length);
+    setTicketIndex((prevIndex) => (prevIndex - 1 + getTicketsSize()) % getTicketsSize());
   };
 
   const handleAddPlan = () => {
@@ -68,7 +91,7 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
       <Divider style={{ marginBottom: "20px" }} />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {/* Membership card */}
-        <Card elevation={12} style={{ width: "300px", height: "450px", margin: "10px", padding: "20px", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
+        <Card elevation={12} style={{ width: "300px", height: "450px", margin: "10px", padding: "20px", borderRadius: "10px"}}>
           <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
             Memberships
           </Typography>
@@ -80,10 +103,10 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
               </IconButton>
               <div style={{ padding: "20px", textAlign: "center" }}>
                 <Typography variant="h5" gutterBottom>
-                  Membership Duration: {memberships[membershipIndex].membershipDurationDays} days
+                  Membership Duration in days: {productsInfo?.membershipList?.at(membershipIndex)?.membershipDurationDays}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  Price: ${memberships[membershipIndex].price}
+                  Price: ${productsInfo?.membershipList?.at(membershipIndex)?.price}
                 </Typography>
               </div>
               <IconButton onClick={handleMembershipNext} style={{ marginLeft: "auto", backgroundColor: "#eee" }}>
@@ -95,7 +118,7 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
         </Card>
 
         {/* Tickets card */}
-        <Card elevation={12} style={{ width: "300px", height: "450px", margin: "10px", padding: "20px", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
+        <Card elevation={12} style={{ width: "300px", height: "450px", margin: "10px", padding: "20px", borderRadius: "10px" }}>
           <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
             Tickets
           </Typography>
@@ -107,10 +130,10 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
               </IconButton>
               <div style={{ padding: "20px", textAlign: "center" }}>
                 <Typography variant="h5" gutterBottom>
-                  Ticket Amount: {tickets[ticketIndex].ticketAmount} <MdConfirmationNumber style={{ verticalAlign: "middle", marginLeft: "5px" }} />
+                  Ticket Amount: {productsInfo?.ticketsList?.at(ticketIndex)?.ticketAmount} <MdConfirmationNumber style={{ verticalAlign: "middle", marginLeft: "5px" }} />
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  Price: ${tickets[ticketIndex].price}
+                  Price: ${productsInfo?.ticketsList?.at(ticketIndex)?.price}
                 </Typography>
               </div>
               <IconButton onClick={handleTicketNext} style={{ marginLeft: "auto", backgroundColor: "#eee" }}>

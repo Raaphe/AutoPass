@@ -100,6 +100,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/delete-bus").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanner-info").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/products/get-all-products").authenticated()
                         .requestMatchers("/h2-console/**").permitAll()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
