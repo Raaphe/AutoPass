@@ -6,6 +6,14 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * UserWallet - 2024-03-30
+ * Raph
+ * User Wallet entity.
+ * Not to confuse Google Wallet implementation with this entity.
+ * The Google wallet API is used in the app for virtual pass distribution whereas this entity represents the number of tickets and the membership type for a user.
+ * AutoPass
+ */
 @Entity
 @Data
 @Builder

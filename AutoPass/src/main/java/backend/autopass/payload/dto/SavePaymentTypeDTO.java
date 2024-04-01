@@ -9,6 +9,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * SavePaymentTypeDTO - 2024-03-30
+ * Raph
+ * dto for request that saves payment types.
+ * AutoPass
+ */
 @Data
 @Builder
 @NoArgsConstructor

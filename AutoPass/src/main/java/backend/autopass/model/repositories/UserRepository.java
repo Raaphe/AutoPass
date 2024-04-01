@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * UserRepository - 2024-03-30
+ * Raph, Lam
+ * Provides data-access to User's.
+ * AutoPass
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 

@@ -22,7 +22,7 @@ const ProtectedRoutesAnonymous : FC<ProtectedRoutesAnonumousProps> = () => {
     }, []);
 
     if (isAuth) {
-        return <Navigate to="/home"/>
+        return <Navigate to="/terminal"/>
     } else {
         return (
             <>

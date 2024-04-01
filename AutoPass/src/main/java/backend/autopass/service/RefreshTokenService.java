@@ -23,6 +23,12 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * RefreshTokenService - 2024-03-30
+ * Raph
+ * Refresh token Service method implementation.
+ * AutoPass
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

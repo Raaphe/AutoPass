@@ -18,6 +18,12 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DataLoader - 2024-03-30
+ * Raph
+ * Since the database is in memory, this class loads some predefined values in the database.
+ * AutoPass
+ */
 @Component
 @AllArgsConstructor
 @Slf4j

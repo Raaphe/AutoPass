@@ -14,6 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * WalletController - 2024-03-30
+ * Raph
+ * User Wallet REST Controller.
+ * AutoPass
+ */
 @RestController
 @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GOOGLE_USER')")
 @RequiredArgsConstructor

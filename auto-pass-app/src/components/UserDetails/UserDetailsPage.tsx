@@ -12,7 +12,7 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import * as API from "../../Service";
 import TextField from '@mui/material/TextField/TextField';
 import GoogleWalletButton from "../../assets/enCA_add_to_google_wallet_add-wallet-badge.png"
-import { Fab } from '@mui/material';
+import { Button, ButtonGroup, Fab, Skeleton, Stack } from '@mui/material';
 import { red } from '@mui/material/colors';
 import "./UserDetailsPage.module.scss"
 
@@ -25,8 +25,9 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [userData, setUserData] = useState<API.User>();
     const [isEmailSent, setIsEmailSent] = useState(false);
-    const [addGoogleWalletURL, setGoogleWalletSaveURL] = useState("");
+    const [addGoogleWalletURL, setGoogleWalletSaveURL] = useState<API.GoogleWalletPassURLViewModel>();
     const [canResetPassword, setCanResetPassword] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     // This is how we set up the access token inside the subsequent request's `Authorization Header` like so :
     // "Bearer <access_token>"
@@ -34,9 +35,10 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const userAPI = new API.UserControllerApi(config);
     const authAPI = new API.AuthenticationApi(config);
     const googleWalletApi = new API.GoogleWalletControllerApi(config);
-    
+
     useEffect(() => {
 
+        setIsLoading(true);
         const fetchUserData = async () => {
             await userAPI.getUser()
                 .then((res) => {
@@ -51,42 +53,33 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                     navigate("/");
                 })
         }
-
-        const getSavePassURL = () => {
-            googleWalletApi.getSavePassURL(ClientAuthService.getUserId())
-                .then((res) => {
-                    if (res.status !== 200) {
-                        setGoogleWalletSaveURL("")
+        const getSavePassURL = async () => {
+            await googleWalletApi.getSavePassURL(ClientAuthService.getUserId())
+                .then(res => {
+                    if (res.status !== 200 || res.data === null || res.data.passUrl === "") {
+                        return;
                     }
+                    
                     setGoogleWalletSaveURL(res.data);
-                })
-                .catch((e) => {
-                    alert(e);
-                })
+                });
         }
 
-
-        getSavePassURL();
         fetchUserData();
+        getSavePassURL();
 
         if (userData?.role === "ADMIN" && userData.googleAccessToken !== null) {
             setCanResetPassword(false);
         } else if (userData?.role === "GOOGLE_USER") {
             setCanResetPassword(false);
-        } else {setCanResetPassword(true);}
+        } else { setCanResetPassword(true); }
 
-
-    }, [navigate])
+        setIsLoading(false);
+    }, [navigate, isLoading])
 
 
     // Render loading indicator while fetching data
     if (!userData) {
         return <div>Loading...</div>;
-    }
-
-    const handleAddToGoogleWallet = () => {
-        // window.location.href = addGoogleWalletURL;
-        googleWalletApi.savePass(ClientAuthService.getUserId());
     }
 
     const handleAccountDelete = async () => {
@@ -126,7 +119,6 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                 var data = response.json()
                 console.log(data);
 
-                // setUserData({...userData, profileImageUrl: data.catch()})
                 setAvatarModalOpen(false);
                 window.location.reload();
             })
@@ -159,113 +151,148 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                     </ul>
                 </div>
                 <div className="col-md-9">
-                    {/* User Details Card */}
-                    <SplitCard id="user-details" title="User Details" description="Edit your personal information below">
 
-                        <motion.div
-                            className="avatar-container"
-                            whileHover={{ scale: 0.9 }}
-                            whileTap={{ scale: 0.8 }}
-                            onClick={() => setAvatarModalOpen(true)}
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
-                        >
-                            <img width={100} height={100} className="avatar" src={userData.profileImageUrl} alt="User Avatar" />
-                            {isHovered && <div className="hover-overlay"></div>}
-                        </motion.div>
-                        <div className="user-details">
-                            <TextField
-                                id="outlined-helperText"
-                                label="First Name"
-                                defaultValue="John"
-                                className='m-2 mt-4 col-12'
-                                value={userData.firstName}
-                            />
-                            <TextField
-                                className='m-2 col-12'
-                                id="outlined-helperText"
-                                label="Last Name"
-                                defaultValue="Doe"
-                                value={userData.lastName}
-                            />
-                            <TextField
-                                className='m-2 col-12'
-                                id="outlined-helperText"
-                                label="Email"
-                                value={userData.email}
-                            />
-                            <button onClick={handleSavePersonalInfo} className="btn btn-success float-end m-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">
-                                    <path d="M11 2H9v3h2z" />
-                                    <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </SplitCard>
+                    {isLoading ?
 
-                    {/* Link Google Account Card */}
-                    <SplitCard id="google-link" title="Link Google Account" description="Link your Google account to enable additional features">
-                        <div className="text-center">
-                            {!googleLinked ? (
-                                <Fab variant="extended" color='primary' onClick={() => { authAPI.forgotPassword(userData.email ?? ""); setIsEmailSent(true) }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-google m-1" viewBox="0 0 16 16">
-                                        <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z" />
-                                    </svg>
-                                    Link Google Account
-                                </Fab>
-                            ) : (
-                                <p>Google account linked successfully!</p>
-                            )}
-                        </div>
-                    </SplitCard>
+                        <Stack spacing={1}>
+                            {/* For variant="text", adjust the height via font-size */}
+                            <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
 
-                    {(userData.role === "GOOGLE_USER" || userData.googleAccessToken !== null) &&
-                        <SplitCard id="Google-Wallet" title="Google Wallet Pass" description="Add Google Wallet Pass with a capable android device.">
-                            <div className="text-center">
-                                {!googleLinked ? (
-                                    <p>Link Google account to add an AutoPass to your Google wallet <WalletIcon/> </p>
-                                ) :
-                                    userData.isGoogleWalletPassAdded ?
-                                        <p>Link your Google account to access this feature</p>
-                                    :                            
-                                        <img src={GoogleWalletButton} style={{cursor:"pointer"}} onClick={handleAddToGoogleWallet} alt="" />
-                                }
-                            </div>
-                        </SplitCard>
-                    }
+                            {/* For other variants, adjust the size with `width` and `height` */}
+                            <Skeleton variant="circular" width={40} height={40} />
+                            <Skeleton variant="rectangular" width={210} height={60} />
+                            <Skeleton variant="rounded" width={210} height={60} />
+                        </Stack>
+
+                        :
+
+                        <>
+
+                            {/* User Details Card */}
+                            <SplitCard id="user-details" title="User Details" description="Edit your personal information below">
+
+                                <motion.div
+                                    className="avatar-container"
+                                    whileHover={{ scale: 0.9 }}
+                                    whileTap={{ scale: 0.8 }}
+                                    onClick={() => setAvatarModalOpen(true)}
+                                    onMouseEnter={() => setIsHovered(true)}
+                                    onMouseLeave={() => setIsHovered(false)}
+                                >
+                                    <img width={100} height={100} className="avatar" src={userData.profileImageUrl} alt="User Avatar" />
+                                    {isHovered && <div className="hover-overlay"></div>}
+                                </motion.div>
+                                <div className="user-details">
+                                    <TextField
+                                        id="outlined-helperText"
+                                        label="First Name"
+                                        defaultValue="John"
+                                        className='m-2 mt-4 col-12'
+                                        value={userData.firstName}
+                                    />
+                                    <TextField
+                                        className='m-2 col-12'
+                                        id="outlined-helperText"
+                                        label="Last Name"
+                                        defaultValue="Doe"
+                                        value={userData.lastName}
+                                    />
+                                    <TextField
+                                        className='m-2 col-12'
+                                        id="outlined-helperText"
+                                        label="Email"
+                                        value={userData.email}
+                                    />
+                                    <button onClick={handleSavePersonalInfo} className="btn btn-success float-end m-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">
+                                            <path d="M11 2H9v3h2z" />
+                                            <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </SplitCard>
+
+                            {/* Link Google Account Card */}
+                            <SplitCard id="google-link" title="Link Google Account" description="Link your Google account to enable additional features">
+                                <div className="text-center">
+                                    {!googleLinked ? (
+                                        <Fab variant="extended" color='primary' onClick={() => { authAPI.forgotPassword(userData.email ?? ""); setIsEmailSent(true) }}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-google m-1" viewBox="0 0 16 16">
+                                                <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z" />
+                                            </svg>
+                                            Link Google Account
+                                        </Fab>
+                                    ) : (
+                                        <p>Google account linked successfully!</p>
+                                    )}
+                                </div>
+                            </SplitCard>
+
+                            {/* Google Wallet Card  */}
+                            {(userData.role === "GOOGLE_USER" || userData.googleAccessToken !== null) &&
+                                <SplitCard id="Google-Wallet" title="Google Wallet Pass" description="Add Google Wallet Pass with a capable android device.">
+                                    <div className="text-center">
+                                        {!googleLinked ? (
+                                            <p>Link Google account to add an AutoPass to your Google wallet <WalletIcon className='mx-2'/> </p>
+                                        ) :
+                                            userData.isGoogleWalletPassAdded ?
+                                                // be able to expire it or view it
+                                                <ButtonGroup variant='outlined' aria-label="Medium-sized button group">
+                                                    <Button color='error' disabled={addGoogleWalletURL?.isExpired} onClick={async () => { await googleWalletApi.expirePass(userData?.email ?? ""); window.location.reload(); setIsLoading(true)}}>
+                                                        Archive Pass
+                                                    </Button>
+                                                    <Button onClick={async () => {await googleWalletApi.activatePass(userData.email ?? "")}} href={addGoogleWalletURL?.passUrl}>
+                                                        View or Add 
+                                                    </Button>
+                                                </ButtonGroup>
+                                                :
+                                                // be able to add it (SCENARIO 1)
+                                                <a href={addGoogleWalletURL?.passUrl} target="_blank">
+                                                    <img src={GoogleWalletButton} style={{ cursor: "pointer" }} alt="" />
+                                                </a>
+                                        }
+                                    </div>
+                                </SplitCard>
+                            }
 
 
-                    {canResetPassword  &&
-                        <SplitCard id="password-reset" title="Reset Password" description="Forgot your Password? Reset it.">
-                            <div className="text-center">
-                                {!isEmailSent ? (
-                                    <Fab variant="extended" onClick={() => { authAPI.forgotPassword(userData.email ?? ""); setIsEmailSent(true) }}>
-                                        Reset Password
+                            {canResetPassword &&
+                                <SplitCard id="password-reset" title="Reset Password" description="Forgot your Password? Reset it.">
+                                    <div className="text-center">
+                                        {!isEmailSent ? (
+                                            <Fab variant="extended" onClick={() => { authAPI.forgotPassword(userData.email ?? ""); setIsEmailSent(true) }}>
+                                                Reset Password
+                                            </Fab>
+                                        ) : (
+                                            <p className='mt-4'><AttachEmailIcon />  Email Sent ! </p>
+                                        )}
+                                    </div>
+                                </SplitCard>
+                            }
+
+                            {/* Logout Button Card */}
+                            <SplitCard id="account-removal" title="Delete Account" description="Permenently delete your account?">
+                                <div className='text-center'>
+                                    <Fab variant="extended" onClick={handleAccountDelete}>
+                                        <DeleteIcon sx={{ mr: 1, color: red }} />
+                                        Delete Account
                                     </Fab>
-                                ) : (
-                                    <p className='mt-4'><AttachEmailIcon />  Email Sent ! </p>
-                                )}
-                            </div>
-                        </SplitCard>
+                                </div>
+                            </SplitCard>
+
+                            {/* Avatar Modal */}
+                            <AvatarModal
+                                isOpen={isAvatarModalOpen}
+                                onClose={onModalClose}
+                                onFileChange={handleImageSave}
+                                imageUrl={userData.profileImageUrl !== "" || userData.profileImageUrl !== null ? userData.profileImageUrl ?? "https://via.placeholder.com/150" : "https://via.placeholder.com/150"}
+                            />
+
+                        </>
+
                     }
 
-                    {/* Logout Button Card */}
-                    <SplitCard id="account-removal" title="Delete Account" description="Permenently delete your account?">
-                        <div className='text-center'>
-                            <Fab variant="extended" onClick={handleAccountDelete}>
-                                <DeleteIcon sx={{ mr: 1, color: red }} />
-                                Delete Account
-                            </Fab>
-                        </div>
-                    </SplitCard>
 
-                    {/* Avatar Modal */}
-                    <AvatarModal
-                        isOpen={isAvatarModalOpen}
-                        onClose={onModalClose}
-                        onFileChange={handleImageSave}
-                        imageUrl={userData.profileImageUrl !== "" || userData.profileImageUrl !== null ? userData.profileImageUrl ?? "https://via.placeholder.com/150" : "https://via.placeholder.com/150"}
-                    />
                 </div>
             </div>
         </div>

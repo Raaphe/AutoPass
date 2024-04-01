@@ -3,13 +3,18 @@ package backend.autopass.payload.dto;
 import backend.autopass.model.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * SignUpDTO - 2024-03-30
+ * Raph
+ * DTO for registering account request.
+ * AutoPass
+ */
 @Data
 @Builder
 @NoArgsConstructor

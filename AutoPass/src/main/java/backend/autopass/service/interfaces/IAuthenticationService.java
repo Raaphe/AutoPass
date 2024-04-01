@@ -5,6 +5,12 @@ import backend.autopass.payload.dto.SignInDTO;
 import backend.autopass.payload.dto.SignUpDTO;
 import backend.autopass.payload.viewmodels.AuthenticationResponse;
 
+/**
+ * IAuthenticationService - 2024-03-30
+ * Raph
+ * Service interface for Authentication Service.
+ * AutoPass
+ */
 public interface IAuthenticationService {
     /**
      * Registers a user from a sign-up request.

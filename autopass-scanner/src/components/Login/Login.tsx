@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import "./Login.scss";
-import { AuthenticationResponse, SignInDTO } from "../../Service/api";
+import { SignInDTO } from "../../Service/api";
 import ClientAuthService from "../../ClientAuthService";
 import { useNavigate } from "react-router-dom";
 import { Box, Card, IconButton, Stack, TextField } from "@mui/material";
@@ -23,8 +23,6 @@ const Login: FC<LoginProps> = () => {
     // Prevents page reload. may be removed
 
     event.preventDefault();
-
-    alert(signInData.email + " " + signInData.password)
 
     var isCredentialCorrect: boolean = await ClientAuthService.login(
       signInData
@@ -56,7 +54,7 @@ const Login: FC<LoginProps> = () => {
         <Stack direction="column" className="mx-3 mb-4" style={{ display: "flex", justifyContent: "center", alignItems: "center", maxWidth: "100%", width: "100%" }}>
 
           <TextField
-            id="standard-password-input"
+            id="standard-email-input"
             label="Email"
             type="Email"
             autoComplete="current-password"

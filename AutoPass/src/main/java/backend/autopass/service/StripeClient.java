@@ -7,6 +7,12 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * StripeClient - 2024-03-30
+ * Raph
+ * Stripe Client method implementation. (Maybe obsolete)
+ * AutoPass
+ */
 @Component
 public class StripeClient {
     StripeClient() {

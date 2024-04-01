@@ -5,6 +5,12 @@ import lombok.*;
 
 import java.io.Serializable;
 
+/**
+ * Membership - 2024-03-30
+ * Raph
+ * Membership entity.
+ * AutoPass
+ */
 @Data
 @Entity
 @Builder
@@ -22,5 +28,4 @@ public class Membership implements Serializable {
     @Column(nullable = false)
     @Builder.Default
     private boolean isDeleted = false;
-
 }

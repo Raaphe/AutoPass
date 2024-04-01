@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * PaymentTypeRepository - 2024-03-30
+ * Raph, Lam
+ * Provides data-access to Payment Types.
+ * AutoPass
+ */
 @Repository
 public interface PaymentTypeRepository extends JpaRepository<PaymentType, Long> {
 

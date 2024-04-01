@@ -20,6 +20,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * OpenAPISecurityConfig - 2024-03-30
+ * Raph
+ * The OpenAPI 3.0 configurations.
+ * AutoPass
+ */
 @OpenAPIDefinition(
         info = @io.swagger.v3.oas.annotations.info.Info(
                 contact = @io.swagger.v3.oas.annotations.info.Contact(

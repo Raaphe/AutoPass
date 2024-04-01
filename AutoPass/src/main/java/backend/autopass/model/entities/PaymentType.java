@@ -6,6 +6,12 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * PaymentType - 2024-03-30
+ * Raph
+ * Payment Type entity.
+ * AutoPass
+ */
 @Entity
 @Data
 @Builder

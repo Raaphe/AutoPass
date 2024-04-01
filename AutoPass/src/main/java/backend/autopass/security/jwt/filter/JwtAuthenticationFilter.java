@@ -12,22 +12,24 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
-
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 
+/**
+ * JwtAuthenticationFilter - 2024-03-30
+ * Raph
+ * Once per request filter for JWT validation.
+ * This takes care of access and refresh token logic.
+ * It also ignores all mappings found inside `WHITE_LIST_URL` that is defined over in the `SecurityConfig` class.
+ * AutoPass
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -67,11 +69,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-
-
         if (jwt != null) {
             String userEmail = jwtService.extractUserName(jwt);
-
 
             if (isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails;
@@ -80,7 +79,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // Get Refresh token
                 // For refresh token logic, the filter will only let the request pass if refresh token is valid.
                 // It assumes some other part of the application will handle the generation of a new access token.
-                // ^^ in frontend/src/ClientAuthService.ts
+                // ^^ In frontend/src/ClientAuthService.ts
                 boolean isRefreshTokenValid;
                 Token refreshToken = refreshTokenService.getTokenFromUserDetails(userDetails);
                 isRefreshTokenValid = !refreshTokenService.isTokenExpired(refreshToken);

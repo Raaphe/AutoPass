@@ -238,12 +238,6 @@ export interface EntityModelPaymentType {
     'expiryDate'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof EntityModelPaymentType
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
@@ -254,6 +248,12 @@ export interface EntityModelPaymentType {
      * @memberof EntityModelPaymentType
      */
     'cvv'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelPaymentType
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -406,7 +406,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -418,13 +418,13 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonLocked'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'credentialsNonExpired'?: boolean;
+    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -570,6 +570,25 @@ export interface ErrorResponseStackTraceElementsInner {
      * @memberof ErrorResponseStackTraceElementsInner
      */
     'nativeMethod'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GoogleWalletPassURLViewModel
+ */
+export interface GoogleWalletPassURLViewModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof GoogleWalletPassURLViewModel
+     */
+    'passUrl'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GoogleWalletPassURLViewModel
+     */
+    'isExpired'?: boolean;
 }
 /**
  * 
@@ -1132,6 +1151,37 @@ export interface PassRequestBody {
 /**
  * 
  * @export
+ * @interface PassValidationResponseViewModel
+ */
+export interface PassValidationResponseViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PassValidationResponseViewModel
+     */
+    'numberOfTickets'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PassValidationResponseViewModel
+     */
+    'expiresAt'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PassValidationResponseViewModel
+     */
+    'isValid'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PassValidationResponseViewModel
+     */
+    'responseMessage'?: string;
+}
+/**
+ * 
+ * @export
  * @interface PaymentTypeRequestBody
  */
 export interface PaymentTypeRequestBody {
@@ -1155,12 +1205,6 @@ export interface PaymentTypeRequestBody {
     'expiryDate'?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof PaymentTypeRequestBody
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
@@ -1171,6 +1215,12 @@ export interface PaymentTypeRequestBody {
      * @memberof PaymentTypeRequestBody
      */
     'cvv'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PaymentTypeRequestBody
+     */
+    'deleted'?: boolean;
 }
 /**
  * 
@@ -1502,7 +1552,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1514,13 +1564,13 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonLocked'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof User
      */
-    'credentialsNonExpired'?: boolean;
+    'deleted'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1633,7 +1683,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'deleted'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1645,13 +1695,13 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonLocked'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'credentialsNonExpired'?: boolean;
+    'deleted'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -2489,15 +2539,15 @@ export class AuthenticationApi extends BaseAPI {
 export const GoogleWalletControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Constructs a URL used to add a pass to a user\'s Google wallet.
-         * @param {number} userId 
+         * Sets a user\'s pass to active state.
+         * @param {string} email 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSavePassURL: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('getSavePassURL', 'userId', userId)
-            const localVarPath = `/google-wallet-api/get-add-pass-url`;
+        activatePass: async (email: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'email' is not null or undefined
+            assertParamExists('activatePass', 'email', email)
+            const localVarPath = `/google-wallet-api/activate-pass`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2505,7 +2555,7 @@ export const GoogleWalletControllerApiAxiosParamCreator = function (configuratio
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -2513,8 +2563,8 @@ export const GoogleWalletControllerApiAxiosParamCreator = function (configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
+            if (email !== undefined) {
+                localVarQueryParameter['email'] = email;
             }
 
 
@@ -2529,15 +2579,55 @@ export const GoogleWalletControllerApiAxiosParamCreator = function (configuratio
             };
         },
         /**
-         * Adds a pass to a user\'s Google wallet.
+         * Sets a user\'s pass to expired state.
+         * @param {string} email 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expirePass: async (email: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'email' is not null or undefined
+            assertParamExists('expirePass', 'email', email)
+            const localVarPath = `/google-wallet-api/expire-pass`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (email !== undefined) {
+                localVarQueryParameter['email'] = email;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Constructs a URL used to add a pass to a user\'s Google wallet.
          * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        savePass: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getSavePassURL: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userId' is not null or undefined
-            assertParamExists('savePass', 'userId', userId)
-            const localVarPath = `/google-wallet-api/add-google-wallet-pass`;
+            assertParamExists('getSavePassURL', 'userId', userId)
+            const localVarPath = `/google-wallet-api/get-add-pass-url`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2579,27 +2669,39 @@ export const GoogleWalletControllerApiFp = function(configuration?: Configuratio
     const localVarAxiosParamCreator = GoogleWalletControllerApiAxiosParamCreator(configuration)
     return {
         /**
+         * Sets a user\'s pass to active state.
+         * @param {string} email 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async activatePass(email: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.activatePass(email, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['GoogleWalletControllerApi.activatePass']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Sets a user\'s pass to expired state.
+         * @param {string} email 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async expirePass(email: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expirePass(email, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['GoogleWalletControllerApi.expirePass']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
          * Constructs a URL used to add a pass to a user\'s Google wallet.
          * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSavePassURL(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+        async getSavePassURL(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GoogleWalletPassURLViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getSavePassURL(userId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['GoogleWalletControllerApi.getSavePassURL']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * Adds a pass to a user\'s Google wallet.
-         * @param {number} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async savePass(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.savePass(userId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['GoogleWalletControllerApi.savePass']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
@@ -2613,22 +2715,31 @@ export const GoogleWalletControllerApiFactory = function (configuration?: Config
     const localVarFp = GoogleWalletControllerApiFp(configuration)
     return {
         /**
+         * Sets a user\'s pass to active state.
+         * @param {string} email 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        activatePass(email: string, options?: any): AxiosPromise<boolean> {
+            return localVarFp.activatePass(email, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Sets a user\'s pass to expired state.
+         * @param {string} email 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expirePass(email: string, options?: any): AxiosPromise<boolean> {
+            return localVarFp.expirePass(email, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Constructs a URL used to add a pass to a user\'s Google wallet.
          * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSavePassURL(userId: number, options?: any): AxiosPromise<string> {
+        getSavePassURL(userId: number, options?: any): AxiosPromise<GoogleWalletPassURLViewModel> {
             return localVarFp.getSavePassURL(userId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Adds a pass to a user\'s Google wallet.
-         * @param {number} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        savePass(userId: number, options?: any): AxiosPromise<string> {
-            return localVarFp.savePass(userId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2641,6 +2752,28 @@ export const GoogleWalletControllerApiFactory = function (configuration?: Config
  */
 export class GoogleWalletControllerApi extends BaseAPI {
     /**
+     * Sets a user\'s pass to active state.
+     * @param {string} email 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GoogleWalletControllerApi
+     */
+    public activatePass(email: string, options?: RawAxiosRequestConfig) {
+        return GoogleWalletControllerApiFp(this.configuration).activatePass(email, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Sets a user\'s pass to expired state.
+     * @param {string} email 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GoogleWalletControllerApi
+     */
+    public expirePass(email: string, options?: RawAxiosRequestConfig) {
+        return GoogleWalletControllerApiFp(this.configuration).expirePass(email, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Constructs a URL used to add a pass to a user\'s Google wallet.
      * @param {number} userId 
      * @param {*} [options] Override http request option.
@@ -2649,17 +2782,6 @@ export class GoogleWalletControllerApi extends BaseAPI {
      */
     public getSavePassURL(userId: number, options?: RawAxiosRequestConfig) {
         return GoogleWalletControllerApiFp(this.configuration).getSavePassURL(userId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Adds a pass to a user\'s Google wallet.
-     * @param {number} userId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof GoogleWalletControllerApi
-     */
-    public savePass(userId: number, options?: RawAxiosRequestConfig) {
-        return GoogleWalletControllerApiFp(this.configuration).savePass(userId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5746,6 +5868,117 @@ export class ScannerControllerApi extends BaseAPI {
      */
     public getScannerByBusNumber(busNumber: number, options?: RawAxiosRequestConfig) {
         return ScannerControllerApiFp(this.configuration).getScannerByBusNumber(busNumber, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TerminalControllerApi - axios parameter creator
+ * @export
+ */
+export const TerminalControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Validates a google wallet QR-Code.
+         * @param {string} barcodeValue 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validatePass: async (barcodeValue: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'barcodeValue' is not null or undefined
+            assertParamExists('validatePass', 'barcodeValue', barcodeValue)
+            const localVarPath = `/terminal/validate`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (barcodeValue !== undefined) {
+                localVarQueryParameter['barcodeValue'] = barcodeValue;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TerminalControllerApi - functional programming interface
+ * @export
+ */
+export const TerminalControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TerminalControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Validates a google wallet QR-Code.
+         * @param {string} barcodeValue 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async validatePass(barcodeValue: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PassValidationResponseViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.validatePass(barcodeValue, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TerminalControllerApi.validatePass']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TerminalControllerApi - factory interface
+ * @export
+ */
+export const TerminalControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TerminalControllerApiFp(configuration)
+    return {
+        /**
+         * Validates a google wallet QR-Code.
+         * @param {string} barcodeValue 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validatePass(barcodeValue: string, options?: any): AxiosPromise<PassValidationResponseViewModel> {
+            return localVarFp.validatePass(barcodeValue, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TerminalControllerApi - object-oriented interface
+ * @export
+ * @class TerminalControllerApi
+ * @extends {BaseAPI}
+ */
+export class TerminalControllerApi extends BaseAPI {
+    /**
+     * Validates a google wallet QR-Code.
+     * @param {string} barcodeValue 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TerminalControllerApi
+     */
+    public validatePass(barcodeValue: string, options?: RawAxiosRequestConfig) {
+        return TerminalControllerApiFp(this.configuration).validatePass(barcodeValue, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

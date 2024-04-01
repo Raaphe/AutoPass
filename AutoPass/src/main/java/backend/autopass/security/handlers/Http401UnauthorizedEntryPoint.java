@@ -11,17 +11,25 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.time.Instant;
 
+/**
+ * Http401UnauthorizedEntryPoint - 2024-03-30
+ * Raph
+ * Custom http 401 Entry point for auth.
+ * AutoPass
+ */
 @Component
 @Slf4j
 public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-            throws IOException {
+    public void commence(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException authException
+    ) throws IOException {
         log.error("Unauthorized error: {}", authException.getMessage());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -33,6 +41,7 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
                 .message(authException.getMessage())
                 .path(request.getServletPath())
                 .build();
+
         final ObjectMapper mapper = new ObjectMapper();
         // register the JavaTimeModule, which enables Jackson to support Java 8 and higher date and time types
         mapper.registerModule(new JavaTimeModule());

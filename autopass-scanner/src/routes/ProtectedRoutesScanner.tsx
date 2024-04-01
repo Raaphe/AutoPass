@@ -28,7 +28,7 @@ const ProtectedRoutesScanner : FC<ProtectedRoutesScannerProps> = () => {
             <Outlet/> 
         </>
         : 
-        <Navigate to="/login"/>;
+        <Navigate to="/"/>;
 }
 
 export default ProtectedRoutesScanner;

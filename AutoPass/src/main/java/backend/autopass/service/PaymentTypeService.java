@@ -12,6 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * PaymentTypeService - 2024-03-30
+ * Raph
+ * Payment Type Service method implementation.
+ * AutoPass
+ */
 @Service
 @RequiredArgsConstructor
 public class PaymentTypeService implements IPaymentTypeService {

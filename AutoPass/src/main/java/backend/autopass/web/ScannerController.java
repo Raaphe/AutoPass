@@ -1,6 +1,7 @@
 package backend.autopass.web;
 
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.viewmodels.PassValidationResponseViewModel;
 import backend.autopass.service.ScannerService;
 import backend.autopass.payload.dto.ScannerRegistrationDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,8 +19,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 
+/**
+ * ScannerController - 2024-03-30
+ * Raph
+ * Scanner Rest Controller.
+ * AutoPass
+ */
 @RestController
-@PreAuthorize("hasAnyRole('ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN', 'SCANNER_USER')")
 @RequestMapping("/admin/scanner")
 @RequiredArgsConstructor
 public class ScannerController {

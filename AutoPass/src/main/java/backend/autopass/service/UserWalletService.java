@@ -9,6 +9,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * UserWalletService - 2024-03-30
+ * Raph
+ * UserWallet Service method implementation.
+ * AutoPass
+ */
 @Service
 @RequiredArgsConstructor
 public class UserWalletService implements IUserWallet {

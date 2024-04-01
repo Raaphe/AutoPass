@@ -2,6 +2,12 @@ package backend.autopass.service.interfaces;
 
 import backend.autopass.model.entities.UserWallet;
 
+/**
+ * IUserWallet - 2024-03-30
+ * Raph
+ * Service interface for User Wallet Service.
+ * AutoPass
+ */
 public interface IUserWallet {
 
     /**

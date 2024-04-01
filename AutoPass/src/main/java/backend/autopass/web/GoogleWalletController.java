@@ -1,9 +1,9 @@
 package backend.autopass.web;
 
-import backend.autopass.model.entities.User;
+import backend.autopass.payload.viewmodels.GoogleWalletPassURLViewModel;
 import backend.autopass.service.GoogleWalletService;
+import backend.autopass.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,17 +12,22 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
+import java.io.IOException;
+
+/**
+ * GoogleWalletController - 2024-03-30
+ * Raph
+ * Google Wallet AutoPass REST Controller.
+ * AutoPass
+ */
 @PreAuthorize("hasAnyRole('ADMIN', 'GOOGLE_USER')")
 @RequestMapping("/google-wallet-api")
 @RequiredArgsConstructor
 @RestController
 public class GoogleWalletController {
-
 
     private final GoogleWalletService walletService;
 
@@ -34,53 +39,68 @@ public class GoogleWalletController {
                     responseCode = "200", description = "URL sent successfully.",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = String.class))
+                                    schema = @Schema(implementation = GoogleWalletPassURLViewModel.class))
                     }
             ),
             @ApiResponse(
                     responseCode = "400", description = "Could not build URL.",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "403", description = "Pass already exists.",
-                    content = @Content
-            )
     })
-    public ResponseEntity<String> getSavePassURL(@RequestParam Integer userId) throws Exception {
-
-        if (walletService.doesPassExist(userId)) {
-            return ResponseEntity.status(403).body(null);
-        } else {
-            return ResponseEntity.ok(walletService.createJWTNewObjects(userId));
+    public ResponseEntity<GoogleWalletPassURLViewModel> getSavePassURL(@RequestParam Integer userId) {
+        try {
+            return ResponseEntity.ok(walletService.createObject(userId));
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
-    @GetMapping("/add-google-wallet-pass")
+    @PostMapping("/expire-pass")
     @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(description = "Adds a pass to a user's Google wallet.")
+    @Operation(description = "Sets a user's pass to expired state.")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "URL sent successfully.",
+                    responseCode = "200", description = "Pass expired.",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = String.class))
+                                    schema = @Schema(implementation = Boolean.class))
                     }
             ),
             @ApiResponse(
-                    responseCode = "400", description = "Could not save pass.",
+                    responseCode = "400", description = "Bad Request.",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "403", description = "Pass already exists.",
-                    content = @Content
-            )
     })
-    public ResponseEntity<String> savePass(@RequestParam Integer userId) throws Exception {
+    public ResponseEntity<Boolean> expirePass(@RequestParam String email) {
+        try {
+            return ResponseEntity.ok(walletService.expireObject(email.replace("@", "."), email));
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().body(false);
+        }
+    }
 
-        if (walletService.doesPassExist(userId)) {
-            return ResponseEntity.status(403).body(null);
-        } else {
-            return ResponseEntity.ok(walletService.createJWTNewObjects(userId));
+    @PostMapping("/activate-pass")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(description = "Sets a user's pass to active state.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Pass activated.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad Request.",
+                    content = @Content
+            ),
+    })
+    public ResponseEntity<Boolean> activatePass(@RequestParam String email) {
+        try {
+            walletService.getJwtForPass(email, true);
+            return ResponseEntity.ok(true);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(false);
         }
     }
 }

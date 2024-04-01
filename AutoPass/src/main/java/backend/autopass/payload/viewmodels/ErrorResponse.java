@@ -7,6 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+/**
+ * ErrorResponse - 2024-03-30
+ * Raph
+ * Response object for errors.
+ * AutoPass
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

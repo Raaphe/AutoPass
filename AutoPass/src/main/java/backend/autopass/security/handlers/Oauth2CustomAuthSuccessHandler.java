@@ -24,6 +24,14 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+/**
+ * Oauth2CustomAuthSuccessHandler - 2024-03-30
+ * Raph
+ * Custom Oauth2 success handler.
+ * This class, once the user is loaded and created from `Oauth2UserService.java` class, this class then gets hit,
+ * saving the user in the current Security context.
+ * AutoPass
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j

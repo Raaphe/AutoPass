@@ -8,6 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
+/**
+ * IRefreshTokenService - 2024-03-30
+ * Raph
+ * Service interface for Refresh Token Service.
+ * AutoPass
+ */
 public interface IRefreshTokenService {
     /**
      * Generates the refresh token based on a user's id.
