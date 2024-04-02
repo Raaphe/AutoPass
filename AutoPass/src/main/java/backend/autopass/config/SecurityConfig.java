@@ -109,6 +109,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanner-info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/terminal/validate").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/products/get-all-products").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google-wallet-api/add-google-wallet-pass").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google-wallet-api/get-add-pass-url").authenticated()
                         .requestMatchers(HttpMethod.POST, "/google-wallet-api/expire-pass").authenticated()
