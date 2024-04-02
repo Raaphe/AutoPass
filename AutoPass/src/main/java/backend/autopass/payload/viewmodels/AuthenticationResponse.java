@@ -8,6 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * AuthenticationResponse - 2024-03-30
+ * Raph
+ * Response object for authentication request.
+ * AutoPass
+ */
 @Data
 @Builder
 @NoArgsConstructor

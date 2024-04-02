@@ -2,9 +2,18 @@ package backend.autopass.service.interfaces;
 
 import backend.autopass.model.entities.User;
 import backend.autopass.payload.dto.ScannerRegistrationDTO;
+import backend.autopass.payload.viewmodels.PassValidationResponseViewModel;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 
+/**
+ * IScannerService - 2024-03-30
+ * Raph
+ * Service interface for Scanner Service.
+ * AutoPass
+ */
 public interface IScannerService {
 
 
@@ -45,4 +54,11 @@ public interface IScannerService {
      * @return The bus account or an empty scanner object.
      */
     User getBusFromBusNumber(int busNumber);
+
+    /**
+     * Validates the Google wallet pass barcode value.
+     * @param rotatingBarcodeValue The barcode value made like so : <USER_EMAIL>-<TIME_BARCODE_WAS_GENERATED>-<TOTP>
+     * @return PassValidationResponseViewModel Whether the pass is valid.
+     */
+    PassValidationResponseViewModel validatePass(String rotatingBarcodeValue) throws NoSuchAlgorithmException, InvalidKeyException;
 }

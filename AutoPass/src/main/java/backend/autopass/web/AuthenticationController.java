@@ -32,6 +32,12 @@ import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+/**
+ * AuthenticationController - 2024-03-30
+ * Raph
+ * Authentication REST Controller.
+ * AutoPass
+ */
 @RestController
 @Tag(name = "Authentication", description = "The Authentication API. Contains operations like login, logout, refresh-token etc.")
 @RequestMapping("/auth")

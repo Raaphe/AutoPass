@@ -1,0 +1,30 @@
+.ScannerScreen {
+  .thinner-card {
+    width: calc(100% - 200px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .thinner-card-body {
+    padding: 100px;
+  }
+  
+  .container {
+    padding-top: 180px;
+    padding-bottom: 80px;
+  }
+
+  
+}
+
+.body {
+  background-color: #282c34;
+}
+
+.image1 {
+  transform: scale(0.5);
+}
+
+#icon {
+  transform: scale(2);
+}

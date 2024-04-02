@@ -28,7 +28,6 @@ const MembershipStatusGraph: FC<MembershipStatusGraph> = ({daysUntilExpiry, wall
                         {walletInfo.membershipActive ? `${daysUntilExpiry} days Remaining` :
                             <Button>See Options</Button>
                         }
-
                     </strong>
                 </div>
 

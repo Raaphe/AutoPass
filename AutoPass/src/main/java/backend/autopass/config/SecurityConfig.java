@@ -26,6 +26,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+/**
+ * SecurityConfig - 2024-03-30
+ * Raph
+ * The class for spring security web configs.
+ * AutoPass
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -99,17 +105,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/payment/charge").authenticated()
                         .requestMatchers(HttpMethod.GET, "/wallet/wallet-info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanners").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/delete-bus").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanner-info").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/terminal/validate").authenticated()
                         .requestMatchers(HttpMethod.GET, "/products/get-all-products").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google-wallet-api/add-google-wallet-pass").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/google-wallet-api/get-add-pass-url").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/google-wallet-api/expire-pass").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/google-wallet-api/activate-pass").authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/oauth2/authorization/google")
                         .successHandler(successHandler())
                 )
-
                 .logout(logout -> logout
                         .logoutSuccessUrl("/auth/logout")
                         .logoutSuccessHandler(oidcLogoutSuccessHandler())

@@ -16,6 +16,14 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.Optional;
 
+/**
+ * Oauth2UserService - 2024-03-30
+ * Raph
+ * When a user tries to log in with Google Oauth2, this method is triggered and here is overloaded.
+ * Responsible for saving Google user's information to our own database and to "link"
+ * normal user's accounts ('USER') with their Google accounts ('GOOGLE_USER')
+ * AutoPass
+ */
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -93,6 +101,11 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                     .build();
             userWallet = userWalletRepository.save(userWallet);
 
+            String lastname = user.getAttribute("family_name");
+            if (lastname == null) {
+                lastname = "";
+            }
+
             User newGoogleUser = User
                     .builder()
                     .email(email)
@@ -104,7 +117,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                     .pass(pass)
                     .password("")
                     .firstName(user.getAttribute("given_name"))
-                    .lastName(user.getAttribute("family_name"))
+                    .lastName(lastname)
                     .build();
 
             userRepository.save(newGoogleUser);

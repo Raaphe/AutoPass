@@ -1,12 +1,13 @@
-import { AuthenticationApi, AuthenticationResponse, IsLoggedInDTO, RefreshTokenDTO, SignUpDTO } from "./Service/api";
-import { Configuration, ConfigurationParameters } from "./Service/configuration";
+import { Configuration, ConfigurationParameters } from "./Service";
+import * as API from "./Service/api";
 
 class AuthenticationService {
-  authApi = new AuthenticationApi();
+  authApi = new API.AuthenticationApi();
 
   public async login(
-    loginDTO: import("./Service/api").SignInDTO
+    loginDTO: API.SignInDTO
   ): Promise<boolean> {
+    console.log("logging in in service");
 
     // login
     let statusCode = 0;
@@ -23,7 +24,7 @@ class AuthenticationService {
     return statusCode === 200;
   }
 
-  public async signup(signUpData: SignUpDTO): Promise<boolean> {
+  public async signup(signUpData: API.SignUpDTO): Promise<boolean> {
     let statusCode = 0;
     await this.authApi
       .register(signUpData)
@@ -54,14 +55,14 @@ class AuthenticationService {
   // When an access token is invalid, this method will handle refreshing it
   public async isUserLoggedIn(): Promise<boolean> {
     const config = this.getApiConfig();
-    const authenticatedAuthApi = new AuthenticationApi(config);
+    const authenticatedAuthApi = new API.AuthenticationApi(config);
     const accessToken = this.getAccessTokenOrDefault();
 
-    const refreshTokenDTO: RefreshTokenDTO = {
+    const refreshTokenDTO: API.RefreshTokenDTO = {
       refreshToken: this.getRefreshTokenOrDefault(),
     };
 
-    const loggedInDTO: IsLoggedInDTO = {
+    const loggedInDTO: API.IsLoggedInDTO = {
       accessToken: accessToken,
       userId: parseInt(sessionStorage.getItem("user-id") ?? "-1"),
     };
@@ -99,27 +100,20 @@ class AuthenticationService {
       return "";
     }
 
-    const role = await this.authApi.getUserRole(this.getAccessTokenOrDefault())
-    .then(res => {
-      if (res.status !== 200) {
-        return ""
-      }
-      return res.data;
-    })
-
-    return role;
+    return await this.authApi.getUserRole(this.getAccessTokenOrDefault())
+        .then(res => {
+          if (res.status !== 200) {
+            return ""
+          }
+          return res.data;
+        });
   }
 
   
 
   public isUserLoggedOut() {
-    if (
-      this.getAccessTokenOrDefault() === "" &&
-      this.getRefreshTokenOrDefault() === ""
-    ) {
-      return true;
-    }
-    return false;
+    return this.getAccessTokenOrDefault() === "" &&
+        this.getRefreshTokenOrDefault() === "";
   }
 
   public getAccessTokenOrDefault = () => {
@@ -149,11 +143,29 @@ class AuthenticationService {
   };
 
   public setAuthenticationResponseInMemory(
-    authResponse: AuthenticationResponse
+    authResponse: API.AuthenticationResponse
   ) {
     sessionStorage.setItem("access-token", authResponse.access_token ?? "");
     localStorage.setItem("refresh-token", authResponse.refresh_token ?? "");
     sessionStorage.setItem("user-id", authResponse.user_id?.toString() ?? "");
+  }
+
+  public async getLocalHostIp(): Promise<string> {
+    let ip = "";
+
+    await this.authApi.getAppIp()
+        .then(res => {
+          if (res.status != 200) {
+            return "";
+          }
+
+          return res.data;
+        })
+        .catch(e => {
+          return "";
+        })
+
+    return ip;
   }
 }
 

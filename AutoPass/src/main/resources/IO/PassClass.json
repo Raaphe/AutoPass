@@ -1,0 +1,32 @@
+{
+  "id": "3388000000022325174.autopass_class",
+  "smartTapEnabled": true,
+  "classTemplateInfo": {
+    "cardTemplateOverride": {
+      "cardRowTemplateInfos": [
+        {
+          "twoItems": {
+            "startItem": {
+              "firstValue": {
+                "fields": [
+                  {
+                    "fieldPath": "object.textModulesData['tickets']"
+                  }
+                ]
+              }
+            },
+            "endItem": {
+              "firstValue": {
+                "fields": [
+                  {
+                    "fieldPath": "object.textModulesData['days_left']"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

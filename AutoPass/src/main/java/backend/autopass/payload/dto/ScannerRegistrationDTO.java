@@ -4,6 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
+/**
+ * ScannerRegistrationDTO - 2024-03-30
+ * Raph
+ * DTO for registering scanner accounts.
+ * AutoPass
+ */
 @Data
 @Builder
 public class ScannerRegistrationDTO {

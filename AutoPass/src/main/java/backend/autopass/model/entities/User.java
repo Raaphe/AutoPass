@@ -9,6 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serializable;
 import java.util.Collection;
 
+/**
+ * User - 2024-03-30
+ * Raph
+ * User entity.
+ * AutoPass
+ */
 @Builder
 @Data
 @Entity
@@ -30,7 +36,6 @@ public class User implements UserDetails, Serializable {
     @Column(nullable = false)
     private String password;
     @OneToOne
-    @PrimaryKeyJoinColumn
     private UserWallet wallet;
     @OneToOne
     private Pass pass;
@@ -44,6 +49,16 @@ public class User implements UserDetails, Serializable {
     private Boolean isGoogleWalletPassAdded = false;
 
 
+    @PrePersist
+    protected void onCreate() {
+        if (isProfileImageChanged == null) {
+            isProfileImageChanged = false;
+        }
+
+        if (isGoogleWalletPassAdded == null) {
+            isGoogleWalletPassAdded = false;
+        }
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

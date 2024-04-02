@@ -20,6 +20,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * OpenAPISecurityConfig - 2024-03-30
+ * Raph
+ * The OpenAPI 3.0 configurations.
+ * AutoPass
+ */
 @OpenAPIDefinition(
         info = @io.swagger.v3.oas.annotations.info.Info(
                 contact = @io.swagger.v3.oas.annotations.info.Contact(
@@ -74,7 +80,6 @@ public class OpenAPISecurityConfig {
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .addServersItem(new Server().url("http://" + serverIp + ":" + backendPort))
-//                .addServersItem(new Server().url("https://d835-70-81-171-8.ngrok-free.app"))
                 .components(new Components()
                         .addSecuritySchemes("Bearer", createAPIKeyScheme()))
                 .info(new Info()

@@ -30,6 +30,12 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * UserService - 2024-03-30
+ * Raph, Moncef
+ * User service method implementation.
+ * AutoPass
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService, UserDetailsService {

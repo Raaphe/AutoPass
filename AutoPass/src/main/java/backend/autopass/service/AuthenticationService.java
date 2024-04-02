@@ -24,6 +24,14 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
+/**
+ * AuthenticationService - 2024-03-30
+ * Raph
+ * Authentication service implementation.
+ * Much of this code is found used in the `AuthenticationController` where the endpoints are public.
+ * These methods are responsible for handling JWTs.
+ * AutoPass
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -135,7 +143,7 @@ public class AuthenticationService implements IAuthenticationService {
             // Creating a password reset link
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             String accessToken = jwtService.generateToken(userDetails);
-            String url = "http://localhost:" + this.frontendPort + "/change-password?token=" + accessToken;
+            String url = "https://localhost:" + this.frontendPort + "/change-password?token=" + accessToken;
 
             // Constructing Email
             messageHelper.setFrom("raphaelpaquin19@gmail.com");

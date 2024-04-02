@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
+/**
+ * OAuth2Controller - 2024-03-30
+ * Raph
+ * Oauth2 REST Controller for Google from AutoPass.
+ * AutoPass
+ */
 @RestController
 @SecurityRequirements()
 @RequiredArgsConstructor

@@ -5,6 +5,12 @@ import lombok.*;
 
 import java.io.Serializable;
 
+/**
+ * Ticket - 2024-03-30
+ * Raph
+ * Ticket entity.
+ * AutoPass
+ */
 @Entity
 @Data
 @Builder

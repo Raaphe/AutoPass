@@ -7,7 +7,6 @@ import {
   RefreshTokenDTO,
   SignUpDTO
 } from "./Service";
-import * as url from "url";
 
 class AuthenticationService {
   authApi = new AuthenticationApi();

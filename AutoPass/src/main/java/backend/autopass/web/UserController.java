@@ -21,8 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 
+/**
+ * UserController - 2024-03-30
+ * Raph, Moncef
+ * User REST controller.
+ * AutoPass
+ */
 @RestController
-@PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER', 'GOOGLE_USER')")
+@PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER', 'GOOGLE_USER', 'SCANNER_USER')")
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/user")

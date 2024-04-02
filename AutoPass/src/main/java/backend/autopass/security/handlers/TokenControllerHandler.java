@@ -15,6 +15,12 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * TokenControllerHandler - 2024-03-30
+ * Raph
+ * Custom Exceptions for token invalidity.
+ * AutoPass
+ */
 @RestControllerAdvice
 public class TokenControllerHandler {
 

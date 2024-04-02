@@ -11,6 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * StripeController - 2024-03-30
+ * Raph
+ * Stripe Client REST controller (Maybe Obsolete).
+ * AutoPass
+ */
 //@PreAuthorize("hasAnyRole('ADMIN','USER', 'OAUTH2_USER', 'GOOGLE_USER')")
 //@RestController
 //@RequiredArgsConstructor

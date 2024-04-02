@@ -6,6 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * ChangePasswordDTO - 2024-03-30
+ * Raph
+ * DTO for change password request.
+ * AutoPass
+ */
 @Data
 @Builder
 @NoArgsConstructor

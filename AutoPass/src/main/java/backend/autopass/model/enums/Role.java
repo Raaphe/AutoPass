@@ -10,6 +10,12 @@ import java.util.stream.Collectors;
 
 import static backend.autopass.model.enums.Privilege.*;
 
+/**
+ * Role - 2024-03-30
+ * Raph
+ * Role enum for user's.
+ * AutoPass
+ */
 @Getter
 @RequiredArgsConstructor
 public enum Role {

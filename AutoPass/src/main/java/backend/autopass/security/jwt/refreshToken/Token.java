@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.Instant;
 
+/**
+ * Token - 2024-03-30
+ * Raph
+ * Refresh token entity, one to one with users.
+ * AutoPass
+ */
 @Data
 @Builder
 @NoArgsConstructor

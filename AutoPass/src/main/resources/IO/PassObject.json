@@ -1,0 +1,63 @@
+{
+  "id": "ISSUER_ID.OBJECT_ID",
+  "classId": "ISSUER_ID.GENERIC_CLASS_ID",
+  "smartTapEnabled": true,
+  "logo": {
+    "sourceUri": {
+      "uri": "https://photosforraph.s3.us-east-2.amazonaws.com/9NonTransparentHD.png"
+    },
+    "contentDescription": {
+      "defaultValue": {
+        "language": "en-US",
+        "value": "LOGO_IMAGE_DESCRIPTION"
+      }
+    }
+  },
+  "cardTitle": {
+    "defaultValue": {
+      "language": "en-US",
+      "value": "Virtual Transit Pass"
+    }
+  },
+  "subheader": {
+    "defaultValue": {
+      "language": "en-US",
+      "value": "Holder"
+    }
+  },
+  "header": {
+    "defaultValue": {
+      "language": "en-US",
+      "value": "<HOLDER_NAME>"
+    }
+  },
+  "textModulesData": [
+    {
+      "id": "tickets",
+      "header": "Tickets",
+      "body": "<TICKET_AMOUNT>"
+    },
+    {
+      "id": "days_left",
+      "header": "Days Left",
+      "body": "<DAYS_LEFT>"
+    }
+  ],
+  "barcode": {
+    "type": "QR_CODE",
+    "value": "<BARCODE_VALUE>",
+    "alternateText": "PASS"
+  },
+  "hexBackgroundColor": "#333333",
+  "heroImage": {
+    "sourceUri": {
+      "uri": "https://photosforraph.s3.us-east-2.amazonaws.com/1NonTransparentHD.png"
+    },
+    "contentDescription": {
+      "defaultValue": {
+        "language": "en-US",
+        "value": "AutoPass Banner"
+      }
+    }
+  }
+}

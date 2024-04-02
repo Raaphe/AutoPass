@@ -18,6 +18,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * JwtService - 2024-03-30
+ * Raph
+ * JwtService method implementation, for *access token* utilities.
+ * AutoPass
+ */
 @Service
 public class JwtService {
 

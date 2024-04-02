@@ -5,6 +5,12 @@ import backend.autopass.payload.dto.SavePaymentTypeDTO;
 
 import java.util.List;
 
+/**
+ * IPaymentTypeService - 2024-03-30
+ * Raph
+ * Service interface for Payment Type Service.
+ * AutoPass
+ */
 public interface IPaymentTypeService {
 
     /**
