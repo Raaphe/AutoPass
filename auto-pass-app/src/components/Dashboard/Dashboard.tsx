@@ -13,6 +13,12 @@ import {Card} from "@mui/material";
 interface DashboardProps {}
 
 
+/**
+* Dashboard - 2024-04-02
+* Raaphe, Lamb
+*
+* AutoPass
+*/
 const Dashboard: FC<DashboardProps> = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<User>();

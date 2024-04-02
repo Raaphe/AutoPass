@@ -24,6 +24,13 @@ const style = {
   p: 4,
 };
 
+/**
+* ScannerDetailsDesktop - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
+
 const ScannerDetailsDesktop: FC<ScannerDetailsDesktopProps> = () => {
   const location = useLocation();
   const busNumber = location.state?.busNum;

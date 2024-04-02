@@ -25,6 +25,12 @@ const style = {
   p: 4,
 };
 
+/**
+* ScannersDesktop - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const ScannersDesktop: FC<ScannerDesktopProps> = () => {
 
   const [scannerListInfo, setScannerListInfo] = useState<Array<User>>();

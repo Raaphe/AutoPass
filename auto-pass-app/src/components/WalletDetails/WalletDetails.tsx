@@ -6,6 +6,12 @@ import WalletDetailsMobile from "./WalletDetailsMobile";
 interface WalletDetailsProps {
 }
 
+/**
+* WalletDetails - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const WalletDetails: FC<WalletDetailsProps> = () => {
   
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

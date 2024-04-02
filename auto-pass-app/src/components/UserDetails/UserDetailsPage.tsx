@@ -18,6 +18,12 @@ import "./UserDetailsPage.module.scss"
 
 interface UserDetailsPageProps { }
 
+/**
+* UserDetailsPage - 2024-04-02
+* Raaphe, Lamb, Ikacef(L-96)
+*
+* AutoPass
+*/
 const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const navigate = useNavigate();
     const [googleLinked, setGoogleLinked] = useState(false);

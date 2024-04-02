@@ -22,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -126,7 +129,15 @@ public class GoogleWalletService implements IGoogleWalletService {
     public GoogleWalletPassURLViewModel createObject(int userId)
             throws IOException {
 
-        User user = userService.getUserById((long) userId);
+        User user = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if(principal instanceof UserDetails){
+            user = userService.getUserByEmail(((UserDetails)principal).getUsername());
+        }
         String objectSuffix = user.getEmail().replace("@", ".");
         UserWallet userWallet = user.getWallet();
         assert userWallet != null;

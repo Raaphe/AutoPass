@@ -10,6 +10,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+* UserControllerTests - 2024-04-02
+* Lamb,
+* User controller test class.
+* AutoPass
+*/
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTests {
 

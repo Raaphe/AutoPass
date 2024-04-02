@@ -5,6 +5,13 @@ import { useNavigate } from 'react-router-dom';
 interface LandingPageProps {
 }
 
+
+/**
+* LandingPage - 2024-04-02
+* Raaphe, Lamb, Ikacef
+*
+* AutoPass
+*/
 const LandingPage: FC<LandingPageProps> = () => {
 
     const navigate = useNavigate();

@@ -8,6 +8,12 @@ interface HeaderProps {
   isAdmin: boolean
 }
 
+/**
+* Header - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const Header: FC<HeaderProps> = ({isAuth, isAdmin}) => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

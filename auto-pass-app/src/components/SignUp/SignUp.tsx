@@ -8,6 +8,12 @@ import { Card } from '@mui/material';
 interface SignUpProps {
 
 }
+/**
+* SignUp - 2024-04-02
+* Raaphe, Ikacef
+*
+* AutoPass
+*/
 
 const SignUp: FC<SignUpProps> = () => {
 
