@@ -24,6 +24,13 @@ const style = {
   p: 4,
 };
 
+/**
+* ScannerDetailsMobile - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
+
 const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
   const location = useLocation();
   const busNumber = location.state?.busNum;

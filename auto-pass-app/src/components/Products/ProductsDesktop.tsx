@@ -17,7 +17,6 @@ interface ProductsDesktopProps {
  * 30/03/24
  * AutoPass
  */
-
 const ProductsDesktop: FC<ProductsDesktopProps> = () => {
 
   const productsAPI = new API.ProductsControllerApi(ClientAuthService.getApiConfig())

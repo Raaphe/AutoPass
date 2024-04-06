@@ -8,6 +8,13 @@ interface MembershipStatusGraph {
     walletInfo: UserWallet;
 }
 
+/**
+* MembershipStatusGraph - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
+
 const MembershipStatusGraph: FC<MembershipStatusGraph> = ({daysUntilExpiry, walletInfo}) => {
 
     return (

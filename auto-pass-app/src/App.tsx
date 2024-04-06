@@ -7,7 +7,6 @@ import ProtectedRoutesUser from './routes/ProtectedRoutesUser';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import ChangePassword from './components/ChangePassword/ChangePassword';
 import SignUp from './components/SignUp/SignUp';
-import Footer from './components/Footer/Footer';
 import Dashboard from './components/Dashboard/Dashboard';
 import UserDetailsPage from './components/UserDetails/UserDetailsPage';
 import ErrorPage from './components/ErrorPage/ErrorPage';
@@ -16,6 +15,12 @@ import Scanners from './components/Scanners/Scanners';
 import ScannerDetails from './components/ScannerDetails/ScannerDetails';
 import Products from './components/Products/Products';
 
+/**
+* App - 2024-04-02
+* Raaphe, Lamb, Ikacef
+*
+* AutoPass
+*/
 const App = () => {
 
 
@@ -49,7 +54,6 @@ const App = () => {
                     </Route>
                     <Route path='/*' element={<ErrorPage/>}/>   
                 </Routes>
-                <Footer/>
             </div>
         </Router>
     );

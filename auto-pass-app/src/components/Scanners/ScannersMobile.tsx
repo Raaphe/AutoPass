@@ -25,6 +25,13 @@ const style = {
   p: 4,
 };
 
+/**
+* ScannersMobile - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
+
 const ScannersMobile: FC<ScannersMobileProps> = () => {
 
   const [scannerListInfo, setScannerListInfo] = useState<Array<User>>();

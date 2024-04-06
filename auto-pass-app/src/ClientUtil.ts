@@ -3,6 +3,12 @@ import ClientAuthService from "./ClientAuthService";
 import {UserWallet, WalletControllerApi} from "./Service";
 import React from "react";
 
+/**
+* ClientUtil - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 class UtilService {
 
 

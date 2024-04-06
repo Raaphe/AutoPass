@@ -159,7 +159,7 @@ public class ScannerService implements IScannerService{
         String email = tOTPDetails.get(0);
         long timeStamp = Integer.parseInt(tOTPDetails.get(1));
         String tOTPValue = tOTPDetails.get(2);
-        int currentTime = (int) System.currentTimeMillis();
+        double currentTime = System.currentTimeMillis();
 
         User user = userService.getUserByEmail(email);
         UserWallet userWallet = user.getWallet();
