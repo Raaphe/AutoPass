@@ -2,6 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Navigate, Outlet} from 'react-router-dom';
 import ClientAuthService from '../ClientAuthService';
 import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
+
+/**
+* ProtectedRoutesUser - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 
 const ProtectedRoutesUser = () => {
     const [isAuth, setIsAuth] = useState(true);
@@ -30,6 +38,8 @@ const ProtectedRoutesUser = () => {
         <>
             <Header isAdmin={isAdmin} isAuth={isAuth}/>
             <Outlet/> 
+            <Footer/>
+
         </>
         : 
         <Navigate to="/login"/>;

@@ -8,6 +8,12 @@ import {
   SignUpDTO
 } from "./Service";
 
+/**
+* ClientAuthService - 2024-04-02
+* Raaphe, Ikacef
+*
+* AutoPass
+*/
 class AuthenticationService {
   authApi = new AuthenticationApi();
 

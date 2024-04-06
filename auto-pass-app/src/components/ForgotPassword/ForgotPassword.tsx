@@ -3,6 +3,13 @@ import { AuthenticationApi } from '../../Service';
 import { useNavigate } from 'react-router-dom';
 import Loading from './Loading';
 
+
+/**
+* ForgotPassword - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 interface ForgotPassword {
 }
 

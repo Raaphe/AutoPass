@@ -2,7 +2,12 @@ import  { FC, useEffect, useState } from 'react';
 import ScannersMobile from './ScannersMobile';
 import ScannersDesktop from './ScannersDesktop';
 
-
+/**
+* Scanners - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const Scanners: FC = () => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

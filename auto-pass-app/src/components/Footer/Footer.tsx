@@ -5,44 +5,19 @@ import Logo from "../../assets/6.png";
 import { useNavigate } from 'react-router-dom';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
+
+/**
+* Footer - 2024-04-02
+* Raaphe, Lamb
+*
+* AutoPass
+*/
 const Footer: FC = () => {
-  const [showFooter, setShowFooter] = useState(true);
-  const controls = useAnimation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    let lastScrollTop = 0;
-
-    function handleScroll() {
-      const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
-
-      setShowFooter(currentScrollTop >= lastScrollTop);
-      lastScrollTop = currentScrollTop;
-    }
-
-    window.addEventListener('scroll', handleScroll);
-  }, []);
-
-  // This is so that when I render that page for the first time the footer will be hidden.
-  useEffect(() => {
-    setShowFooter(false);
-  },[])
-
-  useEffect(() => {
-    if (showFooter) {
-      controls.start({ opacity: 1, y: 0 });
-    } else {
-      controls.start({ opacity: 0, y: 50 });
-    }
-  }, [showFooter, controls]);
+  const navigate = useNavigate()
 
   return (
-    <motion.div
-      className={`${styles.Footer} mt-5`}
-      initial={{ opacity: 1, y: 0 }}
-      animate={controls}
-      transition={{ duration: 0.05 }}
-    >
+    <div
+      className={`${styles.Footer} mt-5`}>
       <footer className="container py-5">
         <div className="row">
           <div className="col-12 col-md">
@@ -120,7 +95,7 @@ const Footer: FC = () => {
           </div>
         </div>
       </footer>
-    </motion.div>
+    </div>
   );
 };
 

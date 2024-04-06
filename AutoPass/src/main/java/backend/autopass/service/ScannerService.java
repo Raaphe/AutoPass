@@ -165,7 +165,6 @@ public class ScannerService implements IScannerService {
         String email = tOTPDetails.get(0);
         long timeStamp = Integer.parseInt(tOTPDetails.get(1));
         String tOTPValue = tOTPDetails.get(2);
-
         TimeBasedOneTimePasswordGenerator generator = new TimeBasedOneTimePasswordGenerator(Duration.ofSeconds(6), 8);
         Instant timeCodeIssued = Instant.ofEpochSecond(timeStamp);
         Key key1 = new SecretKeySpec(hexStringToByteArray(key), "HmacSHA1");

@@ -21,6 +21,13 @@ interface HeaderProps {
   isAdmin: boolean;
 }
 
+
+/**
+* HeaderMobile - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const Header: FC<HeaderProps> = ({ isAuth, isAdmin }) => {
   const navigate = useNavigate();
   const location = useLocation();

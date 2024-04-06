@@ -9,13 +9,11 @@ interface ProductsDesktopProps {
 }
 
 /**
- * @author : Lam Nguyen
- * @version : 01
- * Products Page
- * Frontend component for products.
- * 30/03/24
- * AutoPass
- */
+* ProductsDesktop - 2024-04-02
+* Lamb
+*
+* AutoPass
+*/
 
 const ProductsDesktop: FC<ProductsDesktopProps> = () => {
 
