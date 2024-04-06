@@ -20,6 +20,12 @@ interface HeaderDesktopProps {
   isAdmin: boolean;
 }
 
+/**
+* HeaderDesktop - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
   const navigate = useNavigate();
   const location = useLocation();

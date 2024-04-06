@@ -17,6 +17,12 @@ interface WalletDetailsDesktopProps {
 }
 
 
+/**
+* WalletDetailsDesktop - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 
 const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
   const navigate = useNavigate();
