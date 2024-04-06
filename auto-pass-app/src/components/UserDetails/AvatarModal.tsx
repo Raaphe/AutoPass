@@ -11,6 +11,12 @@ interface AvatarModalProps {
     imageUrl: string;
 }
 
+/**
+* AvatarModal - 2024-04-02
+* Raaphe, Lamb
+*
+* AutoPass
+*/
 const AvatarModal: FC<AvatarModalProps> = ({ isOpen, onClose, onFileChange, imageUrl }) => {
 
     const [isFileValid, setIsFileValid] = useState(false);

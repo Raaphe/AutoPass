@@ -4,6 +4,13 @@ import ErrorPageImage from "../../assets/9NonTransparentHD.png"
 
 interface ErrorPageProps { }
 
+
+/**
+* ErrorPage - 2024-04-02
+* Raaphe, Lamb
+*
+* AutoPass
+*/
 const ErrorPage: FC<ErrorPageProps> = () => {
     const navigate = useNavigate();
 

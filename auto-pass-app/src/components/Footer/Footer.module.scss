@@ -1,14 +1,12 @@
 .Footer {
-    position:sticky;
+    position:absolute;
     left: 0;
-    bottom: 0;
-    width: 100%;
     right: 0;
+    width: 100%;
     background-color: #D6D6D6;
     text-align: center;
     border-top: 4px solid rgb(0, 108, 240);
-    z-index: 100;
-    max-height: 30vh;
-    height: 100vh; 
+    min-height: 10vh;
+    padding: 10px;
 }
 

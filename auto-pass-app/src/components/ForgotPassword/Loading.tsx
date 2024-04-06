@@ -8,6 +8,12 @@ interface LoadingProps {
     isEmailReceived: any;
 }
 
+/**
+* Loading - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const Loading: FC<LoadingProps> = ({ isEmailReceived, isEmailSent }) => {
 
     if (isEmailSent && isEmailReceived === null) {

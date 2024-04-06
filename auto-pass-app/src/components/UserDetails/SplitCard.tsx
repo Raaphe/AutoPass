@@ -7,6 +7,12 @@ interface SplitCardProps {
     children: ReactNode;
 }
 
+/**
+* SplitCard - 2024-04-02
+* Lamb, Raaphe
+*
+* AutoPass
+*/
 const SplitCard: FC<SplitCardProps> = ({ id, title, description, children }) => {
     return (
         <div id={id} className="card mb-3">

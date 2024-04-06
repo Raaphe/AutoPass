@@ -11,6 +11,13 @@ const useQuery = () => {
 
 interface LoginProps { }
 
+
+/**
+* Login - 2024-04-02
+* Raaphe, Lamb
+*
+* AutoPass
+*/
 const Login: FC<LoginProps> = () => {
   const query = useQuery();
   const navigate = useNavigate();

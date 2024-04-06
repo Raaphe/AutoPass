@@ -6,7 +6,12 @@ interface ChangePasswordProps {
 }
 
 
-
+/**
+* ChangePassword - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const ChangePassword: FC<ChangePasswordProps> = () => {
     const [passwords, setPasswords] = useState({
         password1: "",

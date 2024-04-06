@@ -6,6 +6,12 @@ import DashboardMobile from "./DashboardMobile";
 interface DashboardProps {
 }
 
+/**
+* Dashboard - 2024-04-02
+* Raaphe, Lamb
+*
+* AutoPass
+*/
 const Dashboard: FC<DashboardProps> = () => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

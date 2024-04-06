@@ -4,7 +4,12 @@ import ScannerDetailsMobile from './ScannerDetailsMobile';
 
 
 
-
+/**
+* ScannerDetails - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 const ScannerDetails: FC = () => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

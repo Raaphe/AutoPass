@@ -201,7 +201,7 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public String getImageFromUser(int userId) {
         String url = userRepository.findProfileImageUrlById(userId);
-        return url.isEmpty() ? "" : url;
+        return url.isBlank() ? "" : url;
     }
 
     @Override
