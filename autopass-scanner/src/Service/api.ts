@@ -88,6 +88,37 @@ export interface AuthenticationResponse {
 /**
  * 
  * @export
+ * @interface BasicUserInfoDTO
+ */
+export interface BasicUserInfoDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof BasicUserInfoDTO
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BasicUserInfoDTO
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BasicUserInfoDTO
+     */
+    'firstName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BasicUserInfoDTO
+     */
+    'lastName'?: string;
+}
+/**
+ * 
+ * @export
  * @interface ChangePasswordDTO
  */
 export interface ChangePasswordDTO {
@@ -107,6 +138,25 @@ export interface ChangePasswordDTO {
 /**
  * 
  * @export
+ * @interface CollectionModelEntityModelMembership
+ */
+export interface CollectionModelEntityModelMembership {
+    /**
+     * 
+     * @type {PagedModelEntityModelMembershipEmbedded}
+     * @memberof CollectionModelEntityModelMembership
+     */
+    '_embedded'?: PagedModelEntityModelMembershipEmbedded;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof CollectionModelEntityModelMembership
+     */
+    '_links'?: { [key: string]: Link; };
+}
+/**
+ * 
+ * @export
  * @interface CollectionModelEntityModelPaymentType
  */
 export interface CollectionModelEntityModelPaymentType {
@@ -120,6 +170,25 @@ export interface CollectionModelEntityModelPaymentType {
      * 
      * @type {{ [key: string]: Link; }}
      * @memberof CollectionModelEntityModelPaymentType
+     */
+    '_links'?: { [key: string]: Link; };
+}
+/**
+ * 
+ * @export
+ * @interface CollectionModelEntityModelTicket
+ */
+export interface CollectionModelEntityModelTicket {
+    /**
+     * 
+     * @type {PagedModelEntityModelTicketEmbedded}
+     * @memberof CollectionModelEntityModelTicket
+     */
+    '_embedded'?: PagedModelEntityModelTicketEmbedded;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof CollectionModelEntityModelTicket
      */
     '_links'?: { [key: string]: Link; };
 }
@@ -391,22 +460,10 @@ export interface EntityModelUser {
     'enabled'?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof EntityModelUser
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {Array<GrantedAuthority>}
      * @memberof EntityModelUser
      */
     'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -419,6 +476,18 @@ export interface EntityModelUser {
      * @memberof EntityModelUser
      */
     'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1223,6 +1292,25 @@ export interface PaymentTypeRequestBody {
     'deleted'?: boolean;
 }
 /**
+ * Products page view model.
+ * @export
+ * @interface ProductsViewModel
+ */
+export interface ProductsViewModel {
+    /**
+     * List of the tickets
+     * @type {Array<Ticket>}
+     * @memberof ProductsViewModel
+     */
+    'ticketsList'?: Array<Ticket>;
+    /**
+     * List of the memberships
+     * @type {Array<Membership>}
+     * @memberof ProductsViewModel
+     */
+    'membershipList'?: Array<Membership>;
+}
+/**
  * 
  * @export
  * @interface RefreshTokenDTO
@@ -1352,6 +1440,37 @@ export const SignUpDTORoleEnum = {
 
 export type SignUpDTORoleEnum = typeof SignUpDTORoleEnum[keyof typeof SignUpDTORoleEnum];
 
+/**
+ * List of the tickets
+ * @export
+ * @interface Ticket
+ */
+export interface Ticket {
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'ticketAmount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'price'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Ticket
+     */
+    'deleted'?: boolean;
+}
 /**
  * 
  * @export
@@ -1537,22 +1656,10 @@ export interface User {
     'enabled'?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof User
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {Array<GrantedAuthority>}
      * @memberof User
      */
     'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1565,6 +1672,18 @@ export interface User {
      * @memberof User
      */
     'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1668,22 +1787,10 @@ export interface UserRequestBody {
     'enabled'?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof UserRequestBody
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {Array<GrantedAuthority>}
      * @memberof UserRequestBody
      */
     'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1696,6 +1803,18 @@ export interface UserRequestBody {
      * @memberof UserRequestBody
      */
     'credentialsNonExpired'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -3272,6 +3391,107 @@ export class MembershipEntityControllerApi extends BaseAPI {
      */
     public putItemResourceMembershipPut(id: string, membershipRequestBody: MembershipRequestBody, options?: RawAxiosRequestConfig) {
         return MembershipEntityControllerApiFp(this.configuration).putItemResourceMembershipPut(id, membershipRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * MembershipSearchControllerApi - axios parameter creator
+ * @export
+ */
+export const MembershipSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchMembershipGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/memberships/search/getAll`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MembershipSearchControllerApi - functional programming interface
+ * @export
+ */
+export const MembershipSearchControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MembershipSearchControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchMembershipGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CollectionModelEntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchMembershipGet(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['MembershipSearchControllerApi.executeSearchMembershipGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * MembershipSearchControllerApi - factory interface
+ * @export
+ */
+export const MembershipSearchControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MembershipSearchControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchMembershipGet(options?: any): AxiosPromise<CollectionModelEntityModelMembership> {
+            return localVarFp.executeSearchMembershipGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * MembershipSearchControllerApi - object-oriented interface
+ * @export
+ * @class MembershipSearchControllerApi
+ * @extends {BaseAPI}
+ */
+export class MembershipSearchControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MembershipSearchControllerApi
+     */
+    public executeSearchMembershipGet(options?: RawAxiosRequestConfig) {
+        return MembershipSearchControllerApiFp(this.configuration).executeSearchMembershipGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5023,6 +5243,107 @@ export class PaymentTypeSearchControllerApi extends BaseAPI {
 
 
 /**
+ * ProductsControllerApi - axios parameter creator
+ * @export
+ */
+export const ProductsControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Gets all the products of the application that isn\'t deleted.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllProducts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/products/get-all-products`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProductsControllerApi - functional programming interface
+ * @export
+ */
+export const ProductsControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProductsControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Gets all the products of the application that isn\'t deleted.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllProducts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductsViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllProducts(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ProductsControllerApi.getAllProducts']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProductsControllerApi - factory interface
+ * @export
+ */
+export const ProductsControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProductsControllerApiFp(configuration)
+    return {
+        /**
+         * Gets all the products of the application that isn\'t deleted.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllProducts(options?: any): AxiosPromise<ProductsViewModel> {
+            return localVarFp.getAllProducts(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProductsControllerApi - object-oriented interface
+ * @export
+ * @class ProductsControllerApi
+ * @extends {BaseAPI}
+ */
+export class ProductsControllerApi extends BaseAPI {
+    /**
+     * Gets all the products of the application that isn\'t deleted.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProductsControllerApi
+     */
+    public getAllProducts(options?: RawAxiosRequestConfig) {
+        return ProductsControllerApiFp(this.configuration).getAllProducts(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * ProfileControllerApi - axios parameter creator
  * @export
  */
@@ -6475,6 +6796,107 @@ export class TicketEntityControllerApi extends BaseAPI {
 
 
 /**
+ * TicketSearchControllerApi - axios parameter creator
+ * @export
+ */
+export const TicketSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchTicketGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/tickets/search/getAll`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TicketSearchControllerApi - functional programming interface
+ * @export
+ */
+export const TicketSearchControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TicketSearchControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchTicketGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CollectionModelEntityModelTicket>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchTicketGet(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TicketSearchControllerApi.executeSearchTicketGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TicketSearchControllerApi - factory interface
+ * @export
+ */
+export const TicketSearchControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TicketSearchControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchTicketGet(options?: any): AxiosPromise<CollectionModelEntityModelTicket> {
+            return localVarFp.executeSearchTicketGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TicketSearchControllerApi - object-oriented interface
+ * @export
+ * @class TicketSearchControllerApi
+ * @extends {BaseAPI}
+ */
+export class TicketSearchControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TicketSearchControllerApi
+     */
+    public executeSearchTicketGet(options?: RawAxiosRequestConfig) {
+        return TicketSearchControllerApiFp(this.configuration).executeSearchTicketGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * TokenEntityControllerApi - axios parameter creator
  * @export
  */
@@ -7747,6 +8169,49 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
+         * @summary Updates a user\'s basic information.
+         * @param {BasicUserInfoDTO} info 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        saveBasicUserInfo: async (info: BasicUserInfoDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'info' is not null or undefined
+            assertParamExists('saveBasicUserInfo', 'info', info)
+            const localVarPath = `/user/save-user-basic-info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (info !== undefined) {
+                for (const [key, value] of Object.entries(info)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Updates a user\'s profile image.
          * @param {SetUserImageRequest} [setUserImageRequest] 
          * @param {*} [options] Override http request option.
@@ -7875,6 +8340,19 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Updates a user\'s basic information.
+         * @param {BasicUserInfoDTO} info 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async saveBasicUserInfo(info: BasicUserInfoDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.saveBasicUserInfo(info, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserControllerApi.saveBasicUserInfo']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Updates a user\'s profile image.
          * @param {SetUserImageRequest} [setUserImageRequest] 
          * @param {*} [options] Override http request option.
@@ -7939,6 +8417,16 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
+         * @summary Updates a user\'s basic information.
+         * @param {BasicUserInfoDTO} info 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        saveBasicUserInfo(info: BasicUserInfoDTO, options?: any): AxiosPromise<User> {
+            return localVarFp.saveBasicUserInfo(info, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Updates a user\'s profile image.
          * @param {SetUserImageRequest} [setUserImageRequest] 
          * @param {*} [options] Override http request option.
@@ -7999,6 +8487,18 @@ export class UserControllerApi extends BaseAPI {
      */
     public markUserAsDeleted(options?: RawAxiosRequestConfig) {
         return UserControllerApiFp(this.configuration).markUserAsDeleted(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Updates a user\'s basic information.
+     * @param {BasicUserInfoDTO} info 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserControllerApi
+     */
+    public saveBasicUserInfo(info: BasicUserInfoDTO, options?: RawAxiosRequestConfig) {
+        return UserControllerApiFp(this.configuration).saveBasicUserInfo(info, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

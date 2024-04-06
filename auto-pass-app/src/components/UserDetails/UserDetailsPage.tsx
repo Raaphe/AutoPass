@@ -28,6 +28,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const [addGoogleWalletURL, setGoogleWalletSaveURL] = useState<API.GoogleWalletPassURLViewModel>();
     const [canResetPassword, setCanResetPassword] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
+    const [basicUserInfo, setBasicUserInfo] = useState<API.BasicUserInfoDTO>();
 
     // This is how we set up the access token inside the subsequent request's `Authorization Header` like so :
     // "Bearer <access_token>"
@@ -48,6 +49,8 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                     } else {
                         setGoogleLinked(false);
                     }
+
+                    setBasicUserInfo({id:ClientAuthService.getUserId(),email: res.data.email, firstName:res.data.firstName, lastName: res.data.lastName})
                 })
                 .catch(() => {
                     navigate("/");
@@ -59,7 +62,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                     if (res.status !== 200 || res.data === null || res.data.passUrl === "") {
                         return;
                     }
-                    
+
                     setGoogleWalletSaveURL(res.data);
                 });
         }
@@ -77,20 +80,35 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     }, [navigate, isLoading])
 
 
+    const handleLoginWithGoogle = async (): Promise<void> => {
+        let ip: string = await authAPI.getAppIp()
+            .then(res => {
+                return res.data ?? "localhost"
+            })
+            .catch((e) => {
+                alert(e);
+                return "";
+            });
+
+        let url = "http://" + ip + ".nip.io:9090/oauth2/authorization/google";
+        console.log(url);
+        window.location.href = url;
+    };
+
     // Render loading indicator while fetching data
     if (!userData) {
         return <div>Loading...</div>;
+    }
+
+    function isGmailAddress(email: string): boolean {
+        const gmailRegex = /^[^@\s]+@gmail\.com$/;
+        return gmailRegex.test(email);
     }
 
     const handleAccountDelete = async () => {
         await userAPI.markUserAsDeleted();
         handleLogout();
     }
-
-
-    const handleGoogleLink = () => {
-        setGoogleLinked(true);
-    };
 
     const handleLogout = () => {
         ClientAuthService.logout();
@@ -102,15 +120,31 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     }
 
     const handleSavePersonalInfo = () => {
-        console.log("Saving personal information:");
-        // TODO: 
+        userAPI.saveBasicUserInfo(basicUserInfo ?? {})
+            .then((res) => {
+                if (res.status !== 200) {
+                    alert("error saving info.");
+                    return;
+                }
+
+                setUserData({...userData, email: res.data.email, firstName: res.data.firstName, lastName: res.data.lastName})
+            })
     };
 
-    const handleImageSave = (setImageRequest: API.SetUserImageRequest) => {
+    const handleImageSave = async (setImageRequest: API.SetUserImageRequest) => {
         const formData = new FormData();
         formData.append('file', setImageRequest.file);
 
-        fetch('http://localhost:9090/user/upload-profile-image', {
+        let ip: string = await authAPI.getAppIp()
+            .then(res => {
+                return res.data ?? "localhost"
+            })
+            .catch((e) => {
+                alert(e);
+                return "";
+            });
+
+        fetch(`http://${ip}:9090/user/upload-profile-image`, {
             method: 'POST',
             body: formData,
             headers: [["Authorization", `Bearer ${ClientAuthService.getAccessTokenOrDefault()}`]]
@@ -179,7 +213,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                                     onMouseEnter={() => setIsHovered(true)}
                                     onMouseLeave={() => setIsHovered(false)}
                                 >
-                                    <img width={100} height={100} className="avatar" src={userData.profileImageUrl} alt="User Avatar" />
+                                    <img width={100} height={100} className="mx-4 mt-3 mb-2 " src={userData.profileImageUrl} alt="User Avatar" />
                                     {isHovered && <div className="hover-overlay"></div>}
                                 </motion.div>
                                 <div className="user-details">
@@ -187,23 +221,32 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                                         id="outlined-helperText"
                                         label="First Name"
                                         defaultValue="John"
+                                        onChange={(e) => {setBasicUserInfo({...basicUserInfo, firstName:e.currentTarget.value})}}
                                         className='m-2 mt-4 col-12'
-                                        value={userData.firstName}
+                                        value={basicUserInfo?.firstName}
                                     />
                                     <TextField
                                         className='m-2 col-12'
                                         id="outlined-helperText"
                                         label="Last Name"
+                                        onChange={(e) => {setBasicUserInfo({...basicUserInfo, lastName:e.currentTarget.value})}}
                                         defaultValue="Doe"
-                                        value={userData.lastName}
+                                        value={basicUserInfo?.lastName}
                                     />
                                     <TextField
                                         className='m-2 col-12'
                                         id="outlined-helperText"
+                                        type='email'
                                         label="Email"
-                                        value={userData.email}
+                                        onChange={(e) => {setBasicUserInfo({...basicUserInfo, email:e.currentTarget.value})}}
+                                        disabled={googleLinked}
+                                        value={basicUserInfo?.email}
                                     />
-                                    <button onClick={handleSavePersonalInfo} className="btn btn-success float-end m-2">
+                                    <button 
+                                        onClick={handleSavePersonalInfo} 
+                                        disabled={basicUserInfo?.email === "" || basicUserInfo?.firstName === "" || basicUserInfo?.lastName == ""} 
+                                        className="btn btn-success float-end m-2"
+                                    >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">
                                             <path d="M11 2H9v3h2z" />
                                             <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
@@ -216,12 +259,16 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                             <SplitCard id="google-link" title="Link Google Account" description="Link your Google account to enable additional features">
                                 <div className="text-center">
                                     {!googleLinked ? (
-                                        <Fab variant="extended" color='primary' onClick={() => { authAPI.forgotPassword(userData.email ?? ""); setIsEmailSent(true) }}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-google m-1" viewBox="0 0 16 16">
-                                                <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z" />
-                                            </svg>
-                                            Link Google Account
-                                        </Fab>
+
+                                        isGmailAddress(userData.email ?? "") ? 
+                                            <p>Please change your email address to a gmail email...</p>    
+                                        :                                        
+                                            <Fab variant="extended" color='primary' onClick={() => {handleLoginWithGoogle()}}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-google m-1" viewBox="0 0 16 16">
+                                                    <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z" />
+                                                </svg>
+                                                Link Google Account
+                                            </Fab>
                                     ) : (
                                         <p>Google account linked successfully!</p>
                                     )}
@@ -233,16 +280,16 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                                 <SplitCard id="Google-Wallet" title="Google Wallet Pass" description="Add Google Wallet Pass with a capable android device.">
                                     <div className="text-center">
                                         {!googleLinked ? (
-                                            <p>Link Google account to add an AutoPass to your Google wallet <WalletIcon className='mx-2'/> </p>
+                                            <p>Link Google account to add an AutoPass to your Google wallet <WalletIcon className='mx-2' /> </p>
                                         ) :
                                             userData.isGoogleWalletPassAdded ?
                                                 // be able to expire it or view it
                                                 <ButtonGroup variant='outlined' aria-label="Medium-sized button group">
-                                                    <Button color='error' disabled={addGoogleWalletURL?.isExpired} onClick={async () => { await googleWalletApi.expirePass(userData?.email ?? ""); window.location.reload(); setIsLoading(true)}}>
+                                                    <Button color='error' disabled={addGoogleWalletURL?.isExpired} onClick={async () => { await googleWalletApi.expirePass(userData?.email ?? ""); window.location.reload(); setIsLoading(true) }}>
                                                         Archive Pass
                                                     </Button>
-                                                    <Button onClick={async () => {await googleWalletApi.activatePass(userData.email ?? "")}} href={addGoogleWalletURL?.passUrl}>
-                                                        View or Add 
+                                                    <Button onClick={async () => { await googleWalletApi.activatePass(userData.email ?? "") }} href={addGoogleWalletURL?.passUrl}>
+                                                        View or Add
                                                     </Button>
                                                 </ButtonGroup>
                                                 :

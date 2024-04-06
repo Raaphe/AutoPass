@@ -7,10 +7,7 @@ import backend.autopass.model.enums.Role;
 import backend.autopass.model.repositories.PassRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
-import backend.autopass.payload.dto.ChangeImageDTO;
-import backend.autopass.payload.dto.ChangePasswordDTO;
-import backend.autopass.payload.dto.SignUpDTO;
-import backend.autopass.payload.dto.UpdateUserDTO;
+import backend.autopass.payload.dto.*;
 import backend.autopass.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +25,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -204,6 +202,28 @@ public class UserService implements IUserService, UserDetailsService {
     public String getImageFromUser(int userId) {
         String url = userRepository.findProfileImageUrlById(userId);
         return url.isEmpty() ? "" : url;
+    }
+
+    @Override
+    public User saveBasicUserInfo(BasicUserInfoDTO info) {
+        assert info.getFirstName() != null && info.getFirstName().length() <= 30;
+        assert info.getLastName() != null && info.getLastName().length() <= 30;
+
+        Optional<User> user = userRepository.getUserById(info.getId());
+        if (user.isPresent()) {
+            User userConcrete = user.get();
+            userConcrete.setFirstName(info.getFirstName());
+            userConcrete.setLastName(info.getLastName());
+
+            if (!Objects.equals(info.getEmail(), "") && !userRepository.existsByEmail(info.getEmail())) {
+                userConcrete.setEmail(info.getEmail());
+            }
+
+
+            return userRepository.save(userConcrete);
+        } else {
+            return new User();
+        }
     }
 
 

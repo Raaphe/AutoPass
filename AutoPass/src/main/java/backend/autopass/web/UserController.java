@@ -1,5 +1,6 @@
 package backend.autopass.web;
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.dto.BasicUserInfoDTO;
 import backend.autopass.payload.dto.ChangeImageDTO;
 import backend.autopass.payload.dto.UpdateUserDTO;
 import backend.autopass.service.UserService;
@@ -177,6 +178,30 @@ public class UserController {
             return ResponseEntity.ok().body(this.userService.saveImageToUser(dto));
         } catch (AwsServiceException | SdkClientException e) {
             return ResponseEntity.badRequest().body("");
+        }
+    }
+
+    @PostMapping("/save-user-basic-info")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Updates a user's basic information.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "User profile info is saved.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = User.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad request.",
+                    content = @Content
+            ),
+    })
+    public ResponseEntity<User> saveBasicUserInfo(BasicUserInfoDTO info) {
+        try {
+            return ResponseEntity.ok(userService.saveBasicUserInfo(info));
+        } catch (AwsServiceException | SdkClientException e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

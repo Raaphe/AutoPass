@@ -4,12 +4,13 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs"; // Import Bootstrap 
 import { MdConfirmationNumber } from "react-icons/md"; // Import Material Design icon for ticket
 
 import ClientAuthService from "../../ClientAuthService";
-import * as API from "../../Service/api"; 
+import * as API from "../../Service/api";
+import { useNavigate } from "react-router-dom";
 interface ProductsDesktopProps {
 }
 
 /**
- * @author : Lam Nguyen
+ * @author : Lam Nguyen, Raphe
  * @version : 01
  * Products Page
  * Frontend component for products.
@@ -20,40 +21,40 @@ interface ProductsDesktopProps {
 const ProductsDesktop: FC<ProductsDesktopProps> = () => {
 
   const productsAPI = new API.ProductsControllerApi(ClientAuthService.getApiConfig())
-
+  const navigate = useNavigate();
   useEffect(() => {
 
     const getProducts = () => {
       productsAPI.getAllProducts()
-      .then((res) => {
-        if(res.status !== 200){
-          return;
-        }
-        setProductsInfo(res.data)
-      })
+        .then((res) => {
+          if (res.status !== 200) {
+            return;
+          }
+          setProductsInfo(res.data)
+        })
     }
     getProducts()
   }, [])
 
 
-  const [productsInfo, setProductsInfo] = useState <API.ProductsViewModel>()
+  const [productsInfo, setProductsInfo] = useState<API.ProductsViewModel>()
   const [membershipIndex, setMembershipIndex] = useState(0);
   const [ticketIndex, setTicketIndex] = useState(0);
 
   const getMembershipSize = () => {
-    if(productsInfo?.membershipList?.length === null || productsInfo?.membershipList?.length === undefined){
+    if (productsInfo?.membershipList?.length === null || productsInfo?.membershipList?.length === undefined) {
       return 0
     }
-    else{
+    else {
       return productsInfo?.membershipList.length
     }
   }
 
   const getTicketsSize = () => {
-    if(productsInfo?.ticketsList?.length === null || productsInfo?.ticketsList?.length === undefined){
+    if (productsInfo?.ticketsList?.length === null || productsInfo?.ticketsList?.length === undefined) {
       return 0
     }
-    else{
+    else {
       return productsInfo?.ticketsList.length
     }
   }
@@ -85,13 +86,18 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
 
   return (
     <Card elevation={12} variant="outlined" style={{ padding: "20px", margin: "20px auto", maxWidth: "800px" }}>
+      <button type="submit" className="btn btn-outline-primary m-4 col" onClick={() => navigate(-1)}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-arrow-left m-1" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+        </svg>
+      </button>
       <Typography variant="h2" gutterBottom style={{ textAlign: "center" }}>
         All Products
       </Typography>
       <Divider style={{ marginBottom: "20px" }} />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {/* Membership card */}
-        <Card elevation={12} style={{ width: "300px", height: "450px", margin: "10px", padding: "20px", borderRadius: "10px"}}>
+        <Card elevation={12} style={{ width: "300px", height: "450px", margin: "10px", padding: "20px", borderRadius: "10px" }}>
           <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
             Memberships
           </Typography>

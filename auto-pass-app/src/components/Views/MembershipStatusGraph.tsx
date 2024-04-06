@@ -20,7 +20,7 @@ const MembershipStatusGraph: FC<MembershipStatusGraph> = ({daysUntilExpiry, wall
                 maxValue={walletInfo.membershipType?.membershipDurationDays ?? 1}
                 styles={buildStyles({
                     pathColor: "#027FFF",
-                    trailColor: "#D6D6D6"
+                    trailColor: "#D6D6D6",
                 })}
             >
                 <div style={{ fontSize: "125%" }}>
