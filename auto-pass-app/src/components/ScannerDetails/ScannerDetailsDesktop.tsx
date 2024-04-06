@@ -132,12 +132,14 @@ const ScannerDetailsDesktop: FC<ScannerDetailsDesktopProps> = () => {
           disabled
           value={scannerInfo?.email ?? ""}
           variant="standard"
+          type='email'
           fullWidth
         />
         <TextField
           required
           label="Password"
           variant="standard"
+          type='password'
           fullWidth
           value={scannerInfo?.password ?? ""}
           onChange={(e) => { setScannerInfo({ ...scannerInfo, password: e.currentTarget.value }) }}

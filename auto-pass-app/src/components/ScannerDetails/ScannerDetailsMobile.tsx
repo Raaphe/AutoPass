@@ -1,13 +1,12 @@
 import { FC, useEffect, useState } from 'react';
-import { Box, Button, Card, Divider, IconButton, Modal, Stack, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { ScannerControllerApi, User } from "../../Service";
+import { Box, Button, Card, Divider, IconButton, Modal, Stack, TextField, Typography } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ScannerControllerApi, User, ScannerRegistrationDTO } from "../../Service";
 import ClientAuthService from "../../ClientAuthService";
-import ClientUtil from "../../ClientUtil";
 import "./ScannerDetails.module.scss";
 import DeleteIcon from '@mui/icons-material/Delete';
-import CreateIcon from '@mui/icons-material/Create';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import ClientUtil from "../../ClientUtil";
 
 interface ScannerDetailsMobileProps {
 
@@ -26,9 +25,14 @@ const style = {
 };
 
 const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
+  const location = useLocation();
+  const busNumber = location.state?.busNum;
 
-  const [scannerListInfo, setScannerListInfo] = useState<Array<User>>();
-  const [selectedScanner, setSelectedScanner] = useState<number>();
+
+  const [scannerInfo, setScannerInfo] = useState<User>();
+  const [scannerName, setScannerName] = useState("");
+  const [busNumberState, setBusNumberState] = useState<number>(parseInt(busNumber));
+  const [isFormReady, setisFormReady] = useState<boolean>();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -39,37 +43,42 @@ const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
   const scannerAPI = new ScannerControllerApi(config);
 
   useEffect(() => {
-    fetchScanners();
+  
+    if (
+      scannerInfo?.firstName === "" || scannerInfo?.firstName === null ||
+      scannerInfo?.password === "" || scannerInfo?.password === null || 
+      busNumberState < 0 ||
+      (scannerInfo?.email !== "" && ClientUtil.getBusNumberFromEmail(scannerInfo?.email ?? "") !== busNumberState)
+      
+    ) {
+      setisFormReady(false);
+    } else {
+      setisFormReady(true);
+    }
+    
+  }, [scannerInfo, busNumberState])
+
+  useEffect(() => {
+    getScanner();
   }, [navigate]);
 
-  function handleScannerSelect(): void {
-    throw new Error('Function not implemented.');
-  }
-
-  const fetchScanners = () => {
-    scannerAPI.getAllScanners()
+  const getScanner = async () => {
+    await scannerAPI.getScannerByBusNumber(busNumber)
       .then(res => {
         if (res.status !== 200) {
-          return null;
+          return;
         }
-
-        setScannerListInfo(res.data);
+        setScannerInfo(res.data);
+        setScannerName(res.data.firstName ?? "New Scanner")
       })
+
   }
 
-  
-  const handleDeleteClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    setSelectedScanner(parseInt(event.currentTarget.id));
-    handleOpen();
-    console.log('Delete button clicked' + event.currentTarget.id);
-  };
+  const deleteScanner = async (busNum: number) => {
 
-  const deleteScanner = async () => {
-    
-    await scannerAPI.deleteScanner(selectedScanner ?? -1)
+    await scannerAPI.deleteScanner(busNum)
       .then(res => {
         if (res.status !== 200) {
-          setSelectedScanner(-1);
           return;
         }
       })
@@ -78,65 +87,88 @@ const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
       })
       .finally(() => {
         handleClose();
-        fetchScanners();
       })
-    
+
   };
+
+  const handleSave = (): void => {
+    var dto: ScannerRegistrationDTO = {
+      busNumber: busNumberState,
+      pwd: scannerInfo?.password,
+      routeName: scannerInfo?.firstName
+    }
+    scannerAPI.createScannerAccount(dto)
+      .then(res => {
+        if (res.status !== 200) {
+          alert("Error")
+        } 
+        setScannerInfo(res.data);
+        setBusNumberState(ClientUtil.getBusNumberFromEmail(res.data.email ?? ""))
+        setScannerName(res.data.firstName ?? "");
+        return;
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  }
 
   return (
     <Card className="container" elevation={12} variant="outlined">
-      <div className='row'>
-        <button type="submit" className="btn btn-outline-primary m-4 col" onClick={() => navigate(-1)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-arrow-left m-1" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-          </svg>
-        </button>
 
-        <div className='col-9'></div>
+      <button type="submit" className="btn btn-outline-primary mt-4 mx-2 col" onClick={() => navigate(-1)}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-arrow-left m-1" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+        </svg>
+      </button>
 
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          startIcon={<AddCircleIcon />}
-          className='col m-4'
-        >
-          Add
-        </Button>
-      </div>
-      <h2 className="display-4 m-2">Scanners</h2>
+      <h2 className="display-4 m-2">{scannerName} - {busNumberState === -1 ? "" : busNumberState}</h2>
 
       <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
 
-      <table className="table m-3 mb-4">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
+      <Stack direction="row" className='m-3' spacing={8}>
+        <TextField
+          required
+          label="Email"
+          disabled
+          value={scannerInfo?.email ?? ""}
+          variant="standard"
+          fullWidth
+        />
+        <TextField
+          required
+          label="Password"
+          variant="standard"
+          fullWidth
+          value={scannerInfo?.password ?? ""}
+          onChange={(e) => { setScannerInfo({ ...scannerInfo, password: e.currentTarget.value }) }}
+        />
+        <TextField
+          required
+          label="Name"
+          variant="standard"
+          fullWidth
+          value={scannerName}
+          onChange={(e) => { setScannerName(e.currentTarget.value); setScannerInfo({ ...scannerInfo, firstName: e.currentTarget.value }) }}
+        />
+        <TextField
+          required
+          label="Bus Number"
+          fullWidth
+          variant="standard"
+          type='number'
+          value={busNumberState ?? 0}
+          onChange={(e) => { setBusNumberState(parseInt(e.currentTarget.value))}}
+        />
+      </Stack>
+      <Stack direction="row-reverse" className='m-3' spacing={3}>
+        <Button variant="contained" endIcon={<SaveAsIcon />} onClick={handleSave} disabled={!isFormReady}>
+          Save
+        </Button>
+        <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={handleOpen} disabled={busNumberState === -1}>
+          Delete
+        </Button>
+      </Stack>
 
-          {scannerListInfo?.map(scanner => (
-            <tr style={{ cursor: "pointer" }} className='tableRow'>
-              <th id={ClientUtil.getBusNumberFromEmail(scanner.email ?? "").toString()} onClick={handleScannerSelect} >{ClientUtil.getBusNumberFromEmail(scanner.email ?? "")}</th>
-              <td onClick={handleScannerSelect} >{scanner.firstName}</td>
-              <td onClick={handleScannerSelect} >{scanner.email}</td>
-              <td style={{ textAlign: "right" }}>
-                <IconButton aria-label="Delete" id={ClientUtil.getBusNumberFromEmail(scanner.email ?? "").toString()} onClick={handleDeleteClick}>
-                  <DeleteIcon />
-                </IconButton>
-                <IconButton color="secondary" aria-label="Edit" onClick={handleScannerSelect}>
-                  <CreateIcon />
-                </IconButton>
-
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       <Modal
         open={open}
         onClose={handleClose}
@@ -145,12 +177,12 @@ const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Are you sure you want to delete bus {selectedScanner} ?
+            Are you sure you want to delete bus {busNumberState} ?
           </Typography>
 
             <Stack spacing={19} direction="row">
-              <Button color="error" variant='outlined' className='mt-5' onClick={deleteScanner}>Delete</Button>
-              <Button variant="outlined" className='mt-5' onClick={() => {handleClose(); setSelectedScanner(-1)}}>Cancel</Button>
+              <Button color="error" variant='outlined' className='mt-5' onClick={async () => {await deleteScanner(busNumberState); navigate(-1)}}>Delete</Button>
+              <Button variant="outlined" className='mt-5' onClick={() => {handleClose()}}>Cancel</Button>
             </Stack>
           
         </Box>
@@ -159,6 +191,5 @@ const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
 
   );
 };
-
 
 export default ScannerDetailsMobile;
