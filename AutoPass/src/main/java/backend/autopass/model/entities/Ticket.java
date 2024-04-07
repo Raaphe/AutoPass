@@ -27,5 +27,5 @@ public class Ticket implements Serializable {
     private double price;
     @Builder.Default
     private boolean isDeleted = false;
-
+    private String stripePriceId;
 }

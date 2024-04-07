@@ -51,6 +51,10 @@ class AuthenticationService {
     return statusCode === 200;
   }
 
+  public getEmail() {
+    return localStorage.getItem("user-email") ?? "";
+  }
+
   public logout = () => {
     this.authApi.logout(this.getUserId());
     localStorage.clear();
@@ -161,6 +165,7 @@ class AuthenticationService {
     sessionStorage.setItem("access-token", authResponse.access_token ?? "");
     localStorage.setItem("refresh-token", authResponse.refresh_token ?? "");
     sessionStorage.setItem("user-id", authResponse.user_id?.toString() ?? "");
+    sessionStorage.setItem("user-email", authResponse.user_email ?? "");
   }
 
   public async getLocalHostIp(): Promise<string> {

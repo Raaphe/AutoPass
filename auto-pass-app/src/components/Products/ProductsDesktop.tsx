@@ -2,9 +2,10 @@ import React, { FC, useState, useEffect } from "react";
 import { Card, Button, Typography, Divider, IconButton } from "@mui/material"; // Import Material-UI components
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs"; // Import Bootstrap icons for navigation buttons
 import { MdConfirmationNumber } from "react-icons/md"; // Import Material Design icon for ticket
-
 import ClientAuthService from "../../ClientAuthService";
-import * as API from "../../Service/api"; 
+import * as API from "../../Service/api";
+import { useNavigate } from "react-router-dom";
+
 interface ProductsDesktopProps {
 }
 
@@ -18,40 +19,41 @@ interface ProductsDesktopProps {
 const ProductsDesktop: FC<ProductsDesktopProps> = () => {
 
   const productsAPI = new API.ProductsControllerApi(ClientAuthService.getApiConfig())
+  const navigate = useNavigate();
 
   useEffect(() => {
 
     const getProducts = () => {
       productsAPI.getAllProducts()
-      .then((res) => {
-        if(res.status !== 200){
-          return;
-        }
-        setProductsInfo(res.data)
-      })
+        .then((res) => {
+          if (res.status !== 200) {
+            return;
+          }
+          setProductsInfo(res.data)
+        })
     }
     getProducts()
   }, [])
 
 
-  const [productsInfo, setProductsInfo] = useState <API.ProductsViewModel>()
+  const [productsInfo, setProductsInfo] = useState<API.ProductsViewModel>()
   const [membershipIndex, setMembershipIndex] = useState(0);
   const [ticketIndex, setTicketIndex] = useState(0);
 
   const getMembershipSize = () => {
-    if(productsInfo?.membershipList?.length === null || productsInfo?.membershipList?.length === undefined){
+    if (productsInfo?.membershipList?.length === null || productsInfo?.membershipList?.length === undefined) {
       return 0
     }
-    else{
+    else {
       return productsInfo?.membershipList.length
     }
   }
 
   const getTicketsSize = () => {
-    if(productsInfo?.ticketsList?.length === null || productsInfo?.ticketsList?.length === undefined){
+    if (productsInfo?.ticketsList?.length === null || productsInfo?.ticketsList?.length === undefined) {
       return 0
     }
-    else{
+    else {
       return productsInfo?.ticketsList.length
     }
   }
@@ -74,11 +76,11 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
   };
 
   const handleAddPlan = () => {
-    alert("Add Plan button clicked");
+    navigate("/checkout", { state: { priceId: productsInfo?.membershipList?.at(membershipIndex)?.stripePriceId, email: ClientAuthService.getEmail() }})
   };
 
   const handleAddTicket = () => {
-    alert("Add Ticket button clicked");
+    navigate("/checkout", { state: { priceId: productsInfo?.ticketsList?.at(ticketIndex)?.stripePriceId, email: ClientAuthService.getEmail() }})
   };
 
   return (
@@ -89,7 +91,7 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
       <Divider style={{ marginBottom: "20px" }} />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {/* Membership card */}
-        <Card elevation={12} style={{ width: "300px", height: "450px", margin: "10px", padding: "20px", borderRadius: "10px"}}>
+        <Card elevation={12} style={{ width: "300px", height: "450px", margin: "10px", padding: "20px", borderRadius: "10px" }}>
           <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
             Memberships
           </Typography>

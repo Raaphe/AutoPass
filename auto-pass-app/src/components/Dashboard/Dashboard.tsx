@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import ClientAuthService from "../../ClientAuthService";
 import { useNavigate } from "react-router-dom";
 import {User, UserControllerApi, UserWallet} from "../../Service";
-import StripeModule from "../StripeModule/StripeModule";
+import StripeModule from "../StripeModule/Return";
 import MembershipStatusGraph from "../Views/MembershipStatusGraph";
 import ClientUtil from "../../ClientUtil";
 import {Card} from "@mui/material";
