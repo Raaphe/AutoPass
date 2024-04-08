@@ -1,6 +1,13 @@
-import { FC, useEffect, useState } from "react";
-import DashboardDesktop from "./DashboardDesktop";
-import DashboardMobile from "./DashboardMobile";
+import React, { FC, useEffect, useState } from "react";
+import styles from "./Dashboard.module.scss";
+import { motion } from "framer-motion";
+import ClientAuthService from "../../ClientAuthService";
+import { useNavigate } from "react-router-dom";
+import {User, UserControllerApi, UserWallet} from "../../Service";
+import StripeModule from "../StripeModule/Return";
+import MembershipStatusGraph from "../Views/MembershipStatusGraph";
+import ClientUtil from "../../ClientUtil";
+import {Card} from "@mui/material";
 
 
 interface DashboardProps {

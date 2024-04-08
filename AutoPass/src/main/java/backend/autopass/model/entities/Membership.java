@@ -28,4 +28,5 @@ public class Membership implements Serializable {
     @Column(nullable = false)
     @Builder.Default
     private boolean isDeleted = false;
+    private String stripePriceId;
 }

@@ -16,4 +16,7 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query("select t from Ticket t where t.isDeleted = false")
     List<Ticket> getAll();
+
+    Ticket getTicketByStripePriceId(String priceId);
+
 }

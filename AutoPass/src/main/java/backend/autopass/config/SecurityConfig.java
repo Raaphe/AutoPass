@@ -103,7 +103,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/upload-profile-image").authenticated()
                         .requestMatchers(HttpMethod.POST, "/user/save-user-basic-info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google/user").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/payment/charge").authenticated()
                         .requestMatchers(HttpMethod.GET, "/wallet/wallet-info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanners").authenticated()
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/delete-bus").authenticated()
@@ -115,6 +114,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/google-wallet-api/get-add-pass-url").authenticated()
                         .requestMatchers(HttpMethod.POST, "/google-wallet-api/expire-pass").authenticated()
                         .requestMatchers(HttpMethod.POST, "/google-wallet-api/activate-pass").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/payment/create-checkout-session").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/payment/session-status").authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/oauth2/authorization/google")

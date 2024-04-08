@@ -263,6 +263,12 @@ export interface EntityModelMembership {
     'price'?: number;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelMembership
+     */
+    'stripePriceId'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof EntityModelMembership
      */
@@ -307,6 +313,12 @@ export interface EntityModelPaymentType {
     'expiryDate'?: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof EntityModelPaymentType
+     */
+    'deleted'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof EntityModelPaymentType
      */
@@ -317,12 +329,6 @@ export interface EntityModelPaymentType {
      * @memberof EntityModelPaymentType
      */
     'cvv'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelPaymentType
-     */
-    'deleted'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -348,6 +354,12 @@ export interface EntityModelTicket {
      * @memberof EntityModelTicket
      */
     'price'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelTicket
+     */
+    'stripePriceId'?: string;
     /**
      * 
      * @type {boolean}
@@ -466,10 +478,10 @@ export interface EntityModelUser {
     'authorities'?: Array<GrantedAuthority>;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
+    'username'?: string;
     /**
      * 
      * @type {boolean}
@@ -481,7 +493,7 @@ export interface EntityModelUser {
      * @type {string}
      * @memberof EntityModelUser
      */
-    'username'?: string;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -493,7 +505,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -639,6 +651,25 @@ export interface ErrorResponseStackTraceElementsInner {
      * @memberof ErrorResponseStackTraceElementsInner
      */
     'nativeMethod'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetClientStripeSecretDTO
+ */
+export interface GetClientStripeSecretDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetClientStripeSecretDTO
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetClientStripeSecretDTO
+     */
+    'priceId'?: string;
 }
 /**
  * 
@@ -846,6 +877,12 @@ export interface Membership {
     'price'?: number;
     /**
      * 
+     * @type {string}
+     * @memberof Membership
+     */
+    'stripePriceId'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof Membership
      */
@@ -875,6 +912,12 @@ export interface MembershipRequestBody {
      * @memberof MembershipRequestBody
      */
     'price'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MembershipRequestBody
+     */
+    'stripePriceId'?: string;
     /**
      * 
      * @type {boolean}
@@ -1274,6 +1317,12 @@ export interface PaymentTypeRequestBody {
     'expiryDate'?: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof PaymentTypeRequestBody
+     */
+    'deleted'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof PaymentTypeRequestBody
      */
@@ -1284,12 +1333,25 @@ export interface PaymentTypeRequestBody {
      * @memberof PaymentTypeRequestBody
      */
     'cvv'?: string;
+}
+/**
+ * Products page view model.
+ * @export
+ * @interface ProductsViewModel
+ */
+export interface ProductsViewModel {
     /**
-     * 
-     * @type {boolean}
-     * @memberof PaymentTypeRequestBody
+     * List of the tickets
+     * @type {Array<Ticket>}
+     * @memberof ProductsViewModel
      */
-    'deleted'?: boolean;
+    'ticketsList'?: Array<Ticket>;
+    /**
+     * List of the memberships
+     * @type {Array<Membership>}
+     * @memberof ProductsViewModel
+     */
+    'membershipList'?: Array<Membership>;
 }
 /**
  * Products page view model.
@@ -1474,6 +1536,62 @@ export interface Ticket {
 /**
  * 
  * @export
+ * @interface StripeSessionStatusViewModel
+ */
+export interface StripeSessionStatusViewModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof StripeSessionStatusViewModel
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StripeSessionStatusViewModel
+     */
+    'customerEmail'?: string;
+}
+/**
+ * List of the tickets
+ * @export
+ * @interface Ticket
+ */
+export interface Ticket {
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'ticketAmount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'price'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Ticket
+     */
+    'stripePriceId'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Ticket
+     */
+    'deleted'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface TicketRequestBody
  */
 export interface TicketRequestBody {
@@ -1495,6 +1613,12 @@ export interface TicketRequestBody {
      * @memberof TicketRequestBody
      */
     'price'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketRequestBody
+     */
+    'stripePriceId'?: string;
     /**
      * 
      * @type {boolean}
@@ -1662,10 +1786,10 @@ export interface User {
     'authorities'?: Array<GrantedAuthority>;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
+    'username'?: string;
     /**
      * 
      * @type {boolean}
@@ -1677,7 +1801,7 @@ export interface User {
      * @type {string}
      * @memberof User
      */
-    'username'?: string;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1689,7 +1813,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1793,10 +1917,10 @@ export interface UserRequestBody {
     'authorities'?: Array<GrantedAuthority>;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
+    'username'?: string;
     /**
      * 
      * @type {boolean}
@@ -1808,7 +1932,7 @@ export interface UserRequestBody {
      * @type {string}
      * @memberof UserRequestBody
      */
-    'username'?: string;
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1820,7 +1944,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -6189,6 +6313,199 @@ export class ScannerControllerApi extends BaseAPI {
      */
     public getScannerByBusNumber(busNumber: number, options?: RawAxiosRequestConfig) {
         return ScannerControllerApiFp(this.configuration).getScannerByBusNumber(busNumber, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * StripeControllerApi - axios parameter creator
+ * @export
+ */
+export const StripeControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Creates a checkout embedded session options.
+         * @param {GetClientStripeSecretDTO} dto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getClientSecret: async (dto: GetClientStripeSecretDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dto' is not null or undefined
+            assertParamExists('getClientSecret', 'dto', dto)
+            const localVarPath = `/api/payment/create-checkout-session`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (dto !== undefined) {
+                for (const [key, value] of Object.entries(dto)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Gets the sessions payment status.
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSessionStatus: async (sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'sessionId' is not null or undefined
+            assertParamExists('getSessionStatus', 'sessionId', sessionId)
+            const localVarPath = `/api/payment/session-status`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (sessionId !== undefined) {
+                localVarQueryParameter['sessionId'] = sessionId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * StripeControllerApi - functional programming interface
+ * @export
+ */
+export const StripeControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = StripeControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Creates a checkout embedded session options.
+         * @param {GetClientStripeSecretDTO} dto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getClientSecret(dto: GetClientStripeSecretDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getClientSecret(dto, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['StripeControllerApi.getClientSecret']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Gets the sessions payment status.
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSessionStatus(sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StripeSessionStatusViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSessionStatus(sessionId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['StripeControllerApi.getSessionStatus']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * StripeControllerApi - factory interface
+ * @export
+ */
+export const StripeControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = StripeControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Creates a checkout embedded session options.
+         * @param {GetClientStripeSecretDTO} dto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getClientSecret(dto: GetClientStripeSecretDTO, options?: any): AxiosPromise<string> {
+            return localVarFp.getClientSecret(dto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Gets the sessions payment status.
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSessionStatus(sessionId: string, options?: any): AxiosPromise<StripeSessionStatusViewModel> {
+            return localVarFp.getSessionStatus(sessionId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * StripeControllerApi - object-oriented interface
+ * @export
+ * @class StripeControllerApi
+ * @extends {BaseAPI}
+ */
+export class StripeControllerApi extends BaseAPI {
+    /**
+     * 
+     * @summary Creates a checkout embedded session options.
+     * @param {GetClientStripeSecretDTO} dto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StripeControllerApi
+     */
+    public getClientSecret(dto: GetClientStripeSecretDTO, options?: RawAxiosRequestConfig) {
+        return StripeControllerApiFp(this.configuration).getClientSecret(dto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Gets the sessions payment status.
+     * @param {string} sessionId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StripeControllerApi
+     */
+    public getSessionStatus(sessionId: string, options?: RawAxiosRequestConfig) {
+        return StripeControllerApiFp(this.configuration).getSessionStatus(sessionId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -16,4 +16,6 @@ import java.util.List;
 public interface MembershipRepository extends JpaRepository<Membership, Long> {
     @Query("select m from Membership m where m.isDeleted = false")
     List<Membership> getAll();
+
+    Membership getMembershipByStripePriceId(String priceId);
 }

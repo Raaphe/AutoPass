@@ -2,10 +2,10 @@ import React, { FC, useState, useEffect } from "react";
 import { Card, Button, Typography, Divider, IconButton } from "@mui/material"; // Import Material-UI components
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs"; // Import Bootstrap icons for navigation buttons
 import { MdConfirmationNumber } from "react-icons/md"; // Import Material Design icon for ticket
-
 import ClientAuthService from "../../ClientAuthService";
 import * as API from "../../Service/api";
 import { useNavigate } from "react-router-dom";
+
 interface ProductsDesktopProps {
 }
 
@@ -21,6 +21,7 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
 
   const productsAPI = new API.ProductsControllerApi(ClientAuthService.getApiConfig())
   const navigate = useNavigate();
+
   useEffect(() => {
 
     const getProducts = () => {
@@ -76,11 +77,11 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
   };
 
   const handleAddPlan = () => {
-    alert("Add Plan button clicked");
+    navigate("/checkout", { state: { priceId: productsInfo?.membershipList?.at(membershipIndex)?.stripePriceId, email: ClientAuthService.getEmail() }})
   };
 
   const handleAddTicket = () => {
-    alert("Add Ticket button clicked");
+    navigate("/checkout", { state: { priceId: productsInfo?.ticketsList?.at(ticketIndex)?.stripePriceId, email: ClientAuthService.getEmail() }})
   };
 
   return (
