@@ -4,25 +4,27 @@ import backend.autopass.model.entities.User;
 import backend.autopass.model.entities.UserWallet;
 import backend.autopass.model.enums.Role;
 import backend.autopass.model.repositories.UserRepository;
+import backend.autopass.model.repositories.UserWalletRepository;
 import backend.autopass.payload.dto.ScannerRegistrationDTO;
 import backend.autopass.payload.viewmodels.PassValidationResponseViewModel;
 import backend.autopass.service.interfaces.IScannerService;
-import dev.samstevens.totp.code.*;
-import dev.samstevens.totp.time.SystemTimeProvider;
-import dev.samstevens.totp.time.TimeProvider;
+import com.eatthepath.otp.TimeBasedOneTimePasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.time.Duration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import javax.crypto.Mac;
+
 import javax.crypto.spec.SecretKeySpec;
-import java.math.BigInteger;
+import java.time.Instant;
+import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static ch.qos.logback.core.encoder.ByteArrayUtil.hexStringToByteArray;
 
 /**
  * ScannerService - 2024-03-30
@@ -33,11 +35,13 @@ import static ch.qos.logback.core.encoder.ByteArrayUtil.hexStringToByteArray;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ScannerService implements IScannerService{
+public class ScannerService implements IScannerService {
 
     private final UserService userService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GoogleWalletService googleWalletService;
+    private final UserWalletRepository userWalletRepository;
 
     @Value("${rotating-barcode-hmac-key}")
     private String key;
@@ -153,13 +157,17 @@ public class ScannerService implements IScannerService{
     }
 
     @Override
-    public PassValidationResponseViewModel validatePass(String rotatingBarcodeValue) {
+    public PassValidationResponseViewModel validatePass(String rotatingBarcodeValue) throws InvalidKeyException {
 
+        // Time here is used in seconds, thus the division by 1000.
+        int currentTime = (int) (System.currentTimeMillis() / 1000);
         List<String> tOTPDetails = List.of(rotatingBarcodeValue.split("-"));
         String email = tOTPDetails.get(0);
         long timeStamp = Integer.parseInt(tOTPDetails.get(1));
         String tOTPValue = tOTPDetails.get(2);
-        double currentTime = System.currentTimeMillis();
+        TimeBasedOneTimePasswordGenerator generator = new TimeBasedOneTimePasswordGenerator(Duration.ofSeconds(6), 8);
+        Instant timeCodeIssued = Instant.ofEpochSecond(timeStamp);
+        Key key1 = new SecretKeySpec(hexStringToByteArray(key), "HmacSHA1");
 
         User user = userService.getUserByEmail(email);
         UserWallet userWallet = user.getWallet();
@@ -174,7 +182,7 @@ public class ScannerService implements IScannerService{
                     .build();
         }
 
-        if (currentTime < timeStamp + 6000 ) {
+        if (currentTime > timeStamp + 6) {
             return PassValidationResponseViewModel
                     .builder()
                     .isValid(false)
@@ -182,46 +190,53 @@ public class ScannerService implements IScannerService{
                     .numberOfTickets(userWallet.getTicketAmount())
                     .responseMessage("Your Pass is Invalid...")
                     .build();
-        } else {
+        } else if (tOTPValue.equals(generator.generateOneTimePasswordString(key1, timeCodeIssued))) {
+
+            String responseMessage = "Welcome Aboard 🚐" + (userWallet.isMembershipActive() ? "" : "\nYou have " + (userWallet.getTicketAmount()-1) + " tickets remaining");
+            new Thread(() -> {
+                updateWalletObjects(userWallet, user);
+            }).start();
+
             return PassValidationResponseViewModel
                     .builder()
-                    .responseMessage("Welcome Aboard 🚐")
+                    .responseMessage(responseMessage)
                     .isValid(true)
                     .expiresAt(userWallet.getMemberShipEnds())
                     .numberOfTickets(userWallet.getTicketAmount())
                     .build();
+        } else {
+            return PassValidationResponseViewModel
+                    .builder()
+                    .isValid(false)
+                    .expiresAt(userWallet.getMemberShipEnds()) // This avoids null values in a wallet object.
+                    .numberOfTickets(userWallet.getTicketAmount())
+                    .responseMessage("Your Pass is Invalid...")
+                    .build();
         }
-
-        /// https://www.rfc-editor.org/rfc/rfc4226#section-5.3
-
-        // Could not for the life of me figure out how to generate totp like how Google does.
-        // For now, checking if the qr_code hasn't been generated too long after scan is good enough for our use-case.
-        // This is, for sure, a security vulnerability.
-//
-//        if (validateTOTP(timeStamp / 1000, tOTPValue)) {
-//            return PassValidationResponseViewModel
-//                    .builder()
-//                    .responseMessage("Welcome Aboard 🚐")
-//                    .isValid(true)
-//                    .expiresAt(userWallet.getMemberShipEnds())
-//                    .numberOfTickets(userWallet.getTicketAmount())
-//                    .build();
-//        }
-//
-//        return PassValidationResponseViewModel
-//                .builder()
-//                .isValid(false)
-//                .expiresAt(userWallet.getMemberShipEnds()) // This avoids null values in a wallet object.
-//                .numberOfTickets(userWallet.getTicketAmount())
-//                .responseMessage("Your Pass is Invalid...")
-//                .build();
     }
+
+    private void updateWalletObjects(UserWallet userWallet, User user) {
+        if (!userWallet.isMembershipActive()) {
+            int newAmount = userWallet.getTicketAmount() - 1;
+            userWallet.setTicketAmount(newAmount);
+            googleWalletService.updatePassTickets(user.getEmail(), newAmount);
+            userWalletRepository.save(userWallet);
+        }
+    }
+
+    public byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
+    }
+
 
     private void mapDtoToScanner(User scanner, ScannerRegistrationDTO dto) {
         scanner.setPassword(passwordEncoder.encode(dto.getPwd()));
         scanner.setFirstName(dto.getRouteName());
     }
-
-
-
 }
