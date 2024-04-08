@@ -88,6 +88,37 @@ export interface AuthenticationResponse {
 /**
  * 
  * @export
+ * @interface BasicUserInfoDTO
+ */
+export interface BasicUserInfoDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof BasicUserInfoDTO
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BasicUserInfoDTO
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BasicUserInfoDTO
+     */
+    'firstName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BasicUserInfoDTO
+     */
+    'lastName'?: string;
+}
+/**
+ * 
+ * @export
  * @interface ChangePasswordDTO
  */
 export interface ChangePasswordDTO {
@@ -456,10 +487,10 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonLocked'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof EntityModelUser
      */
     'deleted'?: boolean;
@@ -468,7 +499,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1323,6 +1354,25 @@ export interface ProductsViewModel {
     'membershipList'?: Array<Membership>;
 }
 /**
+ * Products page view model.
+ * @export
+ * @interface ProductsViewModel
+ */
+export interface ProductsViewModel {
+    /**
+     * List of the tickets
+     * @type {Array<Ticket>}
+     * @memberof ProductsViewModel
+     */
+    'ticketsList'?: Array<Ticket>;
+    /**
+     * List of the memberships
+     * @type {Array<Membership>}
+     * @memberof ProductsViewModel
+     */
+    'membershipList'?: Array<Membership>;
+}
+/**
  * 
  * @export
  * @interface RefreshTokenDTO
@@ -1452,6 +1502,37 @@ export const SignUpDTORoleEnum = {
 
 export type SignUpDTORoleEnum = typeof SignUpDTORoleEnum[keyof typeof SignUpDTORoleEnum];
 
+/**
+ * List of the tickets
+ * @export
+ * @interface Ticket
+ */
+export interface Ticket {
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'ticketAmount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ticket
+     */
+    'price'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Ticket
+     */
+    'deleted'?: boolean;
+}
 /**
  * 
  * @export
@@ -1714,10 +1795,10 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonLocked'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof User
      */
     'deleted'?: boolean;
@@ -1726,7 +1807,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1845,10 +1926,10 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonLocked'?: boolean;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof UserRequestBody
      */
     'deleted'?: boolean;
@@ -1857,7 +1938,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -5286,8 +5367,7 @@ export class PaymentTypeSearchControllerApi extends BaseAPI {
 
 
 /**
- * ProductsControllerApi - axios parameter creator
- * @export
+ * ProductsControllerApi - axios parameter creator * @export
  */
 export const ProductsControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -8405,6 +8485,49 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
+         * @summary Updates a user\'s basic information.
+         * @param {BasicUserInfoDTO} info 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        saveBasicUserInfo: async (info: BasicUserInfoDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'info' is not null or undefined
+            assertParamExists('saveBasicUserInfo', 'info', info)
+            const localVarPath = `/user/save-user-basic-info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (info !== undefined) {
+                for (const [key, value] of Object.entries(info)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Updates a user\'s profile image.
          * @param {SetUserImageRequest} [setUserImageRequest] 
          * @param {*} [options] Override http request option.
@@ -8533,6 +8656,19 @@ export const UserControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Updates a user\'s basic information.
+         * @param {BasicUserInfoDTO} info 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async saveBasicUserInfo(info: BasicUserInfoDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.saveBasicUserInfo(info, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserControllerApi.saveBasicUserInfo']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Updates a user\'s profile image.
          * @param {SetUserImageRequest} [setUserImageRequest] 
          * @param {*} [options] Override http request option.
@@ -8597,6 +8733,16 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
+         * @summary Updates a user\'s basic information.
+         * @param {BasicUserInfoDTO} info 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        saveBasicUserInfo(info: BasicUserInfoDTO, options?: any): AxiosPromise<User> {
+            return localVarFp.saveBasicUserInfo(info, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Updates a user\'s profile image.
          * @param {SetUserImageRequest} [setUserImageRequest] 
          * @param {*} [options] Override http request option.
@@ -8657,6 +8803,18 @@ export class UserControllerApi extends BaseAPI {
      */
     public markUserAsDeleted(options?: RawAxiosRequestConfig) {
         return UserControllerApiFp(this.configuration).markUserAsDeleted(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Updates a user\'s basic information.
+     * @param {BasicUserInfoDTO} info 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserControllerApi
+     */
+    public saveBasicUserInfo(info: BasicUserInfoDTO, options?: RawAxiosRequestConfig) {
+        return UserControllerApiFp(this.configuration).saveBasicUserInfo(info, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

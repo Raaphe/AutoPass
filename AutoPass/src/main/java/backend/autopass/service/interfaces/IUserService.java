@@ -1,6 +1,7 @@
 package backend.autopass.service.interfaces;
 
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.dto.BasicUserInfoDTO;
 import backend.autopass.payload.dto.ChangeImageDTO;
 import backend.autopass.payload.dto.ChangePasswordDTO;
 import backend.autopass.payload.dto.SignUpDTO;
@@ -85,4 +86,11 @@ public interface IUserService {
      * @return The Url of the saved image.
      */
     String getImageFromUser(int userId);
+
+    /**
+     * Saves the basic user's info.
+     * @param info The user's info.
+     * @return The user information.
+     */
+    User saveBasicUserInfo(BasicUserInfoDTO info);
 }
