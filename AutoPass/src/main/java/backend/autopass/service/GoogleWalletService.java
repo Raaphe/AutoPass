@@ -272,7 +272,9 @@ public class GoogleWalletService implements IGoogleWalletService {
 
         Instant instant = Instant.ofEpochMilli((long) userWallet.getMemberShipEnds());
         String formattedDateUntilExpiry = DateTimeFormatter.ofPattern("dd-MM-yyyy").withZone(ZoneId.systemDefault()).format(instant);
-
+        if (userWallet.getMemberShipEnds() < System.currentTimeMillis()) {
+            formattedDateUntilExpiry = "No Active Memberships";
+        }
 
         pass.setTextModulesData(
                 List.of(

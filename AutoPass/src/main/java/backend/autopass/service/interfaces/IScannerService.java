@@ -57,6 +57,7 @@ public interface IScannerService {
 
     /**
      * Validates the Google wallet pass barcode value.
+     * Some of the code that was used for generating the totp was taken straight from the library's <a href="https://github.com/jchambers/java-otp">Github</a>.
      * @param rotatingBarcodeValue The barcode value made like so : <USER_EMAIL>-<TIME_BARCODE_WAS_GENERATED>-<TOTP>
      * @return PassValidationResponseViewModel Whether the pass is valid.
      */

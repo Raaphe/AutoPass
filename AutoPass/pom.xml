@@ -158,9 +158,9 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
-            <groupId>dev.samstevens.totp</groupId>
-            <artifactId>totp</artifactId>
-            <version>1.7.1</version>
+            <groupId>com.eatthepath</groupId>
+            <artifactId>java-otp</artifactId>
+            <version>0.4.0</version>
         </dependency>
     </dependencies>
 
