@@ -101,6 +101,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/user/update-user-info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/user/get-user-pfp").authenticated()
                         .requestMatchers(HttpMethod.POST, "/user/upload-profile-image").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/user/save-user-basic-info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google/user").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/payment/charge").authenticated()
                         .requestMatchers(HttpMethod.GET, "/wallet/wallet-info").authenticated()

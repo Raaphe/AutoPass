@@ -15,12 +15,12 @@ interface ScannerScreenProps {
 const ScannerScreen: FC<ScannerScreenProps> = ({ passValidationResponse, scanned, setScan }) => {
 
   const [height, setHeight] = useState(window.innerHeight);
-  const [width, setWidth] = useState(window.innerWidth);
+  const [_, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
 
     if (scanned) {
-      const timer = setTimeout( ()=>setScan(false) ,1600)
+      const timer = setTimeout(()=>setScan(false) ,1600)
 
       return () => clearTimeout(timer);
     }
