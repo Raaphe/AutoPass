@@ -15,6 +15,8 @@ import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,35 +77,35 @@ public class DataLoader {
 
         Membership membership1 = Membership
                 .builder()
-                .price(11f)
+                .price(BigDecimal.valueOf(11f))
                 .membershipDurationDays(1)
                 .stripePriceId("price_1P2dfqH4PBFYm1VAvyDz9BjF")
                 .build();
 
         Membership membership2 = Membership
                 .builder()
-                .price(21.25f)
+                .price(BigDecimal.valueOf(21.25f))
                 .membershipDurationDays(3)
                 .stripePriceId("price_1P2dhVH4PBFYm1VAbY2cjudh")
                 .build();
 
         Membership membership3 = Membership
                 .builder()
-                .price(30f)
+                .price(BigDecimal.valueOf(30f))
                 .membershipDurationDays(7)
                 .stripePriceId("price_1P2dieH4PBFYm1VAtICrFVJ0")
                 .build();
 
         Membership membership4 = Membership
                 .builder()
-                .price(97f)
+                .price(BigDecimal.valueOf(97f))
                 .membershipDurationDays(30)
                 .stripePriceId("price_1P2dkYH4PBFYm1VAF0TSjCq8")
                 .build();
 
         Membership membership5 = Membership
                 .builder()
-                .price(226f)
+                .price(BigDecimal.valueOf(226f))
                 .membershipDurationDays(120)
                 .stripePriceId("price_1P2dmbH4PBFYm1VAsppi2AtT")
                 .build();
@@ -117,22 +119,20 @@ public class DataLoader {
             Ticket ticket1 = Ticket
                     .builder()
                     .ticketAmount(1)
-                    .price(3.75)
+                    .price(BigDecimal.valueOf(3.75))
                     .stripePriceId("price_1P2dpNH4PBFYm1VA2RM4hAyB")
                     .build();
-            ticket1.setTicketAmount(1);
-            ticket1.setPrice(3.75);
 
             Ticket ticket2 = Ticket
                     .builder()
                     .ticketAmount(2)
-                    .price(7f)
+                    .price(BigDecimal.valueOf(7f))
                     .stripePriceId("price_1P2dpwH4PBFYm1VAQfPU5DAq")
                     .build();
 
             Ticket ticket3 = Ticket
                     .builder()
-                    .price(32.50)
+                    .price(BigDecimal.valueOf(32.50))
                     .stripePriceId("price_1P2drHH4PBFYm1VADzi07aET")
                     .ticketAmount(10)
                     .build();

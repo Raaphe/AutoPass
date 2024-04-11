@@ -33,10 +33,6 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
     ClientUtil.getUserWalletInfo(setDaysUntilExpiry, setWalletInfo, walletInfo);
   }, [navigate])
 
-  function HandleSeeCatalog(): void {
-    alert("not yet implemented")
-  }
-
   return (
 
     <Card className="container"  elevation={12} variant="outlined">
@@ -61,13 +57,13 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
 
           <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
 
-          {walletInfo.membershipActive ?
+          {ClientUtil.isMembershipActive(walletInfo) ?
             <Typography style={{ alignSelf: 'start', fontSize: 16, }} className="mt-2" gutterBottom variant="h5" component="div">
               {`Your Membership plan ends on ${ClienUtil.getFriendlyDateFromMs(walletInfo.memberShipEnds ?? 0)}`}
             </Typography>
             :
             <>
-              <Fab variant="extended" className="m-4" onClick={HandleSeeCatalog}>
+              <Fab variant="extended" className="m-4" onClick={() => navigate("/products")}>
                 <DirectionsBusIcon sx={{ mr: 1 }} />
                 View Plans
               </Fab>
@@ -98,7 +94,7 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
 
 
           <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
-          <Fab variant="extended" className="m-4" onClick={HandleSeeCatalog}>
+          <Fab variant="extended" className="m-4" onClick={() => navigate("/products")}>
             <ConfirmationNumberIcon sx={{ mt:3,mb:3,ml:1, mr:1 }} />
             Add More
           </Fab>

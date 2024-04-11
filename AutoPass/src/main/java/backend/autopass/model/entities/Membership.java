@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Membership - 2024-03-30
@@ -24,7 +25,7 @@ public class Membership implements Serializable {
     @Column(nullable = false)
     private int membershipDurationDays;
     @Column(nullable = false)
-    private float price;
+    private BigDecimal price;
     @Column(nullable = false)
     @Builder.Default
     private boolean isDeleted = false;

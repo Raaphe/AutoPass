@@ -138,6 +138,25 @@ export interface ChangePasswordDTO {
 /**
  * 
  * @export
+ * @interface CollectionModelEntityModelInvoice
+ */
+export interface CollectionModelEntityModelInvoice {
+    /**
+     * 
+     * @type {PagedModelEntityModelInvoiceEmbedded}
+     * @memberof CollectionModelEntityModelInvoice
+     */
+    '_embedded'?: PagedModelEntityModelInvoiceEmbedded;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof CollectionModelEntityModelInvoice
+     */
+    '_links'?: { [key: string]: Link; };
+}
+/**
+ * 
+ * @export
  * @interface CollectionModelEntityModelMembership
  */
 export interface CollectionModelEntityModelMembership {
@@ -151,25 +170,6 @@ export interface CollectionModelEntityModelMembership {
      * 
      * @type {{ [key: string]: Link; }}
      * @memberof CollectionModelEntityModelMembership
-     */
-    '_links'?: { [key: string]: Link; };
-}
-/**
- * 
- * @export
- * @interface CollectionModelEntityModelPaymentType
- */
-export interface CollectionModelEntityModelPaymentType {
-    /**
-     * 
-     * @type {PagedModelEntityModelPaymentTypeEmbedded}
-     * @memberof CollectionModelEntityModelPaymentType
-     */
-    '_embedded'?: PagedModelEntityModelPaymentTypeEmbedded;
-    /**
-     * 
-     * @type {{ [key: string]: Link; }}
-     * @memberof CollectionModelEntityModelPaymentType
      */
     '_links'?: { [key: string]: Link; };
 }
@@ -246,6 +246,55 @@ export interface CollectionModelObjectEmbedded {
 /**
  * 
  * @export
+ * @interface EntityModelInvoice
+ */
+export interface EntityModelInvoice {
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityModelInvoice
+     */
+    'price'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelInvoice
+     */
+    'stripePriceId'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityModelInvoice
+     */
+    'date'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelInvoice
+     */
+    'stripeCheckoutId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelInvoice
+     */
+    'productName'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelInvoice
+     */
+    'processed'?: boolean;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof EntityModelInvoice
+     */
+    '_links'?: { [key: string]: Link; };
+}
+/**
+ * 
+ * @export
  * @interface EntityModelMembership
  */
 export interface EntityModelMembership {
@@ -296,43 +345,6 @@ export interface EntityModelPass {
      * 
      * @type {{ [key: string]: Link; }}
      * @memberof EntityModelPass
-     */
-    '_links'?: { [key: string]: Link; };
-}
-/**
- * 
- * @export
- * @interface EntityModelPaymentType
- */
-export interface EntityModelPaymentType {
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelPaymentType
-     */
-    'expiryDate'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelPaymentType
-     */
-    'deleted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelPaymentType
-     */
-    'pan'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelPaymentType
-     */
-    'cvv'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: Link; }}
-     * @memberof EntityModelPaymentType
      */
     '_links'?: { [key: string]: Link; };
 }
@@ -472,28 +484,10 @@ export interface EntityModelUser {
     'enabled'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof EntityModelUser
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelUser
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelUser
-     */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -502,10 +496,28 @@ export interface EntityModelUser {
     'accountNonLocked'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof EntityModelUser
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
+    'deleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -541,12 +553,6 @@ export interface EntityModelUserWallet {
      * @memberof EntityModelUserWallet
      */
     'memberShipEnds'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUserWallet
-     */
-    'membershipActive'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -702,6 +708,116 @@ export interface GrantedAuthority {
      * @memberof GrantedAuthority
      */
     'authority'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface Invoice
+ */
+export interface Invoice {
+    /**
+     * 
+     * @type {number}
+     * @memberof Invoice
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Invoice
+     */
+    'price'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Invoice
+     */
+    'stripePriceId'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Invoice
+     */
+    'date'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Invoice
+     */
+    'stripeCheckoutId'?: string;
+    /**
+     * 
+     * @type {User}
+     * @memberof Invoice
+     */
+    'user'?: User;
+    /**
+     * 
+     * @type {string}
+     * @memberof Invoice
+     */
+    'productName'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Invoice
+     */
+    'processed'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface InvoiceRequestBody
+ */
+export interface InvoiceRequestBody {
+    /**
+     * 
+     * @type {number}
+     * @memberof InvoiceRequestBody
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof InvoiceRequestBody
+     */
+    'price'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvoiceRequestBody
+     */
+    'stripePriceId'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof InvoiceRequestBody
+     */
+    'date'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvoiceRequestBody
+     */
+    'stripeCheckoutId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvoiceRequestBody
+     */
+    'user'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvoiceRequestBody
+     */
+    'productName'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof InvoiceRequestBody
+     */
+    'processed'?: boolean;
 }
 /**
  * 
@@ -959,6 +1075,44 @@ export interface PageMetadata {
 /**
  * 
  * @export
+ * @interface PagedModelEntityModelInvoice
+ */
+export interface PagedModelEntityModelInvoice {
+    /**
+     * 
+     * @type {PagedModelEntityModelInvoiceEmbedded}
+     * @memberof PagedModelEntityModelInvoice
+     */
+    '_embedded'?: PagedModelEntityModelInvoiceEmbedded;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof PagedModelEntityModelInvoice
+     */
+    '_links'?: { [key: string]: Link; };
+    /**
+     * 
+     * @type {PageMetadata}
+     * @memberof PagedModelEntityModelInvoice
+     */
+    'page'?: PageMetadata;
+}
+/**
+ * 
+ * @export
+ * @interface PagedModelEntityModelInvoiceEmbedded
+ */
+export interface PagedModelEntityModelInvoiceEmbedded {
+    /**
+     * 
+     * @type {Array<EntityModelInvoice>}
+     * @memberof PagedModelEntityModelInvoiceEmbedded
+     */
+    'invoices'?: Array<EntityModelInvoice>;
+}
+/**
+ * 
+ * @export
  * @interface PagedModelEntityModelMembership
  */
 export interface PagedModelEntityModelMembership {
@@ -1031,44 +1185,6 @@ export interface PagedModelEntityModelPassEmbedded {
      * @memberof PagedModelEntityModelPassEmbedded
      */
     'passes'?: Array<EntityModelPass>;
-}
-/**
- * 
- * @export
- * @interface PagedModelEntityModelPaymentType
- */
-export interface PagedModelEntityModelPaymentType {
-    /**
-     * 
-     * @type {PagedModelEntityModelPaymentTypeEmbedded}
-     * @memberof PagedModelEntityModelPaymentType
-     */
-    '_embedded'?: PagedModelEntityModelPaymentTypeEmbedded;
-    /**
-     * 
-     * @type {{ [key: string]: Link; }}
-     * @memberof PagedModelEntityModelPaymentType
-     */
-    '_links'?: { [key: string]: Link; };
-    /**
-     * 
-     * @type {PageMetadata}
-     * @memberof PagedModelEntityModelPaymentType
-     */
-    'page'?: PageMetadata;
-}
-/**
- * 
- * @export
- * @interface PagedModelEntityModelPaymentTypeEmbedded
- */
-export interface PagedModelEntityModelPaymentTypeEmbedded {
-    /**
-     * 
-     * @type {Array<EntityModelPaymentType>}
-     * @memberof PagedModelEntityModelPaymentTypeEmbedded
-     */
-    'paymentTypes'?: Array<EntityModelPaymentType>;
 }
 /**
  * 
@@ -1292,68 +1408,6 @@ export interface PassValidationResponseViewModel {
     'responseMessage'?: string;
 }
 /**
- * 
- * @export
- * @interface PaymentTypeRequestBody
- */
-export interface PaymentTypeRequestBody {
-    /**
-     * 
-     * @type {number}
-     * @memberof PaymentTypeRequestBody
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof PaymentTypeRequestBody
-     */
-    'user'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PaymentTypeRequestBody
-     */
-    'expiryDate'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PaymentTypeRequestBody
-     */
-    'deleted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof PaymentTypeRequestBody
-     */
-    'pan'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PaymentTypeRequestBody
-     */
-    'cvv'?: string;
-}
-/**
- * Products page view model.
- * @export
- * @interface ProductsViewModel
- */
-export interface ProductsViewModel {
-    /**
-     * List of the tickets
-     * @type {Array<Ticket>}
-     * @memberof ProductsViewModel
-     */
-    'ticketsList'?: Array<Ticket>;
-    /**
-     * List of the memberships
-     * @type {Array<Membership>}
-     * @memberof ProductsViewModel
-     */
-    'membershipList'?: Array<Membership>;
-}
-/**
  * Products page view model.
  * @export
  * @interface ProductsViewModel
@@ -1502,37 +1556,6 @@ export const SignUpDTORoleEnum = {
 
 export type SignUpDTORoleEnum = typeof SignUpDTORoleEnum[keyof typeof SignUpDTORoleEnum];
 
-/**
- * List of the tickets
- * @export
- * @interface Ticket
- */
-export interface Ticket {
-    /**
-     * 
-     * @type {number}
-     * @memberof Ticket
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Ticket
-     */
-    'ticketAmount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Ticket
-     */
-    'price'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Ticket
-     */
-    'deleted'?: boolean;
-}
 /**
  * 
  * @export
@@ -1780,28 +1803,10 @@ export interface User {
     'enabled'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof User
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {boolean}
      * @memberof User
      */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1810,10 +1815,28 @@ export interface User {
     'accountNonLocked'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof User
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
+    'deleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'credentialsNonExpired'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1911,28 +1934,10 @@ export interface UserRequestBody {
     'enabled'?: boolean;
     /**
      * 
-     * @type {Array<GrantedAuthority>}
-     * @memberof UserRequestBody
-     */
-    'authorities'?: Array<GrantedAuthority>;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserRequestBody
-     */
-    'username'?: string;
-    /**
-     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserRequestBody
-     */
-    'deleted'?: boolean;
+    'accountNonExpired'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1941,10 +1946,28 @@ export interface UserRequestBody {
     'accountNonLocked'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'username'?: string;
+    /**
+     * 
+     * @type {Array<GrantedAuthority>}
+     * @memberof UserRequestBody
+     */
+    'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
+    'deleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'credentialsNonExpired'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -1982,12 +2005,6 @@ export interface UserWallet {
     'memberShipEnds'?: number;
     /**
      * 
-     * @type {boolean}
-     * @memberof UserWallet
-     */
-    'membershipActive'?: boolean;
-    /**
-     * 
      * @type {Membership}
      * @memberof UserWallet
      */
@@ -2017,12 +2034,6 @@ export interface UserWalletRequestBody {
      * @memberof UserWalletRequestBody
      */
     'memberShipEnds'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserWalletRequestBody
-     */
-    'membershipActive'?: boolean;
     /**
      * 
      * @type {string}
@@ -3031,6 +3042,1341 @@ export class GoogleWalletControllerApi extends BaseAPI {
 
 
 /**
+ * InvoiceControllerApi - axios parameter creator
+ * @export
+ */
+export const InvoiceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Gets all the scanner accounts found in the database that are not deleted.
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllInvoicesByUserId: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('getAllInvoicesByUserId', 'userId', userId)
+            const localVarPath = `/v1/api/invoice/invoices`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * InvoiceControllerApi - functional programming interface
+ * @export
+ */
+export const InvoiceControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InvoiceControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Gets all the scanner accounts found in the database that are not deleted.
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllInvoicesByUserId(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Invoice>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllInvoicesByUserId(userId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceControllerApi.getAllInvoicesByUserId']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * InvoiceControllerApi - factory interface
+ * @export
+ */
+export const InvoiceControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InvoiceControllerApiFp(configuration)
+    return {
+        /**
+         * Gets all the scanner accounts found in the database that are not deleted.
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllInvoicesByUserId(userId: number, options?: any): AxiosPromise<Array<Invoice>> {
+            return localVarFp.getAllInvoicesByUserId(userId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * InvoiceControllerApi - object-oriented interface
+ * @export
+ * @class InvoiceControllerApi
+ * @extends {BaseAPI}
+ */
+export class InvoiceControllerApi extends BaseAPI {
+    /**
+     * Gets all the scanner accounts found in the database that are not deleted.
+     * @param {number} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceControllerApi
+     */
+    public getAllInvoicesByUserId(userId: number, options?: RawAxiosRequestConfig) {
+        return InvoiceControllerApiFp(this.configuration).getAllInvoicesByUserId(userId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * InvoiceEntityControllerApi - axios parameter creator
+ * @export
+ */
+export const InvoiceEntityControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * delete-invoice
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteItemResourceInvoiceDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteItemResourceInvoiceDelete', 'id', id)
+            const localVarPath = `/invoices/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-invoice
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCollectionResourceInvoiceGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/invoices`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-invoice
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItemResourceInvoiceGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getItemResourceInvoiceGet', 'id', id)
+            const localVarPath = `/invoices/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * patch-invoice
+         * @param {string} id 
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchItemResourceInvoicePatch: async (id: string, invoiceRequestBody: InvoiceRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('patchItemResourceInvoicePatch', 'id', id)
+            // verify required parameter 'invoiceRequestBody' is not null or undefined
+            assertParamExists('patchItemResourceInvoicePatch', 'invoiceRequestBody', invoiceRequestBody)
+            const localVarPath = `/invoices/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(invoiceRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * create-invoice
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postCollectionResourceInvoicePost: async (invoiceRequestBody: InvoiceRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'invoiceRequestBody' is not null or undefined
+            assertParamExists('postCollectionResourceInvoicePost', 'invoiceRequestBody', invoiceRequestBody)
+            const localVarPath = `/invoices`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(invoiceRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * update-invoice
+         * @param {string} id 
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putItemResourceInvoicePut: async (id: string, invoiceRequestBody: InvoiceRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('putItemResourceInvoicePut', 'id', id)
+            // verify required parameter 'invoiceRequestBody' is not null or undefined
+            assertParamExists('putItemResourceInvoicePut', 'invoiceRequestBody', invoiceRequestBody)
+            const localVarPath = `/invoices/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(invoiceRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * InvoiceEntityControllerApi - functional programming interface
+ * @export
+ */
+export const InvoiceEntityControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InvoiceEntityControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * delete-invoice
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteItemResourceInvoiceDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceInvoiceDelete(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceEntityControllerApi.deleteItemResourceInvoiceDelete']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-invoice
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCollectionResourceInvoiceGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelInvoice>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceInvoiceGet1(page, size, sort, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceEntityControllerApi.getCollectionResourceInvoiceGet1']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-invoice
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getItemResourceInvoiceGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelInvoice>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceInvoiceGet(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceEntityControllerApi.getItemResourceInvoiceGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * patch-invoice
+         * @param {string} id 
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async patchItemResourceInvoicePatch(id: string, invoiceRequestBody: InvoiceRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelInvoice>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceInvoicePatch(id, invoiceRequestBody, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceEntityControllerApi.patchItemResourceInvoicePatch']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * create-invoice
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postCollectionResourceInvoicePost(invoiceRequestBody: InvoiceRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelInvoice>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postCollectionResourceInvoicePost(invoiceRequestBody, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceEntityControllerApi.postCollectionResourceInvoicePost']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * update-invoice
+         * @param {string} id 
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async putItemResourceInvoicePut(id: string, invoiceRequestBody: InvoiceRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelInvoice>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceInvoicePut(id, invoiceRequestBody, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceEntityControllerApi.putItemResourceInvoicePut']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * InvoiceEntityControllerApi - factory interface
+ * @export
+ */
+export const InvoiceEntityControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InvoiceEntityControllerApiFp(configuration)
+    return {
+        /**
+         * delete-invoice
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteItemResourceInvoiceDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourceInvoiceDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-invoice
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCollectionResourceInvoiceGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelInvoice> {
+            return localVarFp.getCollectionResourceInvoiceGet1(page, size, sort, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-invoice
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItemResourceInvoiceGet(id: string, options?: any): AxiosPromise<EntityModelInvoice> {
+            return localVarFp.getItemResourceInvoiceGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * patch-invoice
+         * @param {string} id 
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchItemResourceInvoicePatch(id: string, invoiceRequestBody: InvoiceRequestBody, options?: any): AxiosPromise<EntityModelInvoice> {
+            return localVarFp.patchItemResourceInvoicePatch(id, invoiceRequestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * create-invoice
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postCollectionResourceInvoicePost(invoiceRequestBody: InvoiceRequestBody, options?: any): AxiosPromise<EntityModelInvoice> {
+            return localVarFp.postCollectionResourceInvoicePost(invoiceRequestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * update-invoice
+         * @param {string} id 
+         * @param {InvoiceRequestBody} invoiceRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putItemResourceInvoicePut(id: string, invoiceRequestBody: InvoiceRequestBody, options?: any): AxiosPromise<EntityModelInvoice> {
+            return localVarFp.putItemResourceInvoicePut(id, invoiceRequestBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * InvoiceEntityControllerApi - object-oriented interface
+ * @export
+ * @class InvoiceEntityControllerApi
+ * @extends {BaseAPI}
+ */
+export class InvoiceEntityControllerApi extends BaseAPI {
+    /**
+     * delete-invoice
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceEntityControllerApi
+     */
+    public deleteItemResourceInvoiceDelete(id: string, options?: RawAxiosRequestConfig) {
+        return InvoiceEntityControllerApiFp(this.configuration).deleteItemResourceInvoiceDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-invoice
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceEntityControllerApi
+     */
+    public getCollectionResourceInvoiceGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return InvoiceEntityControllerApiFp(this.configuration).getCollectionResourceInvoiceGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-invoice
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceEntityControllerApi
+     */
+    public getItemResourceInvoiceGet(id: string, options?: RawAxiosRequestConfig) {
+        return InvoiceEntityControllerApiFp(this.configuration).getItemResourceInvoiceGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * patch-invoice
+     * @param {string} id 
+     * @param {InvoiceRequestBody} invoiceRequestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceEntityControllerApi
+     */
+    public patchItemResourceInvoicePatch(id: string, invoiceRequestBody: InvoiceRequestBody, options?: RawAxiosRequestConfig) {
+        return InvoiceEntityControllerApiFp(this.configuration).patchItemResourceInvoicePatch(id, invoiceRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * create-invoice
+     * @param {InvoiceRequestBody} invoiceRequestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceEntityControllerApi
+     */
+    public postCollectionResourceInvoicePost(invoiceRequestBody: InvoiceRequestBody, options?: RawAxiosRequestConfig) {
+        return InvoiceEntityControllerApiFp(this.configuration).postCollectionResourceInvoicePost(invoiceRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * update-invoice
+     * @param {string} id 
+     * @param {InvoiceRequestBody} invoiceRequestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceEntityControllerApi
+     */
+    public putItemResourceInvoicePut(id: string, invoiceRequestBody: InvoiceRequestBody, options?: RawAxiosRequestConfig) {
+        return InvoiceEntityControllerApiFp(this.configuration).putItemResourceInvoicePut(id, invoiceRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * InvoicePropertyReferenceControllerApi - axios parameter creator
+ * @export
+ */
+export const InvoicePropertyReferenceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * patch-user-by-invoice-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceInvoicePatch: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createPropertyReferenceInvoicePatch', 'id', id)
+            // verify required parameter 'collectionModelObject' is not null or undefined
+            assertParamExists('createPropertyReferenceInvoicePatch', 'collectionModelObject', collectionModelObject)
+            const localVarPath = `/invoices/{id}/user`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(collectionModelObject, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * update-user-by-invoice-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceInvoicePut: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createPropertyReferenceInvoicePut', 'id', id)
+            // verify required parameter 'collectionModelObject' is not null or undefined
+            assertParamExists('createPropertyReferenceInvoicePut', 'collectionModelObject', collectionModelObject)
+            const localVarPath = `/invoices/{id}/user`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(collectionModelObject, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * delete-user-by-invoice-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceIdInvoiceDelete: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePropertyReferenceIdInvoiceDelete', 'id', id)
+            // verify required parameter 'propertyId' is not null or undefined
+            assertParamExists('deletePropertyReferenceIdInvoiceDelete', 'propertyId', propertyId)
+            const localVarPath = `/invoices/{id}/user/{propertyId}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * delete-user-by-invoice-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceInvoiceDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePropertyReferenceInvoiceDelete', 'id', id)
+            const localVarPath = `/invoices/{id}/user`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-user-by-invoice-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceInvoiceGet: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('followPropertyReferenceInvoiceGet', 'id', id)
+            // verify required parameter 'propertyId' is not null or undefined
+            assertParamExists('followPropertyReferenceInvoiceGet', 'propertyId', propertyId)
+            const localVarPath = `/invoices/{id}/user/{propertyId}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-user-by-invoice-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceInvoiceGet1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('followPropertyReferenceInvoiceGet1', 'id', id)
+            const localVarPath = `/invoices/{id}/user`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * InvoicePropertyReferenceControllerApi - functional programming interface
+ * @export
+ */
+export const InvoicePropertyReferenceControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InvoicePropertyReferenceControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * patch-user-by-invoice-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPropertyReferenceInvoicePatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceInvoicePatch(id, collectionModelObject, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoicePropertyReferenceControllerApi.createPropertyReferenceInvoicePatch']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * update-user-by-invoice-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPropertyReferenceInvoicePut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceInvoicePut(id, collectionModelObject, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoicePropertyReferenceControllerApi.createPropertyReferenceInvoicePut']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * delete-user-by-invoice-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePropertyReferenceIdInvoiceDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdInvoiceDelete(id, propertyId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoicePropertyReferenceControllerApi.deletePropertyReferenceIdInvoiceDelete']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * delete-user-by-invoice-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePropertyReferenceInvoiceDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceInvoiceDelete(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoicePropertyReferenceControllerApi.deletePropertyReferenceInvoiceDelete']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-user-by-invoice-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async followPropertyReferenceInvoiceGet(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceInvoiceGet(id, propertyId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoicePropertyReferenceControllerApi.followPropertyReferenceInvoiceGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-user-by-invoice-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async followPropertyReferenceInvoiceGet1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceInvoiceGet1(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoicePropertyReferenceControllerApi.followPropertyReferenceInvoiceGet1']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * InvoicePropertyReferenceControllerApi - factory interface
+ * @export
+ */
+export const InvoicePropertyReferenceControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InvoicePropertyReferenceControllerApiFp(configuration)
+    return {
+        /**
+         * patch-user-by-invoice-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceInvoicePatch(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.createPropertyReferenceInvoicePatch(id, collectionModelObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * update-user-by-invoice-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceInvoicePut(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.createPropertyReferenceInvoicePut(id, collectionModelObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * delete-user-by-invoice-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceIdInvoiceDelete(id: string, propertyId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceIdInvoiceDelete(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * delete-user-by-invoice-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceInvoiceDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceInvoiceDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-user-by-invoice-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceInvoiceGet(id: string, propertyId: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.followPropertyReferenceInvoiceGet(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-user-by-invoice-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceInvoiceGet1(id: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.followPropertyReferenceInvoiceGet1(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * InvoicePropertyReferenceControllerApi - object-oriented interface
+ * @export
+ * @class InvoicePropertyReferenceControllerApi
+ * @extends {BaseAPI}
+ */
+export class InvoicePropertyReferenceControllerApi extends BaseAPI {
+    /**
+     * patch-user-by-invoice-Id
+     * @param {string} id 
+     * @param {CollectionModelObject} collectionModelObject 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoicePropertyReferenceControllerApi
+     */
+    public createPropertyReferenceInvoicePatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return InvoicePropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceInvoicePatch(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * update-user-by-invoice-Id
+     * @param {string} id 
+     * @param {CollectionModelObject} collectionModelObject 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoicePropertyReferenceControllerApi
+     */
+    public createPropertyReferenceInvoicePut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return InvoicePropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceInvoicePut(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * delete-user-by-invoice-Id
+     * @param {string} id 
+     * @param {string} propertyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoicePropertyReferenceControllerApi
+     */
+    public deletePropertyReferenceIdInvoiceDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return InvoicePropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdInvoiceDelete(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * delete-user-by-invoice-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoicePropertyReferenceControllerApi
+     */
+    public deletePropertyReferenceInvoiceDelete(id: string, options?: RawAxiosRequestConfig) {
+        return InvoicePropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceInvoiceDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-user-by-invoice-Id
+     * @param {string} id 
+     * @param {string} propertyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoicePropertyReferenceControllerApi
+     */
+    public followPropertyReferenceInvoiceGet(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return InvoicePropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceInvoiceGet(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-user-by-invoice-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoicePropertyReferenceControllerApi
+     */
+    public followPropertyReferenceInvoiceGet1(id: string, options?: RawAxiosRequestConfig) {
+        return InvoicePropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceInvoiceGet1(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * InvoiceSearchControllerApi - axios parameter creator
+ * @export
+ */
+export const InvoiceSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} [stripeCheckoutId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchInvoiceGet: async (stripeCheckoutId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/invoices/search/existsByStripeCheckoutId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (stripeCheckoutId !== undefined) {
+                localVarQueryParameter['stripeCheckoutId'] = stripeCheckoutId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [userId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchInvoiceGet1: async (userId?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/invoices/search/getAllByUserId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [stripeCheckoutId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchInvoiceGet2: async (stripeCheckoutId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/invoices/search/getInvoiceByStripeCheckoutId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (stripeCheckoutId !== undefined) {
+                localVarQueryParameter['stripeCheckoutId'] = stripeCheckoutId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * InvoiceSearchControllerApi - functional programming interface
+ * @export
+ */
+export const InvoiceSearchControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InvoiceSearchControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} [stripeCheckoutId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchInvoiceGet(stripeCheckoutId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchInvoiceGet(stripeCheckoutId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceSearchControllerApi.executeSearchInvoiceGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} [userId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchInvoiceGet1(userId?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CollectionModelEntityModelInvoice>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchInvoiceGet1(userId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceSearchControllerApi.executeSearchInvoiceGet1']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} [stripeCheckoutId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchInvoiceGet2(stripeCheckoutId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelInvoice>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchInvoiceGet2(stripeCheckoutId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvoiceSearchControllerApi.executeSearchInvoiceGet2']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * InvoiceSearchControllerApi - factory interface
+ * @export
+ */
+export const InvoiceSearchControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InvoiceSearchControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} [stripeCheckoutId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchInvoiceGet(stripeCheckoutId?: string, options?: any): AxiosPromise<boolean> {
+            return localVarFp.executeSearchInvoiceGet(stripeCheckoutId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [userId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchInvoiceGet1(userId?: number, options?: any): AxiosPromise<CollectionModelEntityModelInvoice> {
+            return localVarFp.executeSearchInvoiceGet1(userId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [stripeCheckoutId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchInvoiceGet2(stripeCheckoutId?: string, options?: any): AxiosPromise<EntityModelInvoice> {
+            return localVarFp.executeSearchInvoiceGet2(stripeCheckoutId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * InvoiceSearchControllerApi - object-oriented interface
+ * @export
+ * @class InvoiceSearchControllerApi
+ * @extends {BaseAPI}
+ */
+export class InvoiceSearchControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} [stripeCheckoutId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceSearchControllerApi
+     */
+    public executeSearchInvoiceGet(stripeCheckoutId?: string, options?: RawAxiosRequestConfig) {
+        return InvoiceSearchControllerApiFp(this.configuration).executeSearchInvoiceGet(stripeCheckoutId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [userId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceSearchControllerApi
+     */
+    public executeSearchInvoiceGet1(userId?: number, options?: RawAxiosRequestConfig) {
+        return InvoiceSearchControllerApiFp(this.configuration).executeSearchInvoiceGet1(userId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [stripeCheckoutId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoiceSearchControllerApi
+     */
+    public executeSearchInvoiceGet2(stripeCheckoutId?: string, options?: RawAxiosRequestConfig) {
+        return InvoiceSearchControllerApiFp(this.configuration).executeSearchInvoiceGet2(stripeCheckoutId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * MembershipEntityControllerApi - axios parameter creator
  * @export
  */
@@ -3559,6 +4905,44 @@ export const MembershipSearchControllerApiAxiosParamCreator = function (configur
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} [priceId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchMembershipGet1: async (priceId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/memberships/search/getMembershipByStripePriceId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (priceId !== undefined) {
+                localVarQueryParameter['priceId'] = priceId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -3580,6 +4964,18 @@ export const MembershipSearchControllerApiFp = function(configuration?: Configur
             const operationBasePath = operationServerMap['MembershipSearchControllerApi.executeSearchMembershipGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
+        /**
+         * 
+         * @param {string} [priceId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchMembershipGet1(priceId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelMembership>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchMembershipGet1(priceId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['MembershipSearchControllerApi.executeSearchMembershipGet1']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
     }
 };
 
@@ -3597,6 +4993,15 @@ export const MembershipSearchControllerApiFactory = function (configuration?: Co
          */
         executeSearchMembershipGet(options?: any): AxiosPromise<CollectionModelEntityModelMembership> {
             return localVarFp.executeSearchMembershipGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [priceId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchMembershipGet1(priceId?: string, options?: any): AxiosPromise<EntityModelMembership> {
+            return localVarFp.executeSearchMembershipGet1(priceId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3616,6 +5021,17 @@ export class MembershipSearchControllerApi extends BaseAPI {
      */
     public executeSearchMembershipGet(options?: RawAxiosRequestConfig) {
         return MembershipSearchControllerApiFp(this.configuration).executeSearchMembershipGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [priceId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MembershipSearchControllerApi
+     */
+    public executeSearchMembershipGet1(priceId?: string, options?: RawAxiosRequestConfig) {
+        return MembershipSearchControllerApiFp(this.configuration).executeSearchMembershipGet1(priceId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4213,1160 +5629,6 @@ export class PassEntityControllerApi extends BaseAPI {
 
 
 /**
- * PaymentTypeEntityControllerApi - axios parameter creator
- * @export
- */
-export const PaymentTypeEntityControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * delete-paymenttype
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteItemResourcePaymenttypeDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteItemResourcePaymenttypeDelete', 'id', id)
-            const localVarPath = `/paymentTypes/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * get-paymenttype
-         * @param {number} [page] Zero-based page index (0..N)
-         * @param {number} [size] The size of the page to be returned
-         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCollectionResourcePaymenttypeGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/paymentTypes`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (size !== undefined) {
-                localVarQueryParameter['size'] = size;
-            }
-
-            if (sort) {
-                localVarQueryParameter['sort'] = sort;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * get-paymenttype
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getItemResourcePaymenttypeGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getItemResourcePaymenttypeGet', 'id', id)
-            const localVarPath = `/paymentTypes/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * patch-paymenttype
-         * @param {string} id 
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        patchItemResourcePaymenttypePatch: async (id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('patchItemResourcePaymenttypePatch', 'id', id)
-            // verify required parameter 'paymentTypeRequestBody' is not null or undefined
-            assertParamExists('patchItemResourcePaymenttypePatch', 'paymentTypeRequestBody', paymentTypeRequestBody)
-            const localVarPath = `/paymentTypes/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(paymentTypeRequestBody, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * create-paymenttype
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postCollectionResourcePaymenttypePost: async (paymentTypeRequestBody: PaymentTypeRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'paymentTypeRequestBody' is not null or undefined
-            assertParamExists('postCollectionResourcePaymenttypePost', 'paymentTypeRequestBody', paymentTypeRequestBody)
-            const localVarPath = `/paymentTypes`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(paymentTypeRequestBody, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * update-paymenttype
-         * @param {string} id 
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        putItemResourcePaymenttypePut: async (id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('putItemResourcePaymenttypePut', 'id', id)
-            // verify required parameter 'paymentTypeRequestBody' is not null or undefined
-            assertParamExists('putItemResourcePaymenttypePut', 'paymentTypeRequestBody', paymentTypeRequestBody)
-            const localVarPath = `/paymentTypes/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(paymentTypeRequestBody, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * PaymentTypeEntityControllerApi - functional programming interface
- * @export
- */
-export const PaymentTypeEntityControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = PaymentTypeEntityControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * delete-paymenttype
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteItemResourcePaymenttypeDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourcePaymenttypeDelete(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.deleteItemResourcePaymenttypeDelete']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * get-paymenttype
-         * @param {number} [page] Zero-based page index (0..N)
-         * @param {number} [size] The size of the page to be returned
-         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourcePaymenttypeGet1(page, size, sort, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.getCollectionResourcePaymenttypeGet1']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * get-paymenttype
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getItemResourcePaymenttypeGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourcePaymenttypeGet(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.getItemResourcePaymenttypeGet']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * patch-paymenttype
-         * @param {string} id 
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.patchItemResourcePaymenttypePatch']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * create-paymenttype
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postCollectionResourcePaymenttypePost(paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.postCollectionResourcePaymenttypePost(paymentTypeRequestBody, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.postCollectionResourcePaymenttypePost']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * update-paymenttype
-         * @param {string} id 
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourcePaymenttypePut(id, paymentTypeRequestBody, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypeEntityControllerApi.putItemResourcePaymenttypePut']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-    }
-};
-
-/**
- * PaymentTypeEntityControllerApi - factory interface
- * @export
- */
-export const PaymentTypeEntityControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = PaymentTypeEntityControllerApiFp(configuration)
-    return {
-        /**
-         * delete-paymenttype
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteItemResourcePaymenttypeDelete(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteItemResourcePaymenttypeDelete(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * get-paymenttype
-         * @param {number} [page] Zero-based page index (0..N)
-         * @param {number} [size] The size of the page to be returned
-         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelPaymentType> {
-            return localVarFp.getCollectionResourcePaymenttypeGet1(page, size, sort, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * get-paymenttype
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getItemResourcePaymenttypeGet(id: string, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.getItemResourcePaymenttypeGet(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * patch-paymenttype
-         * @param {string} id 
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * create-paymenttype
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postCollectionResourcePaymenttypePost(paymentTypeRequestBody: PaymentTypeRequestBody, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.postCollectionResourcePaymenttypePost(paymentTypeRequestBody, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * update-paymenttype
-         * @param {string} id 
-         * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.putItemResourcePaymenttypePut(id, paymentTypeRequestBody, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * PaymentTypeEntityControllerApi - object-oriented interface
- * @export
- * @class PaymentTypeEntityControllerApi
- * @extends {BaseAPI}
- */
-export class PaymentTypeEntityControllerApi extends BaseAPI {
-    /**
-     * delete-paymenttype
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypeEntityControllerApi
-     */
-    public deleteItemResourcePaymenttypeDelete(id: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).deleteItemResourcePaymenttypeDelete(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * get-paymenttype
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypeEntityControllerApi
-     */
-    public getCollectionResourcePaymenttypeGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).getCollectionResourcePaymenttypeGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * get-paymenttype
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypeEntityControllerApi
-     */
-    public getItemResourcePaymenttypeGet(id: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).getItemResourcePaymenttypeGet(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * patch-paymenttype
-     * @param {string} id 
-     * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypeEntityControllerApi
-     */
-    public patchItemResourcePaymenttypePatch(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).patchItemResourcePaymenttypePatch(id, paymentTypeRequestBody, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * create-paymenttype
-     * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypeEntityControllerApi
-     */
-    public postCollectionResourcePaymenttypePost(paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).postCollectionResourcePaymenttypePost(paymentTypeRequestBody, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * update-paymenttype
-     * @param {string} id 
-     * @param {PaymentTypeRequestBody} paymentTypeRequestBody 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypeEntityControllerApi
-     */
-    public putItemResourcePaymenttypePut(id: string, paymentTypeRequestBody: PaymentTypeRequestBody, options?: RawAxiosRequestConfig) {
-        return PaymentTypeEntityControllerApiFp(this.configuration).putItemResourcePaymenttypePut(id, paymentTypeRequestBody, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * PaymentTypePropertyReferenceControllerApi - axios parameter creator
- * @export
- */
-export const PaymentTypePropertyReferenceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * patch-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {CollectionModelObject} collectionModelObject 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createPropertyReferencePaymenttypePatch: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('createPropertyReferencePaymenttypePatch', 'id', id)
-            // verify required parameter 'collectionModelObject' is not null or undefined
-            assertParamExists('createPropertyReferencePaymenttypePatch', 'collectionModelObject', collectionModelObject)
-            const localVarPath = `/paymentTypes/{id}/user`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(collectionModelObject, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * update-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {CollectionModelObject} collectionModelObject 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createPropertyReferencePaymenttypePut: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('createPropertyReferencePaymenttypePut', 'id', id)
-            // verify required parameter 'collectionModelObject' is not null or undefined
-            assertParamExists('createPropertyReferencePaymenttypePut', 'collectionModelObject', collectionModelObject)
-            const localVarPath = `/paymentTypes/{id}/user`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(collectionModelObject, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * delete-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {string} propertyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deletePropertyReferenceIdPaymenttypeDelete: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('deletePropertyReferenceIdPaymenttypeDelete', 'id', id)
-            // verify required parameter 'propertyId' is not null or undefined
-            assertParamExists('deletePropertyReferenceIdPaymenttypeDelete', 'propertyId', propertyId)
-            const localVarPath = `/paymentTypes/{id}/user/{propertyId}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * delete-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deletePropertyReferencePaymenttypeDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('deletePropertyReferencePaymenttypeDelete', 'id', id)
-            const localVarPath = `/paymentTypes/{id}/user`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * get-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {string} propertyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        followPropertyReferencePaymenttypeGet: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('followPropertyReferencePaymenttypeGet', 'id', id)
-            // verify required parameter 'propertyId' is not null or undefined
-            assertParamExists('followPropertyReferencePaymenttypeGet', 'propertyId', propertyId)
-            const localVarPath = `/paymentTypes/{id}/user/{propertyId}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * get-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        followPropertyReferencePaymenttypeGet1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('followPropertyReferencePaymenttypeGet1', 'id', id)
-            const localVarPath = `/paymentTypes/{id}/user`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * PaymentTypePropertyReferenceControllerApi - functional programming interface
- * @export
- */
-export const PaymentTypePropertyReferenceControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = PaymentTypePropertyReferenceControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * patch-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {CollectionModelObject} collectionModelObject 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferencePaymenttypePatch(id, collectionModelObject, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.createPropertyReferencePaymenttypePatch']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * update-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {CollectionModelObject} collectionModelObject 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferencePaymenttypePut(id, collectionModelObject, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.createPropertyReferencePaymenttypePut']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * delete-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {string} propertyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.deletePropertyReferenceIdPaymenttypeDelete']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * delete-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deletePropertyReferencePaymenttypeDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferencePaymenttypeDelete(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.deletePropertyReferencePaymenttypeDelete']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * get-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {string} propertyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async followPropertyReferencePaymenttypeGet(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferencePaymenttypeGet(id, propertyId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.followPropertyReferencePaymenttypeGet']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * get-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async followPropertyReferencePaymenttypeGet1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferencePaymenttypeGet1(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypePropertyReferenceControllerApi.followPropertyReferencePaymenttypeGet1']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-    }
-};
-
-/**
- * PaymentTypePropertyReferenceControllerApi - factory interface
- * @export
- */
-export const PaymentTypePropertyReferenceControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = PaymentTypePropertyReferenceControllerApiFp(configuration)
-    return {
-        /**
-         * patch-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {CollectionModelObject} collectionModelObject 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.createPropertyReferencePaymenttypePatch(id, collectionModelObject, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * update-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {CollectionModelObject} collectionModelObject 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.createPropertyReferencePaymenttypePut(id, collectionModelObject, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * delete-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {string} propertyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * delete-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deletePropertyReferencePaymenttypeDelete(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deletePropertyReferencePaymenttypeDelete(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * get-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {string} propertyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        followPropertyReferencePaymenttypeGet(id: string, propertyId: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.followPropertyReferencePaymenttypeGet(id, propertyId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * get-user-by-paymenttype-Id
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        followPropertyReferencePaymenttypeGet1(id: string, options?: any): AxiosPromise<EntityModelUser> {
-            return localVarFp.followPropertyReferencePaymenttypeGet1(id, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * PaymentTypePropertyReferenceControllerApi - object-oriented interface
- * @export
- * @class PaymentTypePropertyReferenceControllerApi
- * @extends {BaseAPI}
- */
-export class PaymentTypePropertyReferenceControllerApi extends BaseAPI {
-    /**
-     * patch-user-by-paymenttype-Id
-     * @param {string} id 
-     * @param {CollectionModelObject} collectionModelObject 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypePropertyReferenceControllerApi
-     */
-    public createPropertyReferencePaymenttypePatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).createPropertyReferencePaymenttypePatch(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * update-user-by-paymenttype-Id
-     * @param {string} id 
-     * @param {CollectionModelObject} collectionModelObject 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypePropertyReferenceControllerApi
-     */
-    public createPropertyReferencePaymenttypePut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).createPropertyReferencePaymenttypePut(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * delete-user-by-paymenttype-Id
-     * @param {string} id 
-     * @param {string} propertyId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypePropertyReferenceControllerApi
-     */
-    public deletePropertyReferenceIdPaymenttypeDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdPaymenttypeDelete(id, propertyId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * delete-user-by-paymenttype-Id
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypePropertyReferenceControllerApi
-     */
-    public deletePropertyReferencePaymenttypeDelete(id: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).deletePropertyReferencePaymenttypeDelete(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * get-user-by-paymenttype-Id
-     * @param {string} id 
-     * @param {string} propertyId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypePropertyReferenceControllerApi
-     */
-    public followPropertyReferencePaymenttypeGet(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).followPropertyReferencePaymenttypeGet(id, propertyId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * get-user-by-paymenttype-Id
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypePropertyReferenceControllerApi
-     */
-    public followPropertyReferencePaymenttypeGet1(id: string, options?: RawAxiosRequestConfig) {
-        return PaymentTypePropertyReferenceControllerApiFp(this.configuration).followPropertyReferencePaymenttypeGet1(id, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * PaymentTypeSearchControllerApi - axios parameter creator
- * @export
- */
-export const PaymentTypeSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {number} [userId] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        executeSearchPaymenttypeGet: async (userId?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/paymentTypes/search/getAllByUserId`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (userId !== undefined) {
-                localVarQueryParameter['userId'] = userId;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [id] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        executeSearchPaymenttypeGet1: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/paymentTypes/search/getPaymentTypeById`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (id !== undefined) {
-                localVarQueryParameter['id'] = id;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * PaymentTypeSearchControllerApi - functional programming interface
- * @export
- */
-export const PaymentTypeSearchControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = PaymentTypeSearchControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {number} [userId] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async executeSearchPaymenttypeGet(userId?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CollectionModelEntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchPaymenttypeGet(userId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypeSearchControllerApi.executeSearchPaymenttypeGet']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {number} [id] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async executeSearchPaymenttypeGet1(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelPaymentType>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchPaymenttypeGet1(id, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['PaymentTypeSearchControllerApi.executeSearchPaymenttypeGet1']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-    }
-};
-
-/**
- * PaymentTypeSearchControllerApi - factory interface
- * @export
- */
-export const PaymentTypeSearchControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = PaymentTypeSearchControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {number} [userId] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        executeSearchPaymenttypeGet(userId?: number, options?: any): AxiosPromise<CollectionModelEntityModelPaymentType> {
-            return localVarFp.executeSearchPaymenttypeGet(userId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [id] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        executeSearchPaymenttypeGet1(id?: number, options?: any): AxiosPromise<EntityModelPaymentType> {
-            return localVarFp.executeSearchPaymenttypeGet1(id, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * PaymentTypeSearchControllerApi - object-oriented interface
- * @export
- * @class PaymentTypeSearchControllerApi
- * @extends {BaseAPI}
- */
-export class PaymentTypeSearchControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {number} [userId] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypeSearchControllerApi
-     */
-    public executeSearchPaymenttypeGet(userId?: number, options?: RawAxiosRequestConfig) {
-        return PaymentTypeSearchControllerApiFp(this.configuration).executeSearchPaymenttypeGet(userId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {number} [id] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PaymentTypeSearchControllerApi
-     */
-    public executeSearchPaymenttypeGet1(id?: number, options?: RawAxiosRequestConfig) {
-        return PaymentTypeSearchControllerApiFp(this.configuration).executeSearchPaymenttypeGet1(id, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
  * ProductsControllerApi - axios parameter creator
  * @export
  */
@@ -5479,7 +5741,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
          * @throws {RequiredError}
          */
         descriptor111: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/profile/memberships`;
+            const localVarPath = `/profile/invoices`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -5512,7 +5774,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
          * @throws {RequiredError}
          */
         descriptor112: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/profile/passes`;
+            const localVarPath = `/profile/memberships`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -5545,7 +5807,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
          * @throws {RequiredError}
          */
         descriptor113: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/profile/paymentTypes`;
+            const localVarPath = `/profile/passes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -7151,6 +7413,44 @@ export const TicketSearchControllerApiAxiosParamCreator = function (configuratio
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} [priceId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchTicketGet1: async (priceId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/tickets/search/getTicketByStripePriceId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (priceId !== undefined) {
+                localVarQueryParameter['priceId'] = priceId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -7172,6 +7472,18 @@ export const TicketSearchControllerApiFp = function(configuration?: Configuratio
             const operationBasePath = operationServerMap['TicketSearchControllerApi.executeSearchTicketGet']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
+        /**
+         * 
+         * @param {string} [priceId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchTicketGet1(priceId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTicket>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchTicketGet1(priceId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TicketSearchControllerApi.executeSearchTicketGet1']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
     }
 };
 
@@ -7189,6 +7501,15 @@ export const TicketSearchControllerApiFactory = function (configuration?: Config
          */
         executeSearchTicketGet(options?: any): AxiosPromise<CollectionModelEntityModelTicket> {
             return localVarFp.executeSearchTicketGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [priceId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchTicketGet1(priceId?: string, options?: any): AxiosPromise<EntityModelTicket> {
+            return localVarFp.executeSearchTicketGet1(priceId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -7208,6 +7529,17 @@ export class TicketSearchControllerApi extends BaseAPI {
      */
     public executeSearchTicketGet(options?: RawAxiosRequestConfig) {
         return TicketSearchControllerApiFp(this.configuration).executeSearchTicketGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} [priceId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TicketSearchControllerApi
+     */
+    public executeSearchTicketGet1(priceId?: string, options?: RawAxiosRequestConfig) {
+        return TicketSearchControllerApiFp(this.configuration).executeSearchTicketGet1(priceId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

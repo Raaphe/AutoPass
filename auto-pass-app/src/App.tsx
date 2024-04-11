@@ -16,6 +16,7 @@ import ScannerDetails from './components/ScannerDetails/ScannerDetails';
 import Products from './components/Products/Products';
 import CheckoutForm from './components/StripeModule/CheckoutForm';
 import Return from './components/StripeModule/Return';
+import Invoices from './components/Invoices/Invoices';
 
 /**
 * App - 2024-04-02
@@ -51,6 +52,7 @@ const App = () => {
                         <Route path='/products' element={<Products />} />
                         <Route path="/checkout" element={<CheckoutForm/>} />
                         <Route path="/return" element={<Return />} />
+                        <Route path="/invoices" element={<Invoices/>} />
 
                     </Route>
                     <Route path='/*' element={<ErrorPage />} />

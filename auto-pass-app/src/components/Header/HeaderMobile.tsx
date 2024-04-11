@@ -51,7 +51,6 @@ const Header: FC<HeaderProps> = ({ isAuth, isAdmin }) => {
   }, [navigate]);
 
   const handleTabChange = (event: any, newPath: any) => {
-    console.log(newPath);
 
     if (currentPath === "/profile") {
     }

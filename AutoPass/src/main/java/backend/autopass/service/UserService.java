@@ -233,7 +233,6 @@ public class UserService implements IUserService, UserDetailsService {
         UserWallet wallet = walletRepository.save(
                 UserWallet
                         .builder()
-                        .membershipActive(false)
                         .ticketAmount(0)
                         .memberShipEnds(System.currentTimeMillis())
                         .build()

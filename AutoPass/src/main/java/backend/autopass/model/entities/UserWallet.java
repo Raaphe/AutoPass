@@ -28,8 +28,6 @@ public class UserWallet implements Serializable {
     @Builder.Default
     private int ticketAmount = 0;
     private double memberShipEnds;
-    @Builder.Default
-    private boolean membershipActive = false;
     @ManyToOne
     private Membership membershipType;
 }

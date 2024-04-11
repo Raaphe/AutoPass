@@ -67,7 +67,6 @@ public class SecurityConfig {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**"
-
     };
 
     // Needed for Success Handler Dependencies
@@ -116,6 +115,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/google-wallet-api/activate-pass").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/payment/create-checkout-session").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/payment/session-status").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/v1/api/invoice/invoices").authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/oauth2/authorization/google")

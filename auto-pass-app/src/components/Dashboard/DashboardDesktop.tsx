@@ -84,11 +84,12 @@ const DashboardDesktop: FC<DashboardDesktopProps> = () => {
           </Card>
         </div>
 
+        {/* Invoices */}
         <div className="col-sm-4 d-flex justify-content-center align-items-center" >
           <Card className="card p-3 h-100" style={{ width: "100%" }} elevation={15}>
             <h5 className="display-6">Invoices</h5>
             <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
-            <IconButton aria-label="products" className="m-3 mt-4" color="primary" sx={{ cursor: "pointer", fontSize: '7rem' }} onClick={() => navigate("/products")}>
+            <IconButton aria-label="products" className="m-3 mt-4" color="primary" sx={{ cursor: "pointer", fontSize: '7rem' }} onClick={() => navigate("/invoices")}>
               <ReceiptIcon sx={{ fontSize: 'inherit' }}></ReceiptIcon>
             </IconButton>
           </Card>

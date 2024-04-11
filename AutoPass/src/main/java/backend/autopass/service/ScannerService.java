@@ -172,7 +172,7 @@ public class ScannerService implements IScannerService {
         User user = userService.getUserByEmail(email);
         UserWallet userWallet = user.getWallet();
 
-        if (!userWallet.isMembershipActive() && userWallet.getTicketAmount() <= 0) {
+        if (userWallet.getMemberShipEnds() < System.currentTimeMillis() && userWallet.getTicketAmount() <= 0) {
             return PassValidationResponseViewModel
                     .builder()
                     .isValid(false)
@@ -192,7 +192,7 @@ public class ScannerService implements IScannerService {
                     .build();
         } else if (tOTPValue.equals(generator.generateOneTimePasswordString(key1, timeCodeIssued))) {
 
-            String responseMessage = "Welcome Aboard 🚐" + (userWallet.isMembershipActive() ? "" : "\nYou have " + (userWallet.getTicketAmount()-1) + " tickets remaining");
+            String responseMessage = "Welcome Aboard 🚐" + (userWallet.getMemberShipEnds() > System.currentTimeMillis() ? "" : "\nYou have " + (userWallet.getTicketAmount()-1) + " tickets remaining");
             new Thread(() -> {
                 updateWalletObjects(userWallet, user);
             }).start();
@@ -216,7 +216,7 @@ public class ScannerService implements IScannerService {
     }
 
     private void updateWalletObjects(UserWallet userWallet, User user) {
-        if (!userWallet.isMembershipActive()) {
+        if (userWallet.getMemberShipEnds() < System.currentTimeMillis()) {
             int newAmount = userWallet.getTicketAmount() - 1;
             userWallet.setTicketAmount(newAmount);
             googleWalletService.updatePassTickets(user.getEmail(), newAmount);

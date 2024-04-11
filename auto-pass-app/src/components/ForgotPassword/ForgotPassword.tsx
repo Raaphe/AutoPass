@@ -36,8 +36,6 @@ const ForgotPassword: FC<ForgotPassword> = () => {
     function updateField(event: ChangeEvent<HTMLInputElement>): void {
         setEmail(event.target.value);
     }
-    console.log(isEmailSent + " did you click?");
-    console.log(isEmailReceived + " did you receive?");
 
     return (
         <div className="row m-5">
