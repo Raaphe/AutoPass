@@ -25,7 +25,7 @@ const style = {
 };
 
 /**
-* ScannerDetailsMobile - 2024-04-02
+* ScannerDetailsDesktop - 2024-04-02
 * Raaphe
 *
 * AutoPass
@@ -75,7 +75,7 @@ const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
         if (res.status !== 200) {
           return;
         }
-        setScannerInfo(res.data);
+        setScannerInfo({...res.data, password:""});
         setScannerName(res.data.firstName ?? "New Scanner")
       })
 
@@ -98,18 +98,18 @@ const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
 
   };
 
-  const handleSave = (): void => {
+  const handleSave = async (): Promise<void> => {
     var dto: ScannerRegistrationDTO = {
       busNumber: busNumberState,
       pwd: scannerInfo?.password,
       routeName: scannerInfo?.firstName
     }
-    scannerAPI.createScannerAccount(dto)
+    await scannerAPI.createScannerAccount(dto)
       .then(res => {
         if (res.status !== 200) {
           alert("Error")
         } 
-        setScannerInfo(res.data);
+        setScannerInfo({...res.data, password:""});
         setBusNumberState(ClientUtil.getBusNumberFromEmail(res.data.email ?? ""))
         setScannerName(res.data.firstName ?? "");
         return;
@@ -139,12 +139,15 @@ const ScannerDetailsMobile: FC<ScannerDetailsMobileProps> = () => {
           disabled
           value={scannerInfo?.email ?? ""}
           variant="standard"
+          type='email'
           fullWidth
         />
         <TextField
           required
           label="Password"
           variant="standard"
+          type='password'
+          placeholder='*****'
           fullWidth
           value={scannerInfo?.password ?? ""}
           onChange={(e) => { setScannerInfo({ ...scannerInfo, password: e.currentTarget.value }) }}
