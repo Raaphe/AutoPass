@@ -73,7 +73,6 @@ const Login: FC<LoginProps> = () => {
         });
 
     let url = "http://" + ip + ".nip.io:9090/oauth2/authorization/google";
-    console.log(url);
     window.location.href = url;
   };
 

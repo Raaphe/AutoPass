@@ -1,7 +1,9 @@
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import {buildStyles, CircularProgressbarWithChildren} from "react-circular-progressbar";
 import {Button} from "@mui/material";
 import {UserWallet} from "../../Service";
+import ClientUtil from "../../ClientUtil";
+import { useNavigate } from "react-router-dom";
 
 interface MembershipStatusGraph {
     daysUntilExpiry: number;
@@ -16,6 +18,9 @@ interface MembershipStatusGraph {
 */
 
 const MembershipStatusGraph: FC<MembershipStatusGraph> = ({daysUntilExpiry, walletInfo}) => {
+
+    // const [daysPassed, setDaysPassed] = useState(ClientUtil.msToDays());
+    const navigate = useNavigate()
 
     return (
 
@@ -32,8 +37,8 @@ const MembershipStatusGraph: FC<MembershipStatusGraph> = ({daysUntilExpiry, wall
             >
                 <div style={{ fontSize: "125%" }}>
                     <strong>
-                        {walletInfo.membershipActive ? `${daysUntilExpiry} days Remaining` :
-                            <Button>See Options</Button>
+                        {ClientUtil.isMembershipActive(walletInfo) ? `${daysUntilExpiry} days Remaining` :
+                            <Button onClick={() => navigate("/products")}>See Options</Button>
                         }
                     </strong>
                 </div>

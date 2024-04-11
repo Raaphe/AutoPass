@@ -7,7 +7,8 @@ import {
 import * as API from "../../Service/api";
 import ClientService from "../../ClientAuthService";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Card } from "@mui/material";
+import { Card, Alert } from "@mui/material";
+
 
 interface CheckoutFormProps {
 }
@@ -46,6 +47,8 @@ const CheckoutForm: FC<CheckoutFormProps> = () => {
                     <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                 </svg>
             </button>
+
+            <Alert className="my-3" severity="warning">Be weary, make sure to put the email associated with your account. No refunds made.</Alert>
             <EmbeddedCheckoutProvider
                 stripe={stripePromise}
                 options={options}

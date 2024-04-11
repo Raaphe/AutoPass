@@ -95,7 +95,6 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
             Pass pass = passRepository.save(new Pass());
             UserWallet userWallet = UserWallet
                     .builder()
-                    .membershipActive(false)
                     .ticketAmount(0)
                     .memberShipEnds(System.currentTimeMillis())
                     .build();

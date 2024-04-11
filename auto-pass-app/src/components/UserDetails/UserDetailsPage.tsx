@@ -97,7 +97,6 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
             });
 
         let url = "http://" + ip + ".nip.io:9090/oauth2/authorization/google";
-        console.log(url);
         window.location.href = url;
     };
 
@@ -157,7 +156,6 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
         })
             .then(response => {
                 var data = response.json()
-                console.log(data);
 
                 setAvatarModalOpen(false);
                 window.location.reload();

@@ -8,6 +8,8 @@ import StripeModule from "../StripeModule/Return";
 import MembershipStatusGraph from "../Views/MembershipStatusGraph";
 import ClientUtil from "../../ClientUtil";
 import {Card} from "@mui/material";
+import DashboardMobile from "./DashboardMobile";
+import DashboardDesktop from "./DashboardDesktop";
 
 
 interface DashboardProps {
@@ -36,6 +38,7 @@ const Dashboard: FC<DashboardProps> = () => {
 
     isMobile ? 
       <DashboardMobile/>
+    
     :
       <DashboardDesktop/>
 
