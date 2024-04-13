@@ -1,8 +1,8 @@
 package backend.autopass.web;
 
-import backend.autopass.payload.dto.GoogleWalletPassValidationDTO;
-import backend.autopass.payload.viewmodels.PassValidationResponseViewModel;
-import backend.autopass.service.ScannerService;
+import backend.autopass.payload.dto.TransitLogPageDTO;
+import backend.autopass.payload.viewmodels.TransitLogPageViewModel;
+import backend.autopass.service.TransitLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,43 +16,44 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author Raph
- * AutoPass - backend.autopass.web
- * TerminalController
- * The REST Controller responsible for terminal operations.
- * 3/31/2024
+ * @author Raphael Paquin
+ * @version 01
+ * The transit log REST controller.
+ * 2024-04-12
+ * AutoPass
  */
 @RestController
-@PreAuthorize("hasAnyRole('SCANNER_USER')")
 @RequiredArgsConstructor
+@RequestMapping("/v1/api/transit-log")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GOOGLE_USER')")
 @Slf4j
-@RequestMapping("/terminal")
-public class TerminalController {
+public class TransitLogController {
 
-    private final ScannerService scannerService;
+    private final TransitLogService transitLogService;
 
-    @PostMapping("/validate")
+    @PostMapping("transit-logs")
     @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(description = "Validates a google wallet QR-Code.")
+    @Operation(description = "Gets all of the transit logs of a given user.")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "Authorization Successful.",
+                    responseCode = "200", description = "OK",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = PassValidationResponseViewModel.class))
+                                    schema = @Schema(implementation = TransitLogPageViewModel.class))
                     }
             ),
             @ApiResponse(
-                    responseCode = "400", description = "Bad Request.",
+                    responseCode = "404", description = "BAD_REQUEST",
                     content = @Content
             )
     })
-    public ResponseEntity<PassValidationResponseViewModel> validatePass(@RequestBody GoogleWalletPassValidationDTO dto) {
+    public ResponseEntity<TransitLogPageViewModel> getUserTransitHistory(@RequestBody TransitLogPageDTO dto) {
         try {
-            return ResponseEntity.ok(scannerService.validatePass(dto));
+            return ResponseEntity.ok(transitLogService.getAllTransitLogs(dto));
         } catch (Exception e) {
+            log.error("Could not get user transit logs across HTTP.");
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
-
 }

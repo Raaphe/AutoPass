@@ -10,7 +10,6 @@ import Footer from '../components/Footer/Footer';
 *
 * AutoPass
 */
-
 const ProtectedRoutesUser = () => {
     const [isAuth, setIsAuth] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
@@ -37,7 +36,9 @@ const ProtectedRoutesUser = () => {
     return isAuth ? 
         <>
             <Header isAdmin={isAdmin} isAuth={isAuth}/>
-            <Outlet/> 
+            <div style={{flex:1, marginBottom:"30px"}}>
+                <Outlet/>
+            </div>
             <Footer/>
 
         </>

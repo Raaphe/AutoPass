@@ -116,7 +116,7 @@ const DashboardDesktop: FC<DashboardDesktopProps> = () => {
           <Card className="card p-3 h-100" style={{ width: "100%" }} elevation={15}>
             <h5 className="display-6">View Transit History</h5>
             <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
-            <IconButton aria-label="transit-history" className="m-3 mt-4" color="primary" sx={{ cursor: "pointer", fontSize: '7rem' }} onClick={() => navigate("/products")}>
+            <IconButton aria-label="transit-history" className="m-3 mt-4" color="primary" sx={{ cursor: "pointer", fontSize: '7rem' }} onClick={() => navigate("/transit-history")}>
               <HistoryIcon sx={{ fontSize: 'inherit' }}></HistoryIcon>
             </IconButton>
           </Card>

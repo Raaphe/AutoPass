@@ -46,12 +46,12 @@ const WalletDetailsDesktop: FC<WalletDetailsDesktopProps> = () => {
 
         {/* Membership card  */}
         <Card className="col-6 m-2 " elevation={12} style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: 'column', width: "46%", height:"407px" }}>
-          <Typography style={{ alignSelf: 'start' }} className="mt-2" gutterBottom variant="h5" component="div">
+          <Typography style={{ alignSelf: 'start' }} className="" gutterBottom variant="h5" component="div">
             Memberships
           </Typography>
           <Divider sx={{ alignSelf: 'stretch', color: "black", backgroundColor: 'gray' }} />
 
-          <div className="m-5" style={{ width: "30vh", height: "30vh" }}>
+          <div className="" style={{ width: "30vh", height: "30vh" }}>
             <MembershipStatusGraph daysUntilExpiry={daysUntilExpiry} walletInfo={walletInfo}/>
           </div>
 

@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import DashboardMobile from "./DashboardMobile";
-import DashboardDesktop from "./DashboardDesktop";
+import TransitLogsMobile from "./TransitLogsMobile";
+import TransitLogsDesktop from "./TransitLogsDesktop";
 
 
-interface DashboardProps {
+interface TransitLogsProps {
 }
 
 /**
@@ -12,7 +12,7 @@ interface DashboardProps {
 *
 * AutoPass
 */
-const Dashboard: FC<DashboardProps> = () => {
+const TransitLogs: FC<TransitLogsProps> = () => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -28,13 +28,13 @@ const Dashboard: FC<DashboardProps> = () => {
   return (
 
     isMobile ? 
-      <DashboardMobile/>
+      <TransitLogsMobile/>
     
     :
-      <DashboardDesktop/>
+      <TransitLogsDesktop/>
 
   );
 
 }
 
-export default Dashboard;
+export default TransitLogs;

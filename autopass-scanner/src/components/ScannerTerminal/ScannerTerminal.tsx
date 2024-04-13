@@ -80,8 +80,9 @@ const ScannerTerminal: FC<ScannerTerminalProps> = () => {
     }
   `;
 
-  const onScan = (codeValue: string) => {
-    terminalApi.validatePass(codeValue)
+  const onScan = async (codeValue: string) => {
+    let dto: API.GoogleWalletPassValidationDTO = {busNumber:utilService.getBusNumberFromEmail(scannerInfo?.email ?? ""), rotatingBarcodeValue: codeValue}
+    await terminalApi.validatePass(dto)
       .then((res) => {
         if (res.status !== 200) {
           return;

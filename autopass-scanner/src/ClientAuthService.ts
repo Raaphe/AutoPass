@@ -24,20 +24,6 @@ class AuthenticationService {
     return statusCode === 200;
   }
 
-  public async signup(signUpData: API.SignUpDTO): Promise<boolean> {
-    let statusCode = 0;
-    await this.authApi
-      .register(signUpData)
-      .then((res) => {
-        this.setAuthenticationResponseInMemory(res.data);
-        statusCode = res.status;
-      })
-      .catch(() => {
-        return false;
-      });
-    return statusCode === 200;
-  }
-
   public logout = () => {
     this.authApi.logout(this.getUserId());
     localStorage.clear();
@@ -108,8 +94,6 @@ class AuthenticationService {
           return res.data;
         });
   }
-
-  
 
   public isUserLoggedOut() {
     return this.getAccessTokenOrDefault() === "" &&

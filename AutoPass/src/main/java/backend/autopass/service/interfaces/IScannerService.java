@@ -1,6 +1,7 @@
 package backend.autopass.service.interfaces;
 
 import backend.autopass.model.entities.User;
+import backend.autopass.payload.dto.GoogleWalletPassValidationDTO;
 import backend.autopass.payload.dto.ScannerRegistrationDTO;
 import backend.autopass.payload.viewmodels.PassValidationResponseViewModel;
 
@@ -58,8 +59,8 @@ public interface IScannerService {
     /**
      * Validates the Google wallet pass barcode value.
      * Some of the code that was used for generating the totp was taken straight from the library's <a href="https://github.com/jchambers/java-otp">Github</a>.
-     * @param rotatingBarcodeValue The barcode value made like so : <USER_EMAIL>-<TIME_BARCODE_WAS_GENERATED>-<TOTP>
+     * @param dto The barcode value made like so : <USER_EMAIL>-<TIME_BARCODE_WAS_GENERATED>-<TOTP>. The bus number of the scanner.
      * @return PassValidationResponseViewModel Whether the pass is valid.
      */
-    PassValidationResponseViewModel validatePass(String rotatingBarcodeValue) throws NoSuchAlgorithmException, InvalidKeyException;
+    PassValidationResponseViewModel validatePass(GoogleWalletPassValidationDTO dto) throws NoSuchAlgorithmException, InvalidKeyException;
 }

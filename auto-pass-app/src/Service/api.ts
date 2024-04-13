@@ -195,6 +195,25 @@ export interface CollectionModelEntityModelTicket {
 /**
  * 
  * @export
+ * @interface CollectionModelEntityModelTransitLog
+ */
+export interface CollectionModelEntityModelTransitLog {
+    /**
+     * 
+     * @type {PagedModelEntityModelTransitLogEmbedded}
+     * @memberof CollectionModelEntityModelTransitLog
+     */
+    '_embedded'?: PagedModelEntityModelTransitLogEmbedded;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof CollectionModelEntityModelTransitLog
+     */
+    '_links'?: { [key: string]: Link; };
+}
+/**
+ * 
+ * @export
  * @interface CollectionModelEntityModelUser
  */
 export interface CollectionModelEntityModelUser {
@@ -419,6 +438,49 @@ export interface EntityModelToken {
 /**
  * 
  * @export
+ * @interface EntityModelTransitLog
+ */
+export interface EntityModelTransitLog {
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityModelTransitLog
+     */
+    'date'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelTransitLog
+     */
+    'authorized'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelTransitLog
+     */
+    'resourceType'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityModelTransitLog
+     */
+    'busNumber'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelTransitLog
+     */
+    'busName'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof EntityModelTransitLog
+     */
+    '_links'?: { [key: string]: Link; };
+}
+/**
+ * 
+ * @export
  * @interface EntityModelUser
  */
 export interface EntityModelUser {
@@ -487,19 +549,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'accountNonLocked'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelUser
-     */
-    'username'?: string;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {Array<GrantedAuthority>}
@@ -514,10 +564,22 @@ export interface EntityModelUser {
     'deleted'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelUser
+     */
+    'username'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -695,6 +757,25 @@ export interface GoogleWalletPassURLViewModel {
      * @memberof GoogleWalletPassURLViewModel
      */
     'isExpired'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GoogleWalletPassValidationDTO
+ */
+export interface GoogleWalletPassValidationDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof GoogleWalletPassValidationDTO
+     */
+    'rotatingBarcodeValue'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GoogleWalletPassValidationDTO
+     */
+    'busNumber'?: number;
 }
 /**
  * 
@@ -1265,6 +1346,44 @@ export interface PagedModelEntityModelTokenEmbedded {
 /**
  * 
  * @export
+ * @interface PagedModelEntityModelTransitLog
+ */
+export interface PagedModelEntityModelTransitLog {
+    /**
+     * 
+     * @type {PagedModelEntityModelTransitLogEmbedded}
+     * @memberof PagedModelEntityModelTransitLog
+     */
+    '_embedded'?: PagedModelEntityModelTransitLogEmbedded;
+    /**
+     * 
+     * @type {{ [key: string]: Link; }}
+     * @memberof PagedModelEntityModelTransitLog
+     */
+    '_links'?: { [key: string]: Link; };
+    /**
+     * 
+     * @type {PageMetadata}
+     * @memberof PagedModelEntityModelTransitLog
+     */
+    'page'?: PageMetadata;
+}
+/**
+ * 
+ * @export
+ * @interface PagedModelEntityModelTransitLogEmbedded
+ */
+export interface PagedModelEntityModelTransitLogEmbedded {
+    /**
+     * 
+     * @type {Array<EntityModelTransitLog>}
+     * @memberof PagedModelEntityModelTransitLogEmbedded
+     */
+    'transitLogs'?: Array<EntityModelTransitLog>;
+}
+/**
+ * 
+ * @export
  * @interface PagedModelEntityModelUser
  */
 export interface PagedModelEntityModelUser {
@@ -1689,6 +1808,160 @@ export interface TokenRequestBody {
 /**
  * 
  * @export
+ * @interface TransitLog
+ */
+export interface TransitLog {
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLog
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLog
+     */
+    'date'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof TransitLog
+     */
+    'authorized'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransitLog
+     */
+    'resourceType'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLog
+     */
+    'busNumber'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransitLog
+     */
+    'busName'?: string;
+    /**
+     * 
+     * @type {User}
+     * @memberof TransitLog
+     */
+    'user'?: User;
+}
+/**
+ * 
+ * @export
+ * @interface TransitLogPageDTO
+ */
+export interface TransitLogPageDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogPageDTO
+     */
+    'userId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogPageDTO
+     */
+    'year'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogPageDTO
+     */
+    'month'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogPageDTO
+     */
+    'page'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface TransitLogPageViewModel
+ */
+export interface TransitLogPageViewModel {
+    /**
+     * 
+     * @type {Array<TransitLog>}
+     * @memberof TransitLogPageViewModel
+     */
+    'transitLogs'?: Array<TransitLog>;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogPageViewModel
+     */
+    'page'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogPageViewModel
+     */
+    'pageCount'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface TransitLogRequestBody
+ */
+export interface TransitLogRequestBody {
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogRequestBody
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogRequestBody
+     */
+    'date'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof TransitLogRequestBody
+     */
+    'authorized'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransitLogRequestBody
+     */
+    'resourceType'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransitLogRequestBody
+     */
+    'busNumber'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransitLogRequestBody
+     */
+    'busName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransitLogRequestBody
+     */
+    'user'?: string;
+}
+/**
+ * 
+ * @export
  * @interface UpdateUserDTO
  */
 export interface UpdateUserDTO {
@@ -1806,19 +2079,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'accountNonLocked'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'username'?: string;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {Array<GrantedAuthority>}
@@ -1833,10 +2094,22 @@ export interface User {
     'deleted'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    'username'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof User
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'accountNonLocked'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -1937,19 +2210,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'accountNonLocked'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserRequestBody
-     */
-    'username'?: string;
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {Array<GrantedAuthority>}
@@ -1964,10 +2225,22 @@ export interface UserRequestBody {
     'deleted'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof UserRequestBody
+     */
+    'username'?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'credentialsNonExpired'?: boolean;
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'accountNonLocked'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
@@ -5906,7 +6179,7 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
          * @throws {RequiredError}
          */
         descriptor116: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/profile/userWallets`;
+            const localVarPath = `/profile/transitLogs`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -5939,6 +6212,39 @@ export const ProfileControllerApiAxiosParamCreator = function (configuration?: C
          * @throws {RequiredError}
          */
         descriptor117: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/profile/userWallets`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        descriptor118: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/profile/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6091,6 +6397,17 @@ export const ProfileControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async descriptor118(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.descriptor118(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ProfileControllerApi.descriptor118']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async listAllFormsOfMetadata1(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RepresentationModelObject>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listAllFormsOfMetadata1(options);
             const index = configuration?.serverIndex ?? 0;
@@ -6162,6 +6479,14 @@ export const ProfileControllerApiFactory = function (configuration?: Configurati
          */
         descriptor117(options?: any): AxiosPromise<string> {
             return localVarFp.descriptor117(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        descriptor118(options?: any): AxiosPromise<string> {
+            return localVarFp.descriptor118(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6249,6 +6574,16 @@ export class ProfileControllerApi extends BaseAPI {
      */
     public descriptor117(options?: RawAxiosRequestConfig) {
         return ProfileControllerApiFp(this.configuration).descriptor117(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProfileControllerApi
+     */
+    public descriptor118(options?: RawAxiosRequestConfig) {
+        return ProfileControllerApiFp(this.configuration).descriptor118(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6781,13 +7116,13 @@ export const TerminalControllerApiAxiosParamCreator = function (configuration?: 
     return {
         /**
          * Validates a google wallet QR-Code.
-         * @param {string} barcodeValue 
+         * @param {GoogleWalletPassValidationDTO} googleWalletPassValidationDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        validatePass: async (barcodeValue: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'barcodeValue' is not null or undefined
-            assertParamExists('validatePass', 'barcodeValue', barcodeValue)
+        validatePass: async (googleWalletPassValidationDTO: GoogleWalletPassValidationDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'googleWalletPassValidationDTO' is not null or undefined
+            assertParamExists('validatePass', 'googleWalletPassValidationDTO', googleWalletPassValidationDTO)
             const localVarPath = `/terminal/validate`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6796,7 +7131,7 @@ export const TerminalControllerApiAxiosParamCreator = function (configuration?: 
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -6804,15 +7139,14 @@ export const TerminalControllerApiAxiosParamCreator = function (configuration?: 
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (barcodeValue !== undefined) {
-                localVarQueryParameter['barcodeValue'] = barcodeValue;
-            }
-
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(googleWalletPassValidationDTO, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -6831,12 +7165,12 @@ export const TerminalControllerApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Validates a google wallet QR-Code.
-         * @param {string} barcodeValue 
+         * @param {GoogleWalletPassValidationDTO} googleWalletPassValidationDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async validatePass(barcodeValue: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PassValidationResponseViewModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.validatePass(barcodeValue, options);
+        async validatePass(googleWalletPassValidationDTO: GoogleWalletPassValidationDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PassValidationResponseViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.validatePass(googleWalletPassValidationDTO, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TerminalControllerApi.validatePass']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -6853,12 +7187,12 @@ export const TerminalControllerApiFactory = function (configuration?: Configurat
     return {
         /**
          * Validates a google wallet QR-Code.
-         * @param {string} barcodeValue 
+         * @param {GoogleWalletPassValidationDTO} googleWalletPassValidationDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        validatePass(barcodeValue: string, options?: any): AxiosPromise<PassValidationResponseViewModel> {
-            return localVarFp.validatePass(barcodeValue, options).then((request) => request(axios, basePath));
+        validatePass(googleWalletPassValidationDTO: GoogleWalletPassValidationDTO, options?: any): AxiosPromise<PassValidationResponseViewModel> {
+            return localVarFp.validatePass(googleWalletPassValidationDTO, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -6872,13 +7206,13 @@ export const TerminalControllerApiFactory = function (configuration?: Configurat
 export class TerminalControllerApi extends BaseAPI {
     /**
      * Validates a google wallet QR-Code.
-     * @param {string} barcodeValue 
+     * @param {GoogleWalletPassValidationDTO} googleWalletPassValidationDTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TerminalControllerApi
      */
-    public validatePass(barcodeValue: string, options?: RawAxiosRequestConfig) {
-        return TerminalControllerApiFp(this.configuration).validatePass(barcodeValue, options).then((request) => request(this.axios, this.basePath));
+    public validatePass(googleWalletPassValidationDTO: GoogleWalletPassValidationDTO, options?: RawAxiosRequestConfig) {
+        return TerminalControllerApiFp(this.configuration).validatePass(googleWalletPassValidationDTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -8696,6 +9030,1200 @@ export class TokenSearchControllerApi extends BaseAPI {
      */
     public executeSearchTokenGet1(user?: User, options?: RawAxiosRequestConfig) {
         return TokenSearchControllerApiFp(this.configuration).executeSearchTokenGet1(user, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TransitLogControllerApi - axios parameter creator
+ * @export
+ */
+export const TransitLogControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Gets all of the transit logs of a given user.
+         * @param {TransitLogPageDTO} transitLogPageDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserTransitHistory: async (transitLogPageDTO: TransitLogPageDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'transitLogPageDTO' is not null or undefined
+            assertParamExists('getUserTransitHistory', 'transitLogPageDTO', transitLogPageDTO)
+            const localVarPath = `/v1/api/transit-log/transit-logs`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(transitLogPageDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TransitLogControllerApi - functional programming interface
+ * @export
+ */
+export const TransitLogControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TransitLogControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Gets all of the transit logs of a given user.
+         * @param {TransitLogPageDTO} transitLogPageDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserTransitHistory(transitLogPageDTO: TransitLogPageDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TransitLogPageViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserTransitHistory(transitLogPageDTO, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogControllerApi.getUserTransitHistory']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TransitLogControllerApi - factory interface
+ * @export
+ */
+export const TransitLogControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TransitLogControllerApiFp(configuration)
+    return {
+        /**
+         * Gets all of the transit logs of a given user.
+         * @param {TransitLogPageDTO} transitLogPageDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserTransitHistory(transitLogPageDTO: TransitLogPageDTO, options?: any): AxiosPromise<TransitLogPageViewModel> {
+            return localVarFp.getUserTransitHistory(transitLogPageDTO, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TransitLogControllerApi - object-oriented interface
+ * @export
+ * @class TransitLogControllerApi
+ * @extends {BaseAPI}
+ */
+export class TransitLogControllerApi extends BaseAPI {
+    /**
+     * Gets all of the transit logs of a given user.
+     * @param {TransitLogPageDTO} transitLogPageDTO 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogControllerApi
+     */
+    public getUserTransitHistory(transitLogPageDTO: TransitLogPageDTO, options?: RawAxiosRequestConfig) {
+        return TransitLogControllerApiFp(this.configuration).getUserTransitHistory(transitLogPageDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TransitLogEntityControllerApi - axios parameter creator
+ * @export
+ */
+export const TransitLogEntityControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * delete-transitlog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteItemResourceTransitlogDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteItemResourceTransitlogDelete', 'id', id)
+            const localVarPath = `/transitLogs/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-transitlog
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCollectionResourceTransitlogGet1: async (page?: number, size?: number, sort?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/transitLogs`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-transitlog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItemResourceTransitlogGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getItemResourceTransitlogGet', 'id', id)
+            const localVarPath = `/transitLogs/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * patch-transitlog
+         * @param {string} id 
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchItemResourceTransitlogPatch: async (id: string, transitLogRequestBody: TransitLogRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('patchItemResourceTransitlogPatch', 'id', id)
+            // verify required parameter 'transitLogRequestBody' is not null or undefined
+            assertParamExists('patchItemResourceTransitlogPatch', 'transitLogRequestBody', transitLogRequestBody)
+            const localVarPath = `/transitLogs/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(transitLogRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * create-transitlog
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postCollectionResourceTransitlogPost: async (transitLogRequestBody: TransitLogRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'transitLogRequestBody' is not null or undefined
+            assertParamExists('postCollectionResourceTransitlogPost', 'transitLogRequestBody', transitLogRequestBody)
+            const localVarPath = `/transitLogs`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(transitLogRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * update-transitlog
+         * @param {string} id 
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putItemResourceTransitlogPut: async (id: string, transitLogRequestBody: TransitLogRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('putItemResourceTransitlogPut', 'id', id)
+            // verify required parameter 'transitLogRequestBody' is not null or undefined
+            assertParamExists('putItemResourceTransitlogPut', 'transitLogRequestBody', transitLogRequestBody)
+            const localVarPath = `/transitLogs/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(transitLogRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TransitLogEntityControllerApi - functional programming interface
+ * @export
+ */
+export const TransitLogEntityControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TransitLogEntityControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * delete-transitlog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteItemResourceTransitlogDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItemResourceTransitlogDelete(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogEntityControllerApi.deleteItemResourceTransitlogDelete']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-transitlog
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCollectionResourceTransitlogGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedModelEntityModelTransitLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCollectionResourceTransitlogGet1(page, size, sort, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogEntityControllerApi.getCollectionResourceTransitlogGet1']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-transitlog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getItemResourceTransitlogGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTransitLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItemResourceTransitlogGet(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogEntityControllerApi.getItemResourceTransitlogGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * patch-transitlog
+         * @param {string} id 
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async patchItemResourceTransitlogPatch(id: string, transitLogRequestBody: TransitLogRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTransitLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchItemResourceTransitlogPatch(id, transitLogRequestBody, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogEntityControllerApi.patchItemResourceTransitlogPatch']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * create-transitlog
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postCollectionResourceTransitlogPost(transitLogRequestBody: TransitLogRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTransitLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postCollectionResourceTransitlogPost(transitLogRequestBody, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogEntityControllerApi.postCollectionResourceTransitlogPost']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * update-transitlog
+         * @param {string} id 
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async putItemResourceTransitlogPut(id: string, transitLogRequestBody: TransitLogRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelTransitLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.putItemResourceTransitlogPut(id, transitLogRequestBody, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogEntityControllerApi.putItemResourceTransitlogPut']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TransitLogEntityControllerApi - factory interface
+ * @export
+ */
+export const TransitLogEntityControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TransitLogEntityControllerApiFp(configuration)
+    return {
+        /**
+         * delete-transitlog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteItemResourceTransitlogDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItemResourceTransitlogDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-transitlog
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCollectionResourceTransitlogGet1(page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<PagedModelEntityModelTransitLog> {
+            return localVarFp.getCollectionResourceTransitlogGet1(page, size, sort, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-transitlog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItemResourceTransitlogGet(id: string, options?: any): AxiosPromise<EntityModelTransitLog> {
+            return localVarFp.getItemResourceTransitlogGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * patch-transitlog
+         * @param {string} id 
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchItemResourceTransitlogPatch(id: string, transitLogRequestBody: TransitLogRequestBody, options?: any): AxiosPromise<EntityModelTransitLog> {
+            return localVarFp.patchItemResourceTransitlogPatch(id, transitLogRequestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * create-transitlog
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postCollectionResourceTransitlogPost(transitLogRequestBody: TransitLogRequestBody, options?: any): AxiosPromise<EntityModelTransitLog> {
+            return localVarFp.postCollectionResourceTransitlogPost(transitLogRequestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * update-transitlog
+         * @param {string} id 
+         * @param {TransitLogRequestBody} transitLogRequestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        putItemResourceTransitlogPut(id: string, transitLogRequestBody: TransitLogRequestBody, options?: any): AxiosPromise<EntityModelTransitLog> {
+            return localVarFp.putItemResourceTransitlogPut(id, transitLogRequestBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TransitLogEntityControllerApi - object-oriented interface
+ * @export
+ * @class TransitLogEntityControllerApi
+ * @extends {BaseAPI}
+ */
+export class TransitLogEntityControllerApi extends BaseAPI {
+    /**
+     * delete-transitlog
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogEntityControllerApi
+     */
+    public deleteItemResourceTransitlogDelete(id: string, options?: RawAxiosRequestConfig) {
+        return TransitLogEntityControllerApiFp(this.configuration).deleteItemResourceTransitlogDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-transitlog
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogEntityControllerApi
+     */
+    public getCollectionResourceTransitlogGet1(page?: number, size?: number, sort?: Array<string>, options?: RawAxiosRequestConfig) {
+        return TransitLogEntityControllerApiFp(this.configuration).getCollectionResourceTransitlogGet1(page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-transitlog
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogEntityControllerApi
+     */
+    public getItemResourceTransitlogGet(id: string, options?: RawAxiosRequestConfig) {
+        return TransitLogEntityControllerApiFp(this.configuration).getItemResourceTransitlogGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * patch-transitlog
+     * @param {string} id 
+     * @param {TransitLogRequestBody} transitLogRequestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogEntityControllerApi
+     */
+    public patchItemResourceTransitlogPatch(id: string, transitLogRequestBody: TransitLogRequestBody, options?: RawAxiosRequestConfig) {
+        return TransitLogEntityControllerApiFp(this.configuration).patchItemResourceTransitlogPatch(id, transitLogRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * create-transitlog
+     * @param {TransitLogRequestBody} transitLogRequestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogEntityControllerApi
+     */
+    public postCollectionResourceTransitlogPost(transitLogRequestBody: TransitLogRequestBody, options?: RawAxiosRequestConfig) {
+        return TransitLogEntityControllerApiFp(this.configuration).postCollectionResourceTransitlogPost(transitLogRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * update-transitlog
+     * @param {string} id 
+     * @param {TransitLogRequestBody} transitLogRequestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogEntityControllerApi
+     */
+    public putItemResourceTransitlogPut(id: string, transitLogRequestBody: TransitLogRequestBody, options?: RawAxiosRequestConfig) {
+        return TransitLogEntityControllerApiFp(this.configuration).putItemResourceTransitlogPut(id, transitLogRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TransitLogPropertyReferenceControllerApi - axios parameter creator
+ * @export
+ */
+export const TransitLogPropertyReferenceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * patch-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceTransitlogPatch: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createPropertyReferenceTransitlogPatch', 'id', id)
+            // verify required parameter 'collectionModelObject' is not null or undefined
+            assertParamExists('createPropertyReferenceTransitlogPatch', 'collectionModelObject', collectionModelObject)
+            const localVarPath = `/transitLogs/{id}/user`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(collectionModelObject, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * update-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceTransitlogPut: async (id: string, collectionModelObject: CollectionModelObject, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createPropertyReferenceTransitlogPut', 'id', id)
+            // verify required parameter 'collectionModelObject' is not null or undefined
+            assertParamExists('createPropertyReferenceTransitlogPut', 'collectionModelObject', collectionModelObject)
+            const localVarPath = `/transitLogs/{id}/user`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(collectionModelObject, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * delete-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceIdTransitlogDelete: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePropertyReferenceIdTransitlogDelete', 'id', id)
+            // verify required parameter 'propertyId' is not null or undefined
+            assertParamExists('deletePropertyReferenceIdTransitlogDelete', 'propertyId', propertyId)
+            const localVarPath = `/transitLogs/{id}/user/{propertyId}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * delete-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceTransitlogDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePropertyReferenceTransitlogDelete', 'id', id)
+            const localVarPath = `/transitLogs/{id}/user`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceTransitlogGet: async (id: string, propertyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('followPropertyReferenceTransitlogGet', 'id', id)
+            // verify required parameter 'propertyId' is not null or undefined
+            assertParamExists('followPropertyReferenceTransitlogGet', 'propertyId', propertyId)
+            const localVarPath = `/transitLogs/{id}/user/{propertyId}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"propertyId"}}`, encodeURIComponent(String(propertyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceTransitlogGet1: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('followPropertyReferenceTransitlogGet1', 'id', id)
+            const localVarPath = `/transitLogs/{id}/user`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TransitLogPropertyReferenceControllerApi - functional programming interface
+ * @export
+ */
+export const TransitLogPropertyReferenceControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TransitLogPropertyReferenceControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * patch-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPropertyReferenceTransitlogPatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceTransitlogPatch(id, collectionModelObject, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogPropertyReferenceControllerApi.createPropertyReferenceTransitlogPatch']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * update-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPropertyReferenceTransitlogPut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPropertyReferenceTransitlogPut(id, collectionModelObject, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogPropertyReferenceControllerApi.createPropertyReferenceTransitlogPut']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * delete-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePropertyReferenceIdTransitlogDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceIdTransitlogDelete(id, propertyId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogPropertyReferenceControllerApi.deletePropertyReferenceIdTransitlogDelete']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * delete-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePropertyReferenceTransitlogDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePropertyReferenceTransitlogDelete(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogPropertyReferenceControllerApi.deletePropertyReferenceTransitlogDelete']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async followPropertyReferenceTransitlogGet(id: string, propertyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceTransitlogGet(id, propertyId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogPropertyReferenceControllerApi.followPropertyReferenceTransitlogGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * get-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async followPropertyReferenceTransitlogGet1(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EntityModelUser>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.followPropertyReferenceTransitlogGet1(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogPropertyReferenceControllerApi.followPropertyReferenceTransitlogGet1']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TransitLogPropertyReferenceControllerApi - factory interface
+ * @export
+ */
+export const TransitLogPropertyReferenceControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TransitLogPropertyReferenceControllerApiFp(configuration)
+    return {
+        /**
+         * patch-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceTransitlogPatch(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.createPropertyReferenceTransitlogPatch(id, collectionModelObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * update-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {CollectionModelObject} collectionModelObject 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPropertyReferenceTransitlogPut(id: string, collectionModelObject: CollectionModelObject, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.createPropertyReferenceTransitlogPut(id, collectionModelObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * delete-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceIdTransitlogDelete(id: string, propertyId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceIdTransitlogDelete(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * delete-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePropertyReferenceTransitlogDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePropertyReferenceTransitlogDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {string} propertyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceTransitlogGet(id: string, propertyId: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.followPropertyReferenceTransitlogGet(id, propertyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get-user-by-transitlog-Id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        followPropertyReferenceTransitlogGet1(id: string, options?: any): AxiosPromise<EntityModelUser> {
+            return localVarFp.followPropertyReferenceTransitlogGet1(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TransitLogPropertyReferenceControllerApi - object-oriented interface
+ * @export
+ * @class TransitLogPropertyReferenceControllerApi
+ * @extends {BaseAPI}
+ */
+export class TransitLogPropertyReferenceControllerApi extends BaseAPI {
+    /**
+     * patch-user-by-transitlog-Id
+     * @param {string} id 
+     * @param {CollectionModelObject} collectionModelObject 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogPropertyReferenceControllerApi
+     */
+    public createPropertyReferenceTransitlogPatch(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return TransitLogPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceTransitlogPatch(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * update-user-by-transitlog-Id
+     * @param {string} id 
+     * @param {CollectionModelObject} collectionModelObject 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogPropertyReferenceControllerApi
+     */
+    public createPropertyReferenceTransitlogPut(id: string, collectionModelObject: CollectionModelObject, options?: RawAxiosRequestConfig) {
+        return TransitLogPropertyReferenceControllerApiFp(this.configuration).createPropertyReferenceTransitlogPut(id, collectionModelObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * delete-user-by-transitlog-Id
+     * @param {string} id 
+     * @param {string} propertyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogPropertyReferenceControllerApi
+     */
+    public deletePropertyReferenceIdTransitlogDelete(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return TransitLogPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceIdTransitlogDelete(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * delete-user-by-transitlog-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogPropertyReferenceControllerApi
+     */
+    public deletePropertyReferenceTransitlogDelete(id: string, options?: RawAxiosRequestConfig) {
+        return TransitLogPropertyReferenceControllerApiFp(this.configuration).deletePropertyReferenceTransitlogDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-user-by-transitlog-Id
+     * @param {string} id 
+     * @param {string} propertyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogPropertyReferenceControllerApi
+     */
+    public followPropertyReferenceTransitlogGet(id: string, propertyId: string, options?: RawAxiosRequestConfig) {
+        return TransitLogPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceTransitlogGet(id, propertyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get-user-by-transitlog-Id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogPropertyReferenceControllerApi
+     */
+    public followPropertyReferenceTransitlogGet1(id: string, options?: RawAxiosRequestConfig) {
+        return TransitLogPropertyReferenceControllerApiFp(this.configuration).followPropertyReferenceTransitlogGet1(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TransitLogSearchControllerApi - axios parameter creator
+ * @export
+ */
+export const TransitLogSearchControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} [userId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchTransitlogGet: async (userId?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/transitLogs/search/getAllByUserId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TransitLogSearchControllerApi - functional programming interface
+ * @export
+ */
+export const TransitLogSearchControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TransitLogSearchControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [userId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async executeSearchTransitlogGet(userId?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CollectionModelEntityModelTransitLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.executeSearchTransitlogGet(userId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransitLogSearchControllerApi.executeSearchTransitlogGet']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TransitLogSearchControllerApi - factory interface
+ * @export
+ */
+export const TransitLogSearchControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TransitLogSearchControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [userId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        executeSearchTransitlogGet(userId?: number, options?: any): AxiosPromise<CollectionModelEntityModelTransitLog> {
+            return localVarFp.executeSearchTransitlogGet(userId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TransitLogSearchControllerApi - object-oriented interface
+ * @export
+ * @class TransitLogSearchControllerApi
+ * @extends {BaseAPI}
+ */
+export class TransitLogSearchControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} [userId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransitLogSearchControllerApi
+     */
+    public executeSearchTransitlogGet(userId?: number, options?: RawAxiosRequestConfig) {
+        return TransitLogSearchControllerApiFp(this.configuration).executeSearchTransitlogGet(userId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

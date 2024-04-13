@@ -1,8 +1,14 @@
 import { Dict } from "styled-components/dist/types";
 import ClientAuthService from "./ClientAuthService";
-import {UserWallet, WalletControllerApi} from "./Service";
+import { Membership, UserWallet, WalletControllerApi } from "./Service";
 import React from "react";
 
+/**
+* ClientUtil - 2024-04-02
+* Raaphe
+*
+* AutoPass
+*/
 class UtilService {
 
 
@@ -61,11 +67,27 @@ class UtilService {
     }
 
     /**
+     * Checks if a user's wallet's membership is ongoing.
+     * @param userWallet The user's wallet.
+     */
+    public isMembershipActive(userWallet: UserWallet): boolean {
+        return this.isDateFuture(userWallet?.memberShipEnds ?? 0);
+    }
+
+    /**
+     * Checks if a date (in ms unix epoch) is ahead of current time.
+     * @param date The date to verify if is in the future.
+     */
+    public isDateFuture(date: number) {
+        return Date.now() < date;
+    }
+
+    /**
      * Takes a scanner email and extracts the bus number.
      * @param email The target scanner email.
      * @returns The found bus number
      */
-    public getBusNumberFromEmail(email: string) : number {
+    public getBusNumberFromEmail(email: string): number {
 
         const match = email.match(/.*_(\d+)@/);
 
@@ -75,27 +97,28 @@ class UtilService {
         else return -1;
     }
 
-    public getUserWalletInfo = (
-        setDaysUntilExpiry : React.Dispatch<React.SetStateAction<number>>,
-        setWalletInfo:  React.Dispatch<React.SetStateAction<UserWallet>>,
+    public getUserWalletInfo = async (
+        setDaysUntilExpiry: React.Dispatch<React.SetStateAction<number>>,
+        setWalletInfo: React.Dispatch<React.SetStateAction<UserWallet>>,
         currentWalletInfo: UserWallet
     ) => {
-    const config = ClientAuthService.getApiConfig();
-    const walletAPI = new WalletControllerApi(config);
+        const config = ClientAuthService.getApiConfig();
+        const walletAPI = new WalletControllerApi(config);
 
-    walletAPI.getUserWalletByUserId(ClientAuthService.getUserId())
-        .then(res => {
-            if (res.status !== 200) return;
-            setWalletInfo(res.data);
+        await walletAPI.getUserWalletByUserId(ClientAuthService.getUserId())
 
-            setDaysUntilExpiry(currentWalletInfo.membershipActive ?
-                utilService.msToDays(currentWalletInfo.memberShipEnds ?? 0) - utilService.msToDays(this.getUTCNow().getTime())
-                :
-                0
-            );
-        })
-        .catch(_ => {
-        })
+            .then(res => {
+                if (res.status !== 200) return;
+                setWalletInfo(res.data);
+
+                setDaysUntilExpiry(this.isDateFuture(res.data.memberShipEnds ?? 0) ?
+                    utilService.msToDays(res.data.memberShipEnds ?? 0) - utilService.msToDays(this.getUTCNow().getTime())
+                    :
+                    0
+                );
+            })
+            .catch(_ => {
+            })
     }
 }
 

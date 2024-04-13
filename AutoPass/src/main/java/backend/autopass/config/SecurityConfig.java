@@ -107,7 +107,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/delete-bus").authenticated()
                         .requestMatchers(HttpMethod.POST, "/admin/scanner/create-scanner").authenticated()
                         .requestMatchers(HttpMethod.GET, "/admin/scanner/scanner-info").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/terminal/validate").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/terminal/validate").authenticated()
                         .requestMatchers(HttpMethod.GET, "/products/get-all-products").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google-wallet-api/add-google-wallet-pass").authenticated()
                         .requestMatchers(HttpMethod.GET, "/google-wallet-api/get-add-pass-url").authenticated()
@@ -116,6 +116,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/payment/create-checkout-session").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/payment/session-status").authenticated()
                         .requestMatchers(HttpMethod.GET, "/v1/api/invoice/invoices").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/v1/api/transit-log/transit-logs").authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/oauth2/authorization/google")
