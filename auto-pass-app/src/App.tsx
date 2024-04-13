@@ -1,4 +1,5 @@
 import React from 'react';
+import "./app.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from './components/LandingPage/LandingPage';
 import ProtectedRoutesGuests from './routes/ProtectedRoutesAnonymous';
@@ -17,6 +18,7 @@ import Products from './components/Products/Products';
 import CheckoutForm from './components/StripeModule/CheckoutForm';
 import Return from './components/StripeModule/Return';
 import Invoices from './components/Invoices/Invoices';
+import TransitLogs from './components/TransitLogs/TransitLogs';
 
 /**
 * App - 2024-04-02
@@ -53,6 +55,7 @@ const App = () => {
                         <Route path="/checkout" element={<CheckoutForm/>} />
                         <Route path="/return" element={<Return />} />
                         <Route path="/invoices" element={<Invoices/>} />
+                        <Route path='/transit-history' element={<TransitLogs/>} />
 
                     </Route>
                     <Route path='/*' element={<ErrorPage />} />

@@ -31,7 +31,9 @@ const ProtectedRoutesGuests = () => {
         return (
             <>
                 <Header isAdmin={false} isAuth={isAuth}/>
-                <Outlet/>
+                <div style={{flex:1}}>
+                    <Outlet/>
+                </div>
                 <Footer/>
 
             </>

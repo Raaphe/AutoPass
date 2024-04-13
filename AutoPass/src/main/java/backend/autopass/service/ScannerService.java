@@ -1,10 +1,13 @@
 package backend.autopass.service;
 
+import backend.autopass.model.entities.TransitLog;
 import backend.autopass.model.entities.User;
 import backend.autopass.model.entities.UserWallet;
 import backend.autopass.model.enums.Role;
+import backend.autopass.model.repositories.TransitLogRepository;
 import backend.autopass.model.repositories.UserRepository;
 import backend.autopass.model.repositories.UserWalletRepository;
+import backend.autopass.payload.dto.GoogleWalletPassValidationDTO;
 import backend.autopass.payload.dto.ScannerRegistrationDTO;
 import backend.autopass.payload.viewmodels.PassValidationResponseViewModel;
 import backend.autopass.service.interfaces.IScannerService;
@@ -18,10 +21,8 @@ import java.security.Key;
 import java.time.Duration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Instant;
-import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +43,7 @@ public class ScannerService implements IScannerService {
     private final PasswordEncoder passwordEncoder;
     private final GoogleWalletService googleWalletService;
     private final UserWalletRepository userWalletRepository;
+    private final TransitLogRepository transitLogRepository;
 
     @Value("${rotating-barcode-hmac-key}")
     private String key;
@@ -157,22 +159,24 @@ public class ScannerService implements IScannerService {
     }
 
     @Override
-    public PassValidationResponseViewModel validatePass(String rotatingBarcodeValue) throws InvalidKeyException {
+    public PassValidationResponseViewModel validatePass(GoogleWalletPassValidationDTO dto) throws InvalidKeyException {
 
         // Time here is used in seconds, thus the division by 1000.
         int currentTime = (int) (System.currentTimeMillis() / 1000);
-        List<String> tOTPDetails = List.of(rotatingBarcodeValue.split("-"));
+        List<String> tOTPDetails = List.of(dto.rotatingBarcodeValue.split("-"));
         String email = tOTPDetails.get(0);
         long timeStamp = Integer.parseInt(tOTPDetails.get(1));
         String tOTPValue = tOTPDetails.get(2);
         TimeBasedOneTimePasswordGenerator generator = new TimeBasedOneTimePasswordGenerator(Duration.ofSeconds(6), 8);
         Instant timeCodeIssued = Instant.ofEpochSecond(timeStamp);
         Key key1 = new SecretKeySpec(hexStringToByteArray(key), "HmacSHA1");
-
         User user = userService.getUserByEmail(email);
         UserWallet userWallet = user.getWallet();
+        User bus = this.getBusFromBusNumber(dto.busNumber);
+        assert bus != null;
 
         if (userWallet.getMemberShipEnds() < System.currentTimeMillis() && userWallet.getTicketAmount() <= 0) {
+            new Thread(() -> transitLogRepository.save(TransitLog.builder().busName(bus.getFirstName()).busNumber(dto.busNumber).resourceType("No Resources").date(System.currentTimeMillis()).authorized(false).user(user).build())).start();
             return PassValidationResponseViewModel
                     .builder()
                     .isValid(false)
@@ -183,6 +187,7 @@ public class ScannerService implements IScannerService {
         }
 
         if (currentTime > timeStamp + 6) {
+            new Thread(() -> transitLogRepository.save(TransitLog.builder().busName(bus.getFirstName()).busNumber(dto.busNumber).resourceType("Invalid Pass").date(System.currentTimeMillis()).authorized(false).user(user).build())).start();
             return PassValidationResponseViewModel
                     .builder()
                     .isValid(false)
@@ -193,9 +198,15 @@ public class ScannerService implements IScannerService {
         } else if (tOTPValue.equals(generator.generateOneTimePasswordString(key1, timeCodeIssued))) {
 
             String responseMessage = "Welcome Aboard 🚐" + (userWallet.getMemberShipEnds() > System.currentTimeMillis() ? "" : "\nYou have " + (userWallet.getTicketAmount()-1) + " tickets remaining");
-            new Thread(() -> {
-                updateWalletObjects(userWallet, user);
-            }).start();
+            new Thread(() -> updateWalletObjects(userWallet, user, TransitLog
+                    .builder()
+                    .date(System.currentTimeMillis())
+                    .authorized(true)
+                    .user(user)
+                    .busNumber(dto.busNumber)
+                    .busName(bus.getFirstName())
+                    .build()
+            )).start();
 
             return PassValidationResponseViewModel
                     .builder()
@@ -205,6 +216,7 @@ public class ScannerService implements IScannerService {
                     .numberOfTickets(userWallet.getTicketAmount())
                     .build();
         } else {
+            new Thread(() -> transitLogRepository.save(TransitLog.builder().busName(bus.getFirstName()).busNumber(dto.busNumber).resourceType("Invalid Pass").authorized(false).user(user).build())).start();
             return PassValidationResponseViewModel
                     .builder()
                     .isValid(false)
@@ -215,13 +227,16 @@ public class ScannerService implements IScannerService {
         }
     }
 
-    private void updateWalletObjects(UserWallet userWallet, User user) {
+    private void updateWalletObjects(UserWallet userWallet, User user, TransitLog transitLog) {
         if (userWallet.getMemberShipEnds() < System.currentTimeMillis()) {
+            transitLog.setResourceType("1 Ticket");
             int newAmount = userWallet.getTicketAmount() - 1;
             userWallet.setTicketAmount(newAmount);
             googleWalletService.updatePassTickets(user.getEmail(), newAmount);
             userWalletRepository.save(userWallet);
         }
+        transitLog.setResourceType("Membership");
+        transitLogRepository.save(transitLog);
     }
 
     public byte[] hexStringToByteArray(String s) {

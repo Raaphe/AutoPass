@@ -32,7 +32,6 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     const [userData, setUserData] = useState<API.User>();
     const [isEmailSent, setIsEmailSent] = useState(false);
     const [addGoogleWalletURL, setGoogleWalletSaveURL] = useState<API.GoogleWalletPassURLViewModel>();
-    const [canResetPassword, setCanResetPassword] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [basicUserInfo, setBasicUserInfo] = useState<API.BasicUserInfoDTO>();
 
@@ -76,14 +75,8 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
         fetchUserData();
         getSavePassURL();
 
-        if (userData?.role === "ADMIN" && userData.googleAccessToken !== null) {
-            setCanResetPassword(false);
-        } else if (userData?.role === "GOOGLE_USER") {
-            setCanResetPassword(false);
-        } else { setCanResetPassword(true); }
-
         setIsLoading(false);
-    }, [navigate, isLoading])
+    }, [navigate, isLoading, googleWalletApi, userAPI])
 
 
     const handleLoginWithGoogle = async (): Promise<void> => {
@@ -103,6 +96,14 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     // Render loading indicator while fetching data
     if (!userData) {
         return <div>Loading...</div>;
+    }
+
+    const canChangePassword = () => {
+        if (userData?.role === "ADMIN" && userData.googleAccessToken !== null) {
+            return false;
+        } else if (userData?.role === "GOOGLE_USER") {
+            return false;
+        } else { return true; }
     }
 
     function isGmailAddress(email: string): boolean {
@@ -164,7 +165,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     }
 
     return (
-        <div className="container-fluid" style={{ marginTop: '60px', paddingBottom: '50px' }}>
+        <div className="container-fluid" style={{ marginTop: '60px', paddingBottom: '50px'}}>
             <div className="row">
                 <div className={`${styles.NavigationMenu} col-md-3`}>
                     <ul className="list-group list-group-flush">
@@ -307,7 +308,7 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                             }
 
 
-                            {canResetPassword &&
+                            {canChangePassword() &&
                                 <SplitCard id="password-reset" title="Reset Password" description="Forgot your Password? Reset it.">
                                     <div className="text-center">
                                         {!isEmailSent ? (
