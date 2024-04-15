@@ -356,10 +356,10 @@ export interface EntityModelMembership {
 export interface EntityModelPass {
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof EntityModelPass
      */
-    'pass'?: Array<string>;
+    'googlePassHexKey'?: string;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -549,25 +549,7 @@ export interface EntityModelUser {
      * @type {boolean}
      * @memberof EntityModelUser
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
     'deleted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {string}
@@ -580,6 +562,24 @@ export interface EntityModelUser {
      * @memberof EntityModelUser
      */
     'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'accountNonLocked'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'credentialsNonExpired'?: boolean;
     /**
      * 
      * @type {{ [key: string]: Link; }}
@@ -1471,10 +1471,10 @@ export interface Pass {
     'id'?: number;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof Pass
      */
-    'pass'?: Array<string>;
+    'googlePassHexKey'?: string;
 }
 /**
  * 
@@ -1490,10 +1490,10 @@ export interface PassRequestBody {
     'id'?: number;
     /**
      * 
-     * @type {Array<string>}
+     * @type {string}
      * @memberof PassRequestBody
      */
-    'pass'?: Array<string>;
+    'googlePassHexKey'?: string;
 }
 /**
  * 
@@ -2079,25 +2079,7 @@ export interface User {
      * @type {boolean}
      * @memberof User
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
     'deleted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {string}
@@ -2110,6 +2092,24 @@ export interface User {
      * @memberof User
      */
     'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'accountNonLocked'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'credentialsNonExpired'?: boolean;
 }
 
 export const UserRoleEnum = {
@@ -2210,25 +2210,7 @@ export interface UserRequestBody {
      * @type {boolean}
      * @memberof UserRequestBody
      */
-    'accountNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'credentialsNonExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
     'deleted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'accountNonLocked'?: boolean;
     /**
      * 
      * @type {string}
@@ -2241,6 +2223,24 @@ export interface UserRequestBody {
      * @memberof UserRequestBody
      */
     'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'accountNonExpired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'accountNonLocked'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'credentialsNonExpired'?: boolean;
 }
 
 export const UserRequestBodyRoleEnum = {
