@@ -41,6 +41,7 @@ const QRScannerInput: FC<QRScannerInputProps> = ({ onScan }) => {
             type="text"
             onKeyDown={handleKeyDown}
             onChange={handleInputChange}
+            id='qrCode'
             style={{ opacity: 0, position: 'absolute', left: '-10000px', top: '-10000px' }}
             autoFocus
         />

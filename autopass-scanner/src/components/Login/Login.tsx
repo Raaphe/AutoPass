@@ -3,7 +3,7 @@ import "./Login.scss";
 import { SignInDTO } from "../../Service/api";
 import ClientAuthService from "../../ClientAuthService";
 import { useNavigate } from "react-router-dom";
-import { Box, Card, IconButton, Stack, TextField } from "@mui/material";
+import { Box, Card, FormControl, IconButton, Stack, TextField } from "@mui/material";
 import logo from "../../assets/ConsoleLogo.png";
 import Fingerprint from '@mui/icons-material/Fingerprint';
 
@@ -18,6 +18,12 @@ const Login: FC<LoginProps> = () => {
     email: "",
     password: "",
   });
+
+  const handleEnterPressed = (e:any) => {
+    if (e.key === "Enter") {
+      handleLogin(e);
+    }
+  }
 
   const handleLogin = async (event: React.FormEvent) => {
     // Prevents page reload. may be removed
@@ -52,32 +58,36 @@ const Login: FC<LoginProps> = () => {
 
       <Card sx={{ backgroundColor: "dark-grey" }} style={{ maxWidth: "100%", width: "1000px" }}>
         <Stack direction="column" className="mx-3 mb-4" style={{ display: "flex", justifyContent: "center", alignItems: "center", maxWidth: "100%", width: "100%" }}>
-
-          <TextField
-            id="standard-email-input"
-            label="Email"
-            type="Email"
-            autoComplete="current-password"
-            variant="standard"
-            fullWidth
-            className="m-3"
-            value={signInData.email}
-            onChange={(e) => setSignInData({...signInData, email:e.currentTarget.value})}
-            required
-          />
-          <TextField
-            id="standard-password-input"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            variant="standard"
-            className="m-3"
-            fullWidth
-            value={signInData.password}
-            onChange={(e) => setSignInData({...signInData, password:e.currentTarget.value})}
-            required
-          />
-          <IconButton aria-label="fingerprint" color="secondary" sx={{maxWidth:"40%"}} onClick={handleLogin}>
+          <form>
+              <TextField
+                id="standard-email-input"
+                label="Email"
+                type="Email"
+                autoComplete="current-password"
+                variant="standard"
+                fullWidth
+                color="secondary"
+                className="m-3"
+                value={signInData.email}
+                onChange={(e) => setSignInData({ ...signInData, email: e.currentTarget.value })}
+                required
+              />
+              <TextField
+                id="standard-password-input"
+                label="Password"
+                type="password"
+                autoComplete="current-password"
+                variant="standard"
+                className="m-3"
+                fullWidth
+                color="secondary"
+                value={signInData.password}
+                onChange={(e) => setSignInData({ ...signInData, password: e.currentTarget.value })}
+                required
+                onKeyDown={handleEnterPressed}
+              />
+          </form>
+          <IconButton aria-label="fingerprint" color="secondary" sx={{ maxWidth: "40%" }} onClick={handleLogin}>
             <Fingerprint />
           </IconButton>
         </Stack>
