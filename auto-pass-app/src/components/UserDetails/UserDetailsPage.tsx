@@ -45,22 +45,6 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
     useEffect(() => {
 
         setIsLoading(true);
-        const fetchUserData = async () => {
-            await userAPI.getUser()
-                .then((res) => {
-                    setUserData(res.data);
-                    if (res.data.role === "ADMIN" || res.data.role === "GOOGLE_USER") {
-                        setGoogleLinked(true);
-                    } else {
-                        setGoogleLinked(false);
-                    }
-
-                    setBasicUserInfo({id:ClientAuthService.getUserId(),email: res.data.email, firstName:res.data.firstName, lastName: res.data.lastName})
-                })
-                .catch(() => {
-                    navigate("/");
-                })
-        }
         const getSavePassURL = async () => {
             await googleWalletApi.getSavePassURL(ClientAuthService.getUserId())
                 .then(res => {
@@ -72,8 +56,29 @@ const UserDetailsPage: FC<UserDetailsPageProps> = () => {
                 });
         }
 
+        const fetchUserData = async () => {
+            await userAPI.getUser()
+                .then((res) => {
+                    setUserData(res.data);
+                    if (res.data.role === "ADMIN" || res.data.role === "GOOGLE_USER") {
+                        setGoogleLinked(true);
+                    } else {
+                        setGoogleLinked(false);
+                    }
+
+                    if ((res.data.role === "ADMIN" && res.data.googleAccessToken != null) || res.data.role === "GOOGLE_USER") {
+                        getSavePassURL();
+                    }
+
+                    setBasicUserInfo({id:ClientAuthService.getUserId(),email: res.data.email, firstName:res.data.firstName, lastName: res.data.lastName})
+                })
+                .catch(() => {
+                    navigate("/");
+                })
+        }
+
         fetchUserData();
-        getSavePassURL();
+        
 
         setIsLoading(false);
     }, [navigate, isLoading, googleWalletApi, userAPI])

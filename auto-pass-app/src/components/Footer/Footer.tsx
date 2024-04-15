@@ -17,7 +17,7 @@ const Footer: FC = () => {
 
   return (
     <div
-      className={`${styles.Footer} footer`}>
+      className={`${styles.Footer} footer mt-5`}>
       <footer className="container py-5">
         <div className="row">
           <div className="col-12 col-md">
@@ -38,7 +38,7 @@ const Footer: FC = () => {
             <h5>Resources</h5>
             <ul className="list-unstyled text-small">
               <li><a className="text-muted" href="https://www.stm.info/en" target='_blank' rel="noopener">Bus hours</a></li>
-              <li><a className="text-muted" target='_blank' rel="noopener" href="#">Rates</a></li>
+              <li><a className="text-muted" style={{cursor:"pointer"}} onClick={() => navigate("/products")}>Rates</a></li>
             </ul>
           </div>
           <div className="col-6 col-md">
@@ -76,7 +76,7 @@ const Footer: FC = () => {
           <div className="col-6 col-md">
             <h5>About</h5>
             <ul className="list-unstyled text-small">
-              <li><a className="text-muted"
+              <li><a className="text-muted" style={{cursor:"pointer"}}
                 onClick={() => navigate("/about")}
               >
                 Team

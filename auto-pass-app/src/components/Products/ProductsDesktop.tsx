@@ -32,6 +32,10 @@ const ProductsDesktop: FC<ProductsDesktopProps> = () => {
           }
           setProductsInfo(res.data)
         })
+        .catch((e) => {
+          console.log(e);
+          return;
+        })
     }
     getProducts()
   }, [])

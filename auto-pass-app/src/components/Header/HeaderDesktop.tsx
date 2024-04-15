@@ -33,6 +33,8 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
   const [avatarUrl, setAvatarUrl] = useState("");
 
   useEffect(() => {
+
+    
     const getUserImage = () => {
       if (!isAuth) return;
       const config = ClientAuthService.getApiConfig();
@@ -46,7 +48,7 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
         .catch((_) => {});
     };
     getUserImage();
-  }, [navigate]);
+  }, [navigate, currentPath]);
 
   const handleTabChange = (event: any, newPath: any) => {
 
@@ -170,34 +172,6 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
     }
   `;
 
-  const ScannerIcon = styled(QrCodeScannerOutlinedIcon)`
-    cursor: pointer;
-    background-color: transparent;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    width: 45px;
-    height: 45px;
-    transform: scale(0.59);
-    &:hover {
-      background-color: ${blue[400]};
-    }
-
-    &:focus {
-      color: #fff;
-      outline: 3px solid ${blue[200]};
-    }
-
-    &.${tabClasses.selected} {
-      color: ${blue[600]};
-    }
-
-    &.${buttonClasses.disabled} {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  `;
-
   const Tab = styled(BaseTab)`
     font-family: "IBM Plex Sans", sans-serif;
     color: white;
@@ -292,7 +266,7 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
               </Tab>
               {isAdmin && 
                 <Tab label="Scanners" value="/scanners" >
-                  <ScannerIcon/>
+                  <QrCodeScannerOutlinedIcon sx={{marginTop:"6%", transform:"scale(1.2)"}}/>
                 </Tab>
               }
             </>
