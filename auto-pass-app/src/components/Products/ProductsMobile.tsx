@@ -31,6 +31,10 @@ const ProductsMobile: FC<ProductsMobileProps> = () => {
         }
         setProductsInfo(res.data)
       })
+      .catch((e) => {
+        console.log(e);
+        return;
+      })
     }
     getProducts()
   }, [])

@@ -123,7 +123,7 @@ const DashboardMobile: FC<DashboardMobileProps> = () => {
 
         {/* Link to google wallet pass or option to link your google */}
         <div className="col-sm-4 mb-2 mt-2 d-flex justify-content-center align-items-center">
-          {!(userData?.googleAccessToken === "") || role === "GOOGLE_USER" ?
+          {!(userData?.googleAccessToken === null) || role === "GOOGLE_USER" ?
 
             userData?.isGoogleWalletPassAdded ?
               <Card className="card p-3 h-100" style={{ width: "100%" }} elevation={15}>

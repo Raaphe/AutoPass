@@ -34,14 +34,14 @@ const ProtectedRoutesUser = () => {
     }, []);
 
     return isAuth ? 
-        <>
+        <div style={{display:"flex", flexDirection:"column", minHeight:"100vh"}}>
             <Header isAdmin={isAdmin} isAuth={isAuth}/>
             <div style={{flex:1, marginBottom:"30px"}}>
                 <Outlet/>
             </div>
             <Footer/>
 
-        </>
+        </div>
         : 
         <Navigate to="/login"/>;
 };

@@ -152,64 +152,6 @@ const Header: FC<HeaderProps> = ({ isAuth, isAdmin }) => {
     }
   `;
 
-  const WalletIcon = styled(WalletOutlinedIcon)`
-    cursor: pointer;
-    background-color: transparent;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    width: 45px;
-    height: 45px;
-    transform: scale(0.59);
-    &:hover {
-      background-color: ${blue[400]};
-    }
-
-    &:focus {
-      color: #fff;
-      outline: 3px solid ${blue[200]};
-    }
-
-    &.${tabClasses.selected} {
-      background-color: #fff;
-      color: ${blue[600]};
-    }
-
-    &.${buttonClasses.disabled} {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  `;
-
-  const ScannerIcon = styled(QrCodeScannerOutlinedIcon)`
-    cursor: pointer;
-    background-color: transparent;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    width: 45px;
-    height: 45px;
-    transform: scale(0.59);
-    &:hover {
-      background-color: ${blue[400]};
-    }
-
-    &:focus {
-      color: #fff;
-      outline: 3px solid ${blue[200]};
-    }
-
-    &.${tabClasses.selected} {
-      background-color: #fff;
-      color: ${blue[600]};
-    }
-
-    &.${buttonClasses.disabled} {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  `;
-
   const AboutIcon = styled(InfoIcon)`
     cursor: pointer;
     background-color: transparent;
@@ -324,11 +266,11 @@ const Header: FC<HeaderProps> = ({ isAuth, isAdmin }) => {
           {isAuth ? (
             <>
               <Tab label="Wallet" value="/wallet">
-                <WalletIcon />
+                <WalletOutlinedIcon sx={{marginTop:"24%", transform:"scale(1.2)"}}/>
               </Tab>
               {isAdmin && (
                 <Tab label="scanners" value="/scanners">
-                  <ScannerIcon className="" />
+                  <QrCodeScannerOutlinedIcon sx={{marginTop:"24%", transform:"scale(1.2)"}}/>
                 </Tab>
               )}
               <LogOutIcon

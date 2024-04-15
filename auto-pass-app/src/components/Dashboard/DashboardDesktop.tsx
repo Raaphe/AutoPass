@@ -31,17 +31,6 @@ const DashboardDesktop: FC<DashboardDesktopProps> = () => {
     const userAPI = new UserControllerApi(config);
     const googleWalletApi = new GoogleWalletControllerApi(config);
 
-    const fetchUserData = async () => {
-      await userAPI
-        .getUser()
-        .then((res) => {
-          setUserData(res.data);
-          setRole(res.data.role ?? "")
-        })
-        .catch(() => {
-          navigate("/");
-        });
-    };
 
     const getSavePassURL = async () => {
       await googleWalletApi.getSavePassURL(ClientAuthService.getUserId())
@@ -54,11 +43,28 @@ const DashboardDesktop: FC<DashboardDesktopProps> = () => {
         });
     }
 
-    getSavePassURL();
+
+    const fetchUserData = async () => {
+      await userAPI
+        .getUser()
+        .then((res) => {
+          setUserData(res.data);
+          setRole(res.data.role ?? "")
+
+          if ((res.data.role === "ADMIN" && res.data.googleAccessToken != null) || res.data.role === "GOOGLE_USER") {
+            getSavePassURL();
+          }
+        })
+        .catch(() => {
+          navigate("/");
+        });
+    };
+
 
     ClientUtil.getUserWalletInfo(setDaysUntilExpiry, setWalletInfo, walletInfo);
     fetchUserData();
   }, [navigate]);
+
 
 
 
@@ -124,7 +130,7 @@ const DashboardDesktop: FC<DashboardDesktopProps> = () => {
 
         {/* Link to google wallet pass or option to link your google */}
         <div className="col-sm-4 d-flex justify-content-center align-items-center">
-          {!(userData?.googleAccessToken === "") || role === "GOOGLE_USER" ?
+          {!(userData?.googleAccessToken === null) || role === "GOOGLE_USER" ?
 
             userData?.isGoogleWalletPassAdded ?
               <Card className="card p-3 h-100" style={{ width: "100%" }} elevation={15}>
