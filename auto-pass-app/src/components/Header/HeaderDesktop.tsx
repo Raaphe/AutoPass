@@ -96,30 +96,50 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
   };
 
   const AvatarIcon = styled(Avatar)`
-    margin-right: 30px;
-    margin-left: 16px;
-    width: 45px;
-    height: 45px;
-    padding: 10px;
-    &:hover {
-      background-color: ${blue[400]};
-    }
+  width: 45px;
+  height: 45px;
+  margin-right: 30px;
+  margin-left: 16px;
+  padding: 8px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; 
+  
+  img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: -30%;
+    object-fit: cover; 
+    object-position: center;
+    transition: opacity 0.3s ease;
+  }
 
-    &:focus {
-      color: #fff;
-      outline: 3px solid ${blue[200]};
-    }
+  &:hover {
+    background-color: ${blue[400]};
+  }
+  &:hover img {
+    opacity: 0.5;
+  }
 
-    &.${tabClasses.selected} {
-      background-color: #fff;
-      color: ${blue[600]};
-    }
+  &:focus {
+    outline: 3px solid ${blue[200]};
+  }
 
-    &.${buttonClasses.disabled} {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  `;
+  &.${tabClasses.selected} {
+    background-color: #fff;
+    color: ${blue[600]};
+  }
+
+  &.${buttonClasses.disabled} {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+
+
 
   const LogOutIcon = styled(LogoutIcon)`
     cursor: pointer;
@@ -297,7 +317,6 @@ const HeaderDesktop: FC<HeaderDesktopProps> = ({ isAuth, isAdmin }) => {
                 style={{ marginTop: "6px" }}
               />
               <AvatarIcon
-                style={{ marginTop: "4px" }}
                 alt="You"
                 onClick={() => {
                   navigate("profile");
