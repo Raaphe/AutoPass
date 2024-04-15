@@ -2,7 +2,7 @@
 
 Developed in part by Lam Nguyen, Raphael Paquin and Moncef Moutaki.
 
-##### LINKS
+#### LINKS
 
 - [Swagger-ui](http://localhost:9090/swagger-ui/index.html)
 - [Swagger yaml](http://localhost:9090/v3/api-docs.yaml)
@@ -13,7 +13,7 @@ Developed in part by Lam Nguyen, Raphael Paquin and Moncef Moutaki.
 
 #### H2 URL
 
-> `jdbc:h2:mem:autopass`
+> `jdbc:h2:file:./autopass.h2.db`
 
 ---
 
@@ -21,13 +21,13 @@ Developed in part by Lam Nguyen, Raphael Paquin and Moncef Moutaki.
 
 ---
 
-## Accessing the app from another machine
+#### Accessing the app from another machine
 
 1. Change the `application.properties` property `application.ip` to whatever the IP of the machine you will host on will be.
 2. Run a `mvn verify`.
 3. Access the page from `http://<YOUR_IP>:3000`.
 
-##### For Google Oauth2 on other machines
+#### For Google Oauth2 on other machines
 
 ---
 
@@ -38,7 +38,7 @@ If you plan on testing Oauth2 with Google on a separate machine you need to conf
 
 ---
 
-##### Setting Google service account as Google credential Environment variable
+#### Setting Google service account as Google credential Environment variable
 
 > The file to put in one of these commands is found in `AutoPass/AutoPass/src/main/resources/autopass-414515-f21ce763f523.json`.  
 > More info on this can be found [here](https://cloud.google.com/docs/authentication/provide-credentials-adc#local-user-cred).
@@ -58,11 +58,11 @@ Macos Terminal || Linux
 export GOOGLE_APPLICATION_CREDENTIALS="PATH"
 ```
 
+#### Stripe integration
 
+For Stripe, we'll use fake credit cards as we are in testing mode. The list of these cards can be found [here](https://docs.stripe.com/testing).
 
-
-
-# Scanner App
+#### Scanner App
 
 The app responsible for scanning user cards is the directory named `autopass-scanner`. This is an extension to our backend and will only serve as a view component of our app, but built natively through react and `electronjs`.
 

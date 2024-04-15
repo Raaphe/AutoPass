@@ -22,6 +22,8 @@ public class Pass implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private int id;
-    @Lob
-    private byte[] pass;
+    /**
+     * If we ever choose to have a unique hex key for each Google wallet pass, it could be saved here.
+     */
+    private String googlePassHexKey;
 }

@@ -76,9 +76,18 @@ public class DataLoader {
                     .build());
         }
 
-        scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(18).routeName("Beaubien").pwd("abc-123").build());
-        scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(444).routeName("Marie-Victorin").pwd("abc-123").build());
-        scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(189).routeName("Notre-Dame").pwd("abc-123").build());
+        if (!userService.userExists("autopass_scanner_18@gmail.com")) {
+            scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(18).routeName("Beaubien").pwd("abc-123").build());
+
+        }
+
+        if (!userService.userExists("autopass_scanner_444@gmail.com")) {
+            scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(444).routeName("Marie-Victorin").pwd("abc-123").build());
+        }
+
+        if (!userService.userExists("autopass_scanner_189@gmail.com")) {
+            scannerService.registerScanner(ScannerRegistrationDTO.builder().busNumber(189).routeName("Notre-Dame").pwd("abc-123").build());
+        }
 
         Membership membership1 = Membership
                 .builder()
