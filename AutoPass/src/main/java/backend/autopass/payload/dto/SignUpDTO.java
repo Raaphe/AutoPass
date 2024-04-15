@@ -22,10 +22,8 @@ import lombok.NoArgsConstructor;
 public class SignUpDTO {
 
     @NotBlank(message = "firstname is required")
-    @Size(min = 5, max = 50)
     private String firstname;
     @NotBlank(message = "lastname is required")
-    @Size(min = 5, max = 50)
     private String lastname;
     @NotBlank(message = "email is required")
     @Size(min = 5, max = 200)
