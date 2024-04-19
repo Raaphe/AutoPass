@@ -1,5 +1,6 @@
 package backend.autopass.service;
 
+import java.io.InputStream;
 import backend.autopass.model.entities.User;
 import backend.autopass.model.entities.UserWallet;
 import backend.autopass.model.repositories.UserRepository;
@@ -97,21 +98,24 @@ public class GoogleWalletService implements IGoogleWalletService {
         // The project will always be in different directories for different developers, this just gets the full path of
         // the service account key always as an added measure
         // if the readme instructions were not properly followed.
-        Resource resource = loader.getResource("classpath:autopass-414515-f21ce763f523.json");
-        keyFilePath =
-                System.getenv().getOrDefault("GOOGLE_APPLICATION_CREDENTIALS", resource.getFile().getAbsolutePath());
 
-        auth();
+        Resource resource = loader.getResource("classpath:autopass-414515-f21ce763f523.json");
+	try (InputStream inputStream = resource.getInputStream()) {
+		auth(inputStream);
+	}
     }
 
     /**
      * Create an authenticated HTTP client using a service account file.
      *
      */
-    public void auth() throws Exception {
+    public void auth(InputStream inputStream) throws Exception {
         credentials =
-                GoogleCredentials.fromStream(new FileInputStream(keyFilePath))
-                        .createScoped(List.of(WalletobjectsScopes.WALLET_OBJECT_ISSUER));
+                GoogleCredentials.fromStream(
+			inputStream
+		)
+        	.createScoped(List.of(WalletobjectsScopes.WALLET_OBJECT_ISSUER));
+
         credentials.refresh();
 
         HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();

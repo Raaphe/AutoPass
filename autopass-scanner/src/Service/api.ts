@@ -546,12 +546,6 @@ export interface EntityModelUser {
     'enabled'?: boolean;
     /**
      * 
-     * @type {boolean}
-     * @memberof EntityModelUser
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelUser
      */
@@ -562,6 +556,12 @@ export interface EntityModelUser {
      * @memberof EntityModelUser
      */
     'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityModelUser
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -2076,12 +2076,6 @@ export interface User {
     'enabled'?: boolean;
     /**
      * 
-     * @type {boolean}
-     * @memberof User
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof User
      */
@@ -2092,6 +2086,12 @@ export interface User {
      * @memberof User
      */
     'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -2207,12 +2207,6 @@ export interface UserRequestBody {
     'enabled'?: boolean;
     /**
      * 
-     * @type {boolean}
-     * @memberof UserRequestBody
-     */
-    'deleted'?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof UserRequestBody
      */
@@ -2223,6 +2217,12 @@ export interface UserRequestBody {
      * @memberof UserRequestBody
      */
     'authorities'?: Array<GrantedAuthority>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserRequestBody
+     */
+    'deleted'?: boolean;
     /**
      * 
      * @type {boolean}
